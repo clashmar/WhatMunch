@@ -10,6 +10,7 @@ namespace WhatMunch_MAUI
         public AppShell(IAuthService authService)
         {
             InitializeComponent();
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             _authService = authService;
             CheckAuthentication();
         }
