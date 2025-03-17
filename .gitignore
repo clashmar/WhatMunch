@@ -1,3 +1,90 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build artifacts
+bin/
+obj/
+
+# .NET dependencies
+*.dll
+*.exe
+*.pdb
+*.mdb
+*.ilk
+*.lib
+*.nupkg
+*.snupkg
+*.cache
+*.manifest
+*.map
+
+# NuGet
+.nuget/
+packages/
+project.lock.json
+project.assets.json
+
+# Xamarin/Maui
+*.apk
+*.aab
+*.ipa
+*.app
+*.xcarchive
+.idea/
+*.ds_store
+Thumbs.db
+
+# macOS
+*.DS_Store
+
+# Windows
+*.db
+
+# Logs
+*.log
+
+# IDE files
+*.userprefs
+*.rsuser
+
+# Generated files
+GeneratedFiles/
+AppPackages/
+TestResults/
+Debug/
+Release/
+
+# Configuration
+appsettings*.json
+secrets.json
+
+# Other
+node_modules/
+wwwroot/
+**/*.swp
+
+# MAUI-specific
+wwwroot/
+*.keystore
+*.pubxml
+*.pubxml.user
+.DS_Store
+xcuserdata/
+
+# Local build files
+*.tlog
+*.lastbuildstate
+CMakeFiles/
+CMakeCache.txt
+
+# Temp files
+*.tmp
+*.temp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -60,10 +147,6 @@ cover/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-
-# Flask stuff:
-instance/
-.webassets-cache
 
 # Scrapy stuff:
 .scrapy

@@ -1,7 +1,8 @@
-django
+asgiref
+Django
+django-cors-headers
 djangorestframework
 djangorestframework-simplejwt
-django-cors-headers
 PyJWT
 pytz
 sqlparse

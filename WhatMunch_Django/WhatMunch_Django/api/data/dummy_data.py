@@ -1,15 +1,15 @@
 RESTAURANTS = [
             {
-                "id": "1",
+                "id": 1,
                 "name": "Tasty Bites",
                 "rating": 4.5,
-                "price_level": 2,
-                "vicinity": "123 Main St, Anytown",
+                "priceLevel": 2,
+                "address": "123 Main St, Anytown",
                 "photos": [
-                    {"https://picsum.photos/200": "photo1", "height": 400, "width": 600}
+                    {"source": "https://picsum.photos/200", "height": 400, "width": 600}
                 ],
-                "opening_hours": {
-                    "open_now": True
+                "openingHours": {
+                    "openNow": True
                 },
                 "geometry": {
                     "location": {
@@ -17,19 +17,19 @@ RESTAURANTS = [
                         "lng": -74.0060
                     }
                 },
-                "cuisine_types": ["Italian", "Pizza"]
+                "cuisineTypes": ["Italian", "Pizza"]
             },
             {
-                "id": "2",
+                "id": 2,
                 "name": "Burger Palace",
                 "rating": 4.2,
-                "price_level": 1,
-                "vicinity": "456 Oak Ave, Anytown",
+                "priceLevel": 1,
+                "address": "456 Oak Ave, Anytown",
                 "photos": [
-                    {"https://picsum.photos/200": "photo2", "height": 400, "width": 600}
+                    {"source": "https://picsum.photos/200", "height": 400, "width": 600}
                 ],
-                "opening_hours": {
-                    "open_now": True
+                "openingHours": {
+                    "openNow": True
                 },
                 "geometry": {
                     "location": {
@@ -37,19 +37,19 @@ RESTAURANTS = [
                         "lng": -74.0061
                     }
                 },
-                "cuisine_types": ["American", "Burgers"]
+                "cuisineTypes": ["American", "Burgers"]
             },
             {
-                "id": "3",
+                "id": 3,
                 "name": "Sushi Heaven",
                 "rating": 4.8,
-                "price_level": 3,
-                "vicinity": "789 Pine Blvd, Anytown",
+                "priceLevel": 3,
+                "address": "789 Pine Blvd, Anytown",
                 "photos": [
-                    {"https://picsum.photos/200": "photo3", "height": 400, "width": 600}
+                    {"source": "https://picsum.photos/200", "height": 200, "width": 200}
                 ],
-                "opening_hours": {
-                    "open_now": False
+                "openingHours": {
+                    "openNow": False
                 },
                 "geometry": {
                     "location": {
@@ -57,19 +57,19 @@ RESTAURANTS = [
                         "lng": -74.0062
                     }
                 },
-                "cuisine_types": ["Japanese", "Sushi"]
+                "cuisineTypes": ["Japanese", "Sushi"]
             },
             {
-                "id": "4",
+                "id": 5,
                 "name": "Taco Fiesta",
                 "rating": 4.0,
-                "price_level": 1,
-                "vicinity": "321 Elm St, Anytown",
+                "priceLevel": 1,
+                "address": "321 Elm St, Anytown",
                 "photos": [
-                    {"https://picsum.photos/200": "photo4", "height": 400, "width": 600}
+                    {"source": "https://picsum.photos/200", "height": 200, "width": 200}
                 ],
-                "opening_hours": {
-                    "open_now": True
+                "openingHours": {
+                    "openNow": True
                 },
                 "geometry": {
                     "location": {
@@ -77,19 +77,19 @@ RESTAURANTS = [
                         "lng": -74.0063
                     }
                 },
-                "cuisine_types": ["Mexican", "Tacos"]
+                "cuisineTypes": ["Mexican", "Tacos"]
             },
             {
-                "id": "5",
+                "id": 5,
                 "name": "Pho Delicious",
                 "rating": 4.6,
-                "price_level": 2,
-                "vicinity": "654 Maple Rd, Anytown",
+                "priceLevel": 2,
+                "address": "654 Maple Rd, Anytown",
                 "photos": [
-                    {"https://picsum.photos/200": "photo5", "height": 400, "width": 600}
+                    {"source": "https://picsum.photos/200", "height": 200, "width": 200}
                 ],
-                "opening_hours": {
-                    "open_now": True
+                "openingHours": {
+                    "openNow": True
                 },
                 "geometry": {
                     "location": {
@@ -97,6 +97,6 @@ RESTAURANTS = [
                         "lng": -74.0064
                     }
                 },
-                "cuisine_types": ["Vietnamese", "Soup"]
+                "cuisineTypes": ["Vietnamese", "Soup"]
             }
         ]
