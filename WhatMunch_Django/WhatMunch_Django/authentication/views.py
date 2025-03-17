@@ -13,5 +13,5 @@ class RegisterView(generics.CreateAPIView):
 class TestProtectedView(APIView):
     permission_classes = [IsAuthenticated]
     
-    def get(self):
+    def get(self, request):
         return Response({'message': 'This is a protected endpoint!'})
