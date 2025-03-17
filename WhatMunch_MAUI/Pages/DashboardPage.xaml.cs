@@ -1,8 +1,8 @@
 namespace WhatMunch_MAUI.Pages;
 
-public partial class Dashboard : ContentPage
+public partial class DashboardPage : ContentPage
 {
-	public Dashboard()
+	public DashboardPage()
 	{
 		InitializeComponent();
 	}
