@@ -21,9 +21,13 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<AppShell>();
 
-        builder.Services.AddSingleton<MainPage>();
-        builder.Services.AddSingleton<LoginPage>();
-        builder.Services.AddSingleton<DashboardPage>();
+        builder.Services.AddSingleton<LoginViewModel>();
+        builder.Services.AddSingleton<RegistrationViewModel>();
+
+        //builder.Services.AddSingleton<MainPage>();
+        //builder.Services.AddSingleton<LoginPage>();
+        //builder.Services.AddSingleton<RegistrationPage>();
+        //builder.Services.AddSingleton<DashboardPage>();
 
 
 #if DEBUG

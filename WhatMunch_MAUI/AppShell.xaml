@@ -9,7 +9,7 @@
     Title="WhatMunch_MAUI">
 
     <ShellContent
-        Title="Home"
+        Title="Start"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 </Shell>

@@ -11,6 +11,7 @@ namespace WhatMunch_MAUI
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
             _authService = authService;
             CheckAuthentication();
         }
