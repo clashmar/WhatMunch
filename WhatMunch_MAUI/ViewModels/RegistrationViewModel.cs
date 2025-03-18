@@ -4,6 +4,17 @@ namespace WhatMunch_MAUI.ViewModels
 {
     public partial class RegistrationViewModel : BaseViewModel
     {
+        [ObservableProperty]
+        public RegistrationModel registrationModel;
+
+        public RegistrationViewModel()
+        {
+            registrationModel = new RegistrationModel();
+        }
+
+        [ObservableProperty]
+        public bool _clickedSubmit;
+
         [RelayCommand]
         async Task GoToLoginPageAsync()
         {
@@ -13,7 +24,21 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task HandleRegistrationAsync()
         {
-            Debug.WriteLine("Submit");
+            ClickedSubmit = true;
+
+            if(!RegistrationModel.IsValid())
+            {
+                Debug.WriteLine("Form has errors!");
+                return;
+            }
+
+            Debug.WriteLine("Registration successful!");
+        }
+
+        public void ResetViewModel()
+        {
+            RegistrationModel = new RegistrationModel();
+            ClickedSubmit = false;
         }
     }
 }

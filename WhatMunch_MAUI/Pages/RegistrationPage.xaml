@@ -5,35 +5,79 @@
              x:Class="WhatMunch_MAUI.Pages.RegistrationPage"
              Title="RegistrationPage"
              x:DataType="viewmodel:RegistrationViewModel">
-    <Grid RowDefinitions=".3*, .7*">
+    
+    <Grid RowDefinitions=".1*, .7*">
         <Label  Text="Register for WhatMunch"
                 FontSize="Large"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center"
                 Grid.Row="0"/>
+
         <VerticalStackLayout Margin="30,0,30,0"
                              Grid.Row="1"
                              WidthRequest="250"
-                             Spacing="20">
-            <Entry Placeholder="Username"
-                   VerticalOptions="Center"
-                   ClearButtonVisibility="WhileEditing"/>
-			<Entry Placeholder="Password"
-				   VerticalOptions="Center"
-				   ClearButtonVisibility="WhileEditing"
-				   IsPassword="True" />
-            <Entry 
-            Placeholder="Confirm Password"
-            VerticalOptions="Center"
-            ClearButtonVisibility="WhileEditing"
-            IsPassword="True" />
+                             Spacing="10">
 
+            <VerticalStackLayout>
+                <Label Text="Email"
+                       FontSize="Small"/>
+                <Entry Placeholder="Email"
+                       Text="{Binding RegistrationModel.Email, Mode=TwoWay}"
+                       VerticalOptions="Center"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding RegistrationModel.EmailError}"
+                       TextColor="Red"
+                       FontSize="Small"
+                       IsVisible="{Binding ClickedSubmit}"
+                       />
+            </VerticalStackLayout>
 
+            <VerticalStackLayout>
+                <Label Text="Username"
+                       FontSize="Small"/>
+                <Entry Placeholder="Username"
+                       Text="{Binding RegistrationModel.Username, Mode=TwoWay}"
+                       VerticalOptions="Center"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding RegistrationModel.UsernameError}"
+                       TextColor="Red"
+                       FontSize="Small"
+                       IsVisible="{Binding ClickedSubmit}"/>
+            </VerticalStackLayout>
 
+            <VerticalStackLayout>
+                <Label Text="Password"
+                       FontSize="Small"/>
+                <Entry Placeholder="Password"
+                       Text="{Binding RegistrationModel.Password, Mode=TwoWay}"
+                       VerticalOptions="Center"
+                       ClearButtonVisibility="WhileEditing"
+                       IsPassword="True" />
+                <Label Text="{Binding RegistrationModel.PasswordError}"
+                       TextColor="Red"
+                       FontSize="Small"
+                       IsVisible="{Binding ClickedSubmit}"/>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout>
+                <Label Text="Confirm Password"
+                       FontSize="Small"/>
+                <Entry Placeholder="Confirm Password"
+                       Text="{Binding RegistrationModel.ConfirmPassword, Mode=TwoWay}"
+                       VerticalOptions="Center"
+                       ClearButtonVisibility="WhileEditing"
+                       IsPassword="True" />
+                <Label Text="{Binding RegistrationModel.ConfirmPasswordError}"
+                       TextColor="Red"
+                       FontSize="Small"
+                       IsVisible="{Binding ClickedSubmit}"/>
+            </VerticalStackLayout>
+            
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
                     Text="Submit"
-                    Command="{Binding GoToLoginPageCommand}" />
+                    Command="{Binding HandleRegistrationCommand}" />
+            
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
                     Text="Login"
