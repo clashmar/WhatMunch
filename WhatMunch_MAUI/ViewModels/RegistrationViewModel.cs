@@ -1,15 +1,20 @@
-﻿using WhatMunch_MAUI.Views;
+﻿using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
     public partial class RegistrationViewModel : BaseViewModel
     {
         [ObservableProperty]
-        public RegistrationModel registrationModel;
+        public RegistrationModel _registrationModel;
 
-        public RegistrationViewModel()
+        private readonly RegistrationService _registrationService;
+
+        public RegistrationViewModel(RegistrationService registrationService)
         {
-            registrationModel = new RegistrationModel();
+            _registrationModel = new RegistrationModel();
+            _registrationService = registrationService;
         }
 
         [ObservableProperty]
@@ -24,16 +29,15 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task HandleRegistrationAsync()
         {
-            ErrorOpacity = 1.0;
-
             if(!RegistrationModel.IsValid())
             {
-                Debug.WriteLine("Form has errors!");
+                ErrorOpacity = 1.0;
                 return;
             }
 
-            Debug.WriteLine("Registration successful!");
+            var response = await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
         }
+
         public void ResetViewModel()
         {
             RegistrationModel = new RegistrationModel();

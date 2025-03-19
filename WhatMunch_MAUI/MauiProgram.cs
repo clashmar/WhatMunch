@@ -20,6 +20,7 @@ public static class MauiProgram
 		client.BaseAddress = new Uri("hello"));
 
         builder.Services.AddSingleton<IAuthService, AuthService>();
+		builder.Services.AddSingleton<IRegistrationService, RegistrationService>();
 
         builder.Services.AddSingleton<AppShell>();
 

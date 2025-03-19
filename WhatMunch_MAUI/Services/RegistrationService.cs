@@ -3,7 +3,12 @@ using WhatMunch_MAUI.Dtos;
 
 namespace WhatMunch_MAUI.Services
 {
-    public class RegistrationService(IHttpClientFactory ClientFactory)
+    public interface IRegistrationService
+    {
+        Task<HttpResponseMessage> RegisterUserAsync(RegistrationRequestDto requestDto);
+    }
+
+    public class RegistrationService(IHttpClientFactory ClientFactory) : IRegistrationService
     {
         private readonly IHttpClientFactory _clientFactory = ClientFactory;
 

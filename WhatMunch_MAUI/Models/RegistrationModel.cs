@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WhatMunch_MAUI.Dtos;
+using WhatMunch_MAUI.Services;
 
 namespace WhatMunch_MAUI.Models
 {
