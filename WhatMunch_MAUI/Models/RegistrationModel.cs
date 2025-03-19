@@ -4,6 +4,21 @@ namespace WhatMunch_MAUI.Models
 {
     public partial class RegistrationModel : ObservableValidator
     {
+        public RegistrationModel()
+        {
+            ValidateProperty(Email, nameof(Email));
+            EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+
+            ValidateProperty(Username, nameof(Username));
+            EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+
+            ValidateProperty(Password, nameof(Password));
+            EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+
+            ValidateProperty(ConfirmPassword, nameof(ConfirmPassword));
+            EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+        }
+
         [ObservableProperty]
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]
@@ -21,6 +36,8 @@ namespace WhatMunch_MAUI.Models
         [ObservableProperty]
         [Required(ErrorMessage = "Username is required.")]
         [MinLength(3, ErrorMessage = "Must be at least 3 characters.")]
+        [MaxLength(150, ErrorMessage = "Must be less than 150 characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9@.+-_]+$", ErrorMessage = "Letters, digits and @/./+/-/_ only.")]
         public string _username = "";
 
         partial void OnUsernameChanged(string value)
@@ -64,11 +81,6 @@ namespace WhatMunch_MAUI.Models
         public bool IsValid()
         {
             ValidateAllProperties();
-            //EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
-            //UsernameError = GetErrors(nameof(Username)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
-            //PasswordError = GetErrors(nameof(Password)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
-            //ConfirmPasswordError = GetErrors(nameof(ConfirmPassword)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
-
             return !HasErrors;        
         }
 

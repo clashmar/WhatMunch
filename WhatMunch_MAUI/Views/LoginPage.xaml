@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
+             x:Class="WhatMunch_MAUI.Views.LoginPage"
+             Title="LoginPage"
+             x:DataType="viewmodel:LoginViewModel">
+
+    <Grid RowDefinitions=".3*, .7*">
+        <Label 
+            Text="Welcome to WhatMunch"
+            FontSize="Large"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            Grid.Row="0"/>
+        
+        <VerticalStackLayout Margin="30,0,30,0"
+                             Grid.Row="1"
+                             WidthRequest="250"
+                             Spacing="20">
+
+            <VerticalStackLayout>
+                <Label Text="Username"
+                       FontSize="Small" />
+                <Entry Placeholder="Username"
+                       Text="{Binding LoginModel.Username, Mode=TwoWay}"
+                       VerticalOptions="Center"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding LoginModel.UsernameError}"
+                       TextColor="Red"
+                       FontSize="Small"
+                       Opacity="{Binding ErrorOpacity}" />
+            </VerticalStackLayout>
+            
+            <VerticalStackLayout>
+                <Label Text="Password"
+                       FontSize="Small" />
+                <Entry Placeholder="Username"
+                       Text="{Binding LoginModel.Password, Mode=TwoWay}"
+                       VerticalOptions="Center"
+                       IsPassword="True"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding LoginModel.PasswordError}"
+                       TextColor="Red"
+                       FontSize="Small"
+                       Opacity="{Binding ErrorOpacity}" />
+            </VerticalStackLayout>
+
+            <Button Margin="0,30,0,0"
+                    HeightRequest="60"
+                    Text="Submit"
+                    Command="{Binding HandleLoginCommand}" />
+
+            <Button Margin="0,30,0,0"
+                    HeightRequest="60"
+                    Text="Create Account"
+                    Command="{Binding GoToRegistrationPageCommand}"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

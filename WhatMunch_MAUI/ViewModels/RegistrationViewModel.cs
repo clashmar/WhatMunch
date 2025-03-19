@@ -1,19 +1,20 @@
-﻿using WhatMunch_MAUI.Pages;
+﻿using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class RegistrationViewModel : BaseViewModel
+    public partial class RegistrationViewModel(IRegistrationService registrationService, IConnectivity connectivity) : BaseViewModel
     {
         [ObservableProperty]
-        public RegistrationModel registrationModel;
+        public RegistrationModel _registrationModel = new();
 
-        public RegistrationViewModel()
-        {
-            registrationModel = new RegistrationModel();
-        }
+        private readonly IRegistrationService _registrationService = registrationService;
+
+        private readonly IConnectivity _connectivity = connectivity;
 
         [ObservableProperty]
-        public bool _clickedSubmit;
+        public double _errorOpacity = 0;
 
         [RelayCommand]
         async Task GoToLoginPageAsync()
@@ -24,21 +25,43 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task HandleRegistrationAsync()
         {
-            ClickedSubmit = true;
+            ErrorOpacity = 1.0;
 
-            if(!RegistrationModel.IsValid())
+            if (IsBusy) return;
+
+            if (!RegistrationModel.IsValid())
             {
-                Debug.WriteLine("Form has errors!");
                 return;
             }
 
-            Debug.WriteLine("Registration successful!");
+            try
+            {
+                if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+                {
+                    await Shell.Current.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
+                    return;
+                }
+
+                IsBusy = true;
+                await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
+                await Shell.Current.DisplayAlert("Success", "Registration was successful.", "Ok");
+            }
+            catch (Exception)
+            {
+                await Shell.Current.DisplayAlert("Hmm", "Something went wrong.", "Ok");
+                throw;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public void ResetViewModel()
         {
             RegistrationModel = new RegistrationModel();
-            ClickedSubmit = false;
+            IsBusy = false;
+            ErrorOpacity = 0;
         }
     }
 }

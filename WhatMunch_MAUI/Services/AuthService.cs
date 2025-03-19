@@ -1,36 +1,64 @@
-﻿namespace WhatMunch_MAUI.Services
+﻿using System.Net.Http.Headers;
+
+namespace WhatMunch_MAUI.Services
 {
     public interface IAuthService
     {
-        Task SaveTokenAsync(string token);
-        Task<string?> GetTokenAsync();
+        Task SaveAccessTokenAsync(string token);
+        Task SaveRefreshTokenAsync(string token);
+        Task<string?> GetAccessTokenAsync();
+        Task<string?> GetRefreshTokenAsync();
         void Logout();
         Task<bool> IsUserAuthenticated();
+        Task UpdateHeaders(HttpClient httpClient);
     }
 
     public class AuthService : IAuthService
     {
-        private string _tokenKey = "jwt_token";
+        private readonly string _accessTokenKey = "jwt_token";
+        private readonly string _refreshTokenKey = "jwtRefreshToken";
 
-        public async Task SaveTokenAsync(string token)
+        public async Task SaveAccessTokenAsync(string token)
         {
-            await SecureStorage.SetAsync(_tokenKey, token);
+            await SecureStorage.SetAsync(_accessTokenKey, token);
         }
 
-        public async Task<string?> GetTokenAsync()
+        public async Task SaveRefreshTokenAsync(string token)
         {
-            return await SecureStorage.GetAsync(_tokenKey);
+            await SecureStorage.SetAsync(_refreshTokenKey, token);
+        }
+
+        public async Task<string?> GetAccessTokenAsync()
+        {
+            return await SecureStorage.GetAsync(_accessTokenKey);
+        }
+
+        public async Task<string?> GetRefreshTokenAsync()
+        {
+            return await SecureStorage.GetAsync(_refreshTokenKey);
         }
 
         public void Logout()
         {
-            SecureStorage.Remove(_tokenKey);
+            SecureStorage.Remove(_accessTokenKey);
+            SecureStorage.Remove(_refreshTokenKey);
         }
 
         public async Task<bool> IsUserAuthenticated()
         {
-            var token = await GetTokenAsync();
+            var token = await GetAccessTokenAsync();
             return !string.IsNullOrEmpty(token);
+        }
+
+        public async Task UpdateHeaders(HttpClient httpClient)
+        {
+            var token = await GetAccessTokenAsync();
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            }
         }
     }
 }
