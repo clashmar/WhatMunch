@@ -2,11 +2,8 @@
 
 namespace WhatMunch_MAUI.Dtos
 {
-    public class RegistrationRequestDto
+    public class SignInRequestDto
     {
-        [JsonPropertyName("email")]
-        public string Email { get; set; } = "";
-
         [JsonPropertyName("username")]
         public string Username { get; set; } = "";
 

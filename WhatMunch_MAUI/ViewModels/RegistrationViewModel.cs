@@ -41,20 +41,12 @@ namespace WhatMunch_MAUI.ViewModels
                 }
 
                 IsBusy = true;
-                var response = await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
-
-                if (response.IsSuccessStatusCode)
-                {
-                    await Shell.Current.DisplayAlert("Success", "Registration was successful.", "Ok");
-                    //Update token and navigate somewhere
-                }
-                else
-                {
-                    await Shell.Current.DisplayAlert("Hmm", "Something went wrong.", "Ok");
-                }
+                await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
+                await Shell.Current.DisplayAlert("Success", "Registration was successful.", "Ok");
             }
             catch (Exception)
             {
+                await Shell.Current.DisplayAlert("Hmm", "Something went wrong.", "Ok");
                 throw;
             }
             finally

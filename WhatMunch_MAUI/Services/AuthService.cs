@@ -1,4 +1,6 @@
-﻿namespace WhatMunch_MAUI.Services
+﻿using System.Net.Http.Headers;
+
+namespace WhatMunch_MAUI.Services
 {
     public interface IAuthService
     {
@@ -6,6 +8,7 @@
         Task<string?> GetTokenAsync();
         void Logout();
         Task<bool> IsUserAuthenticated();
+        Task UpdateHeaders(HttpClient httpClient);
     }
 
     public class AuthService : IAuthService
@@ -31,6 +34,17 @@
         {
             var token = await GetTokenAsync();
             return !string.IsNullOrEmpty(token);
+        }
+
+        public async Task UpdateHeaders(HttpClient httpClient)
+        {
+            var token = await GetTokenAsync();
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            }
         }
     }
 }

@@ -3,26 +3,26 @@ using WhatMunch_MAUI.Dtos;
 
 namespace WhatMunch_MAUI.Services
 {
-    public interface IRegistrationService
+    public interface ILoginService
     {
-        Task RegisterUserAsync(RegistrationRequestDto requestDto);
+        Task LoginUserAsync(SignInRequestDto requestDto);
     }
 
-    public class RegistrationService(IHttpClientFactory clientFactory, IAuthService authService) : IRegistrationService
+    public class LoginService(IHttpClientFactory clientFactory, IAuthService authService) : ILoginService
     {
         private readonly IHttpClientFactory _clientFactory = clientFactory;
         private readonly IAuthService _authService = authService;
 
-        public async Task RegisterUserAsync(RegistrationRequestDto requestDto)
+        public async Task LoginUserAsync(SignInRequestDto requestDto)
         {
             try
             {
                 var client = _clientFactory.CreateClient("WhatMunch");
                 var json = JsonSerializer.Serialize(requestDto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("auth/register/", content);
+                var response = await client.PostAsync("token/", content);
 
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
                     //Login and get token
