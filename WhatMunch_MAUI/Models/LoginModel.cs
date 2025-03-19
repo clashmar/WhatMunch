@@ -4,6 +4,15 @@ namespace WhatMunch_MAUI.Models
 {
     public partial class LoginModel : ObservableValidator
     {
+        public LoginModel()
+        {
+            ValidateProperty(Username, nameof(Username));
+            UsernameError = GetErrors(nameof(Username)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+
+            ValidateProperty(Password, nameof(Password));
+            PasswordError = GetErrors(nameof(Password)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+        }
+
         [ObservableProperty]
         [Required(ErrorMessage = "Username is required.")]
         [MinLength(3, ErrorMessage = "Must be at least 3 characters.")]

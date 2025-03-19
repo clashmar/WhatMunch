@@ -38,6 +38,7 @@
                 <Entry Placeholder="Username"
                        Text="{Binding LoginModel.Password, Mode=TwoWay}"
                        VerticalOptions="Center"
+                       IsPassword="True"
                        ClearButtonVisibility="WhileEditing" />
                 <Label Text="{Binding LoginModel.PasswordError}"
                        TextColor="Red"

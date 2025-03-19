@@ -4,6 +4,22 @@ namespace WhatMunch_MAUI.Models
 {
     public partial class RegistrationModel : ObservableValidator
     {
+        public RegistrationModel()
+        {
+            ValidateProperty(Email, nameof(Email));
+            EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+
+            ValidateProperty(Username, nameof(Username));
+            EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+
+            ValidateProperty(Password, nameof(Password));
+            EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+
+            ValidateProperty(ConfirmPassword, nameof(ConfirmPassword));
+            EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
+
+        }
+
         [ObservableProperty]
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress(ErrorMessage = "Invalid email format.")]

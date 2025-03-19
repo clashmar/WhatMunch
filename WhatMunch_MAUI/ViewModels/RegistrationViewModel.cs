@@ -25,11 +25,12 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task HandleRegistrationAsync()
         {
+            ErrorOpacity = 1.0;
+
             if (IsBusy) return;
 
             if (!RegistrationModel.IsValid())
             {
-                ErrorOpacity = 1.0;
                 return;
             }
 

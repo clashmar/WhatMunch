@@ -19,11 +19,12 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task HandleLoginAsync()
         {
+            ErrorOpacity = 1.0;
+
             if (IsBusy) return;
 
             if (!LoginModel.IsValid())
             {
-                ErrorOpacity = 1.0;
                 return;
             }
 

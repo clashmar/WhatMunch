@@ -17,7 +17,7 @@ public static class MauiProgram
             });
 
         builder.Services.AddHttpClient("WhatMunch", client => 
-		client.BaseAddress = new Uri("http://127.0.0.1:8000/api/"));
+		client.BaseAddress = new Uri("http://10.0.2.2:8000/api/"));
 
         builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
 
