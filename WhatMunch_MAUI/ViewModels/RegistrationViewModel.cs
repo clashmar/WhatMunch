@@ -13,7 +13,7 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [ObservableProperty]
-        public bool _clickedSubmit;
+        public double _errorOpacity = 0;
 
         [RelayCommand]
         async Task GoToLoginPageAsync()
@@ -24,7 +24,7 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task HandleRegistrationAsync()
         {
-            ClickedSubmit = true;
+            ErrorOpacity = 1.0;
 
             if(!RegistrationModel.IsValid())
             {
@@ -34,11 +34,10 @@ namespace WhatMunch_MAUI.ViewModels
 
             Debug.WriteLine("Registration successful!");
         }
-
         public void ResetViewModel()
         {
             RegistrationModel = new RegistrationModel();
-            ClickedSubmit = false;
+            ErrorOpacity = 0;
         }
     }
 }

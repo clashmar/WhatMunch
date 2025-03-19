@@ -64,11 +64,6 @@ namespace WhatMunch_MAUI.Models
         public bool IsValid()
         {
             ValidateAllProperties();
-            //EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
-            //UsernameError = GetErrors(nameof(Username)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
-            //PasswordError = GetErrors(nameof(Password)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
-            //ConfirmPasswordError = GetErrors(nameof(ConfirmPassword)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
-
             return !HasErrors;        
         }
 
