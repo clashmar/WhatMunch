@@ -2,7 +2,7 @@
 
 namespace WhatMunch_MAUI.Dtos
 {
-    public class SignInRequestDto
+    public class LoginRequestDto
     {
         [JsonPropertyName("username")]
         public string Username { get; set; } = "";

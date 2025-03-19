@@ -4,14 +4,15 @@ using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class RegistrationViewModel(RegistrationService registrationService, IConnectivity connectivity) : BaseViewModel
+    public partial class RegistrationViewModel(IRegistrationService registrationService, IConnectivity connectivity) : BaseViewModel
     {
         [ObservableProperty]
         public RegistrationModel _registrationModel = new();
 
-        private readonly RegistrationService _registrationService = registrationService;
+        private readonly IRegistrationService _registrationService = registrationService;
 
         private readonly IConnectivity _connectivity = connectivity;
+
         [ObservableProperty]
         public double _errorOpacity = 0;
 

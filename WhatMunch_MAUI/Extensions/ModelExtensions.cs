@@ -13,5 +13,14 @@ namespace WhatMunch_MAUI.Extensions
                 Password = registrationModel.Password
             };
         }
+
+        public static LoginRequestDto ToDto(this LoginModel loginModel)
+        {
+            return new LoginRequestDto()
+            {
+                Username = loginModel.Username,
+                Password = loginModel.Password
+            };
+        }
     }
 }

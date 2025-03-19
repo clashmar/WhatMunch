@@ -23,6 +23,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IAuthService, AuthService>();
 		builder.Services.AddSingleton<IRegistrationService, RegistrationService>();
+		builder.Services.AddSingleton<ILoginService, LoginService>();
 
         builder.Services.AddSingleton<AppShell>();
 

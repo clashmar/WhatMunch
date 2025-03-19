@@ -1,16 +1,27 @@
-﻿using WhatMunch_MAUI.Views;
+﻿using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class LoginViewModel : BaseViewModel
+    public partial class LoginViewModel(ILoginService loginService, IConnectivity connectivity) : BaseViewModel
     {
+        [ObservableProperty]
+        public LoginModel _loginModel = new();
+
+        private readonly ILoginService _loginService = loginService;
+
+        private readonly IConnectivity _connectivity = connectivity;
+
+        [ObservableProperty]
+        public double _errorOpacity = 0;
 
         [RelayCommand]
         async Task HandleLoginAsync()
         {
             if (IsBusy) return;
 
-            if (!RegistrationModel.IsValid())
+            if (!LoginModel.IsValid())
             {
                 ErrorOpacity = 1.0;
                 return;
@@ -25,8 +36,8 @@ namespace WhatMunch_MAUI.ViewModels
                 }
 
                 IsBusy = true;
-                await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
-                await Shell.Current.DisplayAlert("Success", "Registration was successful.", "Ok");
+                await _loginService.LoginUserAsync(LoginModel.ToDto());
+                await Shell.Current.DisplayAlert("Success", "Login was successful.", "Ok");
             }
             catch (Exception)
             {
@@ -41,7 +52,7 @@ namespace WhatMunch_MAUI.ViewModels
 
         public void ResetViewModel()
         {
-            RegistrationModel = new RegistrationModel();
+            LoginModel = new LoginModel();
             IsBusy = false;
             ErrorOpacity = 0;
         }
