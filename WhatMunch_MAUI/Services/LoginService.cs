@@ -25,7 +25,15 @@ namespace WhatMunch_MAUI.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    //Login and get token
+                    var deserializedData = JsonSerializer.Deserialize<SignInResponseDto>(responseContent);
+                    
+                    if(deserializedData != null)
+                    {
+                        var accessToken = deserializedData.AccessToken;
+                        await _authService.SaveAccessTokenAsync(accessToken);
+                        var refreshToken = deserializedData.RefreshToken;
+                        await _authService.SaveRefreshTokenAsync(refreshToken);
+                    }
                 }
                 else
                 {

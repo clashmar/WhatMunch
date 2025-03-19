@@ -4,8 +4,10 @@ namespace WhatMunch_MAUI.Services
 {
     public interface IAuthService
     {
-        Task SaveTokenAsync(string token);
-        Task<string?> GetTokenAsync();
+        Task SaveAccessTokenAsync(string token);
+        Task SaveRefreshTokenAsync(string token);
+        Task<string?> GetAccessTokenAsync();
+        Task<string?> GetRefreshTokenAsync();
         void Logout();
         Task<bool> IsUserAuthenticated();
         Task UpdateHeaders(HttpClient httpClient);
@@ -13,14 +15,24 @@ namespace WhatMunch_MAUI.Services
 
     public class AuthService : IAuthService
     {
-        private string _tokenKey = "jwt_token";
+        private readonly string _tokenKey = "jwt_token";
 
-        public async Task SaveTokenAsync(string token)
+        public async Task SaveAccessTokenAsync(string token)
         {
             await SecureStorage.SetAsync(_tokenKey, token);
         }
 
-        public async Task<string?> GetTokenAsync()
+        public async Task SaveRefreshTokenAsync(string token)
+        {
+            await SecureStorage.SetAsync(_tokenKey, token);
+        }
+
+        public async Task<string?> GetAccessTokenAsync()
+        {
+            return await SecureStorage.GetAsync(_tokenKey);
+        }
+
+        public async Task<string?> GetRefreshTokenAsync()
         {
             return await SecureStorage.GetAsync(_tokenKey);
         }
@@ -32,13 +44,13 @@ namespace WhatMunch_MAUI.Services
 
         public async Task<bool> IsUserAuthenticated()
         {
-            var token = await GetTokenAsync();
+            var token = await GetAccessTokenAsync();
             return !string.IsNullOrEmpty(token);
         }
 
         public async Task UpdateHeaders(HttpClient httpClient)
         {
-            var token = await GetTokenAsync();
+            var token = await GetAccessTokenAsync();
 
             if (!string.IsNullOrEmpty(token))
             {
