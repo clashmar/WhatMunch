@@ -4,19 +4,14 @@ using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class RegistrationViewModel : BaseViewModel
+    public partial class RegistrationViewModel(RegistrationService registrationService, IConnectivity connectivity) : BaseViewModel
     {
         [ObservableProperty]
-        public RegistrationModel _registrationModel;
+        public RegistrationModel _registrationModel = new();
 
-        private readonly RegistrationService _registrationService;
+        private readonly RegistrationService _registrationService = registrationService;
 
-        public RegistrationViewModel(RegistrationService registrationService)
-        {
-            _registrationModel = new RegistrationModel();
-            _registrationService = registrationService;
-        }
-
+        private readonly IConnectivity _connectivity = connectivity;
         [ObservableProperty]
         public double _errorOpacity = 0;
 
@@ -29,18 +24,49 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task HandleRegistrationAsync()
         {
-            if(!RegistrationModel.IsValid())
+            if (IsBusy) return;
+
+            if (!RegistrationModel.IsValid())
             {
                 ErrorOpacity = 1.0;
                 return;
             }
 
-            var response = await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
+            try
+            {
+                if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+                {
+                    await Shell.Current.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
+                    return;
+                }
+
+                IsBusy = true;
+                var response = await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await Shell.Current.DisplayAlert("Success", "Registration was successful.", "Ok");
+                    //Update token and navigate somewhere
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("Hmm", "Something went wrong.", "Ok");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public void ResetViewModel()
         {
             RegistrationModel = new RegistrationModel();
+            IsBusy = false;
             ErrorOpacity = 0;
         }
     }

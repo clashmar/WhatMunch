@@ -19,6 +19,8 @@ public static class MauiProgram
         builder.Services.AddHttpClient("WhatMunch", client => 
 		client.BaseAddress = new Uri("hello"));
 
+        builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
+
         builder.Services.AddSingleton<IAuthService, AuthService>();
 		builder.Services.AddSingleton<IRegistrationService, RegistrationService>();
 
