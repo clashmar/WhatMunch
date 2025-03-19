@@ -17,7 +17,6 @@ namespace WhatMunch_MAUI.Models
 
             ValidateProperty(ConfirmPassword, nameof(ConfirmPassword));
             EmailError = GetErrors(nameof(Email)).Select(e => e.ErrorMessage).FirstOrDefault() ?? string.Empty;
-
         }
 
         [ObservableProperty]

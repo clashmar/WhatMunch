@@ -15,31 +15,33 @@ namespace WhatMunch_MAUI.Services
 
     public class AuthService : IAuthService
     {
-        private readonly string _tokenKey = "jwt_token";
+        private readonly string _accessTokenKey = "jwt_token";
+        private readonly string _refreshTokenKey = "jwtRefreshToken";
 
         public async Task SaveAccessTokenAsync(string token)
         {
-            await SecureStorage.SetAsync(_tokenKey, token);
+            await SecureStorage.SetAsync(_accessTokenKey, token);
         }
 
         public async Task SaveRefreshTokenAsync(string token)
         {
-            await SecureStorage.SetAsync(_tokenKey, token);
+            await SecureStorage.SetAsync(_refreshTokenKey, token);
         }
 
         public async Task<string?> GetAccessTokenAsync()
         {
-            return await SecureStorage.GetAsync(_tokenKey);
+            return await SecureStorage.GetAsync(_accessTokenKey);
         }
 
         public async Task<string?> GetRefreshTokenAsync()
         {
-            return await SecureStorage.GetAsync(_tokenKey);
+            return await SecureStorage.GetAsync(_refreshTokenKey);
         }
 
         public void Logout()
         {
-            SecureStorage.Remove(_tokenKey);
+            SecureStorage.Remove(_accessTokenKey);
+            SecureStorage.Remove(_refreshTokenKey);
         }
 
         public async Task<bool> IsUserAuthenticated()
