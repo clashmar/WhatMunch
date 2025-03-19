@@ -18,15 +18,38 @@
                              Grid.Row="1"
                              WidthRequest="250"
                              Spacing="20">
-            <Entry Placeholder="Username"
-                   VerticalOptions="Center"
-                   ClearButtonVisibility="WhileEditing"/>
+
+            <VerticalStackLayout>
+                <Label Text="Username"
+                       FontSize="Small" />
+                <Entry Placeholder="Username"
+                       Text="{Binding LoginModel.Username, Mode=TwoWay}"
+                       VerticalOptions="Center"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding LoginModel.UsernameError}"
+                       TextColor="Red"
+                       FontSize="Small"
+                       Opacity="{Binding ErrorOpacity}" />
+            </VerticalStackLayout>
             
-            <Entry Placeholder="Password"
-                   VerticalOptions="Center"
-                   ClearButtonVisibility="WhileEditing"
-                   IsPassword="True"/>
-            
+            <VerticalStackLayout>
+                <Label Text="Password"
+                       FontSize="Small" />
+                <Entry Placeholder="Username"
+                       Text="{Binding LoginModel.Password, Mode=TwoWay}"
+                       VerticalOptions="Center"
+                       ClearButtonVisibility="WhileEditing" />
+                <Label Text="{Binding LoginModel.PasswordError}"
+                       TextColor="Red"
+                       FontSize="Small"
+                       Opacity="{Binding ErrorOpacity}" />
+            </VerticalStackLayout>
+
+            <Button Margin="0,30,0,0"
+                    HeightRequest="60"
+                    Text="Submit"
+                    Command="{Binding HandleLoginCommand}" />
+
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
                     Text="Create Account"

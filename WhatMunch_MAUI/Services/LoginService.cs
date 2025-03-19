@@ -5,7 +5,7 @@ namespace WhatMunch_MAUI.Services
 {
     public interface ILoginService
     {
-        Task LoginUserAsync(SignInRequestDto requestDto);
+        Task LoginUserAsync(LoginRequestDto requestDto);
     }
 
     public class LoginService(IHttpClientFactory clientFactory, IAuthService authService) : ILoginService
@@ -13,7 +13,7 @@ namespace WhatMunch_MAUI.Services
         private readonly IHttpClientFactory _clientFactory = clientFactory;
         private readonly IAuthService _authService = authService;
 
-        public async Task LoginUserAsync(SignInRequestDto requestDto)
+        public async Task LoginUserAsync(LoginRequestDto requestDto)
         {
             try
             {
@@ -25,7 +25,7 @@ namespace WhatMunch_MAUI.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    var deserializedData = JsonSerializer.Deserialize<SignInResponseDto>(responseContent);
+                    var deserializedData = JsonSerializer.Deserialize<LoginResponseDto>(responseContent);
                     
                     if(deserializedData != null)
                     {
