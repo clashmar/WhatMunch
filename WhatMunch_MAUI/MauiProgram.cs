@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using WhatMunch_MAUI.Pages;
 using WhatMunch_MAUI.Services;
 
 namespace WhatMunch_MAUI;
@@ -15,7 +14,10 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+            });
+
+        builder.Services.AddHttpClient("WhatMunch", client => 
+		client.BaseAddress = new Uri("hello"));
 
         builder.Services.AddSingleton<IAuthService, AuthService>();
 
@@ -23,12 +25,6 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<LoginViewModel>();
         builder.Services.AddSingleton<RegistrationViewModel>();
-
-        //builder.Services.AddSingleton<MainPage>();
-        //builder.Services.AddSingleton<LoginPage>();
-        //builder.Services.AddSingleton<RegistrationPage>();
-        //builder.Services.AddSingleton<DashboardPage>();
-
 
 #if DEBUG
         builder.Logging.AddDebug();

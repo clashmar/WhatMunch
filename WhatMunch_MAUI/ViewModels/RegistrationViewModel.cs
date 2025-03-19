@@ -1,4 +1,4 @@
-﻿using WhatMunch_MAUI.Pages;
+﻿using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {

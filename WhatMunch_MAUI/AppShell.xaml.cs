@@ -1,4 +1,4 @@
-﻿using WhatMunch_MAUI.Pages;
+﻿using WhatMunch_MAUI.Views;
 using WhatMunch_MAUI.Services;
 
 namespace WhatMunch_MAUI
