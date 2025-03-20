@@ -57,7 +57,6 @@ namespace WhatMunch_MAUI.Services
             if (!string.IsNullOrEmpty(token))
             {
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             }
         }
     }

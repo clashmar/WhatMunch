@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using WhatMunch_MAUI.Dtos;
+using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Utility;
 
 namespace WhatMunch_MAUI.Services
@@ -17,7 +18,7 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
-                var client = _clientFactory.CreateClient("WhatMunch");
+                var client = _clientFactory.CreateClient("WhatMunch").UpdateLanguageHeaders();
                 var json = JsonSerializer.Serialize(requestDto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("auth/register/", content);
