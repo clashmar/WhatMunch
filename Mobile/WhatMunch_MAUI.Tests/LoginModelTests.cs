@@ -49,6 +49,7 @@ namespace WhatMunch_MAUI.Tests
         }
 
         [Theory]
+        [InlineData("Password1")]
         [InlineData("Password97")]
         [InlineData("PASSWORd97")]
         [InlineData("1Pp2assword")]
