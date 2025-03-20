@@ -5,13 +5,13 @@ using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class LoginViewModel(ILoginService loginService, IConnectivity connectivity) : BaseViewModel
+    public partial class LoginViewModel(ILoginService loginService, IConnectivity connectivity, IShellService shellService) : BaseViewModel
     {
         [ObservableProperty]
         public LoginModel _loginModel = new();
 
         private readonly ILoginService _loginService = loginService;
-
+        private readonly IShellService _shellService = shellService;
         private readonly IConnectivity _connectivity = connectivity;
 
         [ObservableProperty]
@@ -33,18 +33,18 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 if (_connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
-                    await Shell.Current.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
+                    await _shellService.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
                     return;
                 }
 
                 IsBusy = true;
                 await _loginService.LoginUserAsync(LoginModel.ToDto());
-                await Shell.Current.DisplayAlert("Success", "Login was successful.", "Ok");
-                await Shell.Current.GoToAsync($"{nameof(DashboardPage)}");
+                await _shellService.DisplayAlert("Success", "Login was successful.", "Ok");
+                await _shellService.GoToAsync($"{nameof(DashboardPage)}");
             }
             catch (Exception)
             {
-                await Shell.Current.DisplayAlert("Hmm", "Something went wrong.", "Ok");
+                await _shellService.DisplayAlert("Hmm", "Something went wrong.", "Ok");
             }
             finally
             {
@@ -62,7 +62,7 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task GoToRegistrationPageAsync()
         {
-            await Shell.Current.GoToAsync($"{nameof(RegistrationPage)}");
+            await _shellService.GoToAsync($"{nameof(RegistrationPage)}");
         }
     }
 }
