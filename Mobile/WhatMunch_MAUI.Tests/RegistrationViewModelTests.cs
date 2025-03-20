@@ -27,7 +27,7 @@ namespace WhatMunch_MAUI.Tests
         {
             // Arrange
             _mockConnectivity.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
-            var registrationModel = new RegistrationModel { Email = "user@email.com", Username = "testuser", Password = "password", ConfirmPassword = "password" };
+            var registrationModel = new RegistrationModel { Email = "user@email.com", Username = "testuser", Password = "Password1", ConfirmPassword = "Password1" };
             _viewModel.RegistrationModel = registrationModel;
 
             _mockRegistrationService.Setup(s => s.RegisterUserAsync(It.IsAny<RegistrationRequestDto>()))
@@ -49,7 +49,7 @@ namespace WhatMunch_MAUI.Tests
         {
             // Arrange
             _mockConnectivity.Setup(c => c.NetworkAccess).Returns(NetworkAccess.None);
-            var registrationModel = new RegistrationModel { Email = "user@email.com", Username = "testuser", Password = "password", ConfirmPassword = "password" };
+            var registrationModel = new RegistrationModel { Email = "user@email.com", Username = "testuser", Password = "Password1", ConfirmPassword = "Password1" };
             _viewModel.RegistrationModel = registrationModel;
 
             // Act
@@ -80,7 +80,7 @@ namespace WhatMunch_MAUI.Tests
         {
             // Arrange
             _mockConnectivity.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
-            var registrationModel = new RegistrationModel { Email = "user@email.com", Username = "testuser", Password = "password", ConfirmPassword = "password" };
+            var registrationModel = new RegistrationModel { Email = "user@email.com", Username = "testuser", Password = "Password1", ConfirmPassword = "Password1" };
             _viewModel.RegistrationModel = registrationModel;
 
             _mockRegistrationService.Setup(s => s.RegisterUserAsync(It.IsAny<RegistrationRequestDto>()))
@@ -98,7 +98,7 @@ namespace WhatMunch_MAUI.Tests
         {
             // Arrange
             _mockConnectivity.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
-            var registrationModel = new RegistrationModel {Email = "user@email.com", Username = "testuser", Password = "password", ConfirmPassword = "password" };
+            var registrationModel = new RegistrationModel {Email = "user@email.com", Username = "testuser", Password = "Password1", ConfirmPassword = "Password1" };
             _viewModel.RegistrationModel = registrationModel;
 
             _mockRegistrationService.Setup(s => s.RegisterUserAsync(It.IsAny<RegistrationRequestDto>()))
@@ -119,7 +119,7 @@ namespace WhatMunch_MAUI.Tests
         public void ResetViewModel_ResetsProperties()
         {
             // Arrange
-            _viewModel.RegistrationModel = new RegistrationModel { Email = "user@email.com", Username = "testuser", Password = "password", ConfirmPassword = "password" };
+            _viewModel.RegistrationModel = new RegistrationModel { Email = "user@email.com", Username = "testuser", Password = "Password1", ConfirmPassword = "Password1" };
             _viewModel.IsBusy = true;
             _viewModel.ErrorOpacity = 1.0;
 

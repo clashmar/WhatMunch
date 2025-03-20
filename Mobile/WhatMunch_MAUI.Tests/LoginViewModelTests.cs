@@ -27,7 +27,7 @@ namespace WhatMunch_MAUI.Tests
         {
             // Arrange
             _mockConnectivity.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
-            var loginModel = new LoginModel { Username = "testuser", Password = "password" };
+            var loginModel = new LoginModel { Username = "testuser", Password = "Password1" };
             _viewModel.LoginModel = loginModel;
 
             _mockLoginService.Setup(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()))
@@ -49,7 +49,7 @@ namespace WhatMunch_MAUI.Tests
         {
             // Arrange
             _mockConnectivity.Setup(c => c.NetworkAccess).Returns(NetworkAccess.None);
-            var loginModel = new LoginModel { Username = "testuser", Password = "password" };
+            var loginModel = new LoginModel { Username = "testuser", Password = "Password1" };
             _viewModel.LoginModel = loginModel;
 
             // Act
@@ -80,7 +80,7 @@ namespace WhatMunch_MAUI.Tests
         {
             // Arrange
             _mockConnectivity.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
-            var loginModel = new LoginModel { Username = "testuser", Password = "password" };
+            var loginModel = new LoginModel { Username = "testuser", Password = "Password1" };
             _viewModel.LoginModel = loginModel;
 
             _mockLoginService.Setup(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()))
@@ -101,7 +101,7 @@ namespace WhatMunch_MAUI.Tests
         public void ResetViewModel_ResetsProperties()
         {
             // Arrange
-            _viewModel.LoginModel = new LoginModel { Username = "testuser", Password = "password" };
+            _viewModel.LoginModel = new LoginModel { Username = "testuser", Password = "Password1" };
             _viewModel.IsBusy = true;
             _viewModel.ErrorOpacity = 1.0;
 
