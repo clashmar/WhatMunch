@@ -79,11 +79,29 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email.
+        ///   Looks up a localized string similar to Invalid e-mail format..
+        /// </summary>
+        internal static string EmailFormatError {
+            get {
+                return ResourceManager.GetString("EmailFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail.
         /// </summary>
         internal static string EmailLabel {
             get {
                 return ResourceManager.GetString("EmailLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail is required..
+        /// </summary>
+        internal static string EmailRequiredError {
+            get {
+                return ResourceManager.GetString("EmailRequiredError", resourceCulture);
             }
         }
         
@@ -106,11 +124,47 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Must contain at least one lowercase, uppercase and numeric character..
+        /// </summary>
+        internal static string PasswordFormatError {
+            get {
+                return ResourceManager.GetString("PasswordFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         internal static string PasswordLabel {
             get {
                 return ResourceManager.GetString("PasswordLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passwords do not match..
+        /// </summary>
+        internal static string PasswordMatchError {
+            get {
+                return ResourceManager.GetString("PasswordMatchError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must be at least 8 characters..
+        /// </summary>
+        internal static string PasswordMinLengthError {
+            get {
+                return ResourceManager.GetString("PasswordMinLengthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is required..
+        /// </summary>
+        internal static string PasswordRequiredError {
+            get {
+                return ResourceManager.GetString("PasswordRequiredError", resourceCulture);
             }
         }
         
@@ -133,11 +187,47 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Letters, digits and @/./+/-/_ only..
+        /// </summary>
+        internal static string UsernameFormatError {
+            get {
+                return ResourceManager.GetString("UsernameFormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Username.
         /// </summary>
         internal static string UsernameLabel {
             get {
                 return ResourceManager.GetString("UsernameLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must be less than 150 characters..
+        /// </summary>
+        internal static string UsernameMaxLengthError {
+            get {
+                return ResourceManager.GetString("UsernameMaxLengthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must be at least 3 characters..
+        /// </summary>
+        internal static string UsernameMinLengthError {
+            get {
+                return ResourceManager.GetString("UsernameMinLengthError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Username is required..
+        /// </summary>
+        internal static string UsernameRequiredError {
+            get {
+                return ResourceManager.GetString("UsernameRequiredError", resourceCulture);
             }
         }
     }

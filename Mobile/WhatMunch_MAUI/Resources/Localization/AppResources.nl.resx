@@ -123,8 +123,14 @@
   <data name="CreateAccountButton" xml:space="preserve">
     <value>Account Aanmaken</value>
   </data>
+  <data name="EmailFormatError" xml:space="preserve">
+    <value>Ongeldig e-mailadres.</value>
+  </data>
   <data name="EmailLabel" xml:space="preserve">
-    <value>Email</value>
+    <value>E-mail</value>
+  </data>
+  <data name="EmailRequiredError" xml:space="preserve">
+    <value>E-mailadres is verplicht.</value>
   </data>
   <data name="GoToLoginButton" xml:space="preserve">
     <value>Login</value>
@@ -132,8 +138,20 @@
   <data name="LoginWelcome" xml:space="preserve">
     <value>Welkom bij WhatMunch</value>
   </data>
+  <data name="PasswordFormatError" xml:space="preserve">
+    <value>Moet minimaal één kleine letter, hoofdletter en cijfer bevatten.</value>
+  </data>
   <data name="PasswordLabel" xml:space="preserve">
     <value>Wachtwoord</value>
+  </data>
+  <data name="PasswordMatchError" xml:space="preserve">
+    <value>Wachtwoorden komen niet overeen.</value>
+  </data>
+  <data name="PasswordMinLengthError" xml:space="preserve">
+    <value>Moet minimaal 8 tekens lang zijn.</value>
+  </data>
+  <data name="PasswordRequiredError" xml:space="preserve">
+    <value>Wachtwoord is vereist.</value>
   </data>
   <data name="RegisterWelcome" xml:space="preserve">
     <value>Registreer voor WhatMunch</value>
@@ -141,7 +159,19 @@
   <data name="SubmitButton" xml:space="preserve">
     <value>Verzend</value>
   </data>
+  <data name="UsernameFormatError" xml:space="preserve">
+    <value>Alleen letters, cijfers en @/./+/-/_.</value>
+  </data>
   <data name="UsernameLabel" xml:space="preserve">
     <value>Gebruikersnaam</value>
+  </data>
+  <data name="UsernameMaxLengthError" xml:space="preserve">
+    <value>Moet korter zijn dan 150 tekens.</value>
+  </data>
+  <data name="UsernameMinLengthError" xml:space="preserve">
+    <value>Moet minimaal 3 tekens lang zijn.</value>
+  </data>
+  <data name="UsernameRequiredError" xml:space="preserve">
+    <value>Gebruikersnaam is verplicht.</value>
   </data>
 </root>

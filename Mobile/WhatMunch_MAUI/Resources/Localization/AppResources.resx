@@ -123,8 +123,14 @@
   <data name="CreateAccountButton" xml:space="preserve">
     <value>Create Account</value>
   </data>
+  <data name="EmailFormatError" xml:space="preserve">
+    <value>Invalid e-mail format.</value>
+  </data>
   <data name="EmailLabel" xml:space="preserve">
-    <value>Email</value>
+    <value>E-mail</value>
+  </data>
+  <data name="EmailRequiredError" xml:space="preserve">
+    <value>E-mail is required.</value>
   </data>
   <data name="GoToLoginButton" xml:space="preserve">
     <value>Login</value>
@@ -132,8 +138,20 @@
   <data name="LoginWelcome" xml:space="preserve">
     <value>Welcome To WhatMunch</value>
   </data>
+  <data name="PasswordFormatError" xml:space="preserve">
+    <value>Must contain at least one lowercase, uppercase and numeric character.</value>
+  </data>
   <data name="PasswordLabel" xml:space="preserve">
     <value>Password</value>
+  </data>
+  <data name="PasswordMatchError" xml:space="preserve">
+    <value>Passwords do not match.</value>
+  </data>
+  <data name="PasswordMinLengthError" xml:space="preserve">
+    <value>Must be at least 8 characters.</value>
+  </data>
+  <data name="PasswordRequiredError" xml:space="preserve">
+    <value>Password is required.</value>
   </data>
   <data name="RegisterWelcome" xml:space="preserve">
     <value>Register for WhatMunch</value>
@@ -141,7 +159,19 @@
   <data name="SubmitButton" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="UsernameFormatError" xml:space="preserve">
+    <value>Letters, digits and @/./+/-/_ only.</value>
+  </data>
   <data name="UsernameLabel" xml:space="preserve">
     <value>Username</value>
+  </data>
+  <data name="UsernameMaxLengthError" xml:space="preserve">
+    <value>Must be less than 150 characters.</value>
+  </data>
+  <data name="UsernameMinLengthError" xml:space="preserve">
+    <value>Must be at least 3 characters.</value>
+  </data>
+  <data name="UsernameRequiredError" xml:space="preserve">
+    <value>Username is required.</value>
   </data>
 </root>
