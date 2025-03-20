@@ -4,13 +4,13 @@ using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class RegistrationViewModel(IRegistrationService registrationService, IConnectivity connectivity) : BaseViewModel
+    public partial class RegistrationViewModel(IRegistrationService registrationService, IConnectivity connectivity, IShellService shellService) : BaseViewModel
     {
         [ObservableProperty]
         public RegistrationModel _registrationModel = new();
 
         private readonly IRegistrationService _registrationService = registrationService;
-
+        private readonly IShellService _shellService = shellService;
         private readonly IConnectivity _connectivity = connectivity;
 
         [ObservableProperty]
@@ -19,7 +19,7 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task GoToLoginPageAsync()
         {
-            await Shell.Current.GoToAsync($"{nameof(LoginPage)}");
+            await _shellService.GoToAsync($"{nameof(LoginPage)}");
         }
 
         [RelayCommand]
@@ -38,18 +38,26 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 if (_connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
-                    await Shell.Current.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
+                    await _shellService.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
                     return;
                 }
 
                 IsBusy = true;
-                await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
-                await Shell.Current.DisplayAlert("Success", "Registration was successful.", "Ok");
+                var result = await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
+
+                if(result.IsSuccess)
+                {
+                    await _shellService.DisplayAlert("Success", "Registration was successful.", "Ok");
+                    await _shellService.GoToAsync($"{nameof(LoginPage)}");
+                }
+                else
+                {
+                    await _shellService.DisplayAlert("Registration Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
+                }
             }
             catch (Exception)
             {
-                await Shell.Current.DisplayAlert("Hmm", "Something went wrong.", "Ok");
-                throw;
+                await _shellService.DisplayAlert("Hmm", "Something went wrong.", "Ok");
             }
             finally
             {

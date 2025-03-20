@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
+             xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              x:Class="WhatMunch_MAUI.Views.LoginPage"
              Title="LoginPage"
              x:DataType="viewmodel:LoginViewModel">
 
     <Grid RowDefinitions=".3*, .7*">
         <Label 
-            Text="Welcome to WhatMunch"
+            Text="{x:Static strings:AppResources.LoginWelcome}"
             FontSize="Large"
             VerticalOptions="Center" 
             HorizontalOptions="Center"
@@ -20,9 +21,9 @@
                              Spacing="20">
 
             <VerticalStackLayout>
-                <Label Text="Username"
+                <Label Text="{x:Static strings:AppResources.UsernameLabel}"
                        FontSize="Small" />
-                <Entry Placeholder="Username"
+                <Entry Placeholder="{x:Static strings:AppResources.UsernameLabel}"
                        Text="{Binding LoginModel.Username, Mode=TwoWay}"
                        VerticalOptions="Center"
                        ClearButtonVisibility="WhileEditing" />
@@ -33,9 +34,9 @@
             </VerticalStackLayout>
             
             <VerticalStackLayout>
-                <Label Text="Password"
+                <Label Text="{x:Static strings:AppResources.PasswordLabel}"
                        FontSize="Small" />
-                <Entry Placeholder="Username"
+                <Entry Placeholder="{x:Static strings:AppResources.PasswordLabel}"
                        Text="{Binding LoginModel.Password, Mode=TwoWay}"
                        VerticalOptions="Center"
                        IsPassword="True"
@@ -48,12 +49,12 @@
 
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
-                    Text="Submit"
+                    Text="{x:Static strings:AppResources.SubmitButton}"
                     Command="{Binding HandleLoginCommand}" />
 
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
-                    Text="Create Account"
+                    Text="{x:Static strings:AppResources.CreateAccountButton}"
                     Command="{Binding GoToRegistrationPageCommand}"/>
         </VerticalStackLayout>
     </Grid>

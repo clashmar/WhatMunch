@@ -6,15 +6,15 @@ namespace WhatMunch_MAUI
 {
     public partial class AppShell : Shell
     {
-        private readonly IAuthService _authService;
+        private readonly ITokenService _tokenService;
 
-        public AppShell(IAuthService authService)
+        public AppShell(ITokenService tokenService)
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
             Routing.RegisterRoute(nameof(DashboardPage), typeof(DashboardPage));
-            _authService = authService;
+            _tokenService = tokenService;
             CheckAuthentication();
         }
 
@@ -22,7 +22,7 @@ namespace WhatMunch_MAUI
         {
             try
             {
-                bool isAuthenticated = await _authService.IsUserAuthenticated();
+                bool isAuthenticated = await _tokenService.IsUserAuthenticated();
 
                 if (!isAuthenticated)
                 {
