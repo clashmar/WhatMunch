@@ -45,11 +45,11 @@ namespace WhatMunch_MAUI.ViewModels
                 IsBusy = true;
                 await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
                 await Shell.Current.DisplayAlert("Success", "Registration was successful.", "Ok");
+                await Shell.Current.GoToAsync($"{nameof(LoginPage)}");
             }
             catch (Exception)
             {
                 await Shell.Current.DisplayAlert("Hmm", "Something went wrong.", "Ok");
-                throw;
             }
             finally
             {

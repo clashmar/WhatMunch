@@ -29,19 +29,18 @@ namespace WhatMunch_MAUI.Services
                 }
                 else
                 {
-                    throw new Exception("Error"); // Handle properly
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Registration failed: {response.StatusCode}. {errorContent}");
                 }
 
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine($"HTTP Error: {ex.Message}");
-                throw;
+                throw new HttpRequestException("Failed to connect to the server. Please try again later.", ex);
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Unexpected Error: {ex.Message}");
-                throw;
+                throw new Exception("An unexpected error occured.", ex);
             }
         }
     }

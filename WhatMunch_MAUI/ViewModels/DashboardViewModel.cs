@@ -19,7 +19,6 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 throw;
             }
-            
         }
     }
 }

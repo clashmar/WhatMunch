@@ -1,4 +1,5 @@
 ﻿using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Pages;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
 
@@ -39,11 +40,11 @@ namespace WhatMunch_MAUI.ViewModels
                 IsBusy = true;
                 await _loginService.LoginUserAsync(LoginModel.ToDto());
                 await Shell.Current.DisplayAlert("Success", "Login was successful.", "Ok");
+                await Shell.Current.GoToAsync($"{nameof(DashboardPage)}");
             }
             catch (Exception)
             {
                 await Shell.Current.DisplayAlert("Hmm", "Something went wrong.", "Ok");
-                throw;
             }
             finally
             {
