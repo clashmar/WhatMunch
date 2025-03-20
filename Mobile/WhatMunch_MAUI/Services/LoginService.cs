@@ -10,10 +10,10 @@ namespace WhatMunch_MAUI.Services
         Task<HttpResult<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto);
     }
 
-    public class LoginService(IHttpClientFactory clientFactory, IAuthService authService) : ILoginService
+    public class LoginService(IHttpClientFactory clientFactory, ITokenService tokenService) : ILoginService
     {
         private readonly IHttpClientFactory _clientFactory = clientFactory;
-        private readonly IAuthService _authService = authService;
+        private readonly ITokenService _tokenService = tokenService;
 
         public async Task<HttpResult<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto)
         {
@@ -31,8 +31,8 @@ namespace WhatMunch_MAUI.Services
                     
                     if(deserializedData != null)
                     {
-                        await _authService.SaveAccessTokenAsync(deserializedData.AccessToken);
-                        await _authService.SaveRefreshTokenAsync(deserializedData.RefreshToken);
+                        await _tokenService.SaveAccessTokenAsync(deserializedData.AccessToken);
+                        await _tokenService.SaveRefreshTokenAsync(deserializedData.RefreshToken);
                         return HttpResult<LoginResponseDto>.Success(deserializedData);
                     }
 

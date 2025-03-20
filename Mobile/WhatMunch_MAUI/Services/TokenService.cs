@@ -2,7 +2,7 @@
 
 namespace WhatMunch_MAUI.Services
 {
-    public interface IAuthService
+    public interface ITokenService
     {
         Task SaveAccessTokenAsync(string token);
         Task SaveRefreshTokenAsync(string token);
@@ -13,7 +13,7 @@ namespace WhatMunch_MAUI.Services
         Task UpdateHeaders(HttpClient httpClient);
     }
 
-    public class AuthService : IAuthService
+    public class TokenService : ITokenService
     {
         private readonly string _accessTokenKey = "jwt_token";
         private readonly string _refreshTokenKey = "jwtRefreshToken";

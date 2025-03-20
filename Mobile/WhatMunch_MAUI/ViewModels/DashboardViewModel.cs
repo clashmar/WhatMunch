@@ -3,9 +3,9 @@ using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class DashboardViewModel(IAuthService authService) : BaseViewModel
+    public partial class DashboardViewModel(ITokenService authService) : BaseViewModel
     {
-        private readonly IAuthService _authservice = authService;
+        private readonly ITokenService _authservice = authService;
 
         [RelayCommand]
         async Task HandleLogout()

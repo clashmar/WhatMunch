@@ -9,10 +9,9 @@ namespace WhatMunch_MAUI.Services
         Task<HttpResult<string>> RegisterUserAsync(RegistrationRequestDto requestDto);
     }
 
-    public class RegistrationService(IHttpClientFactory clientFactory, IAuthService authService) : IRegistrationService
+    public class RegistrationService(IHttpClientFactory clientFactory) : IRegistrationService
     {
         private readonly IHttpClientFactory _clientFactory = clientFactory;
-        private readonly IAuthService _authService = authService;
 
         public async Task<HttpResult<string>> RegisterUserAsync(RegistrationRequestDto requestDto)
         {
