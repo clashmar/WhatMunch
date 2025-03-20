@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using WhatMunch_MAUI.Resources.Localization;
 
 namespace WhatMunch_MAUI.Models
 {

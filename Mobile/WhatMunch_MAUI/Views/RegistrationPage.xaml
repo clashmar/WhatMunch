@@ -2,12 +2,13 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
+             xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              x:Class="WhatMunch_MAUI.Views.RegistrationPage"
              Title="RegistrationPage"
              x:DataType="viewmodel:RegistrationViewModel">
     
     <Grid RowDefinitions=".1*, .7*">
-        <Label  Text="Register for WhatMunch"
+        <Label  Text="{x:Static strings:AppResources.RegisterWelcome}"
                 FontSize="Large"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center"
@@ -19,9 +20,9 @@
                              Spacing="10">
 
             <VerticalStackLayout>
-                <Label Text="Email"
+                <Label Text="{x:Static strings:AppResources.EmailLabel}"
                        FontSize="Small"/>
-                <Entry Placeholder="Email"
+                <Entry Placeholder="{x:Static strings:AppResources.EmailLabel}"
                        Text="{Binding RegistrationModel.Email, Mode=TwoWay}"
                        VerticalOptions="Center"
                        ClearButtonVisibility="WhileEditing" />
@@ -32,9 +33,9 @@
             </VerticalStackLayout>
 
             <VerticalStackLayout>
-                <Label Text="Username"
+                <Label Text="{x:Static strings:AppResources.UsernameLabel}"
                        FontSize="Small" />
-                <Entry Placeholder="Username"
+                <Entry Placeholder="{x:Static strings:AppResources.UsernameLabel}"
                        Text="{Binding RegistrationModel.Username, Mode=TwoWay}"
                        VerticalOptions="Center"
                        ClearButtonVisibility="WhileEditing" />
@@ -45,9 +46,9 @@
             </VerticalStackLayout>
 
             <VerticalStackLayout>
-                <Label Text="Password"
+                <Label Text="{x:Static strings:AppResources.PasswordLabel}"
                        FontSize="Small"/>
-                <Entry Placeholder="Password"
+                <Entry Placeholder="{x:Static strings:AppResources.PasswordLabel}"
                        Text="{Binding RegistrationModel.Password, Mode=TwoWay}"
                        VerticalOptions="Center"
                        ClearButtonVisibility="WhileEditing"
@@ -59,9 +60,9 @@
             </VerticalStackLayout>
 
             <VerticalStackLayout>
-                <Label Text="Confirm Password"
+                <Label Text="{x:Static strings:AppResources.ConfirmPasswordLabel}"
                        FontSize="Small"/>
-                <Entry Placeholder="Confirm Password"
+                <Entry Placeholder="{x:Static strings:AppResources.ConfirmPasswordLabel}"
                        Text="{Binding RegistrationModel.ConfirmPassword, Mode=TwoWay}"
                        VerticalOptions="Center"
                        ClearButtonVisibility="WhileEditing"
@@ -74,12 +75,12 @@
             
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
-                    Text="Submit"
+                    Text="{x:Static strings:AppResources.SubmitButton}"
                     Command="{Binding HandleRegistrationCommand}" />
             
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
-                    Text="Login"
+                    Text="{x:Static strings:AppResources.GoToLoginButton}"
                     Command="{Binding GoToLoginPageCommand}"/>
         </VerticalStackLayout>
     </Grid>
