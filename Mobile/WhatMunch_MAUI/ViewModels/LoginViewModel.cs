@@ -38,9 +38,18 @@ namespace WhatMunch_MAUI.ViewModels
                 }
 
                 IsBusy = true;
-                await _loginService.LoginUserAsync(LoginModel.ToDto());
-                await _shellService.DisplayAlert("Success", "Login was successful.", "Ok");
-                await _shellService.GoToAsync($"{nameof(DashboardPage)}");
+                var result = await _loginService.LoginUserAsync(LoginModel.ToDto());
+
+                if(result.IsSuccess)
+                {
+                    await _shellService.DisplayAlert("Success", "Login was successful.", "Ok");
+                    await _shellService.GoToAsync($"{nameof(DashboardPage)}");
+                }
+                else
+                {
+                    await _shellService.DisplayAlert("Login Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
+                }
+
             }
             catch (Exception)
             {

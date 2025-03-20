@@ -43,9 +43,17 @@ namespace WhatMunch_MAUI.ViewModels
                 }
 
                 IsBusy = true;
-                await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
-                await _shellService.DisplayAlert("Success", "Registration was successful.", "Ok");
-                await _shellService.GoToAsync($"{nameof(LoginPage)}");
+                var result = await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
+
+                if(result.IsSuccess)
+                {
+                    await _shellService.DisplayAlert("Success", "Registration was successful.", "Ok");
+                    await _shellService.GoToAsync($"{nameof(LoginPage)}");
+                }
+                else
+                {
+                    await _shellService.DisplayAlert("Registration Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
+                }
             }
             catch (Exception)
             {

@@ -1,11 +1,12 @@
 ﻿using System.Text;
 using WhatMunch_MAUI.Dtos;
+using WhatMunch_MAUI.Utility;
 
 namespace WhatMunch_MAUI.Services
 {
     public interface IRegistrationService
     {
-        Task RegisterUserAsync(RegistrationRequestDto requestDto);
+        Task<HttpResult<string>> RegisterUserAsync(RegistrationRequestDto requestDto);
     }
 
     public class RegistrationService(IHttpClientFactory clientFactory, IAuthService authService) : IRegistrationService
@@ -13,7 +14,7 @@ namespace WhatMunch_MAUI.Services
         private readonly IHttpClientFactory _clientFactory = clientFactory;
         private readonly IAuthService _authService = authService;
 
-        public async Task RegisterUserAsync(RegistrationRequestDto requestDto)
+        public async Task<HttpResult<string>> RegisterUserAsync(RegistrationRequestDto requestDto)
         {
             try
             {
@@ -24,23 +25,24 @@ namespace WhatMunch_MAUI.Services
 
                 if(response.IsSuccessStatusCode)
                 {
-                    var responseContent = await response.Content.ReadAsStringAsync();
+                    return HttpResult<string>.Success("Registration successful.");
                     //Login and get token
                 }
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Registration failed: {response.StatusCode}. {errorContent}");
+                    var error = JsonSerializer.Deserialize<ErrorMessageDto>(errorContent);
+                    return HttpResult<string>.Failure($"Registration failed: {error!.ErrorMessage}.");
                 }
 
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
-                throw new HttpRequestException("Failed to connect to the server. Please try again later.", ex);
+                return HttpResult<string>.Failure("Failed to connect to the server. Please check your internet connection.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("An unexpected error occured.", ex);
+                return HttpResult<string>.Failure("An unexpected error occurred. Please try again later.");
             }
         }
     }

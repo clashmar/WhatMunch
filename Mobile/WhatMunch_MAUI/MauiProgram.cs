@@ -16,8 +16,12 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        builder.Services.AddHttpClient("WhatMunch", client => 
-		client.BaseAddress = new Uri("http://10.0.2.2:8000/api/"));
+        builder.Services.AddHttpClient("WhatMunch", client =>
+        {
+            client.Timeout = TimeSpan.FromSeconds(10);
+            client.BaseAddress = new Uri("http://10.0.2.2:8000/api/");
+        });
+        
 
         builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
 

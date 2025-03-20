@@ -1,11 +1,13 @@
-﻿using System.Text;
+﻿using Org.Apache.Http.Protocol;
+using System.Text;
 using WhatMunch_MAUI.Dtos;
+using WhatMunch_MAUI.Utility;
 
 namespace WhatMunch_MAUI.Services
 {
     public interface ILoginService
     {
-        Task LoginUserAsync(LoginRequestDto requestDto);
+        Task<HttpResult<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto);
     }
 
     public class LoginService(IHttpClientFactory clientFactory, IAuthService authService) : ILoginService
@@ -13,7 +15,7 @@ namespace WhatMunch_MAUI.Services
         private readonly IHttpClientFactory _clientFactory = clientFactory;
         private readonly IAuthService _authService = authService;
 
-        public async Task LoginUserAsync(LoginRequestDto requestDto)
+        public async Task<HttpResult<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto)
         {
             try
             {
@@ -29,26 +31,28 @@ namespace WhatMunch_MAUI.Services
                     
                     if(deserializedData != null)
                     {
-                        var accessToken = deserializedData.AccessToken;
-                        await _authService.SaveAccessTokenAsync(accessToken);
-                        var refreshToken = deserializedData.RefreshToken;
-                        await _authService.SaveRefreshTokenAsync(refreshToken);
+                        await _authService.SaveAccessTokenAsync(deserializedData.AccessToken);
+                        await _authService.SaveRefreshTokenAsync(deserializedData.RefreshToken);
+                        return HttpResult<LoginResponseDto>.Success(deserializedData);
                     }
+
+                    return HttpResult<LoginResponseDto>.Failure("Invalid server response.");
                 }
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Login failed: {response.StatusCode}. {errorContent}");
+                    var error = JsonSerializer.Deserialize<ErrorMessageDto>(errorContent);
+                    return HttpResult<LoginResponseDto>.Failure($"Login failed: {error!.ErrorMessage}.");
                 }
 
             }
-            catch (HttpRequestException ex)
+            catch (HttpRequestException)
             {
-                throw new HttpRequestException("Failed to connect to the server. Please try again later.", ex);
+                return HttpResult<LoginResponseDto>.Failure("Failed to connect to the server. Please check your internet connection.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception("An unexpected error occured.", ex);
+                return HttpResult<LoginResponseDto>.Failure("An unexpected error occurred. Please try again later.");
             }
         }
     }

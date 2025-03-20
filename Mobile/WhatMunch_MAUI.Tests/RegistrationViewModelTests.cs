@@ -2,6 +2,7 @@
 using WhatMunch_MAUI.Dtos;
 using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.ViewModels;
 using WhatMunch_MAUI.Views;
 
@@ -31,7 +32,7 @@ namespace WhatMunch_MAUI.Tests
             _viewModel.RegistrationModel = registrationModel;
 
             _mockRegistrationService.Setup(s => s.RegisterUserAsync(It.IsAny<RegistrationRequestDto>()))
-                .Returns(Task.CompletedTask);
+                .ReturnsAsync(HttpResult<string>.Success("Success"));
 
             // Act
             await _viewModel.HandleRegistrationCommand.ExecuteAsync(null);
@@ -102,7 +103,11 @@ namespace WhatMunch_MAUI.Tests
             _viewModel.RegistrationModel = registrationModel;
 
             _mockRegistrationService.Setup(s => s.RegisterUserAsync(It.IsAny<RegistrationRequestDto>()))
-                .Returns(Task.Delay(100));
+                .Returns(async () =>
+                {
+                    await Task.Delay(100);
+                    return HttpResult<string>.Success("Success");
+                });
 
             // Act
             var registrationTask = _viewModel.HandleRegistrationCommand.ExecuteAsync(null);

@@ -2,6 +2,7 @@ using Moq;
 using WhatMunch_MAUI.Dtos;
 using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.ViewModels;
 using WhatMunch_MAUI.Views;
 
@@ -31,7 +32,7 @@ namespace WhatMunch_MAUI.Tests
             _viewModel.LoginModel = loginModel;
 
             _mockLoginService.Setup(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()))
-                .Returns(Task.CompletedTask);
+                .ReturnsAsync(HttpResult<LoginResponseDto>.Success(new LoginResponseDto()));
 
             // Act
             await _viewModel.HandleLoginCommand.ExecuteAsync(null);
@@ -84,7 +85,11 @@ namespace WhatMunch_MAUI.Tests
             _viewModel.LoginModel = loginModel;
 
             _mockLoginService.Setup(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()))
-                .Returns(Task.Delay(100));
+                .Returns(async () =>
+                {
+                    await Task.Delay(100);
+                    return HttpResult<LoginResponseDto>.Success(new LoginResponseDto());
+                });
 
             // Act
             var loginTask = _viewModel.HandleLoginCommand.ExecuteAsync(null);
