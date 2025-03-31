@@ -49,9 +49,9 @@ namespace WhatMunch_MAUI.Services
                     var responseContent = await response.Content.ReadAsStringAsync();
                     var deserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(responseContent);
 
-                    if (deserializedData != null)
+                    if (deserializedData is NearbySearchResponseDto searchResponseDto)
                     {
-                        return Result<NearbySearchResponseDto>.Success(deserializedData);
+                        return Result<NearbySearchResponseDto>.Success(searchResponseDto);
                     }
                     else
                     {

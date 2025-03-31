@@ -1,6 +1,8 @@
-﻿using WhatMunch_MAUI.Resources.Localization;
+﻿using WhatMunch_MAUI.Dtos;
+using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WhatMunch_MAUI.ViewModels
 {
@@ -27,9 +29,13 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 var result = await _googlePlacesService.GetNearbySearchResults();
 
-                if(result.IsSuccess)
+                if(result.IsSuccess && result.Value is not null)
                 {
-                    await Shell.Current.GoToAsync($"{nameof(LoginPage)}");
+                    await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
+                        new Dictionary<string, object>
+                            {
+                                { "StockPriceData", result.Value }
+                            });
                 }
                 else
                 {
