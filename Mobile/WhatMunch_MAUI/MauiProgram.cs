@@ -27,22 +27,24 @@ public static class MauiProgram
             client.BaseAddress = new Uri("https://places.googleapis.com/v1/places:searchNearby");
         });
 
-        builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
-        builder.Services.AddSingleton<ITokenService, TokenService>();
-        builder.Services.AddSingleton<IShellService, ShellService>();
-		builder.Services.AddSingleton<IRegistrationService, RegistrationService>();
-		builder.Services.AddSingleton<ILoginService, LoginService>();
-		builder.Services.AddSingleton<IGooglePlacesService, GooglePlacesService>();
-
-        builder.Services.AddSingleton<AppShell>();
-
-        builder.Services.AddSingleton<LoginViewModel>();
-        builder.Services.AddSingleton<RegistrationViewModel>();
-        builder.Services.AddSingleton<DashboardViewModel>();
-
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
+
+        builder.Services
+            .AddLogging()
+            .AddSingleton<IConnectivity>(Connectivity.Current)
+            .AddSingleton<ITokenService, TokenService>()
+            .AddSingleton<IShellService, ShellService>()
+            .AddSingleton<IRegistrationService, RegistrationService>()
+            .AddSingleton<ILoginService, LoginService>()
+            .AddSingleton<IGooglePlacesService, GooglePlacesService>()
+            .AddSingleton<AppShell>()
+            .AddSingleton<LoginViewModel>()
+            .AddSingleton<RegistrationViewModel>()
+            .AddSingleton<DashboardViewModel>();
+
+
 
 		return builder.Build();
 	}
