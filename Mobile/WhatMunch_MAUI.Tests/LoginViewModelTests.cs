@@ -32,7 +32,7 @@ namespace WhatMunch_MAUI.Tests
             _viewModel.LoginModel = loginModel;
 
             _mockLoginService.Setup(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()))
-                .ReturnsAsync(HttpResult<LoginResponseDto>.Success(new LoginResponseDto()));
+                .ReturnsAsync(Result<LoginResponseDto>.Success(new LoginResponseDto()));
 
             // Act
             await _viewModel.HandleLoginCommand.ExecuteAsync(null);
@@ -88,7 +88,7 @@ namespace WhatMunch_MAUI.Tests
                 .Returns(async () =>
                 {
                     await Task.Delay(100);
-                    return HttpResult<LoginResponseDto>.Success(new LoginResponseDto());
+                    return Result<LoginResponseDto>.Success(new LoginResponseDto());
                 });
 
             // Act
