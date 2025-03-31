@@ -24,7 +24,7 @@
         <Button Margin="0,30,0,0"
                 HeightRequest="60"
                 Text="{x:Static strings:AppResources.Search}"
-                Command="{Binding HandleLogoutCommand}" />
+                Command="{Binding HandleSearchCommand}" />
 
     </VerticalStackLayout>
 </ContentPage>

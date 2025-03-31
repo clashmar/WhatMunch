@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Text.Json.Serialization;
 using WhatMunch_MAUI.Dtos;
@@ -16,20 +15,16 @@ namespace WhatMunch_MAUI.Services
 
     public class GooglePlacesService : IGooglePlacesService
     {
-        private readonly IConfiguration _configuration;
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<GooglePlacesService> _logger;
-        private readonly string _apiKey;
+        private readonly string _apiKey = "";
 
         public GooglePlacesService(
-            IConfiguration configuration,
             IHttpClientFactory clientFactory,
             ILogger<GooglePlacesService> logger)
         {
-            _configuration = configuration;
             _clientFactory = clientFactory;
             _logger = logger;
-            _apiKey = _configuration["GoogleMapsApiKey"] ?? "";
         }
 
         public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResults()
@@ -40,6 +35,7 @@ namespace WhatMunch_MAUI.Services
 
                 client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
                 client.DefaultRequestHeaders.Add("X-Goog-FieldMask", "places.displayName");
+
                 var jsonContent = CreateNearbySearchJson();
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("", stringContent);

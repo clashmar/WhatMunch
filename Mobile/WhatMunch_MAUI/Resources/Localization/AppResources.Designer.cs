@@ -115,6 +115,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please check your internet connection..
+        /// </summary>
+        internal static string ErrorInternetConnection {
+            get {
+                return ResourceManager.GetString("ErrorInternetConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An unexpected error occurred..
         /// </summary>
         internal static string ErrorUnexpected {

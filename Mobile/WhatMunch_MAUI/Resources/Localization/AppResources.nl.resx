@@ -192,4 +192,7 @@
   <data name="Error" xml:space="preserve">
     <value />
   </data>
+  <data name="ErrorInternetConnection" xml:space="preserve">
+    <value />
+  </data>
 </root>

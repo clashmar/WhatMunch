@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
@@ -11,14 +12,14 @@ namespace WhatMunch_MAUI.ViewModels
         private readonly IGooglePlacesService _googlePlacesService;
         private readonly IShellService _shellService;
         private readonly IConnectivity _connectivity;
-        private readonly ILogger _logger;
+        private readonly ILogger<DashboardViewModel> _logger;
 
         public DashboardViewModel(
             ITokenService tokenService,
             IGooglePlacesService googlePlacesService,
             IShellService shellService,
             IConnectivity connectivity,
-            ILogger logger)
+            ILogger<DashboardViewModel> logger)
         {
             _tokenService = tokenService;
             _googlePlacesService = googlePlacesService;
@@ -32,8 +33,8 @@ namespace WhatMunch_MAUI.ViewModels
         {
             if (_connectivity.NetworkAccess != NetworkAccess.Internet)
             {
-                _logger.LogWarning("No internet connection available.");
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorCheckInternetConnection, AppResources.Ok);
+                _logger.LogWarning("No internet connection.");
+                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorInternetConnection, AppResources.Ok);
                 return; 
             }
 
@@ -46,7 +47,7 @@ namespace WhatMunch_MAUI.ViewModels
                     await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
                         new Dictionary<string, object>
                             {
-                                { "StockPriceData", result.Value }
+                                { nameof(NearbySearchResponseDto), result.Value.places }
                             });
                 }
                 else
