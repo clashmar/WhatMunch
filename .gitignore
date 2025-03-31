@@ -61,6 +61,7 @@ Release/
 # Configuration
 appsettings*.json
 secrets.json
+Secrets/
 
 # Other
 node_modules/
