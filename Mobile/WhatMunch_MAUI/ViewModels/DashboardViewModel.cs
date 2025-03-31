@@ -38,7 +38,7 @@ namespace WhatMunch_MAUI.ViewModels
             }
             catch (Exception)
             {
-                throw;
+                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorUnexpected, AppResources.Ok);
             }
         }
 
