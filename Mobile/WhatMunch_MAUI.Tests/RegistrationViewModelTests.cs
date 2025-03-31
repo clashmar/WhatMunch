@@ -32,7 +32,7 @@ namespace WhatMunch_MAUI.Tests
             _viewModel.RegistrationModel = registrationModel;
 
             _mockRegistrationService.Setup(s => s.RegisterUserAsync(It.IsAny<RegistrationRequestDto>()))
-                .ReturnsAsync(HttpResult<string>.Success("Success"));
+                .ReturnsAsync(Result<string>.Success("Success"));
 
             // Act
             await _viewModel.HandleRegistrationCommand.ExecuteAsync(null);
@@ -106,7 +106,7 @@ namespace WhatMunch_MAUI.Tests
                 .Returns(async () =>
                 {
                     await Task.Delay(100);
-                    return HttpResult<string>.Success("Success");
+                    return Result<string>.Success("Success");
                 });
 
             // Act

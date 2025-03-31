@@ -7,14 +7,14 @@ namespace WhatMunch_MAUI.Services
 {
     public interface IRegistrationService
     {
-        Task<HttpResult<string>> RegisterUserAsync(RegistrationRequestDto requestDto);
+        Task<Result<string>> RegisterUserAsync(RegistrationRequestDto requestDto);
     }
 
     public class RegistrationService(IHttpClientFactory clientFactory) : IRegistrationService
     {
         private readonly IHttpClientFactory _clientFactory = clientFactory;
 
-        public async Task<HttpResult<string>> RegisterUserAsync(RegistrationRequestDto requestDto)
+        public async Task<Result<string>> RegisterUserAsync(RegistrationRequestDto requestDto)
         {
             try
             {
@@ -25,24 +25,24 @@ namespace WhatMunch_MAUI.Services
 
                 if(response.IsSuccessStatusCode)
                 {
-                    return HttpResult<string>.Success("Registration successful.");
+                    return Result<string>.Success("Registration successful.");
                     //Login and get token
                 }
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
                     var error = JsonSerializer.Deserialize<ErrorMessageDto>(errorContent);
-                    return HttpResult<string>.Failure($"Registration failed: {error!.ErrorMessage}.");
+                    return Result<string>.Failure($"Registration failed: {error!.ErrorMessage}.");
                 }
 
             }
             catch (HttpRequestException)
             {
-                return HttpResult<string>.Failure("Failed to connect to the server. Please check your internet connection.");
+                return Result<string>.Failure("Failed to connect to the server. Please check your internet connection.");
             }
             catch (Exception)
             {
-                return HttpResult<string>.Failure("An unexpected error occurred. Please try again later.");
+                return Result<string>.Failure("An unexpected error occurred. Please try again later.");
             }
         }
     }
