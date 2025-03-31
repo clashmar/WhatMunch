@@ -21,14 +21,18 @@ public static class MauiProgram
             client.Timeout = TimeSpan.FromSeconds(10);
             client.BaseAddress = new Uri("http://10.0.2.2:8000/api/");
         });
-        
+        builder.Services.AddHttpClient("GooglePlaces", client =>
+        {
+            client.Timeout = TimeSpan.FromSeconds(10);
+            client.BaseAddress = new Uri("https://places.googleapis.com/v1/places:searchNearby");
+        });
 
         builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
-
         builder.Services.AddSingleton<ITokenService, TokenService>();
         builder.Services.AddSingleton<IShellService, ShellService>();
 		builder.Services.AddSingleton<IRegistrationService, RegistrationService>();
 		builder.Services.AddSingleton<ILoginService, LoginService>();
+		builder.Services.AddSingleton<IGooglePlacesService, GooglePlacesService>();
 
         builder.Services.AddSingleton<AppShell>();
 
