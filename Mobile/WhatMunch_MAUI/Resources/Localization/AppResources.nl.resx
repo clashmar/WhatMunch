@@ -132,8 +132,8 @@
   <data name="EmailRequiredError" xml:space="preserve">
     <value>E-mailadres is verplicht.</value>
   </data>
-  <data name="GoToLoginButton" xml:space="preserve">
-    <value>Login</value>
+  <data name="ErrorUnexpected" xml:space="preserve">
+    <value />
   </data>
   <data name="LoginWelcome" xml:space="preserve">
     <value>Welkom bij WhatMunch</value>
@@ -156,6 +156,9 @@
   <data name="RegisterWelcome" xml:space="preserve">
     <value>Registreer voor WhatMunch</value>
   </data>
+  <data name="SearchReturned" xml:space="preserve">
+    <value />
+  </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Verzend</value>
   </data>
@@ -173,5 +176,20 @@
   </data>
   <data name="UsernameRequiredError" xml:space="preserve">
     <value>Gebruikersnaam is verplicht.</value>
+  </data>
+  <data name="GoToLoginButton" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value />
   </data>
 </root>
