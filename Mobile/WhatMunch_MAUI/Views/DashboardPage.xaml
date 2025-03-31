@@ -10,6 +10,10 @@
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        
+        
+        
+        
 
         <Button Margin="0,30,0,0"
                 HeightRequest="60"
