@@ -32,6 +32,18 @@ namespace WhatMunch_MAUI.Services
 
         public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResults()
         {
+            // Mock data for development
+            var mockDeserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(MockJsonContent());
+            if (mockDeserializedData is NearbySearchResponseDto mockResponseDto)
+            {
+                return Result<NearbySearchResponseDto>.Success(mockResponseDto);
+            }
+            else
+            {
+                _logger.LogError("Failed to deserialize mock response");
+                return Result<NearbySearchResponseDto>.Failure("Failed to deserialize mock response");
+            }
+
             try
             {
                 var client = _clientFactory.CreateClient("GooglePlaces");
@@ -89,6 +101,81 @@ namespace WhatMunch_MAUI.Services
                 }
             };
             return JsonSerializer.Serialize(request);
+        }
+
+        private static string MockJsonContent()
+        {
+            return @"
+            {
+                ""places"": [
+                    {
+                        ""displayName"": { ""text"": ""La Mar Cocina San Francisco"", ""languageCode"": ""en"" },
+                        ""primaryType"": ""restaurant"",
+                        ""types"": [""seafood_restaurant"", ""restaurant"", ""food""],
+                        ""rating"": 4.5,
+                        ""userRatingCount"": 4338,
+                        ""regularOpeningHours"": { ""openNow"": true },
+                        ""photos"": [
+                            { ""name"": ""places/photo1"", ""widthPx"": 4800, ""heightPx"": 3600, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
+                        ]
+                    },
+                    {
+                        ""displayName"": { ""text"": ""Nobu SF"", ""languageCode"": ""en"" },
+                        ""primaryType"": ""restaurant"",
+                        ""types"": [""japanese_restaurant"", ""restaurant"", ""food""],
+                        ""rating"": 4.7,
+                        ""userRatingCount"": 3254,
+                        ""regularOpeningHours"": { ""openNow"": false },
+                        ""photos"": [
+                            { ""name"": ""places/photo2"", ""widthPx"": 3800, ""heightPx"": 2600, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
+                        ]
+                    },
+                    {
+                        ""displayName"": { ""text"": ""Pizzeria Delfina"", ""languageCode"": ""en"" },
+                        ""primaryType"": ""restaurant"",
+                        ""types"": [""pizza"", ""restaurant"", ""food""],
+                        ""rating"": 4.4,
+                        ""userRatingCount"": 2311,
+                        ""regularOpeningHours"": { ""openNow"": true },
+                        ""photos"": [
+                            { ""name"": ""places/photo3"", ""widthPx"": 4000, ""heightPx"": 3000, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
+                        ]
+                    },
+                    {
+                        ""displayName"": { ""text"": ""The French Laundry"", ""languageCode"": ""en"" },
+                        ""primaryType"": ""restaurant"",
+                        ""types"": [""french_restaurant"", ""restaurant"", ""food""],
+                        ""rating"": 4.9,
+                        ""userRatingCount"": 1245,
+                        ""regularOpeningHours"": { ""openNow"": false },
+                        ""photos"": [
+                            { ""name"": ""places/photo4"", ""widthPx"": 4500, ""heightPx"": 3400, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
+                        ]
+                    },
+                    {
+                        ""displayName"": { ""text"": ""Mission Chinese Food"", ""languageCode"": ""en"" },
+                        ""primaryType"": ""restaurant"",
+                        ""types"": [""chinese_restaurant"", ""restaurant"", ""food""],
+                        ""rating"": 4.3,
+                        ""userRatingCount"": 2891,
+                        ""regularOpeningHours"": { ""openNow"": true },
+                        ""photos"": [
+                            { ""name"": ""places/photo5"", ""widthPx"": 4200, ""heightPx"": 3100, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
+                        ]
+                    },
+                    {
+                        ""displayName"": { ""text"": ""Benu"", ""languageCode"": ""en"" },
+                        ""primaryType"": ""restaurant"",
+                        ""types"": [""fusion_restaurant"", ""restaurant"", ""food""],
+                        ""rating"": 4.8,
+                        ""userRatingCount"": 897,
+                        ""regularOpeningHours"": { ""openNow"": false },
+                        ""photos"": [
+                            { ""name"": ""places/photo6"", ""widthPx"": 4600, ""heightPx"": 3500, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
+                        ]
+                    }
+                ]
+            }";
         }
     }
 

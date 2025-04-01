@@ -1,0 +1,25 @@
+{
+  "places": [
+    {
+      "displayName": {
+        "text": "La Mar Cocina Peruana San Francisco",
+        "languageCode": "en"
+      },
+      "primaryType": "restaurant",
+      "types": [ "seafood_restaurant", "restaurant", "food" ],
+      "rating": 4.5,
+      "userRatingCount": 4338,
+      "regularOpeningHours": {
+        "openNow": true
+      },
+      "photos": [
+        {
+          "name": "places/ChIJURDKN2eAhYARN0AMzUEaiKo/photos/AUy1YQ1dyKSj_H7yJ7Q0XBMLz6_9IvoD8h9DkaxhguEDJoG5hZneFLGGSwQwpBSaCNtfUvPttR1BsQ0z78Bd_pMytF8ll6JSAF3wYnyx1LiJpUdEAmgfLYkGH8KamuJtAJmb1-m60496p24WthnpWduMjLrwlECP76CJD3S66dMkYWWPmcU9vU7tqQrxjXiuHcYNd0Jap_LUo5zcYV0cBM65R9LH4_QR0RUHEPDGr_8_C12xO4XvccEV2MXpD1wCPqOVZb72Fp_UZZwjvFWNbS4L23tbEo-3gd7Qo09JZEiDbdleOMtscocNtPzHAw0uLN-oVq43tM2DfVzhZbqCdVo3CLmBO53sYPg9QRSRVhkD-ZsLGJL4FFyAqtzNhHr5Hx9GYJVX9DIIhd-Nphst8Fg47_sNdC4Z2T9bpc6UzgXtDN-_qQoB",
+          "widthPx": 4800,
+          "heightPx": 3600,
+          "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"
+        }
+      ]
+    }
+  ]
+}

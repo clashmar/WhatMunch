@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using WhatMunch_MAUI.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
-using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
@@ -42,14 +40,13 @@ namespace WhatMunch_MAUI.ViewModels
             try
             {
                 var result = await _googlePlacesService.GetNearbySearchResults();
-                //Result<NearbySearchResponseDto> result = Result<NearbySearchResponseDto>.Success(MockData.MockDtos.MockSearchResponse);
 
-                if (result.IsSuccess && result.Value is not null)
+                if (result.IsSuccess && result.Data is not null)
                 {
                     await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
                         new Dictionary<string, object>
                             {
-                                { "Places", result.Value.places }
+                                { "Places", result.Data.Places }
                             });
                 }
                 else

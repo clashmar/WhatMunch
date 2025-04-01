@@ -5,7 +5,7 @@ namespace WhatMunch_MAUI.Models.Places
     public class Place
     {
         [JsonPropertyName("displayName")]
-        public required DisplayName DisplayName { get; set; }
+        public DisplayName? DisplayName { get; set; }
 
         [JsonPropertyName("primaryType")]
         public string PrimaryType { get; set; } = string.Empty;
@@ -24,6 +24,5 @@ namespace WhatMunch_MAUI.Models.Places
 
         [JsonPropertyName("photos")]
         public List<PlacePhoto> Photos { get; set; } = [];
-
     }
 }

@@ -5,9 +5,9 @@ namespace WhatMunch_MAUI.Models.Places
     public class DisplayName
     {
         [JsonPropertyName("text")]
-        public string Text { get; set; } = "";
+        public string Text { get; set; } = string.Empty;
 
         [JsonPropertyName("languageCode")]
-        public string LanguageCode { get; set; } = "";
+        public string LanguageCode { get; set; } = string.Empty;
     }
 }

@@ -6,6 +6,6 @@ namespace WhatMunch_MAUI.Dtos
     public class NearbySearchResponseDto
     {
         [JsonPropertyName("places")]
-        public ICollection<Place> places = [];
+        public List<Place> Places { get; set; } = [];
     }
 }

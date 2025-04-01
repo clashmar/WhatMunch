@@ -3,13 +3,13 @@
     public class Result<T>
     {
         public bool IsSuccess { get; }
-        public T? Value { get; }
+        public T? Data { get; }
         public string? ErrorMessage { get; }
 
         private Result(T value)
         {
             IsSuccess = true;
-            Value = value;
+            Data = value;
         }
 
         private Result(string errorMessage)
