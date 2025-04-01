@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
@@ -43,10 +45,12 @@ namespace WhatMunch_MAUI.ViewModels
 
                 if (result.IsSuccess && result.Data is not null)
                 {
+                    var places = result.Data.Places.ToObservableCollection<Place>();
+
                     await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
                         new Dictionary<string, object>
                             {
-                                { "Places", result.Data.Places }
+                                { "Places", places }
                             });
                 }
                 else

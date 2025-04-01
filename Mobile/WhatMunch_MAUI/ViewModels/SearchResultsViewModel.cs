@@ -7,7 +7,7 @@ namespace WhatMunch_MAUI.ViewModels
     public partial class SearchResultsViewModel : BaseViewModel
     {
         [ObservableProperty]
-        private List<Place> _places = [];
+        public ObservableCollection<Place>? _places;
 
         public SearchResultsViewModel()
         {

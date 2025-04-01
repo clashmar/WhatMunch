@@ -62,16 +62,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="MockData\mockPlaces.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="MockData\mockPlaces.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </EmbeddedResource>
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.3" />
