@@ -14,6 +14,7 @@ namespace WhatMunch_MAUI
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
             Routing.RegisterRoute(nameof(DashboardPage), typeof(DashboardPage));
+            Routing.RegisterRoute(nameof(SearchResultsPage), typeof(SearchResultsPage));
             _tokenService = tokenService;
             CheckAuthentication();
         }

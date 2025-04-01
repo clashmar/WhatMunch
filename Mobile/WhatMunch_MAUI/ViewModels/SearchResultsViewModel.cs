@@ -3,10 +3,11 @@ using WhatMunch_MAUI.Models.Places;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    [QueryProperty(nameof(NearbySearchResponseDto), nameof(Places))]
+    [QueryProperty("Places", nameof(Places))]
     public partial class SearchResultsViewModel : BaseViewModel
     {
-        public readonly ObservableCollection<Place> Places = [];
+        [ObservableProperty]
+        private List<Place> _places = [];
 
         public SearchResultsViewModel()
         {
@@ -15,7 +16,7 @@ namespace WhatMunch_MAUI.ViewModels
 
         public void ResetViewModel()
         {
-
+            Places.Clear();
         } 
     }
 }

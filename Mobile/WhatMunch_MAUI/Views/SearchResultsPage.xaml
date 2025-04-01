@@ -28,7 +28,7 @@
                     <Grid Padding="10">
                         <Border HeightRequest="125"
                                 StrokeShape="RoundRectangle 10,10,10,10">
-                            <Label Text="{Binding DisplayName}" />
+                            <Label Text="{Binding DisplayName.Text}" />
                         </Border>
                     </Grid>
                 </DataTemplate>

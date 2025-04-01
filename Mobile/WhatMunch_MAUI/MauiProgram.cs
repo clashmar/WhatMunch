@@ -23,7 +23,7 @@ public static class MauiProgram
         builder.Services.AddHttpClient("GooglePlaces", client =>
         {
             client.Timeout = TimeSpan.FromSeconds(10);
-            client.BaseAddress = new Uri("https://places.googleapis.com/v1/places:searchNearby");
+            client.BaseAddress = new Uri("https://places.googleapis.com/");
         });
 
 #if DEBUG

@@ -2,8 +2,8 @@
 using System.Text;
 using System.Text.Json.Serialization;
 using WhatMunch_MAUI.Dtos;
-using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Resources.Localization;
+using WhatMunch_MAUI.Secrets;
 using WhatMunch_MAUI.Utility;
 
 namespace WhatMunch_MAUI.Services
@@ -17,7 +17,7 @@ namespace WhatMunch_MAUI.Services
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<GooglePlacesService> _logger;
-        private readonly string _apiKey = "";
+        private readonly string _apiKey;
 
         public GooglePlacesService(
             IHttpClientFactory clientFactory,
@@ -25,22 +25,25 @@ namespace WhatMunch_MAUI.Services
         {
             _clientFactory = clientFactory;
             _logger = logger;
+            _apiKey = ApiKeys.GOOGLE_MAPS_API_KEY;
         }
+
+        private const string FIELD_MASK = "places.displayName,places.photos,places.primaryType,places.rating,places.userRatingCount,places.types,places.regularOpeningHours";
 
         public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResults()
         {
             try
             {
-                var client = _clientFactory.CreateClient("GooglePlaces").UpdateLanguageHeaders();
+                var client = _clientFactory.CreateClient("GooglePlaces");
 
                 client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
-                client.DefaultRequestHeaders.Add("X-Goog-FieldMask", "places.displayName");
+                client.DefaultRequestHeaders.Add("X-Goog-FieldMask", FIELD_MASK);
 
                 var jsonContent = CreateNearbySearchJson();
                 var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync("", stringContent);
+                HttpResponseMessage response = await client.PostAsync("v1/places:searchNearby", stringContent);
 
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
                     var deserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(responseContent);
@@ -68,7 +71,7 @@ namespace WhatMunch_MAUI.Services
             }
         }
 
-        private string CreateNearbySearchJson()
+        private static string CreateNearbySearchJson()
         {
             var request = new NearbySearchRequest
             {
