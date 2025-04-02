@@ -195,4 +195,7 @@
   <data name="ErrorInternetConnection" xml:space="preserve">
     <value />
   </data>
+  <data name="ErrorLocationServices" xml:space="preserve">
+    <value />
+  </data>
 </root>

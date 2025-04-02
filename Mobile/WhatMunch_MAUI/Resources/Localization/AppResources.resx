@@ -195,4 +195,7 @@
   <data name="ErrorInternetConnection" xml:space="preserve">
     <value>Please check your internet connection.</value>
   </data>
+  <data name="ErrorLocationServices" xml:space="preserve">
+    <value>Location services on this device could not be accessed.</value>
+  </data>
 </root>

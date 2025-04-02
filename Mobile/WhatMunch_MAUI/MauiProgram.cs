@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Services;
 namespace WhatMunch_MAUI;
-
 public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
@@ -33,6 +32,7 @@ public static class MauiProgram
         builder.Services
             .AddLogging()
             .AddSingleton<IConnectivity>(Connectivity.Current)
+            .AddSingleton<IGeolocation>(Geolocation.Default)
             .AddSingleton<ITokenService, TokenService>()
             .AddSingleton<IShellService, ShellService>()
             .AddSingleton<IRegistrationService, RegistrationService>()
@@ -46,11 +46,4 @@ public static class MauiProgram
 
 		return builder.Build();
 	}
-
-    //private static void AddAppSettings(this MauiAppBuilder builder)
-    //{
-    //    using Stream stream = Assembly
-    //        .GetExecutingAssembly()
-    //        .GetManifestResourceStream("WhatMunch_MAUI.appSettings.json");
-    //}
 }

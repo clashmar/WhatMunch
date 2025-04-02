@@ -1,5 +1,4 @@
-﻿using WhatMunch_MAUI.Dtos;
-using WhatMunch_MAUI.Models.Places;
+﻿using WhatMunch_MAUI.Models.Places;
 
 namespace WhatMunch_MAUI.ViewModels
 {
@@ -16,7 +15,7 @@ namespace WhatMunch_MAUI.ViewModels
 
         public void ResetViewModel()
         {
-            Places.Clear();
+            Places?.Clear();
         } 
     }
 }

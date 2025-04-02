@@ -17,42 +17,52 @@ namespace WhatMunch_MAUI.Services
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<GooglePlacesService> _logger;
+        private readonly IGeolocation _geolocation;
         private readonly string _apiKey;
 
         public GooglePlacesService(
             IHttpClientFactory clientFactory,
-            ILogger<GooglePlacesService> logger)
+            ILogger<GooglePlacesService> logger,
+            IGeolocation geolocation)
         {
             _clientFactory = clientFactory;
             _logger = logger;
             _apiKey = ApiKeys.GOOGLE_MAPS_API_KEY;
+            _geolocation = geolocation;
         }
 
-        private const string FIELD_MASK = "places.displayName,places.photos,places.primaryType,places.rating,places.userRatingCount,places.types,places.regularOpeningHours";
+        private const string FIELD_MASK = "" +
+            "places.displayName," +
+            "places.photos," +
+            "places.primaryType," +
+            "places.rating," +
+            "places.userRatingCount," +
+            "places.types," +
+            "places.regularOpeningHours";
 
         public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResults()
         {
             // Mock data for development
-            var mockDeserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(MockJsonContent());
-            if (mockDeserializedData is NearbySearchResponseDto mockResponseDto)
-            {
-                return Result<NearbySearchResponseDto>.Success(mockResponseDto);
-            }
-            else
-            {
-                _logger.LogError("Failed to deserialize mock response");
-                return Result<NearbySearchResponseDto>.Failure("Failed to deserialize mock response");
-            }
+            //var mockDeserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(MockJsonContent());
+            //if (mockDeserializedData is NearbySearchResponseDto mockResponseDto)
+            //{
+            //    return Result<NearbySearchResponseDto>.Success(mockResponseDto);
+            //}
+            //else
+            //{
+            //    _logger.LogError("Failed to deserialize mock response");
+            //    return Result<NearbySearchResponseDto>.Failure("Failed to deserialize mock response");
+            //}
 
             try
             {
-                var client = _clientFactory.CreateClient("GooglePlaces");
+                Task<string> jsonContent = CreateNearbySearchJsonAsync();
 
+                var client = _clientFactory.CreateClient("GooglePlaces");
                 client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
                 client.DefaultRequestHeaders.Add("X-Goog-FieldMask", FIELD_MASK);
 
-                var jsonContent = CreateNearbySearchJson();
-                var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+                StringContent stringContent = new(await jsonContent, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("v1/places:searchNearby", stringContent);
 
                 if (response.IsSuccessStatusCode)
@@ -76,15 +86,27 @@ namespace WhatMunch_MAUI.Services
                     return Result<NearbySearchResponseDto>.Failure($"{AppResources.SearchReturned}: {response.StatusCode}");
                 }
             }
-            catch (Exception)
+            catch (InvalidOperationException ex)
             {
-                _logger.LogError("An unexpected error occurred in GooglePlacesService");
+                _logger.LogError(ex, "Location services are unavailable");
+                return Result<NearbySearchResponseDto>.Failure(AppResources.ErrorLocationServices);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred in GooglePlacesService");
                 return Result<NearbySearchResponseDto>.Failure(AppResources.ErrorUnexpected);
             }
         }
 
-        private static string CreateNearbySearchJson()
+        private async Task<string> CreateNearbySearchJsonAsync()
         {
+            var location = (await _geolocation.GetLastKnownLocationAsync() ??
+                await _geolocation.GetLocationAsync(new GeolocationRequest
+                {
+                    DesiredAccuracy = GeolocationAccuracy.High,
+                    Timeout = TimeSpan.FromSeconds(30)
+                })) ?? throw new InvalidOperationException("Location services are disabled or unavailable.");
+
             var request = new NearbySearchRequest
             {
                 LocationRestriction = new LocationRestriction
@@ -93,8 +115,8 @@ namespace WhatMunch_MAUI.Services
                     {
                         Center = new Center
                         {
-                            Latitude = 37.7937,
-                            Longitude = -122.3965
+                            Latitude = location.Latitude,
+                            Longitude = location.Longitude,
                         },
                         Radius = 500.0
                     }

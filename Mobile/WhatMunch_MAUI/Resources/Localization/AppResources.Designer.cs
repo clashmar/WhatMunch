@@ -124,6 +124,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location services on this device could not be accessed..
+        /// </summary>
+        internal static string ErrorLocationServices {
+            get {
+                return ResourceManager.GetString("ErrorLocationServices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An unexpected error occurred..
         /// </summary>
         internal static string ErrorUnexpected {
