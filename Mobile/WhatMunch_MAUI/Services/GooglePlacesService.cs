@@ -18,17 +18,20 @@ namespace WhatMunch_MAUI.Services
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<GooglePlacesService> _logger;
         private readonly IGeolocation _geolocation;
+        private readonly IPermissionsService _permissionsService;
         private readonly string _apiKey;
 
         public GooglePlacesService(
             IHttpClientFactory clientFactory,
             ILogger<GooglePlacesService> logger,
-            IGeolocation geolocation)
+            IGeolocation geolocation,
+            IPermissionsService permissionsService)
         {
             _clientFactory = clientFactory;
             _logger = logger;
-            _apiKey = ApiKeys.GOOGLE_MAPS_API_KEY;
             _geolocation = geolocation;
+            _permissionsService = permissionsService;
+            _apiKey = ApiKeys.GOOGLE_MAPS_API_KEY;
         }
 
         private const string FIELD_MASK = "" +
@@ -100,29 +103,36 @@ namespace WhatMunch_MAUI.Services
 
         private async Task<string> CreateNearbySearchJsonAsync()
         {
-            var location = (await _geolocation.GetLastKnownLocationAsync() ??
+            if (await _permissionsService.CheckAndRequestLocationPermissionAsync())
+            {
+                var location = (await _geolocation.GetLastKnownLocationAsync() ??
                 await _geolocation.GetLocationAsync(new GeolocationRequest
                 {
                     DesiredAccuracy = GeolocationAccuracy.High,
                     Timeout = TimeSpan.FromSeconds(30)
                 })) ?? throw new InvalidOperationException("Location services are disabled or unavailable.");
 
-            var request = new NearbySearchRequest
-            {
-                LocationRestriction = new LocationRestriction
+                var request = new NearbySearchRequest
                 {
-                    Circle = new Circle
+                    LocationRestriction = new LocationRestriction
                     {
-                        Center = new Center
+                        Circle = new Circle
                         {
-                            Latitude = location.Latitude,
-                            Longitude = location.Longitude,
-                        },
-                        Radius = 500.0
+                            Center = new Center
+                            {
+                                Latitude = location.Latitude,
+                                Longitude = location.Longitude,
+                            },
+                            Radius = 500.0
+                        }
                     }
-                }
-            };
-            return JsonSerializer.Serialize(request);
+                };
+                return JsonSerializer.Serialize(request);
+            }
+            else
+            {
+                throw new InvalidOperationException("Location permission denied.");
+            }
         }
 
         private static string MockJsonContent()
