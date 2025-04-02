@@ -4,7 +4,7 @@ namespace WhatMunch_MAUI.Services
 {
     public interface ILocationService
     {
-        Task<Location?> GetLocationWithTimeout();
+        Task<Location> GetLocationWithTimeoutAsync();
     }
     public class LocationService : ILocationService
     {
@@ -19,18 +19,22 @@ namespace WhatMunch_MAUI.Services
             _logger = logger;
         }
 
-        public async Task<Location?> GetLocationWithTimeout()
+        public async Task<Location> GetLocationWithTimeoutAsync()
         {
             try
             {
                 if (await _permissionsService.CheckAndRequestLocationPermissionAsync())
                 {
-                    using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                    var lastLocation = await _geolocation.GetLastKnownLocationAsync();
 
-                    return await _geolocation.GetLocationAsync(new GeolocationRequest
-                    {
-                        DesiredAccuracy = GeolocationAccuracy.High
-                    }, cts.Token) ?? throw new InvalidOperationException("Location services are disabled or unavailable.");
+                    var location = await _geolocation.GetLastKnownLocationAsync() ??
+                        await _geolocation.GetLocationAsync(new GeolocationRequest
+                        {
+                            DesiredAccuracy = GeolocationAccuracy.Medium,
+                            Timeout = TimeSpan.FromSeconds(10)
+                        }) ?? throw new InvalidOperationException("Location services are disabled or unavailable.");
+
+                    return location;
                 }
                 else
                 {

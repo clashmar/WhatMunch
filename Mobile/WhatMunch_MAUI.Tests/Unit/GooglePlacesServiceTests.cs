@@ -9,7 +9,7 @@ namespace WhatMunch_MAUI.Tests.Unit
     {
         private readonly Mock<IHttpClientFactory> _clientFactoryMock;
         private readonly Mock<ILogger<GooglePlacesService>> _loggerMock;
-        private readonly Mock<IGeolocation> _geolocationMock;
+        private readonly Mock<ILocationService> _locationServiceMock;
         private readonly MockHttpMessageHandler _handlerMock;
         private readonly GooglePlacesService _service;
 
@@ -17,9 +17,9 @@ namespace WhatMunch_MAUI.Tests.Unit
         {
             _clientFactoryMock = new();
             _loggerMock = new();
-            _geolocationMock = new();
+            _locationServiceMock = new();
             _handlerMock = new();
-            _service = new(_clientFactoryMock.Object, _loggerMock.Object, _geolocationMock.Object);
+            _service = new(_clientFactoryMock.Object, _loggerMock.Object, _locationServiceMock.Object);
         }
 
         [Fact]
@@ -29,7 +29,7 @@ namespace WhatMunch_MAUI.Tests.Unit
             var jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MockData", "mockPlace.json");
             var mockJson = File.ReadAllText(jsonPath);
 
-            _geolocationMock.Setup(m => m.GetLastKnownLocationAsync())
+            _locationServiceMock.Setup(m => m.GetLocationWithTimeoutAsync())
                 .ReturnsAsync(new Location(37.7749, -122.4194));
 
             _handlerMock.When(

@@ -102,7 +102,7 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
-                var location = await _locationService.GetLocationWithTimeout();
+                var location = await _locationService.GetLocationWithTimeoutAsync();
 
                 var request = new NearbySearchRequest
                 {
@@ -122,10 +122,15 @@ namespace WhatMunch_MAUI.Services
                 return JsonSerializer.Serialize(request);
 
             }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "An error occurred while getting the geolocation of this device");
+                throw;
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred while creating search object");
-                return null;
+                throw;
             }
         }
 
