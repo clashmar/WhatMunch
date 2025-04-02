@@ -1,12 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.Logging;
 
 namespace WhatMunch_MAUI.Services
 {
-    class LocationService
+    public interface ILocationService
     {
+        Task<Location?> GetLocationWithTimeout();
+    }
+    public class LocationService : ILocationService
+    {
+        private readonly IGeolocation _geolocation;
+        private readonly IPermissionsService _permissionsService;
+        private readonly ILogger<LocationService> _logger;
+
+        public LocationService(IGeolocation geolocation, IPermissionsService permissionsService, ILogger<LocationService> logger)
+        {
+            _geolocation = geolocation;
+            _permissionsService = permissionsService;
+            _logger = logger;
+        }
+
+        public async Task<Location?> GetLocationWithTimeout()
+        {
+            try
+            {
+                if (await _permissionsService.CheckAndRequestLocationPermissionAsync())
+                {
+                    using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+
+                    return await _geolocation.GetLocationAsync(new GeolocationRequest
+                    {
+                        DesiredAccuracy = GeolocationAccuracy.High
+                    }, cts.Token) ?? throw new InvalidOperationException("Location services are disabled or unavailable.");
+                }
+                else
+                {
+                    _logger.LogError("Location permissions are disabled or unavailable");
+                    throw new InvalidOperationException("Location permissions are disabled or unavailable");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while getting geolocation");
+                throw;
+            }
+        }
     }
 }

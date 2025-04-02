@@ -36,6 +36,7 @@ public static class MauiProgram
             .AddSingleton<ITokenService, TokenService>()
             .AddSingleton<IShellService, ShellService>()
             .AddSingleton<IPermissionsService, PermissionsService>()
+            .AddSingleton<ILocationService, LocationService>()
             .AddSingleton<IRegistrationService, RegistrationService>()
             .AddSingleton<ILoginService, LoginService>()
             .AddSingleton<IGooglePlacesService, GooglePlacesService>()

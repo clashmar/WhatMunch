@@ -17,20 +17,17 @@ namespace WhatMunch_MAUI.Services
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly ILogger<GooglePlacesService> _logger;
-        private readonly IGeolocation _geolocation;
-        private readonly IPermissionsService _permissionsService;
+        private readonly ILocationService _locationService;
         private readonly string _apiKey;
 
         public GooglePlacesService(
             IHttpClientFactory clientFactory,
             ILogger<GooglePlacesService> logger,
-            IGeolocation geolocation,
-            IPermissionsService permissionsService)
+            ILocationService locationService)
         {
             _clientFactory = clientFactory;
             _logger = logger;
-            _geolocation = geolocation;
-            _permissionsService = permissionsService;
+            _locationService = locationService;
             _apiKey = ApiKeys.GOOGLE_MAPS_API_KEY;
         }
 
@@ -103,14 +100,9 @@ namespace WhatMunch_MAUI.Services
 
         private async Task<string> CreateNearbySearchJsonAsync()
         {
-            if (await _permissionsService.CheckAndRequestLocationPermissionAsync())
+            try
             {
-                var location = (await _geolocation.GetLastKnownLocationAsync() ??
-                await _geolocation.GetLocationAsync(new GeolocationRequest
-                {
-                    DesiredAccuracy = GeolocationAccuracy.High,
-                    Timeout = TimeSpan.FromSeconds(30)
-                })) ?? throw new InvalidOperationException("Location services are disabled or unavailable.");
+                var location = await _locationService.GetLocationWithTimeout();
 
                 var request = new NearbySearchRequest
                 {
@@ -128,10 +120,12 @@ namespace WhatMunch_MAUI.Services
                     }
                 };
                 return JsonSerializer.Serialize(request);
+
             }
-            else
+            catch (Exception ex)
             {
-                throw new InvalidOperationException("Location permission denied.");
+                _logger.LogError(ex, "An unexpected error occurred while creating search object");
+                return null;
             }
         }
 
