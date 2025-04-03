@@ -19,6 +19,9 @@ namespace WhatMunch_MAUI.Models.Places
         [JsonPropertyName("userRatingCount")]
         public int UserRatingCount { get; set; }
 
+        [JsonPropertyName("priceLevel")]
+        public PriceLevel PriceLevel { get; set; }
+
         [JsonPropertyName("regularOpeningHours")]
         public required RegularOpeningHours RegularOpeningHours { get; set; }
 

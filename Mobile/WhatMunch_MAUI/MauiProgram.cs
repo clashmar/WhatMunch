@@ -38,6 +38,7 @@ public static class MauiProgram
             .AddSingleton<ISearchService, SearchService>()
             .AddSingleton<IPermissionsService, PermissionsService>()
             .AddSingleton<ILocationService, LocationService>()
+            .AddSingleton<ISearchPreferencesService, SearchPreferencesService>()
             .AddSingleton<IRegistrationService, RegistrationService>()
             .AddSingleton<ILoginService, LoginService>()
             .AddSingleton<IGooglePlacesService, GooglePlacesService>()

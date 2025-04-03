@@ -16,17 +16,20 @@ namespace WhatMunch_MAUI.Services
         private readonly ILogger<SearchService> _logger;
         private readonly IGooglePlacesService _googlePlacesService;
         private readonly IConnectivity _connectivity;
+        private readonly ISearchPreferencesService _searchPreferencesService;
 
         public SearchService(
             IShellService shellService, 
             ILogger<SearchService> logger, 
             IGooglePlacesService googlePlacesService, 
-            IConnectivity connectivity)
+            IConnectivity connectivity,
+            ISearchPreferencesService searchPreferencesService)
         {
             _shellService = shellService;
             _logger = logger;
             _googlePlacesService = googlePlacesService;
             _connectivity = connectivity;
+            _searchPreferencesService = searchPreferencesService;
         }
 
         public async Task<ObservableCollection<Place>> GetFilteredSearchResults()
@@ -40,12 +43,14 @@ namespace WhatMunch_MAUI.Services
 
             try
             {
-                var result = await _googlePlacesService.GetNearbySearchResults();
+                var preferences = await _searchPreferencesService.GetPreferencesAsync();
+                var result = await _googlePlacesService.GetNearbySearchResults(preferences);
 
                 if (result.IsSuccess && result.Data is not null)
                 {
-                    // Filter based on user prefs
-                    return result.Data.Places.ToObservableCollection<Place>();
+                    return result.Data.Places
+                        .FilterPreferences(preferences)
+                        .ToObservableCollection<Place>();
                 }
                 else
                 {

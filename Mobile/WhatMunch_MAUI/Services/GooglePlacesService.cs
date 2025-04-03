@@ -10,7 +10,7 @@ namespace WhatMunch_MAUI.Services
 {
     public interface IGooglePlacesService
     {
-        Task<Result<NearbySearchResponseDto>> GetNearbySearchResults();
+        Task<Result<NearbySearchResponseDto>> GetNearbySearchResults(SearchPreferencesModel preferences);
     }
 
     public class GooglePlacesService : IGooglePlacesService
@@ -40,9 +40,25 @@ namespace WhatMunch_MAUI.Services
             "places.types," +
             "places.regularOpeningHours" +
             "places.goodForChildren" +
-            "places.allowsDogs";
+            "places.allowsDogs" +
+            "places.priceLevel";
 
-        public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResults()
+        private readonly HashSet<string> DEFAULT_TYPES = [
+                "restaurant",
+                "cafe",
+                "cafeteria",
+                "coffee_shop",
+                "bakery",
+                "diner",
+                "food_court",
+                "sandwich_shop",
+                "bar_and_grill",
+                "donut_shop",
+                "ice_cream_shop",
+                "dessert_shop",
+                "tea_house"];
+
+        public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResults(SearchPreferencesModel preferences)
         {
             //Mock data for development
             //var mockDeserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(MockJsonContent());
@@ -58,7 +74,7 @@ namespace WhatMunch_MAUI.Services
 
             try
             {
-                Task<string> jsonContent = CreateNearbySearchJsonAsync();
+                Task<string> jsonContent = CreateNearbySearchJsonAsync(preferences);
 
                 var client = _clientFactory.CreateClient("GooglePlaces");
                 client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
@@ -100,17 +116,21 @@ namespace WhatMunch_MAUI.Services
             }
         }
 
-        private async Task<string> CreateNearbySearchJsonAsync()
+        private async Task<string> CreateNearbySearchJsonAsync(SearchPreferencesModel preferences)
         {
             try
             {
                 var location = await _locationService.GetLocationWithTimeoutAsync();
 
+                HashSet<string> includedTypes = [];
+                if (preferences.IsVegetarian) includedTypes.Add("vegetarian_restaurant");
+                if (preferences.IsVegan) includedTypes.Add("vegan_restaurant");
+                if (!preferences.IsVegetarian && !preferences.IsVegan) includedTypes = DEFAULT_TYPES;
+
                 var request = new NearbySearchRequest
                 {
-                    // Incorporate user prefs here for request
-
-
+                    IncludedTypes = includedTypes.ToArray(),
+                    RankPreference = preferences.RankPreference,
                     LocationRestriction = new LocationRestriction
                     {
                         Circle = new Circle
@@ -122,10 +142,9 @@ namespace WhatMunch_MAUI.Services
                             },
                             Radius = 500.0
                         }
-                    }
+                    },
                 };
                 return JsonSerializer.Serialize(request);
-
             }
             catch (InvalidOperationException ex)
             {
@@ -218,26 +237,16 @@ namespace WhatMunch_MAUI.Services
     public class NearbySearchRequest
     {
         [JsonPropertyName("includedTypes")]
-        public string[] IncludedTypes { get; set; } = [
-            "restaurant",
-            "cafe",
-            "cafeteria",
-            "coffee_shop",
-            "bakery",
-            "diner",
-            "food_court",
-            "sandwich_shop",
-            "bar_and_grill",
-            "donut_shop",
-            "ice_cream_shop",
-            "dessert_shop",
-            "tea_house"];
+        public required string[] IncludedTypes { get; set; } 
 
         [JsonPropertyName("maxResultCount")]
         public int MaxResultCount { get; set; } = 10;
 
         [JsonPropertyName("locationRestriction")]
         public required LocationRestriction LocationRestriction { get; set; }
+
+        [JsonPropertyName("rankPreference")]
+        public required RankPreference RankPreference { get; set; } = RankPreference.DISTANCE;
     }
 
     public class LocationRestriction
