@@ -33,7 +33,7 @@ namespace WhatMunch_MAUI.Models.Places
         public PriceLevel PriceLevel { get; set; }
 
         [JsonPropertyName("regularOpeningHours")]
-        public required RegularOpeningHours RegularOpeningHours { get; set; }
+        public RegularOpeningHours? RegularOpeningHours { get; set; }
 
         [JsonPropertyName("photos")]
         public List<PlacePhoto> Photos { get; set; } = [];

@@ -30,7 +30,7 @@ namespace WhatMunch_MAUI.Services
                     var location = await _geolocation.GetLastKnownLocationAsync() ??
                         await _geolocation.GetLocationAsync(new GeolocationRequest
                         {
-                            DesiredAccuracy = GeolocationAccuracy.Medium,
+                            DesiredAccuracy = GeolocationAccuracy.High,
                             Timeout = TimeSpan.FromSeconds(10)
                         }) ?? throw new InvalidOperationException("Location services are disabled or unavailable.");
 

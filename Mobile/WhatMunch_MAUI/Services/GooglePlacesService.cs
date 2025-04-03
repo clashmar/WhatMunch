@@ -38,25 +38,10 @@ namespace WhatMunch_MAUI.Services
             "places.rating," +
             "places.userRatingCount," +
             "places.types," +
-            "places.regularOpeningHours" +
-            "places.goodForChildren" +
-            "places.allowsDogs" +
+            "places.regularOpeningHours," +
+            "places.goodForChildren," +
+            "places.allowsDogs," +
             "places.priceLevel";
-
-        private readonly HashSet<string> DEFAULT_TYPES = [
-                "restaurant",
-                "cafe",
-                "cafeteria",
-                "coffee_shop",
-                "bakery",
-                "diner",
-                "food_court",
-                "sandwich_shop",
-                "bar_and_grill",
-                "donut_shop",
-                "ice_cream_shop",
-                "dessert_shop",
-                "tea_house"];
 
         public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences)
         {
@@ -127,6 +112,8 @@ namespace WhatMunch_MAUI.Services
                 if (preferences.IsVegan) includedTypes.Add("vegan_restaurant");
                 if (!preferences.IsVegetarian && !preferences.IsVegan) includedTypes = DEFAULT_TYPES;
 
+                //includedTypes = ["bagel_shop"];
+
                 var request = new NearbySearchRequest
                 {
                     IncludedTypes = includedTypes.ToArray(),
@@ -157,6 +144,26 @@ namespace WhatMunch_MAUI.Services
                 throw;
             }
         }
+
+        private readonly HashSet<string> DEFAULT_TYPES = [
+            "restaurant",
+            "bagel_shop",
+            "cafe",
+            "cafeteria",
+            "coffee_shop",
+            "bakery",
+            "diner",
+            "food_court",
+            "sandwich_shop",
+            "bar_and_grill",
+            "donut_shop",
+            "tea_house",
+            "acai_shop",
+            "cat_cafe",
+            "pub",
+            "vegan_restaurant",
+            "vegetarian_restaurant",
+            "wine_bar"];
 
         private static string MockJsonContent()
         {
@@ -258,12 +265,13 @@ namespace WhatMunch_MAUI.Services
         public required string[] IncludedTypes { get; set; } 
 
         [JsonPropertyName("maxResultCount")]
-        public int MaxResultCount { get; set; } = 10;
+        public int MaxResultCount { get; set; } = 20;
 
         [JsonPropertyName("locationRestriction")]
         public required LocationRestriction LocationRestriction { get; set; }
 
         [JsonPropertyName("rankPreference")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public required RankPreference RankPreference { get; set; } = RankPreference.DISTANCE;
     }
 
@@ -279,7 +287,7 @@ namespace WhatMunch_MAUI.Services
         public required Center Center { get; set; }
 
         [JsonPropertyName("radius")]
-        public double Radius { get; set; } = 1000;
+        public double Radius { get; set; } = 500;
     }
 
     public class Center

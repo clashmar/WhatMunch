@@ -22,7 +22,7 @@ namespace WhatMunch_MAUI.Models
 
         [JsonPropertyName("radius")]
         [ObservableProperty]
-        public double _searchRadius = 800;
+        public double _searchRadius = 500;
 
         [JsonPropertyName("isVegetarian")]
         [ObservableProperty]
@@ -41,6 +41,7 @@ namespace WhatMunch_MAUI.Models
         public bool _isDogFriendly = false;
 
         [JsonPropertyName("rankPreference")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         [ObservableProperty]
         public RankPreference _rankPreference = RankPreference.DISTANCE;
 
