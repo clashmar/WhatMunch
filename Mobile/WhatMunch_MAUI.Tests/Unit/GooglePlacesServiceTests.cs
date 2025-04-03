@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using RichardSzalay.MockHttp;
+using WhatMunch_MAUI.Models;
+using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Services;
 
 namespace WhatMunch_MAUI.Tests.Unit
@@ -43,7 +45,7 @@ namespace WhatMunch_MAUI.Tests.Unit
                 });
 
             // Act
-            var result = await _service.GetNearbySearchResults();
+            var result = await _service.GetNearbySearchResultsAsync(SearchPreferencesModel.Default);
 
             // Assert
             Assert.True(result.IsSuccess);
@@ -52,7 +54,10 @@ namespace WhatMunch_MAUI.Tests.Unit
             Assert.Equal("La Mar Cocina Peruana San Francisco", result.Data.Places.First()?.DisplayName?.Text);
             Assert.Equal(4.5, result.Data.Places.First()?.Rating);
             Assert.Equal(4338, result.Data.Places.First()?.UserRatingCount);
+            Assert.Equal(PriceLevel.PRICE_LEVEL_MODERATE, result.Data.Places.First()?.PriceLevel);
             Assert.True(result.Data.Places.First()?.RegularOpeningHours.OpenNow);
+            Assert.True(result.Data.Places.First()?.GoodForChildren);
+            Assert.True(result.Data.Places.First()?.AllowsDogs);
             Assert.False(string.IsNullOrEmpty(result.Data.Places.First()?.Photos.First()?.GoogleMapsUri));
             Assert.Contains("restaurant", result.Data.Places.First()?.Types!);
         }

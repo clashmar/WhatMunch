@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+using WhatMunch_MAUI.Models.Places;
 
 namespace WhatMunch_MAUI.Models
 {
@@ -8,42 +9,38 @@ namespace WhatMunch_MAUI.Models
         POPULARITY
     }
 
-    public enum PriceLevel
-    {
-        PRICE_LEVEL_FREE,
-        PRICE_LEVEL_INEXPENSIVE,
-        PRICE_LEVEL_MODERATE,
-        PRICE_LEVEL_EXPENSIVE,
-        PRICE_LEVEL_VERY_EXPENSIVE
-    }
-
     public partial class SearchPreferencesModel : ObservableValidator
     {
-        [JsonProperty("minRating")]
+        [JsonPropertyName("minRating")]
         [ObservableProperty]
         public int _minRating = 0;
 
-        [JsonProperty("maxPriceLevel")]
+        [JsonPropertyName("maxPriceLevel")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         [ObservableProperty]
         public PriceLevel _maxPriceLevel = PriceLevel.PRICE_LEVEL_VERY_EXPENSIVE;
 
-        [JsonProperty("isVegetarian")]
+        [JsonPropertyName("radius")]
+        [ObservableProperty]
+        public double _searchRadius = 800;
+
+        [JsonPropertyName("isVegetarian")]
         [ObservableProperty]
         public bool _isVegetarian = false;
 
-        [JsonProperty("isVegan")]
+        [JsonPropertyName("isVegan")]
         [ObservableProperty]
         public bool _isVegan = false;
 
-        [JsonProperty("isChildFriendly")]
+        [JsonPropertyName("isChildFriendly")]
         [ObservableProperty]
         public bool _isChildFriendly = false;
 
-        [JsonProperty("isDogFriendly")]
+        [JsonPropertyName("isDogFriendly")]
         [ObservableProperty]
         public bool _isDogFriendly = false;
 
-        [JsonProperty("rankPreference")]
+        [JsonPropertyName("rankPreference")]
         [ObservableProperty]
         public RankPreference _rankPreference = RankPreference.DISTANCE;
 

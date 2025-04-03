@@ -2,6 +2,15 @@
 
 namespace WhatMunch_MAUI.Models.Places
 {
+    public enum PriceLevel
+    {
+        PRICE_LEVEL_FREE,
+        PRICE_LEVEL_INEXPENSIVE,
+        PRICE_LEVEL_MODERATE,
+        PRICE_LEVEL_EXPENSIVE,
+        PRICE_LEVEL_VERY_EXPENSIVE
+    }
+
     public class Place
     {
         [JsonPropertyName("displayName")]
@@ -20,6 +29,7 @@ namespace WhatMunch_MAUI.Models.Places
         public int UserRatingCount { get; set; }
 
         [JsonPropertyName("priceLevel")]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public PriceLevel PriceLevel { get; set; }
 
         [JsonPropertyName("regularOpeningHours")]

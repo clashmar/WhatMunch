@@ -10,7 +10,7 @@ namespace WhatMunch_MAUI.Services
 {
     public interface IGooglePlacesService
     {
-        Task<Result<NearbySearchResponseDto>> GetNearbySearchResults(SearchPreferencesModel preferences);
+        Task<Result<NearbySearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences);
     }
 
     public class GooglePlacesService : IGooglePlacesService
@@ -58,7 +58,7 @@ namespace WhatMunch_MAUI.Services
                 "dessert_shop",
                 "tea_house"];
 
-        public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResults(SearchPreferencesModel preferences)
+        public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences)
         {
             //Mock data for development
             //var mockDeserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(MockJsonContent());
@@ -140,7 +140,7 @@ namespace WhatMunch_MAUI.Services
                                 Latitude = location.Latitude,
                                 Longitude = location.Longitude,
                             },
-                            Radius = 500.0
+                            Radius = preferences.SearchRadius
                         }
                     },
                 };
@@ -166,68 +166,86 @@ namespace WhatMunch_MAUI.Services
                     {
                         ""displayName"": { ""text"": ""La Mar Cocina San Francisco"", ""languageCode"": ""en"" },
                         ""primaryType"": ""restaurant"",
-                        ""types"": [""seafood_restaurant"", ""restaurant"", ""food""],
+                        ""types"": [""seafood_restaurant"", ""restaurant""],
                         ""rating"": 4.5,
                         ""userRatingCount"": 4338,
+                        ""priceLevel"": ""PRICE_LEVEL_MODERATE"",
                         ""regularOpeningHours"": { ""openNow"": true },
                         ""photos"": [
                             { ""name"": ""places/photo1"", ""widthPx"": 4800, ""heightPx"": 3600, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
-                        ]
+                        ],
+                        ""goodForChildren"": true,
+                        ""allowsDogs"": false
                     },
                     {
                         ""displayName"": { ""text"": ""Nobu SF"", ""languageCode"": ""en"" },
                         ""primaryType"": ""restaurant"",
-                        ""types"": [""japanese_restaurant"", ""restaurant"", ""food""],
+                        ""types"": [""japanese_restaurant"", ""restaurant""],
                         ""rating"": 4.7,
                         ""userRatingCount"": 3254,
+                        ""priceLevel"": ""PRICE_LEVEL_EXPENSIVE"",
                         ""regularOpeningHours"": { ""openNow"": false },
                         ""photos"": [
                             { ""name"": ""places/photo2"", ""widthPx"": 3800, ""heightPx"": 2600, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
-                        ]
+                        ],
+                        ""goodForChildren"": false,
+                        ""allowsDogs"": false
                     },
                     {
                         ""displayName"": { ""text"": ""Pizzeria Delfina"", ""languageCode"": ""en"" },
                         ""primaryType"": ""restaurant"",
-                        ""types"": [""pizza"", ""restaurant"", ""food""],
+                        ""types"": [""pizza_restaurant"", ""restaurant"", ""food""],
                         ""rating"": 4.4,
                         ""userRatingCount"": 2311,
+                        ""priceLevel"": ""PRICE_LEVEL_MODERATE"",
                         ""regularOpeningHours"": { ""openNow"": true },
                         ""photos"": [
                             { ""name"": ""places/photo3"", ""widthPx"": 4000, ""heightPx"": 3000, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
-                        ]
+                        ],
+                        ""goodForChildren"": true,
+                        ""allowsDogs"": true
                     },
                     {
                         ""displayName"": { ""text"": ""The French Laundry"", ""languageCode"": ""en"" },
-                        ""primaryType"": ""restaurant"",
-                        ""types"": [""french_restaurant"", ""restaurant"", ""food""],
+                        ""primaryType"": ""cafe"",
+                        ""types"": [""french_restaurant"", ""restaurant"", ""cafe""],
                         ""rating"": 4.9,
                         ""userRatingCount"": 1245,
+                        ""priceLevel"": ""PRICE_LEVEL_EXPENSIVE"",
                         ""regularOpeningHours"": { ""openNow"": false },
                         ""photos"": [
                             { ""name"": ""places/photo4"", ""widthPx"": 4500, ""heightPx"": 3400, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
-                        ]
+                        ],
+                        ""goodForChildren"": false,
+                        ""allowsDogs"": false
                     },
                     {
                         ""displayName"": { ""text"": ""Mission Chinese Food"", ""languageCode"": ""en"" },
                         ""primaryType"": ""restaurant"",
-                        ""types"": [""chinese_restaurant"", ""restaurant"", ""food""],
+                        ""types"": [""chinese_restaurant"", ""restaurant""],
                         ""rating"": 4.3,
                         ""userRatingCount"": 2891,
+                        ""priceLevel"": ""PRICE_INEXPENSIVE"",
                         ""regularOpeningHours"": { ""openNow"": true },
                         ""photos"": [
                             { ""name"": ""places/photo5"", ""widthPx"": 4200, ""heightPx"": 3100, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
-                        ]
+                        ],
+                        ""goodForChildren"": true,
+                        ""allowsDogs"": false
                     },
                     {
                         ""displayName"": { ""text"": ""Benu"", ""languageCode"": ""en"" },
                         ""primaryType"": ""restaurant"",
-                        ""types"": [""fusion_restaurant"", ""restaurant"", ""food""],
+                        ""types"": [""fine_dining_restaurant"", ""restaurant""],
                         ""rating"": 4.8,
                         ""userRatingCount"": 897,
+                        ""priceLevel"": ""PRICE_LEVEL_VERY_EXPENSIVE"",
                         ""regularOpeningHours"": { ""openNow"": false },
                         ""photos"": [
                             { ""name"": ""places/photo6"", ""widthPx"": 4600, ""heightPx"": 3500, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
-                        ]
+                        ],
+                        ""goodForChildren"": false,
+                        ""allowsDogs"": false
                     }
                 ]
             }";

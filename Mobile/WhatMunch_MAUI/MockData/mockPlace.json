@@ -8,6 +8,7 @@
       "primaryType": "restaurant",
       "types": [ "seafood_restaurant", "restaurant", "food" ],
       "rating": 4.5,
+      "priceLevel": "PRICE_LEVEL_MODERATE",
       "userRatingCount": 4338,
       "regularOpeningHours": {
         "openNow": true
@@ -19,7 +20,9 @@
           "heightPx": 3600,
           "googleMapsUri": "https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"
         }
-      ]
+      ],
+      "goodForChildren": true,
+      "allowsDogs": true
     }
   ]
 }

@@ -2,6 +2,7 @@
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Resources.Localization;
+using WhatMunch_MAUI.Utility.Exceptions;
 
 namespace WhatMunch_MAUI.Services
 {
@@ -37,14 +38,13 @@ namespace WhatMunch_MAUI.Services
             if (_connectivity.NetworkAccess != NetworkAccess.Internet)
             {
                 _logger.LogWarning("No internet connection.");
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorInternetConnection, AppResources.Ok);
-                return [];
+                throw new ConnectivityException();
             }
 
             try
             {
                 var preferences = await _searchPreferencesService.GetPreferencesAsync();
-                var result = await _googlePlacesService.GetNearbySearchResults(preferences);
+                var result = await _googlePlacesService.GetNearbySearchResultsAsync(preferences);
 
                 if (result.IsSuccess && result.Data is not null)
                 {
@@ -54,12 +54,8 @@ namespace WhatMunch_MAUI.Services
                 }
                 else
                 {
-                    await _shellService.DisplayAlert(
-                        AppResources.Error,
-                        result.ErrorMessage ?? AppResources.ErrorUnexpected,
-                        AppResources.Ok);
-
-                    return [];
+                    _logger.LogError("Search service error: {result.ErrorMessage}", result.ErrorMessage);
+                    throw new HttpRequestException(result.ErrorMessage);
                 }
             }
             catch (Exception ex)

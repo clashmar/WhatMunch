@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Utility.Exceptions;
 using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
@@ -48,6 +49,17 @@ namespace WhatMunch_MAUI.ViewModels
                         AppResources.NoPlacesFound,
                         AppResources.Ok);
                 }
+            }
+            catch (ConnectivityException)
+            {
+                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorInternetConnection, AppResources.Ok);
+            }
+            catch (HttpRequestException ex)
+            {
+                await _shellService.DisplayAlert(
+                        AppResources.Error,
+                        ex.Message ?? AppResources.ErrorUnexpected,
+                        AppResources.Ok);
             }
             catch (Exception ex)
             {

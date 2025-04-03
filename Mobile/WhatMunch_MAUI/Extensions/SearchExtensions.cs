@@ -7,6 +7,7 @@ namespace WhatMunch_MAUI.Extensions
         public static List<Place> FilterPreferences(this List<Place> places, SearchPreferencesModel preferences)
         {
             places = places
+                .Where(p => p.RegularOpeningHours.OpenNow == true)
                 .Where(p => p.Rating >= preferences.MinRating)
                 .Where(p => p.PriceLevel <= preferences.MaxPriceLevel)
                 .ToList();
