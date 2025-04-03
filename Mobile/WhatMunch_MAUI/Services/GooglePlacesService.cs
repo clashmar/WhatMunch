@@ -72,7 +72,6 @@ namespace WhatMunch_MAUI.Services
 
                     if (deserializedData is NearbySearchResponseDto searchResponseDto)
                     {
-                        //Filter results
                         return Result<NearbySearchResponseDto>.Success(searchResponseDto);
                     }
                     else

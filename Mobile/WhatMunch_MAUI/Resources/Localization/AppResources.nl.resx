@@ -198,4 +198,7 @@
   <data name="ErrorLocationServices" xml:space="preserve">
     <value />
   </data>
+  <data name="NoPlacesFound" xml:space="preserve">
+    <value />
+  </data>
 </root>

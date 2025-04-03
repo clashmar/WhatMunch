@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using WhatMunch_MAUI.Extensions;
-using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
@@ -10,43 +8,33 @@ namespace WhatMunch_MAUI.ViewModels
     public partial class DashboardViewModel : BaseViewModel
     {
         private readonly ITokenService _tokenService;
-        private readonly IGooglePlacesService _googlePlacesService;
+        private readonly ISearchService _searchService;
         private readonly IShellService _shellService;
-        private readonly IConnectivity _connectivity;
         private readonly ILogger<DashboardViewModel> _logger;
 
         public DashboardViewModel(
             ITokenService tokenService,
-            IGooglePlacesService googlePlacesService,
+            ISearchService searchService,
             IShellService shellService,
-            IConnectivity connectivity,
             ILogger<DashboardViewModel> logger)
         {
             _tokenService = tokenService;
-            _googlePlacesService = googlePlacesService;
+            _searchService = searchService;
             _shellService = shellService;
-            _connectivity = connectivity;
             _logger = logger;
         }
 
         [RelayCommand]
         private async Task HandleSearch()
         {
-            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
-            {
-                _logger.LogWarning("No internet connection.");
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorInternetConnection, AppResources.Ok);
-                return; 
-            }
-
             try
             {
-                var result = await _googlePlacesService.GetNearbySearchResults();
+                var places = await _searchService.GetFilteredSearchResults();
 
-                if (result.IsSuccess && result.Data is not null)
+                // Loading indicator
+
+                if (places.Count > 0)
                 {
-                    var places = result.Data.Places.ToObservableCollection<Place>();
-
                     await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
                         new Dictionary<string, object>
                             {
@@ -56,14 +44,14 @@ namespace WhatMunch_MAUI.ViewModels
                 else
                 {
                     await _shellService.DisplayAlert(
-                        AppResources.Error, 
-                        result.ErrorMessage ?? AppResources.ErrorUnexpected, 
+                        AppResources.Error,
+                        AppResources.NoPlacesFound,
                         AppResources.Ok);
                 }
             }
             catch (Exception ex)
             {
-                var exception = ex;
+                _logger.LogError(ex, "An unexpected error occurred while executing search");
                 await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorUnexpected, AppResources.Ok);
             }
         }

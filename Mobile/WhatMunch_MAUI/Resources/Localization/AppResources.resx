@@ -198,4 +198,7 @@
   <data name="ErrorLocationServices" xml:space="preserve">
     <value>Location services on this device could not be accessed.</value>
   </data>
+  <data name="NoPlacesFound" xml:space="preserve">
+    <value>No places found.</value>
+  </data>
 </root>

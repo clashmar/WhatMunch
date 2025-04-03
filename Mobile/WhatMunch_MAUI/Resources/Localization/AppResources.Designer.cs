@@ -169,6 +169,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No places found..
+        /// </summary>
+        internal static string NoPlacesFound {
+            get {
+                return ResourceManager.GetString("NoPlacesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string Ok {
