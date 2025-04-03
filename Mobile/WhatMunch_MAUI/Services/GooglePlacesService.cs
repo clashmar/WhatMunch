@@ -38,7 +38,9 @@ namespace WhatMunch_MAUI.Services
             "places.rating," +
             "places.userRatingCount," +
             "places.types," +
-            "places.regularOpeningHours";
+            "places.regularOpeningHours" +
+            "places.goodForChildren" +
+            "places.allowsDogs";
 
         public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResults()
         {
@@ -106,6 +108,9 @@ namespace WhatMunch_MAUI.Services
 
                 var request = new NearbySearchRequest
                 {
+                    // Incorporate user prefs here for request
+
+
                     LocationRestriction = new LocationRestriction
                     {
                         Circle = new Circle
@@ -213,7 +218,20 @@ namespace WhatMunch_MAUI.Services
     public class NearbySearchRequest
     {
         [JsonPropertyName("includedTypes")]
-        public string[] IncludedTypes { get; set; } = ["restaurant"];
+        public string[] IncludedTypes { get; set; } = [
+            "restaurant",
+            "cafe",
+            "cafeteria",
+            "coffee_shop",
+            "bakery",
+            "diner",
+            "food_court",
+            "sandwich_shop",
+            "bar_and_grill",
+            "donut_shop",
+            "ice_cream_shop",
+            "dessert_shop",
+            "tea_house"];
 
         [JsonPropertyName("maxResultCount")]
         public int MaxResultCount { get; set; } = 10;
@@ -234,7 +252,7 @@ namespace WhatMunch_MAUI.Services
         public required Center Center { get; set; }
 
         [JsonPropertyName("radius")]
-        public double Radius { get; set; } = 800;
+        public double Radius { get; set; } = 1000;
     }
 
     public class Center

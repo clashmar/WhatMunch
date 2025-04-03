@@ -44,6 +44,7 @@ namespace WhatMunch_MAUI.Services
 
                 if (result.IsSuccess && result.Data is not null)
                 {
+                    // Filter based on user prefs
                     return result.Data.Places.ToObservableCollection<Place>();
                 }
                 else

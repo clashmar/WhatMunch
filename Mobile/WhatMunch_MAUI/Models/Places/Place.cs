@@ -24,5 +24,11 @@ namespace WhatMunch_MAUI.Models.Places
 
         [JsonPropertyName("photos")]
         public List<PlacePhoto> Photos { get; set; } = [];
+
+        [JsonPropertyName("goodForChildren")]
+        public bool GoodForChildren { get; set; }
+
+        [JsonPropertyName("allowsDogs")]
+        public bool AllowsDogs { get; set; }
     }
 }
