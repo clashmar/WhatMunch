@@ -35,6 +35,7 @@ public static class MauiProgram
             .AddSingleton<IGeolocation>(Geolocation.Default)
             .AddSingleton<ITokenService, TokenService>()
             .AddSingleton<IShellService, ShellService>()
+            .AddSingleton<ISearchService, SearchService>()
             .AddSingleton<IPermissionsService, PermissionsService>()
             .AddSingleton<ILocationService, LocationService>()
             .AddSingleton<IRegistrationService, RegistrationService>()

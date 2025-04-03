@@ -42,17 +42,17 @@ namespace WhatMunch_MAUI.Services
 
         public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResults()
         {
-            // Mock data for development
+            //Mock data for development
             //var mockDeserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(MockJsonContent());
             //if (mockDeserializedData is NearbySearchResponseDto mockResponseDto)
-            //{
-            //    return Result<NearbySearchResponseDto>.Success(mockResponseDto);
-            //}
-            //else
-            //{
-            //    _logger.LogError("Failed to deserialize mock response");
-            //    return Result<NearbySearchResponseDto>.Failure("Failed to deserialize mock response");
-            //}
+            //    {
+            //        return Result<NearbySearchResponseDto>.Success(mockResponseDto);
+            //    }
+            //    else
+            //    {
+            //        _logger.LogError("Failed to deserialize mock response");
+            //        return Result<NearbySearchResponseDto>.Failure("Failed to deserialize mock response");
+            //    }
 
             try
             {
@@ -72,6 +72,7 @@ namespace WhatMunch_MAUI.Services
 
                     if (deserializedData is NearbySearchResponseDto searchResponseDto)
                     {
+                        //Filter results
                         return Result<NearbySearchResponseDto>.Success(searchResponseDto);
                     }
                     else
