@@ -15,7 +15,7 @@ namespace WhatMunch_MAUI.Services
 
     public class TokenService : ITokenService
     {
-        private readonly string _accessTokenKey = "jwt_token";
+        public readonly string _accessTokenKey = "jwt_token";
         private readonly string _refreshTokenKey = "jwtRefreshToken";
 
         public async Task SaveAccessTokenAsync(string token)
@@ -47,6 +47,7 @@ namespace WhatMunch_MAUI.Services
         public async Task<bool> IsUserAuthenticated()
         {
             var token = await GetAccessTokenAsync();
+            var someSecureValue = Task.Run(async () => await GetAccessTokenAsync()).Result;
             return !string.IsNullOrEmpty(token);
         }
 

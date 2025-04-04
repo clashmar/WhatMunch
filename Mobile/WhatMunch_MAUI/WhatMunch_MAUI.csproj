@@ -21,7 +21,7 @@
 		<Nullable>enable</Nullable>
 
 		<!-- Display name -->
-		<ApplicationTitle>WhatMunch_MAUI</ApplicationTitle>
+		<ApplicationTitle>WhatMunch</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.whatmunch_maui</ApplicationId>
@@ -42,6 +42,10 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<UserSecretsId>bffaa3f2-78a2-4e06-9b3c-ae2bcc2c0b56</UserSecretsId>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
+	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
 	</PropertyGroup>
 
 	<ItemGroup>

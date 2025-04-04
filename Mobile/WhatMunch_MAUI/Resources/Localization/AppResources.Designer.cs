@@ -412,7 +412,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UpdatedPreferences.
+        ///   Looks up a localized string similar to Updated Preferences.
         /// </summary>
         internal static string UpdatedPreferences {
             get {

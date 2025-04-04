@@ -16,14 +16,14 @@ namespace WhatMunch_MAUI.Services
             _logger = logger;
         }
 
-        private const string PREFERENCES_KEY = "search_preferences";
+        private readonly string _preferencesKey = "search_preferences";
 
         public async Task SavePreferencesAsync(SearchPreferencesModel preferences)
         {
             try
             {
                 string json = JsonSerializer.Serialize(preferences);
-                await SecureStorage.Default.SetAsync("SEARCH_PREFERENCES", json);
+                await SecureStorage.Default.SetAsync(_preferencesKey, json);
             }
             catch (Exception ex)
             {
@@ -35,7 +35,7 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
-                string? json = await SecureStorage.Default.GetAsync(PREFERENCES_KEY);
+                string? json = await SecureStorage.Default.GetAsync(_preferencesKey);
 
                 if(string.IsNullOrEmpty(json))
                 {

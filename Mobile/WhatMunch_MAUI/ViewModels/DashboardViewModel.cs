@@ -99,5 +99,19 @@ namespace WhatMunch_MAUI.ViewModels
                 throw;
             }
         }
+
+        [RelayCommand]
+        private async Task HandleTestToken()
+        {
+            try
+            {
+                string? token = await _tokenService.GetAccessTokenAsync();
+                Debug.WriteLine(token);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
