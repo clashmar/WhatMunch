@@ -47,7 +47,6 @@ namespace WhatMunch_MAUI.Services
         public async Task<bool> IsUserAuthenticated()
         {
             var token = await GetAccessTokenAsync();
-            var someSecureValue = Task.Run(async () => await GetAccessTokenAsync()).Result;
             return !string.IsNullOrEmpty(token);
         }
 

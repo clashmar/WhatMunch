@@ -44,7 +44,6 @@ namespace WhatMunch_MAUI.Services
                     var error = JsonSerializer.Deserialize<ErrorMessageDto>(errorContent);
                     return Result<LoginResponseDto>.Failure($"Login failed: {error!.ErrorMessage}.");
                 }
-
             }
             catch (HttpRequestException)
             {
