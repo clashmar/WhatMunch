@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Text;
 using WhatMunch_MAUI.Models.Dtos;
-using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Secrets;
 using WhatMunch_MAUI.Utility;
@@ -42,7 +41,7 @@ namespace WhatMunch_MAUI.Services
             "places.regularOpeningHours," +
             "places.goodForChildren," +
             "places.allowsDogs," +
-            "places.priceLevel" +
+            "places.priceLevel," +
             "nextPageToken";
 
         // Gets the next/previous page of results from the api
@@ -123,7 +122,7 @@ namespace WhatMunch_MAUI.Services
                 var request = new TextSearchRequestDto
                 {
                     TextQuery = textQuery,
-                    LocationRestriction = new LocationRestriction
+                    LocationBias = new LocationBias
                     {
                         Circle = new Circle
                         {

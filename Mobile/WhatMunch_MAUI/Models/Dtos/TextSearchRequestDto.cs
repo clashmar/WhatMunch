@@ -11,8 +11,8 @@ namespace WhatMunch_MAUI.Models.Dtos
         [JsonPropertyName("includedType")]
         public string? IncludedType { get; set; }
 
-        [JsonPropertyName("locationRestriction")]
-        public required LocationRestriction LocationRestriction { get; set; }
+        [JsonPropertyName("locationBias")]
+        public required LocationBias LocationBias { get; set; }
 
         [JsonPropertyName("minRating")]
         public double MinRating { get; set; } = 0;
@@ -27,14 +27,14 @@ namespace WhatMunch_MAUI.Models.Dtos
         public string? PageToken { get; set; }
 
         [JsonPropertyName("priceLevels")]
-        public PriceLevel[]? PriceLevels { get; set; }
+        public string[]? PriceLevels { get; set; }
 
         [JsonPropertyName("rankPreference")]
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public required RankPreference RankPreference { get; set; } = RankPreference.DISTANCE;
     }
 
-    public class LocationRestriction
+    public class LocationBias
     {
         [JsonPropertyName("circle")]
         public required Circle Circle { get; set; } 

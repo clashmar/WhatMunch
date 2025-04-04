@@ -2,15 +2,6 @@
 
 namespace WhatMunch_MAUI.Models.Places
 {
-    public enum PriceLevel
-    {
-        PRICE_LEVEL_FREE,
-        PRICE_LEVEL_INEXPENSIVE,
-        PRICE_LEVEL_MODERATE,
-        PRICE_LEVEL_EXPENSIVE,
-        PRICE_LEVEL_VERY_EXPENSIVE
-    }
-
     public class Place
     {
         [JsonPropertyName("displayName")]

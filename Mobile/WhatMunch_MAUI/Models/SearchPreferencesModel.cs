@@ -1,9 +1,15 @@
-﻿using Microsoft.Maui.Storage;
-using System.Text.Json.Serialization;
-using WhatMunch_MAUI.Models.Places;
+﻿using System.Text.Json.Serialization;
 
 namespace WhatMunch_MAUI.Models
 {
+    public enum PriceLevel
+    {
+        PRICE_LEVEL_INEXPENSIVE,
+        PRICE_LEVEL_MODERATE,
+        PRICE_LEVEL_EXPENSIVE,
+        PRICE_LEVEL_VERY_EXPENSIVE
+    }
+
     public enum RankPreference
     {
         DISTANCE,
@@ -49,10 +55,10 @@ namespace WhatMunch_MAUI.Models
         [JsonIgnore]
         public static SearchPreferencesModel Default => new();
 
-        public PriceLevel[] GetPriceLevels()
+        public string[] GetPriceLevels()
         {
-            return Enumerable.Range((int)PriceLevel.PRICE_LEVEL_FREE, (int)MaxPriceLevel + 1)
-                             .Select(p => (PriceLevel)p)
+            return Enumerable.Range((int)PriceLevel.PRICE_LEVEL_INEXPENSIVE, (int)MaxPriceLevel + 1)
+                             .Select(p => ((PriceLevel)p).ToString())
                              .ToArray();
         }
     }
