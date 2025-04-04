@@ -9,9 +9,6 @@ namespace WhatMunch_MAUI.ViewModels
         private readonly ISearchPreferencesService _searchPreferencesService;
         private readonly ILogger<SearchPreferencesViewModel> _logger;
 
-        [ObservableProperty]
-        private SearchPreferencesModel _preferences = SearchPreferencesModel.Default;
-
         public SearchPreferencesViewModel(
             IShellService shellService, 
             ISearchPreferencesService searchPreferencesService, 
@@ -21,6 +18,11 @@ namespace WhatMunch_MAUI.ViewModels
             _searchPreferencesService = searchPreferencesService;
             _logger = logger;
         }
+
+        [ObservableProperty]
+        private SearchPreferencesModel _preferences = SearchPreferencesModel.Default;
+
+
 
         [RelayCommand]
         public async Task HandleSavePreferences()

@@ -7,6 +7,7 @@
              x:Class="WhatMunch_MAUI.Views.SearchPreferencesPage"
              Title="{x:Static strings:AppResources.SearchPreferences}"
              x:DataType="viewmodel:SearchPreferencesViewModel">
+    
     <ScrollView>
         <Grid RowSpacing="20"
               RowDefinitions="Auto,Auto,Auto,Auto"
@@ -28,8 +29,8 @@
                            HorizontalOptions="Center"/>
                     <Slider Minimum="0"
                             Maximum="3"
-                            Value="{Binding Preferences.MaxPriceLevel}" />
-                    <Label Text="{Binding Preferences.MaxPriceLevel}"
+                            Value="{Binding Preferences.MaxPriceLevel, Converter={StaticResource EnumToIntConverter}}" />
+                    <Label Text="{Binding Preferences.MaxPriceLevel, Converter={StaticResource PriceLevelToStringConverter}}"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
             </Grid>
