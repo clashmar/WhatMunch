@@ -1,5 +1,4 @@
 ﻿using WhatMunch_MAUI.Extensions;
-using WhatMunch_MAUI.Pages;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
 

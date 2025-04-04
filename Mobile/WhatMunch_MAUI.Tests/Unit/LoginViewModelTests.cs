@@ -1,12 +1,12 @@
 using Moq;
-using WhatMunch_MAUI.Dtos;
 using WhatMunch_MAUI.Models;
+using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.ViewModels;
 using WhatMunch_MAUI.Views;
 
-namespace WhatMunch_MAUI.Tests
+namespace WhatMunch_MAUI.Tests.Unit
 {
     public class LoginViewModelTests
     {

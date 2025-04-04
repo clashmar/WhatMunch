@@ -1,4 +1,4 @@
-﻿using WhatMunch_MAUI.Dtos;
+﻿using WhatMunch_MAUI.Models.Dtos;
 
 namespace WhatMunch_MAUI.Extensions
 {

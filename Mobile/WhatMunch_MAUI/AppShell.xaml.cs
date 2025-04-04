@@ -1,6 +1,5 @@
 ﻿using WhatMunch_MAUI.Views;
 using WhatMunch_MAUI.Services;
-using WhatMunch_MAUI.Pages;
 
 namespace WhatMunch_MAUI
 {
@@ -14,7 +13,9 @@ namespace WhatMunch_MAUI
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
             Routing.RegisterRoute(nameof(DashboardPage), typeof(DashboardPage));
-            _tokenService = tokenService;
+            Routing.RegisterRoute(nameof(SearchResultsPage), typeof(SearchResultsPage));
+            Routing.RegisterRoute(nameof(SearchPreferencesPage), typeof(SearchPreferencesPage));
+            _tokenService = tokenService; 
             CheckAuthentication();
         }
 
@@ -26,7 +27,8 @@ namespace WhatMunch_MAUI
 
                 if (!isAuthenticated)
                 {
-                    await GoToAsync($"{nameof(LoginPage)}");
+                    await GoToAsync($"{nameof(DashboardPage)}");
+                    //await GoToAsync($"{nameof(LoginPage)}");
                 }
                 else
                 {
@@ -38,7 +40,6 @@ namespace WhatMunch_MAUI
 
                 throw;
             }
-            
         }
     }
 }
