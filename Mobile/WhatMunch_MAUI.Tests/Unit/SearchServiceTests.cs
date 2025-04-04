@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using System.Collections.ObjectModel;
-using WhatMunch_MAUI.Dtos;
 using WhatMunch_MAUI.Models;
+using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility;
@@ -35,7 +34,7 @@ namespace WhatMunch_MAUI.Tests.Unit
         }
 
         [Fact]
-        public async Task GetFilteredSearchResults_ReturnsCorrectlyFilteredList()
+        public async Task GetSearchResponseAsync_ReturnsCorrectlData()
         {
             // Arrange
             _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
@@ -49,67 +48,17 @@ namespace WhatMunch_MAUI.Tests.Unit
             };
             _searchPreferencesServiceMock.Setup(c => c.GetPreferencesAsync()).ReturnsAsync(testPreferences);
 
-            var searchResult = Result<NearbySearchResponseDto>.Success(new NearbySearchResponseDto() { Places = MockPlacesList });
+            var searchResult = Result<TextSearchResponseDto>.Success(new TextSearchResponseDto() { Places = MockPlacesList });
             _googlePlacesServiceMock.Setup(c => c.GetNearbySearchResultsAsync(testPreferences)).ReturnsAsync(searchResult);
 
             // Act
-            var result = await _service.GetFilteredSearchResults();
+            var result = await _service.GetSearchResponseAsync();
 
             // Assert
-            Assert.Equivalent(result, MockPlacesCollection);
+            Assert.Equivalent(result.Places, MockPlacesList);
         }
 
-        private readonly ObservableCollection<Place> MockPlacesCollection = [
-        new Place()
-        {
-            DisplayName = new DisplayName { Text = "Central Park Coffee", LanguageCode = "en" },
-            PrimaryType = "cafe",
-            Types = ["cafe", "coffee_shop"],
-            Rating = 4.5,
-            UserRatingCount = 530,
-            PriceLevel = PriceLevel.PRICE_LEVEL_INEXPENSIVE,
-            RegularOpeningHours = new RegularOpeningHours { OpenNow = true },
-            GoodForChildren = true,
-            AllowsDogs = true
-        },];
-
         private readonly List<Place> MockPlacesList = [
-        new Place()
-        {
-            DisplayName = new DisplayName { Text = "Joe's Diner", LanguageCode = "en" },
-            PrimaryType = "restaurant",
-            Types = ["diner", "restaurant"],
-            Rating = 2.2,
-            UserRatingCount = 120,
-            PriceLevel = PriceLevel.PRICE_LEVEL_INEXPENSIVE,
-            RegularOpeningHours = new RegularOpeningHours { OpenNow = true },
-            GoodForChildren = true,
-            AllowsDogs = true
-        },
-        new Place()
-        {
-            DisplayName = new DisplayName { Text = "Bella Italia", LanguageCode = "en" },
-            PrimaryType = "italian_restaurant",
-            Types = ["italian_restaurant", "restaurant"],
-            Rating = 4.7,
-            UserRatingCount = 315,
-            PriceLevel = PriceLevel.PRICE_LEVEL_MODERATE,
-            RegularOpeningHours = new RegularOpeningHours { OpenNow = true },
-            GoodForChildren = true,
-            AllowsDogs = false
-        },
-        new Place()
-        {
-            DisplayName = new DisplayName { Text = "The Vegan Spot", LanguageCode = "en" },
-            PrimaryType = "vegan_restaurant",
-            Types = ["vegan_restaurant", "restaurant"],
-            Rating = 4.8,
-            UserRatingCount = 210,
-            PriceLevel = PriceLevel.PRICE_LEVEL_MODERATE,
-            RegularOpeningHours = new RegularOpeningHours { OpenNow = false },
-            GoodForChildren = false,
-            AllowsDogs = true
-        },
         new Place()
         {
             DisplayName = new DisplayName { Text = "Central Park Coffee", LanguageCode = "en" },
@@ -130,18 +79,6 @@ namespace WhatMunch_MAUI.Tests.Unit
             Rating = 4.3,
             UserRatingCount = 178,
             PriceLevel = PriceLevel.PRICE_LEVEL_VERY_EXPENSIVE,
-            RegularOpeningHours = new RegularOpeningHours { OpenNow = true },
-            GoodForChildren = true,
-            AllowsDogs = true
-        },
-        new Place()
-        {
-            DisplayName = new DisplayName { Text = "BBQ Heaven", LanguageCode = "en" },
-            PrimaryType = "bbq_restaurant",
-            Types = ["bbq_restaurant", "restaurant"],
-            Rating = 4.6,
-            UserRatingCount = 400,
-            PriceLevel = PriceLevel.PRICE_LEVEL_EXPENSIVE,
             RegularOpeningHours = new RegularOpeningHours { OpenNow = true },
             GoodForChildren = true,
             AllowsDogs = true

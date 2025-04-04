@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WhatMunch_MAUI.Dtos
+namespace WhatMunch_MAUI.Models.Dtos
 {
     public class LoginResponseDto
     {

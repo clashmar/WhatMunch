@@ -44,4 +44,33 @@ namespace WhatMunch_MAUI.Models.Places
         [JsonPropertyName("allowsDogs")]
         public bool AllowsDogs { get; set; }
     }
+
+    public class DisplayName
+    {
+        [JsonPropertyName("text")]
+        public string Text { get; set; } = string.Empty;
+
+        [JsonPropertyName("languageCode")]
+        public string LanguageCode { get; set; } = string.Empty;
+    }
+
+    public class RegularOpeningHours
+    {
+        [JsonPropertyName("openNow")]
+        public bool OpenNow { get; set; }
+    }
+    public class PlacePhoto
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
+
+        [JsonPropertyName("widthPx")]
+        public int WidthPx { get; set; }
+
+        [JsonPropertyName("heightPx")]
+        public int HeightPx { get; set; }
+
+        [JsonPropertyName("googleMapsUri")]
+        public string GoogleMapsUri { get; set; } = string.Empty;
+    }
 }

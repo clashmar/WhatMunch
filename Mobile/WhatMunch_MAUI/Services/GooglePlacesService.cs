@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Text;
-using System.Text.Json.Serialization;
-using WhatMunch_MAUI.Dtos;
+using WhatMunch_MAUI.Models.Dtos;
+using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Secrets;
 using WhatMunch_MAUI.Utility;
@@ -10,7 +10,7 @@ namespace WhatMunch_MAUI.Services
 {
     public interface IGooglePlacesService
     {
-        Task<Result<NearbySearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences);
+        Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences);
     }
 
     public class GooglePlacesService : IGooglePlacesService
@@ -31,6 +31,7 @@ namespace WhatMunch_MAUI.Services
             _apiKey = ApiKeys.GOOGLE_MAPS_API_KEY;
         }
 
+        // Specify what the api returns
         private const string FIELD_MASK = "" +
             "places.displayName," +
             "places.photos," +
@@ -41,9 +42,13 @@ namespace WhatMunch_MAUI.Services
             "places.regularOpeningHours," +
             "places.goodForChildren," +
             "places.allowsDogs," +
-            "places.priceLevel";
+            "places.priceLevel" +
+            "nextPageToken";
 
-        public async Task<Result<NearbySearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences)
+        // Gets the next/previous page of results from the api
+        public string? PageToken { get; set; }
+
+        public async Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences)
         {
             //Mock data for development
             //var mockDeserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(MockJsonContent());
@@ -66,38 +71,39 @@ namespace WhatMunch_MAUI.Services
                 client.DefaultRequestHeaders.Add("X-Goog-FieldMask", FIELD_MASK);
 
                 StringContent stringContent = new(await jsonContent, Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync("v1/places:searchNearby", stringContent);
+                HttpResponseMessage response = await client.PostAsync("v1/places:searchText", stringContent);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = await response.Content.ReadAsStringAsync();
-                    var deserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(responseContent);
+                    var deserializedData = JsonSerializer.Deserialize<TextSearchResponseDto>(responseContent);
 
-                    if (deserializedData is NearbySearchResponseDto searchResponseDto)
+                    if (deserializedData is TextSearchResponseDto searchResponseDto)
                     {
-                        return Result<NearbySearchResponseDto>.Success(searchResponseDto);
+                        return Result<TextSearchResponseDto>.Success(searchResponseDto);
                     }
                     else
                     {
                         _logger.LogError("Failed to deserialize nearby search response");
-                        return Result<NearbySearchResponseDto>.Failure(AppResources.ErrorUnexpected);
+                        return Result<TextSearchResponseDto>.Failure(AppResources.ErrorUnexpected);
                     }
                 }
                 else
                 {
+                    var responseContent = await response.Content.ReadAsStringAsync();
                     _logger.LogWarning("Nearby search returned {response.StatusCode}", response.StatusCode);
-                    return Result<NearbySearchResponseDto>.Failure($"{AppResources.SearchReturned}: {response.StatusCode}");
+                    return Result<TextSearchResponseDto>.Failure($"{response.StatusCode}: {responseContent}");
                 }
             }
             catch (InvalidOperationException ex)
             {
                 _logger.LogError(ex, "Location services are unavailable");
-                return Result<NearbySearchResponseDto>.Failure(AppResources.ErrorLocationServices);
+                return Result<TextSearchResponseDto>.Failure(AppResources.ErrorLocationServices);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred in GooglePlacesService");
-                return Result<NearbySearchResponseDto>.Failure(AppResources.ErrorUnexpected);
+                return Result<TextSearchResponseDto>.Failure(AppResources.ErrorUnexpected);
             }
         }
 
@@ -107,17 +113,16 @@ namespace WhatMunch_MAUI.Services
             {
                 var location = await _locationService.GetLocationWithTimeoutAsync();
 
-                HashSet<string> includedTypes = [];
-                if (preferences.IsVegetarian) includedTypes.Add("vegetarian_restaurant");
-                if (preferences.IsVegan) includedTypes.Add("vegan_restaurant");
-                if (!preferences.IsVegetarian && !preferences.IsVegan) includedTypes = DEFAULT_TYPES;
+                string textQuery = "Food";
 
-                //includedTypes = ["bagel_shop"];
+                if (preferences.IsVegetarian) textQuery += " Vegetarian";
+                if (preferences.IsVegan) textQuery += " Vegan";
+                if (preferences.IsChildFriendly) textQuery += " Child Friendly";
+                if (preferences.IsDogFriendly) textQuery += " Allows Dogs";
 
-                var request = new NearbySearchRequest
+                var request = new TextSearchRequestDto
                 {
-                    IncludedTypes = includedTypes.ToArray(),
-                    RankPreference = preferences.RankPreference,
+                    TextQuery = textQuery,
                     LocationRestriction = new LocationRestriction
                     {
                         Circle = new Circle
@@ -130,6 +135,11 @@ namespace WhatMunch_MAUI.Services
                             Radius = preferences.SearchRadius
                         }
                     },
+                    MinRating = preferences.MinRating,
+                    OpenNow = true,
+                    PageToken = this.PageToken,
+                    PriceLevels = preferences.GetPriceLevels(),
+                    RankPreference = preferences.RankPreference,
                 };
                 return JsonSerializer.Serialize(request);
             }
@@ -257,45 +267,5 @@ namespace WhatMunch_MAUI.Services
                 ]
             }";
         }
-    }
-
-    public class NearbySearchRequest
-    {
-        [JsonPropertyName("includedTypes")]
-        public required string[] IncludedTypes { get; set; } 
-
-        [JsonPropertyName("maxResultCount")]
-        public int MaxResultCount { get; set; } = 20;
-
-        [JsonPropertyName("locationRestriction")]
-        public required LocationRestriction LocationRestriction { get; set; }
-
-        [JsonPropertyName("rankPreference")]
-        [JsonConverter(typeof(JsonStringEnumConverter))]
-        public required RankPreference RankPreference { get; set; } = RankPreference.DISTANCE;
-    }
-
-    public class LocationRestriction
-    {
-        [JsonPropertyName("circle")]
-        public required Circle Circle { get; set; }
-    }
-
-    public class Circle
-    {
-        [JsonPropertyName("center")]
-        public required Center Center { get; set; }
-
-        [JsonPropertyName("radius")]
-        public double Radius { get; set; } = 500;
-    }
-
-    public class Center
-    {
-        [JsonPropertyName("latitude")]
-        public double Latitude { get; set; } = 37.7937;
-
-        [JsonPropertyName("longitude")]
-        public double Longitude { get; set; } = -122.3965;
     }
 }

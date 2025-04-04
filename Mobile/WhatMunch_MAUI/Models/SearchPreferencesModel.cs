@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using Microsoft.Maui.Storage;
+using System.Text.Json.Serialization;
 using WhatMunch_MAUI.Models.Places;
 
 namespace WhatMunch_MAUI.Models
@@ -6,7 +7,7 @@ namespace WhatMunch_MAUI.Models
     public enum RankPreference
     {
         DISTANCE,
-        POPULARITY
+        RELEVANCE
     }
 
     public partial class SearchPreferencesModel : ObservableValidator
@@ -22,7 +23,7 @@ namespace WhatMunch_MAUI.Models
 
         [JsonPropertyName("radius")]
         [ObservableProperty]
-        public double _searchRadius = 500;
+        public double _searchRadius = 800;
 
         [JsonPropertyName("isVegetarian")]
         [ObservableProperty]
@@ -47,5 +48,12 @@ namespace WhatMunch_MAUI.Models
 
         [JsonIgnore]
         public static SearchPreferencesModel Default => new();
+
+        public PriceLevel[] GetPriceLevels()
+        {
+            return Enumerable.Range((int)PriceLevel.PRICE_LEVEL_FREE, (int)MaxPriceLevel + 1)
+                             .Select(p => (PriceLevel)p)
+                             .ToArray();
+        }
     }
 }

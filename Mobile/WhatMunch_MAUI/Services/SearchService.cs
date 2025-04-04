@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Utility.Exceptions;
@@ -8,7 +9,7 @@ namespace WhatMunch_MAUI.Services
 {
     public interface ISearchService
     {
-        Task<ObservableCollection<Place>> GetFilteredSearchResults();
+        Task<TextSearchResponseDto> GetSearchResponseAsync();
     }
 
     public class SearchService : ISearchService
@@ -33,7 +34,7 @@ namespace WhatMunch_MAUI.Services
             _searchPreferencesService = searchPreferencesService;
         }
 
-        public async Task<ObservableCollection<Place>> GetFilteredSearchResults()
+        public async Task<TextSearchResponseDto> GetSearchResponseAsync()
         {
             if (_connectivity.NetworkAccess != NetworkAccess.Internet)
             {
@@ -48,9 +49,7 @@ namespace WhatMunch_MAUI.Services
 
                 if (result.IsSuccess && result.Data is not null)
                 {
-                    return result.Data.Places
-                        .FilterPreferences(preferences)
-                        .ToObservableCollection<Place>();
+                    return result.Data;
                 }
                 else
                 {

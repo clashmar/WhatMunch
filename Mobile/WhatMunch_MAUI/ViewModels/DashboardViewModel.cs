@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility.Exceptions;
@@ -30,16 +31,19 @@ namespace WhatMunch_MAUI.ViewModels
         {
             try
             {
-                var places = await _searchService.GetFilteredSearchResults();
+                var response = await _searchService.GetSearchResponseAsync();
 
                 // Loading indicator
 
-                if (places.Count > 0)
+                if (response.Places.Count > 0)
                 {
+                    var places = response.Places.ToObservableCollection();
+
                     await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
                         new Dictionary<string, object>
                             {
-                                { "Places", places }
+                                { "Places", places },
+                                { "PageToken", response.NextPageToken ?? string.Empty }
                             });
                 }
                 else
