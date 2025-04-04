@@ -15,11 +15,12 @@ namespace WhatMunch_MAUI.Converters
 
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (value is int intValue && targetType.IsEnum)
+            if (value is double doubleValue)
             {
-                return Enum.ToObject(targetType, intValue);
+                int intValue = (int)Math.Round(doubleValue);
+                return Enum.ToObject(typeof(PriceLevel), intValue);
             }
-            return Enum.GetValues(targetType).GetValue(0)!;
+            return PriceLevel.PRICE_LEVEL_INEXPENSIVE;
         }
     }
 }

@@ -19,7 +19,8 @@
                            HorizontalOptions="Center"/>
                     <Slider Minimum="0"
                             Maximum="4.5"
-                            Value="{Binding Preferences.MinRating}" />
+                            Value="{Binding Preferences.MinRating, Mode=TwoWay}"
+                            ValueChanged="OnMinRatingChanged"/>
                     <Label Text="{Binding Preferences.MinRating}"
                            HorizontalOptions="Center"/>
                 </VerticalStackLayout>
@@ -29,7 +30,8 @@
                            HorizontalOptions="Center"/>
                     <Slider Minimum="0"
                             Maximum="3"
-                            Value="{Binding Preferences.MaxPriceLevel, Converter={StaticResource EnumToIntConverter}}" />
+                            Value="{Binding Preferences.MaxPriceLevel, Converter={StaticResource EnumToIntConverter}, Mode=TwoWay}"
+                            ValueChanged="OnMaxPriceChanged"/>
                     <Label Text="{Binding Preferences.MaxPriceLevel, Converter={StaticResource PriceLevelToStringConverter}}"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
@@ -74,14 +76,14 @@
             <Grid Grid.Row="2"
                   ColumnDefinitions="*,*">
                 <VerticalStackLayout Grid.Column="0">
-                    <Label Text="{x:Static strings:AppResources.WithinApproximately}"
+                    <Label Text="{x:Static strings:AppResources.WithinAnApproximately}"
                            HorizontalOptions="Center"/>
-                    <Label Text="5 mins"
+                    <Label Text="{Binding Preferences.SearchRadius, Converter={StaticResource SearchRadiusToStringConverter}}"
                            HorizontalOptions="Center"/>
                     <Stepper Increment="400"
                              Minimum="400"
                              Maximum="1200"
-                             Value="{Binding Preferences.SearchRadius}"
+                             Value="{Binding Preferences.SearchRadius, Mode=TwoWay}"
                              HeightRequest="40"
                              WidthRequest="100"
                              HorizontalOptions="Center"

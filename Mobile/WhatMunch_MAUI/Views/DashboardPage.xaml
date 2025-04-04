@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
-             x:Class="WhatMunch_MAUI.Pages.DashboardPage"
+             x:Class="WhatMunch_MAUI.Views.DashboardPage"
              Title="Dashboard"
              x:DataType="viewmodel:DashboardViewModel">
     <VerticalStackLayout>

@@ -20,7 +20,7 @@ namespace WhatMunch_MAUI.Models
     {
         [JsonPropertyName("minRating")]
         [ObservableProperty]
-        public int _minRating = 0;
+        public double _minRating = 0;
 
         [JsonPropertyName("maxPriceLevel")]
         [JsonConverter(typeof(JsonStringEnumConverter))]

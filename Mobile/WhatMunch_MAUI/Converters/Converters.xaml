@@ -5,4 +5,5 @@
                     xmlns:converters="clr-namespace:WhatMunch_MAUI.Converters">
     <converters:EnumToIntConverter x:Key="EnumToIntConverter" />
     <converters:PriceLevelToStringConverter x:Key="PriceLevelToStringConverter" />
+    <converters:SearchRadiusToStringConverter x:Key="SearchRadiusToStringConverter" />
 </ResourceDictionary>

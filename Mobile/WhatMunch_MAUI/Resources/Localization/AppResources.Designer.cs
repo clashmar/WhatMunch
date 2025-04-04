@@ -61,6 +61,42 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 10 Minute Walk.
+        /// </summary>
+        internal static string _10MinWalk {
+            get {
+                return ResourceManager.GetString("10MinWalk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 15 Minute Walk.
+        /// </summary>
+        internal static string _15MinWalk {
+            get {
+                return ResourceManager.GetString("15MinWalk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 20+ Minute Walk.
+        /// </summary>
+        internal static string _20MinWalk {
+            get {
+                return ResourceManager.GetString("20MinWalk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 5 Minute Walk.
+        /// </summary>
+        internal static string _5MinWalk {
+            get {
+                return ResourceManager.GetString("5MinWalk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Child Friendly.
         /// </summary>
         internal static string ChildFriendly {
@@ -169,11 +205,29 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expensive.
+        /// </summary>
+        internal static string Expensive {
+            get {
+                return ResourceManager.GetString("Expensive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         internal static string GoToLoginButton {
             get {
                 return ResourceManager.GetString("GoToLoginButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inexpensive.
+        /// </summary>
+        internal static string Inexpensive {
+            get {
+                return ResourceManager.GetString("Inexpensive", resourceCulture);
             }
         }
         
@@ -210,6 +264,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         internal static string MinimumRating {
             get {
                 return ResourceManager.GetString("MinimumRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Moderate.
+        /// </summary>
+        internal static string Moderate {
+            get {
+                return ResourceManager.GetString("Moderate", resourceCulture);
             }
         }
         
@@ -349,6 +412,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to UpdatedPreferences.
+        /// </summary>
+        internal static string UpdatedPreferences {
+            get {
+                return ResourceManager.GetString("UpdatedPreferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Letters, digits and @/./+/-/_ only..
         /// </summary>
         internal static string UsernameFormatError {
@@ -412,11 +484,20 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Within Approximately:.
+        ///   Looks up a localized string similar to Very Expensive.
         /// </summary>
-        internal static string WithinApproximately {
+        internal static string VeryExpensive {
             get {
-                return ResourceManager.GetString("WithinApproximately", resourceCulture);
+                return ResourceManager.GetString("VeryExpensive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Within an Approximately:.
+        /// </summary>
+        internal static string WithinAnApproximately {
+            get {
+                return ResourceManager.GetString("WithinAnApproximately", resourceCulture);
             }
         }
     }

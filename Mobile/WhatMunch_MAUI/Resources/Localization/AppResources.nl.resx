@@ -222,7 +222,7 @@
   <data name="DogFriendly" xml:space="preserve">
     <value />
   </data>
-  <data name="WithinApproximately" xml:space="preserve">
+  <data name="WithinAnApproximately" xml:space="preserve">
     <value />
   </data>
   <data name="SortBy" xml:space="preserve">
@@ -235,6 +235,33 @@
     <value />
   </data>
   <data name="SavePreferences" xml:space="preserve">
+    <value />
+  </data>
+  <data name="5MinWalk" xml:space="preserve">
+    <value />
+  </data>
+  <data name="10MinWalk" xml:space="preserve">
+    <value />
+  </data>
+  <data name="15MinWalk" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Inexpensive" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Moderate" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Expensive" xml:space="preserve">
+    <value />
+  </data>
+  <data name="VeryExpensive" xml:space="preserve">
+    <value />
+  </data>
+  <data name="20MinWalk" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UpdatedPreferences" xml:space="preserve">
     <value />
   </data>
 </root>

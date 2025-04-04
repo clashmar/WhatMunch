@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Services;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using WhatMunch_MAUI.Resources.Localization;
 
 namespace WhatMunch_MAUI.ViewModels
 {
@@ -30,10 +33,28 @@ namespace WhatMunch_MAUI.ViewModels
             try
             {
                 await _searchPreferencesService.SavePreferencesAsync(Preferences);
+
+                CancellationTokenSource cancellationTokenSource = new();
+
+                string text = AppResources.UpdatedPreferences;
+                ToastDuration duration = ToastDuration.Short;
+                double fontSize = 14;
+
+                var toast = Toast.Make(text, duration, fontSize);
+
+                await toast.Show(cancellationTokenSource.Token);
             }
             catch (Exception)
             {
-                // toast alert
+                CancellationTokenSource cancellationTokenSource = new();
+
+                string text = AppResources.Error;
+                ToastDuration duration = ToastDuration.Short;
+                double fontSize = 14;
+
+                var toast = Toast.Make(text, duration, fontSize);
+
+                await toast.Show(cancellationTokenSource.Token);
             }
             
         }
