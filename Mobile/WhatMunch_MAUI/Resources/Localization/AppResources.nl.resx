@@ -201,4 +201,40 @@
   <data name="NoPlacesFound" xml:space="preserve">
     <value />
   </data>
+  <data name="SearchPreferences" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MinimumRating" xml:space="preserve">
+    <value />
+  </data>
+  <data name="MaxPriceLevel" xml:space="preserve">
+    <value />
+  </data>
+  <data name="VegetarianOptions" xml:space="preserve">
+    <value />
+  </data>
+  <data name="VeganOptions" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ChildFriendly" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DogFriendly" xml:space="preserve">
+    <value />
+  </data>
+  <data name="WithinApproximately" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Relevance" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SavePreferences" xml:space="preserve">
+    <value />
+  </data>
 </root>

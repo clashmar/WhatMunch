@@ -85,5 +85,19 @@ namespace WhatMunch_MAUI.ViewModels
                 throw;
             }
         }
+
+        [RelayCommand]
+        private async Task HandleSetPreferences()
+        {
+            try
+            {
+                _tokenService.Logout();
+                await Shell.Current.GoToAsync($"{nameof(SearchPreferencesPage)}");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

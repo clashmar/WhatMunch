@@ -112,12 +112,15 @@ namespace WhatMunch_MAUI.Services
             {
                 var location = await _locationService.GetLocationWithTimeoutAsync();
 
-                string textQuery = "Food";
+                string textQuery = "";
 
-                if (preferences.IsVegetarian) textQuery += " Vegetarian";
-                if (preferences.IsVegan) textQuery += " Vegan";
-                if (preferences.IsChildFriendly) textQuery += " Child Friendly";
-                if (preferences.IsDogFriendly) textQuery += " Allows Dogs";
+                if (preferences.IsVegetarian) textQuery += "Vegetarian ";
+                if (preferences.IsVegan) textQuery += "Vegan ";
+                if (preferences.IsChildFriendly) textQuery += "Child Friendly ";
+
+                textQuery += "Place to eat";
+
+                if (preferences.IsDogFriendly) textQuery += " that Allows Dogs";
 
                 var request = new TextSearchRequestDto
                 {
@@ -153,26 +156,6 @@ namespace WhatMunch_MAUI.Services
                 throw;
             }
         }
-
-        private readonly HashSet<string> DEFAULT_TYPES = [
-            "restaurant",
-            "bagel_shop",
-            "cafe",
-            "cafeteria",
-            "coffee_shop",
-            "bakery",
-            "diner",
-            "food_court",
-            "sandwich_shop",
-            "bar_and_grill",
-            "donut_shop",
-            "tea_house",
-            "acai_shop",
-            "cat_cafe",
-            "pub",
-            "vegan_restaurant",
-            "vegetarian_restaurant",
-            "wine_bar"];
 
         private static string MockJsonContent()
         {

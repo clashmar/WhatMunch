@@ -61,6 +61,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Child Friendly.
+        /// </summary>
+        internal static string ChildFriendly {
+            get {
+                return ResourceManager.GetString("ChildFriendly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm Password.
         /// </summary>
         internal static string ConfirmPasswordLabel {
@@ -75,6 +84,24 @@ namespace WhatMunch_MAUI.Resources.Localization {
         internal static string CreateAccountButton {
             get {
                 return ResourceManager.GetString("CreateAccountButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distance.
+        /// </summary>
+        internal static string Distance {
+            get {
+                return ResourceManager.GetString("Distance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dog Friendly.
+        /// </summary>
+        internal static string DogFriendly {
+            get {
+                return ResourceManager.GetString("DogFriendly", resourceCulture);
             }
         }
         
@@ -169,6 +196,24 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Max Price Level.
+        /// </summary>
+        internal static string MaxPriceLevel {
+            get {
+                return ResourceManager.GetString("MaxPriceLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Minimum Rating.
+        /// </summary>
+        internal static string MinimumRating {
+            get {
+                return ResourceManager.GetString("MinimumRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No places found..
         /// </summary>
         internal static string NoPlacesFound {
@@ -241,6 +286,24 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relevance.
+        /// </summary>
+        internal static string Relevance {
+            get {
+                return ResourceManager.GetString("Relevance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Preferences.
+        /// </summary>
+        internal static string SavePreferences {
+            get {
+                return ResourceManager.GetString("SavePreferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
         internal static string Search {
@@ -250,11 +313,29 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search Preferences.
+        /// </summary>
+        internal static string SearchPreferences {
+            get {
+                return ResourceManager.GetString("SearchPreferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Search returned.
         /// </summary>
         internal static string SearchReturned {
             get {
                 return ResourceManager.GetString("SearchReturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort By:.
+        /// </summary>
+        internal static string SortBy {
+            get {
+                return ResourceManager.GetString("SortBy", resourceCulture);
             }
         }
         
@@ -309,6 +390,33 @@ namespace WhatMunch_MAUI.Resources.Localization {
         internal static string UsernameRequiredError {
             get {
                 return ResourceManager.GetString("UsernameRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vegan Options.
+        /// </summary>
+        internal static string VeganOptions {
+            get {
+                return ResourceManager.GetString("VeganOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vegetarian Options.
+        /// </summary>
+        internal static string VegetarianOptions {
+            get {
+                return ResourceManager.GetString("VegetarianOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Within Approximately:.
+        /// </summary>
+        internal static string WithinApproximately {
+            get {
+                return ResourceManager.GetString("WithinApproximately", resourceCulture);
             }
         }
     }

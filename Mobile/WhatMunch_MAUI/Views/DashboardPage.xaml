@@ -22,5 +22,10 @@
                 Text="{x:Static strings:AppResources.Search}"
                 Command="{Binding HandleSearchCommand}" />
 
+        <Button Margin="0,30,0,0"
+                HeightRequest="60"
+                Text="{x:Static strings:AppResources.SearchPreferences}"
+                Command="{Binding HandleSetPreferencesCommand}" />
+
     </VerticalStackLayout>
 </ContentPage>

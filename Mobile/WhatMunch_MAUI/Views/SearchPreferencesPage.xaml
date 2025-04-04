@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
+             xmlns:models="clr-namespace:WhatMunch_MAUI.Models"
+             xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
+             x:Class="WhatMunch_MAUI.Views.SearchPreferencesPage"
+             Title="{x:Static strings:AppResources.SearchPreferences}"
+             x:DataType="viewmodel:SearchPreferencesViewModel">
+    <ScrollView>
+        <Grid RowSpacing="20"
+              RowDefinitions="Auto,Auto,Auto,Auto"
+              WidthRequest="350">
+            <Grid Grid.Row="0" 
+                  ColumnDefinitions="*,*">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Text="{x:Static strings:AppResources.MinimumRating}"
+                           HorizontalOptions="Center"/>
+                    <Slider Minimum="0"
+                            Maximum="4.5"
+                            Value="{Binding Preferences.MinRating}" />
+                    <Label Text="{Binding Preferences.MinRating}"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Text="{x:Static strings:AppResources.MaxPriceLevel}"
+                           HorizontalOptions="Center"/>
+                    <Slider Minimum="0"
+                            Maximum="3"
+                            Value="{Binding Preferences.MaxPriceLevel}" />
+                    <Label Text="{Binding Preferences.MaxPriceLevel}"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="*,*"
+                  RowDefinitions="*,*">
+                <VerticalStackLayout Grid.Row="0"
+                                     Grid.Column="0">
+                    <Label Text="{x:Static strings:AppResources.VegetarianOptions}"
+                           HorizontalOptions="Center"/>
+                    <CheckBox IsChecked="{Binding Preferences.IsVegetarian}"
+                              HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="0" 
+                                     Grid.Column="1">
+                    <Label Text="{x:Static strings:AppResources.VeganOptions}"
+                           HorizontalOptions="Center" />
+                    <CheckBox IsChecked="{Binding Preferences.IsVegan}"
+                              HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="1"
+                                     Grid.Column="0">
+                    <Label Text="{x:Static strings:AppResources.ChildFriendly}"
+                           HorizontalOptions="Center"/>
+                    <CheckBox IsChecked="{Binding Preferences.IsChildFriendly}"
+                              HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Row="1"
+                                     Grid.Column="1">
+                    <Label Text="{x:Static strings:AppResources.DogFriendly}"
+                           HorizontalOptions="Center"/>
+                    <CheckBox IsChecked="{Binding Preferences.IsDogFriendly}"
+                              HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Grid Grid.Row="2"
+                  ColumnDefinitions="*,*">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Text="{x:Static strings:AppResources.WithinApproximately}"
+                           HorizontalOptions="Center"/>
+                    <Label Text="5 mins"
+                           HorizontalOptions="Center"/>
+                    <Stepper Increment="400"
+                             Minimum="400"
+                             Maximum="1200"
+                             Value="{Binding Preferences.SearchRadius}"
+                             HeightRequest="40"
+                             WidthRequest="100"
+                             HorizontalOptions="Center"
+                             Margin="0,10,0,0"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Text="{x:Static strings:AppResources.SortBy}"
+                           HorizontalOptions="Center"/>
+                    <VerticalStackLayout RadioButtonGroup.SelectedValue="{Binding Preferences.RankPreference}"
+                                         RadioButtonGroup.GroupName="rankPreference"
+                                         HorizontalOptions="Center">
+                        <RadioButton Content="{x:Static strings:AppResources.Distance}"
+                                     Value="{x:Static models:RankPreference.DISTANCE}" />
+                        <RadioButton Content="{x:Static strings:AppResources.Relevance}"
+                                     Value="{x:Static models:RankPreference.RELEVANCE}" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Button Grid.Row="4"
+                    HeightRequest="60"
+                    Text="{x:Static strings:AppResources.SavePreferences}"
+                    Command="{Binding HandleSavePreferencesCommand}" />
+        </Grid>
+    </ScrollView>
+</ContentPage>

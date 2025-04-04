@@ -2,17 +2,17 @@ namespace WhatMunch_MAUI.Views;
 
 public partial class SearchResultsPage : ContentPage
 {
-    private readonly SearchResultsViewModel ViewModel;
+    private readonly SearchResultsViewModel _viewModel;
     public SearchResultsPage(SearchResultsViewModel viewModel)
 	{
 		InitializeComponent();
-        ViewModel = viewModel;
-        BindingContext = ViewModel;
+        _viewModel = viewModel;
+        BindingContext = _viewModel;
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        ViewModel.ResetViewModel();
+        _viewModel.ResetViewModel();
     }
 }

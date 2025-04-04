@@ -28,7 +28,7 @@ namespace WhatMunch_MAUI.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Failed to save search preferences");
-                // Add toast notification
+                throw;
             }
         }
         public async Task<SearchPreferencesModel> GetPreferencesAsync()
