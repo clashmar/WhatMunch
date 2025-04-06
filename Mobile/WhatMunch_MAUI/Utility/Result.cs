@@ -18,7 +18,13 @@
             ErrorMessage = errorMessage;
         }
 
+        private Result()
+        {
+            IsSuccess = false;
+        }
+
         public static Result<T> Success(T value) => new(value);
         public static Result<T> Failure(string errorMessage) => new(errorMessage);
+        public static Result<T> Failure() => new();
     }
 }

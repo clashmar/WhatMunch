@@ -277,6 +277,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next Page.
+        /// </summary>
+        internal static string NextPage {
+            get {
+                return ResourceManager.GetString("NextPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No places found..
         /// </summary>
         internal static string NoPlacesFound {
@@ -336,6 +345,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         internal static string PasswordRequiredError {
             get {
                 return ResourceManager.GetString("PasswordRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Previous Page.
+        /// </summary>
+        internal static string PreviousPage {
+            get {
+                return ResourceManager.GetString("PreviousPage", resourceCulture);
             }
         }
         

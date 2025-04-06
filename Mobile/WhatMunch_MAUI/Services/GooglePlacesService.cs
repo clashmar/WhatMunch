@@ -9,7 +9,7 @@ namespace WhatMunch_MAUI.Services
 {
     public interface IGooglePlacesService
     {
-        Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences);
+        Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences, string? pageToken = null);
     }
 
     public class GooglePlacesService : IGooglePlacesService
@@ -44,10 +44,7 @@ namespace WhatMunch_MAUI.Services
             "places.priceLevel," +
             "nextPageToken";
 
-        // Gets the next/previous page of results from the api
-        public string? PageToken { get; set; }
-
-        public async Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences)
+        public async Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences, string? pageToken = null)
         {
             //Mock data for development
             //var mockDeserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(MockJsonContent());
@@ -63,7 +60,7 @@ namespace WhatMunch_MAUI.Services
 
             try
             {
-                Task<string> jsonContent = CreateNearbySearchJsonAsync(preferences);
+                Task<string> jsonContent = CreateNearbySearchJsonAsync(preferences, pageToken);
 
                 var client = _clientFactory.CreateClient("GooglePlaces");
                 client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
@@ -106,7 +103,7 @@ namespace WhatMunch_MAUI.Services
             }
         }
 
-        private async Task<string> CreateNearbySearchJsonAsync(SearchPreferencesModel preferences)
+        private async Task<string> CreateNearbySearchJsonAsync(SearchPreferencesModel preferences, string? pageToken = null)
         {
             try
             {
@@ -139,7 +136,7 @@ namespace WhatMunch_MAUI.Services
                     },
                     MinRating = preferences.MinRating,
                     OpenNow = true,
-                    PageToken = this.PageToken,
+                    PageToken = pageToken,
                     PriceLevels = preferences.GetPriceLevels(),
                     RankPreference = preferences.RankPreference,
                 };

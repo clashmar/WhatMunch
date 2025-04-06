@@ -43,7 +43,7 @@ namespace WhatMunch_MAUI.ViewModels
                         new Dictionary<string, object>
                             {
                                 { "Places", places },
-                                { "PageToken", response.NextPageToken ?? string.Empty }
+                                { "NextPageToken", response.NextPageToken ?? string.Empty }
                             });
                 }
                 else

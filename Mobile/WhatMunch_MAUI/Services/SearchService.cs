@@ -9,7 +9,7 @@ namespace WhatMunch_MAUI.Services
 {
     public interface ISearchService
     {
-        Task<TextSearchResponseDto> GetSearchResponseAsync();
+        Task<TextSearchResponseDto> GetSearchResponseAsync(string? pageToken = null);
     }
 
     public class SearchService : ISearchService
@@ -34,7 +34,7 @@ namespace WhatMunch_MAUI.Services
             _searchPreferencesService = searchPreferencesService;
         }
 
-        public async Task<TextSearchResponseDto> GetSearchResponseAsync()
+        public async Task<TextSearchResponseDto> GetSearchResponseAsync(string? pageToken = null)
         {
             if (_connectivity.NetworkAccess != NetworkAccess.Internet)
             {
@@ -45,7 +45,7 @@ namespace WhatMunch_MAUI.Services
             try
             {
                 var preferences = await _searchPreferencesService.GetPreferencesAsync();
-                var result = await _googlePlacesService.GetNearbySearchResultsAsync(preferences);
+                var result = await _googlePlacesService.GetNearbySearchResultsAsync(preferences, pageToken);
 
                 if (result.IsSuccess && result.Data is not null)
                 {

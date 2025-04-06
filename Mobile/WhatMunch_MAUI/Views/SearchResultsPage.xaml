@@ -7,33 +7,59 @@
              x:Class="WhatMunch_MAUI.Views.SearchResultsPage"
              Title="SearchResultsPage"
              x:DataType="viewmodel:SearchResultsViewModel">
-    <Grid ColumnDefinitions="*, *">
-        <CollectionView Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Places}"
-                        SelectionMode="None">
-            <CollectionView.EmptyView>
-                <StackLayout VerticalOptions="Center"
-                             HorizontalOptions="Center"
-                             WidthRequest="200"
-                             HeightRequest="200">
-                    <Image Source="empty_plate.png"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           Aspect="AspectFill" />
-                </StackLayout>
-            </CollectionView.EmptyView>
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Place">
-                    <Grid Padding="10">
-                        <Border HeightRequest="125"
-                                StrokeShape="RoundRectangle 10,10,10,10">
-                            <Label Text="{Binding DisplayName.Text}" />
-                        </Border>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-            
-        </CollectionView>
-    </Grid>
+    <ScrollView>
+        <VerticalStackLayout>
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
+                               IsRunning="{Binding IsBusy}"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Center"/>
+            <Grid IsVisible="{Binding IsNotBusy}" 
+                  RowDefinitions="Auto,*">
+                <CollectionView Grid.Row="0"
+                                ItemsSource="{Binding Places}"
+                                SelectionMode="None">
+                    <CollectionView.EmptyView>
+                        <StackLayout VerticalOptions="Center"
+                                     HorizontalOptions="Center"
+                                     WidthRequest="200"
+                                     HeightRequest="200">
+                            <Image Source="empty_plate.png"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Aspect="AspectFill" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Place">
+                            <Grid Padding="10">
+                                <Border HeightRequest="125"
+                                        StrokeShape="RoundRectangle 10,10,10,10">
+                                    <Label Text="{Binding DisplayName.Text}" />
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Grid Grid.Row="1"
+                      ColumnDefinitions="*,*">
+                    <Label Text="{Binding HasNextPage}" />
+                    <Button IsVisible="{Binding HasPreviousPage}"
+                            IsEnabled="{Binding IsNotBusy}"
+                            Grid.Column="0"
+                            WidthRequest="150"
+                            HeightRequest="60"
+                            Text="{x:Static strings:AppResources.PreviousPage}"
+                            Command="{Binding HandleSearchPreviousCommand}" />
+                    <Button IsVisible="{Binding HasNextPage}"
+                            IsEnabled="{Binding HasNextPage}"
+                            Grid.Column="1"
+                            WidthRequest="150"
+                            HeightRequest="60"
+                            Text="{x:Static strings:AppResources.NextPage}"
+                            Command="{Binding HandleSearchNextCommand}" />
+                </Grid>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

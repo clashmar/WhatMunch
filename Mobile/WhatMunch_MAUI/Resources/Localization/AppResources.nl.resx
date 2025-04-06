@@ -264,4 +264,10 @@
   <data name="UpdatedPreferences" xml:space="preserve">
     <value />
   </data>
+  <data name="NextPage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="PreviousPage" xml:space="preserve">
+    <value />
+  </data>
 </root>

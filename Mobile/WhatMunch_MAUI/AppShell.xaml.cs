@@ -35,7 +35,7 @@ namespace WhatMunch_MAUI
 
                 if (!isAuthenticated)
                 {
-                    await GoToAsync($"{nameof(LoginPage)}");
+                    await GoToAsync($"{nameof(DashboardPage)}");
                 }
                 else
                 {
