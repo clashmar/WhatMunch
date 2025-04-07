@@ -7,7 +7,6 @@
              x:Class="WhatMunch_MAUI.Views.SearchResultsPage"
              Title="SearchResultsPage"
              x:DataType="viewmodel:SearchResultsViewModel">
-
     <Grid>
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
@@ -15,33 +14,36 @@
                            VerticalOptions="Center" />
         <Grid IsVisible="{Binding IsNotBusy}"
               RowDefinitions="*,Auto">
-            <CollectionView x:Name="resultsView"
-                            Grid.Row="0"
-                            ItemsSource="{Binding Places}"
-                            SelectionMode="None"
-                            ItemsUpdatingScrollMode="KeepItemsInView">
-                <CollectionView.EmptyView>
-                    <StackLayout VerticalOptions="Center"
-                                 HorizontalOptions="Center"
-                                 WidthRequest="200"
-                                 HeightRequest="200">
-                        <Image Source="empty_plate.png"
-                               HorizontalOptions="Center"
-                               VerticalOptions="Center"
-                               Aspect="AspectFill" />
-                    </StackLayout>
-                </CollectionView.EmptyView>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:Place">
-                        <Grid Padding="10">
-                            <Border HeightRequest="125"
-                                    StrokeShape="RoundRectangle 10,10,10,10">
-                                <Label Text="{Binding DisplayName.Text}" />
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <RefreshView Grid.Row="0"
+                         Command="{Binding HandleRefreshCommand}"
+                         IsRefreshing="{Binding IsRefreshing}">
+                <CollectionView x:Name="resultsView"
+                                ItemsSource="{Binding Places}"
+                                SelectionMode="None"
+                                ItemsUpdatingScrollMode="KeepItemsInView">
+                    <CollectionView.EmptyView>
+                        <StackLayout VerticalOptions="Center"
+                                     HorizontalOptions="Center"
+                                     WidthRequest="200"
+                                     HeightRequest="200">
+                            <Image Source="empty_plate.png"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   Aspect="AspectFill" />
+                        </StackLayout>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Place">
+                            <Grid Padding="10">
+                                <Border HeightRequest="125"
+                                        StrokeShape="RoundRectangle 10,10,10,10">
+                                    <Label Text="{Binding DisplayName.Text}" />
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
             <Grid Grid.Row="1"
                   ColumnDefinitions="*,*"
                   Margin="0,10,0,20">
