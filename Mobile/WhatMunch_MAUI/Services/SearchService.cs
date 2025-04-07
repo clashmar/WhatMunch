@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
-using WhatMunch_MAUI.Models.Places;
-using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Utility.Exceptions;
 
 namespace WhatMunch_MAUI.Services

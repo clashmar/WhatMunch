@@ -12,7 +12,7 @@
         private bool _isRefreshing;
 
         [ObservableProperty]
-        string? title;
+        private string? _title;
 
         public abstract void ResetViewModel();
     }

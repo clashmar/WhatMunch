@@ -16,6 +16,7 @@ namespace WhatMunch_MAUI
             Routing.RegisterRoute(nameof(DashboardPage), typeof(DashboardPage));
             Routing.RegisterRoute(nameof(SearchResultsPage), typeof(SearchResultsPage));
             Routing.RegisterRoute(nameof(SearchPreferencesPage), typeof(SearchPreferencesPage));
+            Routing.RegisterRoute(nameof(PlaceDetailsPage), typeof(PlaceDetailsPage));
         }
 
         protected override async void OnAppearing()

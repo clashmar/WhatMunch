@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
-using Microsoft.Extensions.Logging;
-using WhatMunch_MAUI.Models.Places;
+﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility;
@@ -28,9 +28,9 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [ObservableProperty]
-        private ObservableCollection<Place> _places = [];
+        private ObservableCollection<PlaceDto> _places = [];
 
-        public List<ObservableCollection<Place>> PageList = []; // First page added in code behind on appearing
+        public List<ObservableCollection<PlaceDto>> PageList = []; // First page added in code behind on appearing
 
         private int currentPageIndex = 0;
 
@@ -103,12 +103,14 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToPlaceDetails(Place place)
+        private async Task GoToPlaceDetails(PlaceDto place)
         {
+            if (place is null) return;
+
             await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
-                                { "Place", place }
+                                { "Place", place.ToModel() }
                             });
         }
 

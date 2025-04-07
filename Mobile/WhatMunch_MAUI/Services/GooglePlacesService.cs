@@ -47,16 +47,16 @@ namespace WhatMunch_MAUI.Services
         public async Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences, string? pageToken = null)
         {
             //Mock data for development
-            //var mockDeserializedData = JsonSerializer.Deserialize<NearbySearchResponseDto>(MockJsonContent());
-            //if (mockDeserializedData is NearbySearchResponseDto mockResponseDto)
-            //    {
-            //        return Result<NearbySearchResponseDto>.Success(mockResponseDto);
-            //    }
-            //    else
-            //    {
-            //        _logger.LogError("Failed to deserialize mock response");
-            //        return Result<NearbySearchResponseDto>.Failure("Failed to deserialize mock response");
-            //    }
+            var mockDeserializedData = JsonSerializer.Deserialize<TextSearchResponseDto>(MockJsonContent());
+            if (mockDeserializedData is TextSearchResponseDto mockResponseDto)
+            {
+                return Result<TextSearchResponseDto>.Success(mockResponseDto);
+            }
+            else
+            {
+                _logger.LogError("Failed to deserialize mock response");
+                return Result<TextSearchResponseDto>.Failure("Failed to deserialize mock response");
+            }
 
             try
             {
@@ -102,7 +102,6 @@ namespace WhatMunch_MAUI.Services
                 return Result<TextSearchResponseDto>.Failure(AppResources.ErrorUnexpected);
             }
         }
-
         private async Task<string> CreateNearbySearchJsonAsync(SearchPreferencesModel preferences, string? pageToken = null)
         {
             try
@@ -168,7 +167,7 @@ namespace WhatMunch_MAUI.Services
                         ""priceLevel"": ""PRICE_LEVEL_MODERATE"",
                         ""regularOpeningHours"": { ""openNow"": true },
                         ""photos"": [
-                            { ""name"": ""places/photo1"", ""widthPx"": 4800, ""heightPx"": 3600, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
+                            { ""name"": ""places/photo1"", ""widthPx"": 4800, ""heightPx"": 3600, ""googleMapsUri"": ""https://www.google.com/maps/place/Vegitalian/@52.0929051,5.1193188,2218a,13.1y/data=!3m7!1e2!3m5!1sAF1QipMdiBncYi5UR2CT3r0uyHCQCc-tZnS8ukFNWiI!2e10!3e12!7i4800!8i3200!4m7!3m6!1s0x47c66f296c94daf7:0xe8979e3183f143b3!8m2!3d52.0929051!4d5.1193188!10e5!16s%2Fg%2F11kdlnx5cj?entry=ttu&g_ep=EgoyMDI1MDQwMi4xIKXMDSoASAFQAw%3D%3D"" }
                         ],
                         ""goodForChildren"": true,
                         ""allowsDogs"": false
@@ -182,7 +181,7 @@ namespace WhatMunch_MAUI.Services
                         ""priceLevel"": ""PRICE_LEVEL_EXPENSIVE"",
                         ""regularOpeningHours"": { ""openNow"": false },
                         ""photos"": [
-                            { ""name"": ""places/photo2"", ""widthPx"": 3800, ""heightPx"": 2600, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
+                            { ""name"": ""places/photo2"", ""widthPx"": 3800, ""heightPx"": 2600, ""googleMapsUri"": ""https://www.google.com/maps/place/Vegitalian/@52.0929051,5.1193188,2218a,13.1y/data=!3m7!1e2!3m5!1sAF1QipMdiBncYi5UR2CT3r0uyHCQCc-tZnS8ukFNWiI!2e10!3e12!7i4800!8i3200!4m7!3m6!1s0x47c66f296c94daf7:0xe8979e3183f143b3!8m2!3d52.0929051!4d5.1193188!10e5!16s%2Fg%2F11kdlnx5cj?entry=ttu&g_ep=EgoyMDI1MDQwMi4xIKXMDSoASAFQAw%3D%3D"" }
                         ],
                         ""goodForChildren"": false,
                         ""allowsDogs"": false
@@ -221,7 +220,7 @@ namespace WhatMunch_MAUI.Services
                         ""types"": [""chinese_restaurant"", ""restaurant""],
                         ""rating"": 4.3,
                         ""userRatingCount"": 2891,
-                        ""priceLevel"": ""PRICE_INEXPENSIVE"",
+                        ""priceLevel"": ""PRICE_LEVEL_INEXPENSIVE"",
                         ""regularOpeningHours"": { ""openNow"": true },
                         ""photos"": [
                             { ""name"": ""places/photo5"", ""widthPx"": 4200, ""heightPx"": 3100, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }

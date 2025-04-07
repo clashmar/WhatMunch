@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace WhatMunch_MAUI.Models.Places
+namespace WhatMunch_MAUI.Models.Dtos
 {
-    public class Place
+    public class PlaceDto
     {
         [JsonPropertyName("displayName")]
         public DisplayName? DisplayName { get; set; }

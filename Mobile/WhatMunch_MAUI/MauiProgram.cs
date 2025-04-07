@@ -49,7 +49,8 @@ public static class MauiProgram
             .AddSingleton<RegistrationViewModel>()
             .AddSingleton<DashboardViewModel>()
             .AddSingleton<SearchResultsViewModel>()
-            .AddSingleton<SearchPreferencesViewModel>();
+            .AddSingleton<SearchPreferencesViewModel>()
+            .AddTransient<PlaceDetailsViewModel>();
 
 		return builder.Build();
 	}

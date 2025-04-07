@@ -9,6 +9,11 @@ public partial class PlaceDetailsPage : ContentPage
 		_viewModel = viewModel;
 		BindingContext = _viewModel;
 	}
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.Title = _viewModel.Place?.DisplayName;
+    }
     protected override void OnDisappearing()
     {
         base.OnDisappearing();

@@ -22,5 +22,23 @@ namespace WhatMunch_MAUI.Extensions
                 Password = loginModel.Password
             };
         }
+
+        public static PlaceModel ToModel(this PlaceDto placeDto)
+        {
+            return new PlaceModel()
+            {
+                DisplayName = placeDto.DisplayName?.Text ?? string.Empty,
+                PrimaryType = placeDto.PrimaryType,
+                Types = placeDto.Types,
+                Rating = placeDto.Rating,
+                UserRatingCount = placeDto.UserRatingCount,
+                PriceLevel = placeDto.PriceLevel,
+                OpenNow = placeDto.RegularOpeningHours!.OpenNow,
+                Photos = placeDto.Photos,
+                GoodForChildren = placeDto.GoodForChildren,
+                AllowsDogs = placeDto.AllowsDogs,
+                MainPhoto = placeDto.Photos.FirstOrDefault()?.GoogleMapsUri
+            };
+        }
     }
 }

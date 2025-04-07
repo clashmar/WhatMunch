@@ -4,7 +4,7 @@ namespace WhatMunch_MAUI.Extensions
 {
     public static class SearchExtensions
     {
-        public static List<Place> FilterPreferences(this List<Place> places, SearchPreferencesModel preferences)
+        public static List<PlaceDto> FilterPreferences(this List<PlaceDto> places, SearchPreferencesModel preferences)
         {
             if (preferences.IsDogFriendly)
             {

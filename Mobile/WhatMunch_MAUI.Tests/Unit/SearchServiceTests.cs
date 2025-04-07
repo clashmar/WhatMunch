@@ -58,8 +58,8 @@ namespace WhatMunch_MAUI.Tests.Unit
             Assert.Equivalent(result.Places, MockPlacesList);
         }
 
-        private readonly List<Place> MockPlacesList = [
-        new Place()
+        private readonly List<PlaceDto> MockPlacesList = [
+        new PlaceDto()
         {
             DisplayName = new DisplayName { Text = "Central Park Coffee", LanguageCode = "en" },
             PrimaryType = "cafe",
@@ -71,7 +71,7 @@ namespace WhatMunch_MAUI.Tests.Unit
             GoodForChildren = true,
             AllowsDogs = true
         },
-        new Place()
+        new PlaceDto()
         {
             DisplayName = new DisplayName { Text = "Sushi Express", LanguageCode = "ja" },
             PrimaryType = "sushi_restaurant",
