@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.Utility.Exceptions;
+using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
@@ -102,6 +102,16 @@ namespace WhatMunch_MAUI.ViewModels
             OnPropertyChanged(nameof(HasNextPage));
         }
 
+        [RelayCommand]
+        private async Task GoToPlaceDetails(Place place)
+        {
+            await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
+                        new Dictionary<string, object>
+                        {
+                                { "Place", place }
+                            });
+        }
+
         private async Task<Result<string?>> Search(string? pageToken = null)
         {
             try
@@ -166,7 +176,7 @@ namespace WhatMunch_MAUI.ViewModels
             currentPageIndex = 0;
         }
 
-        public void ResetViewModel()
+        public override void ResetViewModel()
         {
             Places?.Clear();
             PageList.Clear();

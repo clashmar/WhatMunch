@@ -58,7 +58,6 @@ namespace WhatMunch_MAUI.ViewModels
             }
             
         }
-
         public async void LoadPreferencesAsync()
         {
             try
@@ -74,6 +73,10 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 IsBusy = false;
             }
+        }
+        public override void ResetViewModel()
+        {
+            throw new NotImplementedException();
         }
     }
 }

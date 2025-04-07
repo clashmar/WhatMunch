@@ -60,7 +60,7 @@ namespace WhatMunch_MAUI.ViewModels
             }
         }
 
-        public void ResetViewModel()
+        public override void ResetViewModel()
         {
             LoginModel = new LoginModel();
             IsBusy = false;

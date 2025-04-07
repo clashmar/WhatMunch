@@ -113,5 +113,10 @@ namespace WhatMunch_MAUI.ViewModels
                 throw;
             }
         }
+
+        public override void ResetViewModel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

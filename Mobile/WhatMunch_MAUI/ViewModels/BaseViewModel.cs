@@ -1,6 +1,6 @@
 ﻿namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class BaseViewModel : ObservableObject
+    public abstract partial class BaseViewModel : ObservableObject
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsNotBusy))]
@@ -13,5 +13,7 @@
 
         [ObservableProperty]
         string? title;
+
+        public abstract void ResetViewModel();
     }
 }
