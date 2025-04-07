@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using WhatMunch_MAUI.Models.Places;
 
 namespace WhatMunch_MAUI.Models.Dtos
 {

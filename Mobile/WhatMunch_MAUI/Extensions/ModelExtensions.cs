@@ -1,4 +1,5 @@
 ﻿using WhatMunch_MAUI.Models.Dtos;
+using WhatMunch_MAUI.Secrets;
 
 namespace WhatMunch_MAUI.Extensions
 {
@@ -25,6 +26,10 @@ namespace WhatMunch_MAUI.Extensions
 
         public static PlaceModel ToModel(this PlaceDto placeDto)
         {
+            var reference = placeDto.Photos.FirstOrDefault()?.Name ?? string.Empty;
+            var key = ApiKeys.GOOGLE_MAPS_API_KEY;
+            var mainPhoto = $"https://places.googleapis.com/v1/{reference}/media?maxWidthPx=400&key={key}";
+
             return new PlaceModel()
             {
                 DisplayName = placeDto.DisplayName?.Text ?? string.Empty,
@@ -37,7 +42,7 @@ namespace WhatMunch_MAUI.Extensions
                 Photos = placeDto.Photos,
                 GoodForChildren = placeDto.GoodForChildren,
                 AllowsDogs = placeDto.AllowsDogs,
-                MainPhoto = placeDto.Photos.FirstOrDefault()?.GoogleMapsUri
+                MainPhoto = mainPhoto,
             };
         }
     }
