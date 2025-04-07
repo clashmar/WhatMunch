@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Resources.Localization;
@@ -27,23 +28,19 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [ObservableProperty]
-        public ObservableCollection<Place> _places = [];
+        private ObservableCollection<Place> _places = [];
 
-        public List<ObservableCollection<Place>> PageList = []; // First place added in code behind
+        public List<ObservableCollection<Place>> PageList = []; // First page added in code behind on appearing
 
         private int currentPageIndex = 0;
 
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(NextButtonColumnSpan))]
-        public bool _hasPreviousPage;
+        private bool _hasPreviousPage;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(HasNextPage))]
         private string? _nextPageToken;
         public bool HasNextPage => !string.IsNullOrEmpty(NextPageToken) | PageList.ElementAtOrDefault(currentPageIndex + 1) is not null;
-        public int NextButtonColumnSpan => HasPreviousPage ? 1 : 2;
-
-        
 
         [RelayCommand]
         private async Task HandleRefresh()
@@ -58,8 +55,6 @@ namespace WhatMunch_MAUI.ViewModels
                 {
                     ResetPagination();
                     NextPageToken = result.Data;
-                    HasPreviousPage = false;
-                    currentPageIndex = 0;
                 }
             }
             catch (Exception ex)
@@ -73,20 +68,13 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [RelayCommand]
-        private async Task HandleSearchNext()
+        private async Task HandleNext()
         {
             if (!HasNextPage) return;
 
-            IsBusy = true;
             if(PageList.ElementAtOrDefault(currentPageIndex + 1) is not null)
             {
-                Places.Clear();
-
-                foreach (var place in PageList[currentPageIndex + 1])
-                {
-                    Places.Add(place);
-                }
-
+                Places = PageList[currentPageIndex + 1];
                 HasPreviousPage = true;
                 currentPageIndex += 1;
             }
@@ -102,27 +90,16 @@ namespace WhatMunch_MAUI.ViewModels
                     NextPageToken = result.Data;
                 }
             }
-            IsBusy = false;
         }
 
         [RelayCommand]
-        private void HandleSearchPrevious()
+        private void HandlePrevious()
         {
-            IsBusy = true;
             if (currentPageIndex < 1 | PageList.ElementAtOrDefault(currentPageIndex - 1) is null) return;
-
-            Places.Clear();
-
-            foreach(var place in PageList[currentPageIndex - 1])
-            {
-                Places.Add(place);
-            }
-
+            Places = PageList[currentPageIndex - 1];
             currentPageIndex -= 1;
-
             if(currentPageIndex < 1) HasPreviousPage = false;
             OnPropertyChanged(nameof(HasNextPage));
-            IsBusy = false;
         }
 
         private async Task<Result<string?>> Search(string? pageToken = null)
@@ -181,6 +158,7 @@ namespace WhatMunch_MAUI.ViewModels
                 IsBusy = false;
             }
         }
+
         public void ResetPagination()
         {
             NextPageToken = null;
@@ -191,6 +169,7 @@ namespace WhatMunch_MAUI.ViewModels
         public void ResetViewModel()
         {
             Places?.Clear();
+            PageList.Clear();
             ResetPagination();
         } 
     }

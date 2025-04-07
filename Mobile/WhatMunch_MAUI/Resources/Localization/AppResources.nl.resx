@@ -264,10 +264,10 @@
   <data name="UpdatedPreferences" xml:space="preserve">
     <value />
   </data>
-  <data name="NextPage" xml:space="preserve">
+  <data name="Next" xml:space="preserve">
     <value />
   </data>
-  <data name="PreviousPage" xml:space="preserve">
+  <data name="Previous" xml:space="preserve">
     <value />
   </data>
 </root>

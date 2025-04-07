@@ -277,11 +277,11 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Next Page.
+        ///   Looks up a localized string similar to Next.
         /// </summary>
-        internal static string NextPage {
+        internal static string Next {
             get {
-                return ResourceManager.GetString("NextPage", resourceCulture);
+                return ResourceManager.GetString("Next", resourceCulture);
             }
         }
         
@@ -349,11 +349,11 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Previous Page.
+        ///   Looks up a localized string similar to Previous.
         /// </summary>
-        internal static string PreviousPage {
+        internal static string Previous {
             get {
-                return ResourceManager.GetString("PreviousPage", resourceCulture);
+                return ResourceManager.GetString("Previous", resourceCulture);
             }
         }
         

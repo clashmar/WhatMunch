@@ -1,5 +1,3 @@
-using WhatMunch_MAUI.Models.Places;
-
 namespace WhatMunch_MAUI.Views;
 
 public partial class SearchResultsPage : ContentPage
