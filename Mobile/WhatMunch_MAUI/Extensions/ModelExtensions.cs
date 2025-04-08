@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using WhatMunch_MAUI.Models.Dtos;
-using WhatMunch_MAUI.Secrets;
 using WhatMunch_MAUI.Models.Fonts;
+using WhatMunch_MAUI.Secrets;
 
 namespace WhatMunch_MAUI.Extensions
 {
@@ -44,7 +44,7 @@ namespace WhatMunch_MAUI.Extensions
                 UserRatingCount = placeDto.UserRatingCount,
                 PriceLevel = placeDto.PriceLevel,
                 OpenNow = placeDto.RegularOpeningHours!.OpenNow,
-                Photos = placeDto.Photos ?? [],
+                Photos = placeDto.Photos?.ToDisplayPhotos() ?? ["empty_photo.svg"],
                 GoodForChildren = placeDto.GoodForChildren,
                 AllowsDogs = placeDto.AllowsDogs,
                 MainPhoto = mainPhoto,
@@ -81,6 +81,24 @@ namespace WhatMunch_MAUI.Extensions
                 stars += FaSolid.StarHalf;
             }
             return stars;
+        }
+
+        public static List<string> ToDisplayPhotos(this List<PlacePhoto> photos)
+        {
+            if (photos is null || photos.Count < 1) return [];
+
+            List<string> displayPhotos = [];
+
+            foreach (var photo in photos)
+            {
+                string? reference = photo.Name;
+                string displayPhoto = string.IsNullOrEmpty(reference)
+                    ? "empty_photo.svg"
+                    : $"https://places.googleapis.com/v1/{reference}/media?maxWidthPx=600&key={ApiKeys.GOOGLE_MAPS_API_KEY}";
+
+                displayPhotos.Add(displayPhoto);
+            }
+            return displayPhotos;
         }
     }
 }

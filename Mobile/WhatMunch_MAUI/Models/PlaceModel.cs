@@ -26,7 +26,7 @@ namespace WhatMunch_MAUI.Models
         private bool _openNow;
 
         [ObservableProperty]
-        private List<PlacePhoto> _photos = [];
+        private List<string> _photos = [];
 
         [ObservableProperty]
         private bool _goodForChildren;

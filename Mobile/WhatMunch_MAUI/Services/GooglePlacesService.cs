@@ -47,16 +47,16 @@ namespace WhatMunch_MAUI.Services
         public async Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences, string? pageToken = null)
         {
             //Mock data for development
-            var mockDeserializedData = JsonSerializer.Deserialize<TextSearchResponseDto>(MockJsonContent());
-            if (mockDeserializedData is TextSearchResponseDto mockResponseDto)
-            {
-                return Result<TextSearchResponseDto>.Success(mockResponseDto);
-            }
-            else
-            {
-                _logger.LogError("Failed to deserialize mock response");
-                return Result<TextSearchResponseDto>.Failure("Failed to deserialize mock response");
-            }
+            //var mockDeserializedData = JsonSerializer.Deserialize<TextSearchResponseDto>(MockJsonContent());
+            //if (mockDeserializedData is TextSearchResponseDto mockResponseDto)
+            //{
+            //    return Result<TextSearchResponseDto>.Success(mockResponseDto);
+            //}
+            //else
+            //{
+            //    _logger.LogError("Failed to deserialize mock response");
+            //    return Result<TextSearchResponseDto>.Failure("Failed to deserialize mock response");
+            //}
 
             try
             {

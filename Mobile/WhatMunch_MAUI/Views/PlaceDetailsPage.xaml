@@ -10,12 +10,25 @@
              Title="{Binding Title}"
              x:DataType="viewmodel:PlaceDetailsViewModel">
     <ScrollView>
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"
               RowSpacing="10">
 
             <Grid Grid.Row="0">
-                <Image Source="{Binding Place.MainPhoto}"
-                       Aspect="AspectFit" />
+                <CarouselView ItemsSource="{Binding Place.Photos}"
+                              IndicatorView="indicatorView"
+                              WidthRequest="400"
+                              HeightRequest="250">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Border>
+                                <Image Source="{Binding .}"
+                                       Aspect="AspectFill"/>
+                            </Border>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+                <!--<Image Source="{Binding Place.MainPhoto}"
+                       Aspect="AspectFit" />-->
                 <BoxView VerticalOptions="End"
                          HeightRequest="80"
                          InputTransparent="True">
@@ -30,7 +43,12 @@
                 </BoxView>
             </Grid>
 
-            <FlexLayout Grid.Row="1"
+            <IndicatorView Grid.Row="1" x:Name="indicatorView"
+                            IndicatorColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray100}}"
+                            SelectedIndicatorColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}"
+                            IndicatorSize="10"
+                            HorizontalOptions="Center"/>
+            <FlexLayout Grid.Row="2"
                         BindableLayout.ItemsSource="{Binding Place.Types}"
                         Direction="Row"
                         Wrap="Wrap"
@@ -46,7 +64,7 @@
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
-            <Grid Grid.Row="2"
+            <Grid Grid.Row="3"
                   ColumnDefinitions="*,*">
                 <VerticalStackLayout Spacing="5"
                                      Grid.Column="0"
@@ -61,7 +79,7 @@
                                HorizontalOptions="Center"/>
                 </VerticalStackLayout>
             </Grid>
-            <FlexLayout Grid.Row="3"
+            <FlexLayout Grid.Row="4"
                         Direction="Row"
                         Wrap="Wrap"
                         JustifyContent="Center"
