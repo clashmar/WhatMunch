@@ -26,6 +26,9 @@ namespace WhatMunch_MAUI.Models
         private bool _openNow;
 
         [ObservableProperty]
+        private List<string> _openingTimes = [];
+
+        [ObservableProperty]
         private List<string> _photos = [];
 
         [ObservableProperty]
@@ -42,5 +45,14 @@ namespace WhatMunch_MAUI.Models
 
         [ObservableProperty]
         private string _stars = string.Empty;
+
+        [ObservableProperty]
+        private string _internationalPhoneNumber = string.Empty;
+
+        [ObservableProperty]
+        private string _website = string.Empty;
+
+        [ObservableProperty]
+        private string _address = string.Empty;
     }
 }

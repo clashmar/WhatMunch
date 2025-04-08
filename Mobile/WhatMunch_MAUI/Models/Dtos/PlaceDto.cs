@@ -7,8 +7,8 @@ namespace WhatMunch_MAUI.Models.Dtos
         [JsonPropertyName("displayName")]
         public DisplayName? DisplayName { get; set; }
 
-        [JsonPropertyName("primaryType")]
-        public string PrimaryType { get; set; } = string.Empty;
+        [JsonPropertyName("primaryTypeDisplayName")]
+        public PrimaryTypeDisplayName? PrimaryTypeDisplayName { get; set; } 
 
         [JsonPropertyName("types")]
         public List<string> Types { get; set; } = [];
@@ -34,6 +34,15 @@ namespace WhatMunch_MAUI.Models.Dtos
 
         [JsonPropertyName("allowsDogs")]
         public bool AllowsDogs { get; set; }
+
+        [JsonPropertyName("internationalPhoneNumber")]
+        public string InternationalPhoneNumber { get; set; } = string.Empty;
+
+        [JsonPropertyName("websiteUri")]
+        public string WebsiteUri { get; set; } = string.Empty;
+
+        [JsonPropertyName("shortFormattedAddress")]
+        public string ShortFormattedAddress { get; set; } = string.Empty;
     }
 
     public class DisplayName
@@ -45,10 +54,19 @@ namespace WhatMunch_MAUI.Models.Dtos
         public string LanguageCode { get; set; } = string.Empty;
     }
 
+    public class PrimaryTypeDisplayName
+    {
+        [JsonPropertyName("text")]
+        public string Text { get; set; } = string.Empty;
+    }
+
     public class RegularOpeningHours
     {
         [JsonPropertyName("openNow")]
         public bool OpenNow { get; set; }
+
+        [JsonPropertyName("weekdayDescriptions")]
+        public List<string> WeekdayDescriptions { get; set; } = [];
     }
     public class PlacePhoto
     {

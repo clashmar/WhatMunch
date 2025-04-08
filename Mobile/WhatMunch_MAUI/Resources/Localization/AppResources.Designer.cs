@@ -97,6 +97,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Address:.
+        /// </summary>
+        internal static string Address {
+            get {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Child Friendly.
         /// </summary>
         internal static string ChildFriendly {
@@ -304,6 +313,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Opening Hours:.
+        /// </summary>
+        internal static string OpeningHours {
+            get {
+                return ResourceManager.GetString("OpeningHours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Must contain at least one lowercase, uppercase and numeric character..
         /// </summary>
         internal static string PasswordFormatError {
@@ -345,6 +363,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         internal static string PasswordRequiredError {
             get {
                 return ResourceManager.GetString("PasswordRequiredError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Number:.
+        /// </summary>
+        internal static string PhoneNumber {
+            get {
+                return ResourceManager.GetString("PhoneNumber", resourceCulture);
             }
         }
         
@@ -507,6 +534,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         internal static string VeryExpensive {
             get {
                 return ResourceManager.GetString("VeryExpensive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Website:.
+        /// </summary>
+        internal static string Website {
+            get {
+                return ResourceManager.GetString("Website", resourceCulture);
             }
         }
         

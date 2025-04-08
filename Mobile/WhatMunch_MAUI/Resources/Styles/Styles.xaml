@@ -34,7 +34,7 @@
         <Setter Property="Margin"
                 Value="4" />
         <Setter Property="HeightRequest"
-                Value="30" />
+                Value="32" />
     </Style>
 
     <Style TargetType="BoxView">

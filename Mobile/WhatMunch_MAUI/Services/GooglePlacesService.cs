@@ -34,7 +34,7 @@ namespace WhatMunch_MAUI.Services
         private const string FIELD_MASK = "" +
             "places.displayName," +
             "places.photos," +
-            "places.primaryType," +
+            "places.primaryTypeDisplayName," +
             "places.rating," +
             "places.userRatingCount," +
             "places.types," +
@@ -42,6 +42,9 @@ namespace WhatMunch_MAUI.Services
             "places.goodForChildren," +
             "places.allowsDogs," +
             "places.priceLevel," +
+            "places.websiteUri," +
+            "places.internationalPhoneNumber," +
+            "places.shortFormattedAddress," +
             "nextPageToken";
 
         public async Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences, string? pageToken = null)

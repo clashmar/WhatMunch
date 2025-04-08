@@ -38,18 +38,22 @@ namespace WhatMunch_MAUI.Extensions
             return new PlaceModel()
             {
                 DisplayName = placeDto.DisplayName?.Text ?? string.Empty,
-                PrimaryType = placeDto.PrimaryType,
+                PrimaryType = placeDto.PrimaryTypeDisplayName?.Text ?? string.Empty,
                 Types = placeDto.Types.ToDisplayTypes(),
                 Rating = placeDto.Rating,
                 UserRatingCount = placeDto.UserRatingCount,
                 PriceLevel = placeDto.PriceLevel,
                 OpenNow = placeDto.RegularOpeningHours!.OpenNow,
+                OpeningTimes = placeDto.RegularOpeningHours.WeekdayDescriptions ?? [],
                 Photos = placeDto.Photos?.ToDisplayPhotos() ?? ["empty_photo.svg"],
                 GoodForChildren = placeDto.GoodForChildren,
                 AllowsDogs = placeDto.AllowsDogs,
                 MainPhoto = mainPhoto,
                 Stars = placeDto.Rating.ToStars(),
                 RatingSummary = ratingSummary,
+                InternationalPhoneNumber = placeDto.InternationalPhoneNumber,
+                Website = placeDto.WebsiteUri,
+                Address = placeDto.ShortFormattedAddress,
             };
         }
 

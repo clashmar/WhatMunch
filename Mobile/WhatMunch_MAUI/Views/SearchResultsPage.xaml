@@ -39,7 +39,10 @@
                                         <TapGestureRecognizer CommandParameter="{Binding . }"
                                                               Command="{Binding GoToPlaceDetailsCommand, x:DataType=viewmodel:SearchResultsViewModel, Source={RelativeSource AncestorType={x:Type viewmodel:SearchResultsViewModel}}}" />
                                     </Border.GestureRecognizers>
-                                    <Label Text="{Binding DisplayName.Text}" />
+                                    <HorizontalStackLayout Spacing="10">
+                                        <Label Text="{Binding DisplayName.Text}" />
+                                        <Label Text="{Binding PrimaryTypeDisplayName.Text}" />
+                                    </HorizontalStackLayout>
                                 </Border>
                             </Grid>
                         </DataTemplate>

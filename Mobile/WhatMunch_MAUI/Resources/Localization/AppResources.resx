@@ -270,4 +270,16 @@
   <data name="Previous" xml:space="preserve">
     <value>Previous</value>
   </data>
+  <data name="OpeningHours" xml:space="preserve">
+    <value>Opening Hours:</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Phone Number:</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website:</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address:</value>
+  </data>
 </root>

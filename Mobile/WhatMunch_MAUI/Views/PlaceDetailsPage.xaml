@@ -20,15 +20,11 @@
                               HeightRequest="250">
                     <CarouselView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
-                            <Border>
-                                <Image Source="{Binding .}"
-                                       Aspect="AspectFill"/>
-                            </Border>
+                            <Image Source="{Binding .}"
+                                   Aspect="AspectFill" />
                         </DataTemplate>
                     </CarouselView.ItemTemplate>
                 </CarouselView>
-                <!--<Image Source="{Binding Place.MainPhoto}"
-                       Aspect="AspectFit" />-->
                 <BoxView VerticalOptions="End"
                          HeightRequest="80"
                          InputTransparent="True">
@@ -42,19 +38,39 @@
                     </BoxView.Background>
                 </BoxView>
             </Grid>
-
+            <Grid Grid.Row="2"
+                  ColumnDefinitions="*,*">
+                <VerticalStackLayout Spacing="5"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2">
+                    <Label Text="{Binding Place.RatingSummary}"
+                           FontSize="20"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding Place.Stars}"
+                           Style="{StaticResource Stars}"
+                           FontFamily="FaSolid"
+                           FontSize="20"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Grid>
             <IndicatorView Grid.Row="1" x:Name="indicatorView"
                             IndicatorColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray100}}"
                             SelectedIndicatorColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}"
                             IndicatorSize="10"
                             HorizontalOptions="Center"/>
-            <FlexLayout Grid.Row="2"
+            <FlexLayout Grid.Row="3"
                         BindableLayout.ItemsSource="{Binding Place.Types}"
                         Direction="Row"
                         Wrap="Wrap"
                         JustifyContent="Center"
                         AlignItems="Center"
                         Margin="10">
+                <controls:IconLabelView IsVisible="{Binding Place.AllowsDogs}" 
+                                        Icon="{x:Static fasolid:FaSolid.Dog}"
+                                        Text="{x:Static strings:AppResources.DogFriendly}" />
+                <controls:IconLabelView IsVisible="{Binding Place.GoodForChildren}" 
+                                        Icon="{x:Static fasolid:FaSolid.Child}"
+                                        Text="{x:Static strings:AppResources.ChildFriendly}" />
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Border Style="{StaticResource Attribute}">
@@ -64,32 +80,62 @@
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
-            <Grid Grid.Row="3"
+            <Grid Grid.Row="4"
                   ColumnDefinitions="*,*">
-                <VerticalStackLayout Spacing="5"
-                                     Grid.Column="0"
-                                     Grid.ColumnSpan="2">
-                        <Label Text="{Binding Place.RatingSummary}"
-                               FontSize="20"
-                               HorizontalOptions="Center"/>
-                        <Label Text="{Binding Place.Stars}"
-                               Style="{StaticResource Stars}"
-                               FontFamily="FaSolid"
-                               FontSize="20"
-                               HorizontalOptions="Center"/>
+                <VerticalStackLayout Grid.Column="0"
+                                     Margin="20,0,0,0"
+                                     Spacing="5"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center">
+                    <VerticalStackLayout>
+                        <Label Text="{x:Static strings:AppResources.Website}"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding Place.Website}"
+                               TextDecorations="Underline"
+                               LineBreakMode="WordWrap">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToWebsiteCommand}"
+                                                      CommandParameter="{Binding Place.Website}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Label Text="{x:Static strings:AppResources.PhoneNumber}"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding Place.InternationalPhoneNumber}"
+                               TextDecorations="Underline"
+                               LineBreakMode="WordWrap">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToPhoneCommand}"
+                                                      CommandParameter="{Binding Place.InternationalPhoneNumber}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Label Text="{x:Static strings:AppResources.Address}"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding Place.Address}"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1"
+                                     HorizontalOptions="Center"
+                                     Spacing="4">
+                    <Label Text="{x:Static strings:AppResources.OpeningHours}"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           HorizontalOptions="Center"/>
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Place.OpeningTimes}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Label Text="{Binding .}"
+                                       FontSize="12"
+                                       HorizontalOptions="Center"/>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </Grid>
-            <FlexLayout Grid.Row="4"
-                        Direction="Row"
-                        Wrap="Wrap"
-                        JustifyContent="Center"
-                        AlignItems="Center"
-                        Margin="4">
-                <controls:IconLabelView Icon="{x:Static fasolid:FaSolid.Dog}"
-                                        Text="{x:Static strings:AppResources.DogFriendly}" />
-                <controls:IconLabelView Icon="{x:Static fasolid:FaSolid.Child}"
-                                        Text="{x:Static strings:AppResources.ChildFriendly}" />
-            </FlexLayout>
         </Grid>
     </ScrollView>
 </ContentPage>
