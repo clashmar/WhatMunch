@@ -1,4 +1,4 @@
-namespace WhatMunch_MAUI.Pages;
+namespace WhatMunch_MAUI.Views;
 
 public partial class DashboardPage : ContentPage
 {

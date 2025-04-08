@@ -28,6 +28,18 @@
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
 
+    <Color x:Key="YaleBlue">#083D77</Color>
+    <Color x:Key="Beige">#EBEBD3</Color>
+    <Color x:Key="NaplesYellow">#F4D35E</Color>
+    <Color x:Key="SandyBrown">#EE964B</Color>
+    <Color x:Key="Tomato">#F95738</Color>
+
+    <Color x:Key="YaleBlueDark">#0A2C52</Color>
+    <Color x:Key="BeigeDark">#3A3A30</Color>
+    <Color x:Key="NaplesYellowDark">#C9A742</Color>
+    <Color x:Key="SandyBrownDark">#B86A3F</Color>
+    <Color x:Key="TomatoDark">#BF3C2C</Color>
+
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}"/>

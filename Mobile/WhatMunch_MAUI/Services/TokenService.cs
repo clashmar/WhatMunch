@@ -15,7 +15,7 @@ namespace WhatMunch_MAUI.Services
 
     public class TokenService : ITokenService
     {
-        private readonly string _accessTokenKey = "jwt_token";
+        public readonly string _accessTokenKey = "jwt_token";
         private readonly string _refreshTokenKey = "jwtRefreshToken";
 
         public async Task SaveAccessTokenAsync(string token)

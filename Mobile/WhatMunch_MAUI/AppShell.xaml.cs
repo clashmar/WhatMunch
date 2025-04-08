@@ -1,6 +1,5 @@
 ﻿using WhatMunch_MAUI.Views;
 using WhatMunch_MAUI.Services;
-using WhatMunch_MAUI.Pages;
 
 namespace WhatMunch_MAUI
 {
@@ -11,22 +10,33 @@ namespace WhatMunch_MAUI
         public AppShell(ITokenService tokenService)
         {
             InitializeComponent();
+            _tokenService = tokenService; 
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
             Routing.RegisterRoute(nameof(DashboardPage), typeof(DashboardPage));
-            _tokenService = tokenService;
-            CheckAuthentication();
+            Routing.RegisterRoute(nameof(SearchResultsPage), typeof(SearchResultsPage));
+            Routing.RegisterRoute(nameof(SearchPreferencesPage), typeof(SearchPreferencesPage));
+            Routing.RegisterRoute(nameof(PlaceDetailsPage), typeof(PlaceDetailsPage));
         }
 
-        private async void CheckAuthentication()
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await CheckAuthentication();
+        }
+
+        private async Task CheckAuthentication()
         {
             try
             {
-                bool isAuthenticated = await _tokenService.IsUserAuthenticated();
+                bool isAuthenticated = await MainThread.InvokeOnMainThreadAsync(async () =>
+                {
+                    return await _tokenService.IsUserAuthenticated();
+                });
 
                 if (!isAuthenticated)
                 {
-                    await GoToAsync($"{nameof(LoginPage)}");
+                    await GoToAsync($"{nameof(DashboardPage)}");
                 }
                 else
                 {
@@ -38,7 +48,6 @@ namespace WhatMunch_MAUI
 
                 throw;
             }
-            
         }
     }
 }

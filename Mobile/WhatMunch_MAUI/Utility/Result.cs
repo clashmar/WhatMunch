@@ -3,13 +3,13 @@
     public class Result<T>
     {
         public bool IsSuccess { get; }
-        public T? Value { get; }
+        public T? Data { get; }
         public string? ErrorMessage { get; }
 
         private Result(T value)
         {
             IsSuccess = true;
-            Value = value;
+            Data = value;
         }
 
         private Result(string errorMessage)
@@ -18,7 +18,13 @@
             ErrorMessage = errorMessage;
         }
 
+        private Result()
+        {
+            IsSuccess = false;
+        }
+
         public static Result<T> Success(T value) => new(value);
         public static Result<T> Failure(string errorMessage) => new(errorMessage);
+        public static Result<T> Failure() => new();
     }
 }

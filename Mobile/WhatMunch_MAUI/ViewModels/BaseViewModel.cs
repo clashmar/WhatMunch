@@ -1,16 +1,19 @@
 ﻿namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class BaseViewModel : ObservableObject
+    public abstract partial class BaseViewModel : ObservableObject
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsNotBusy))]
-        bool isBusy;
-        bool IsNotBusy => !IsBusy;
+        private bool _isBusy;
+
+        public bool IsNotBusy => !IsBusy;
 
         [ObservableProperty]
-        bool isRefreshing;
+        private bool _isRefreshing;
 
         [ObservableProperty]
-        string? title;
+        private string? _title;
+
+        public abstract void ResetViewModel();
     }
 }

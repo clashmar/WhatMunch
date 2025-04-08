@@ -132,8 +132,8 @@
   <data name="EmailRequiredError" xml:space="preserve">
     <value>E-mail is required.</value>
   </data>
-  <data name="GoToLoginButton" xml:space="preserve">
-    <value>Login</value>
+  <data name="ErrorUnexpected" xml:space="preserve">
+    <value>An unexpected error occurred.</value>
   </data>
   <data name="LoginWelcome" xml:space="preserve">
     <value>Welcome To WhatMunch</value>
@@ -156,6 +156,9 @@
   <data name="RegisterWelcome" xml:space="preserve">
     <value>Register for WhatMunch</value>
   </data>
+  <data name="SearchReturned" xml:space="preserve">
+    <value>Search returned</value>
+  </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Submit</value>
   </data>
@@ -173,5 +176,98 @@
   </data>
   <data name="UsernameRequiredError" xml:space="preserve">
     <value>Username is required.</value>
+  </data>
+  <data name="GoToLoginButton" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ErrorInternetConnection" xml:space="preserve">
+    <value>Please check your internet connection.</value>
+  </data>
+  <data name="ErrorLocationServices" xml:space="preserve">
+    <value>Location services on this device could not be accessed.</value>
+  </data>
+  <data name="NoPlacesFound" xml:space="preserve">
+    <value>No places found.</value>
+  </data>
+  <data name="SearchPreferences" xml:space="preserve">
+    <value>Search Preferences</value>
+  </data>
+  <data name="MinimumRating" xml:space="preserve">
+    <value>Minimum Rating</value>
+  </data>
+  <data name="MaxPriceLevel" xml:space="preserve">
+    <value>Max Price Level</value>
+  </data>
+  <data name="VegetarianOptions" xml:space="preserve">
+    <value>Vegetarian Options</value>
+  </data>
+  <data name="VeganOptions" xml:space="preserve">
+    <value>Vegan Options</value>
+  </data>
+  <data name="ChildFriendly" xml:space="preserve">
+    <value>Child Friendly</value>
+  </data>
+  <data name="DogFriendly" xml:space="preserve">
+    <value>Dog Friendly</value>
+  </data>
+  <data name="WithinAnApproximately" xml:space="preserve">
+    <value>Within an Approximately:</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Sort By:</value>
+  </data>
+  <data name="Distance" xml:space="preserve">
+    <value>Distance</value>
+  </data>
+  <data name="Relevance" xml:space="preserve">
+    <value>Relevance</value>
+  </data>
+  <data name="SavePreferences" xml:space="preserve">
+    <value>Save Preferences</value>
+  </data>
+  <data name="5MinWalk" xml:space="preserve">
+    <value>5 Minute Walk</value>
+  </data>
+  <data name="10MinWalk" xml:space="preserve">
+    <value>10 Minute Walk</value>
+  </data>
+  <data name="15MinWalk" xml:space="preserve">
+    <value>15 Minute Walk</value>
+  </data>
+  <data name="Inexpensive" xml:space="preserve">
+    <value>Inexpensive</value>
+  </data>
+  <data name="Moderate" xml:space="preserve">
+    <value>Moderate</value>
+  </data>
+  <data name="Expensive" xml:space="preserve">
+    <value>Expensive</value>
+  </data>
+  <data name="VeryExpensive" xml:space="preserve">
+    <value>Very Expensive</value>
+  </data>
+  <data name="20MinWalk" xml:space="preserve">
+    <value>20+ Minute Walk</value>
+  </data>
+  <data name="UpdatedPreferences" xml:space="preserve">
+    <value>Updated Preferences</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Previous</value>
   </data>
 </root>

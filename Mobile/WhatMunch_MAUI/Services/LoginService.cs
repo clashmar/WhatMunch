@@ -1,6 +1,6 @@
 ﻿using System.Text;
-using WhatMunch_MAUI.Dtos;
 using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Utility;
 
 namespace WhatMunch_MAUI.Services
@@ -44,7 +44,6 @@ namespace WhatMunch_MAUI.Services
                     var error = JsonSerializer.Deserialize<ErrorMessageDto>(errorContent);
                     return Result<LoginResponseDto>.Failure($"Login failed: {error!.ErrorMessage}.");
                 }
-
             }
             catch (HttpRequestException)
             {

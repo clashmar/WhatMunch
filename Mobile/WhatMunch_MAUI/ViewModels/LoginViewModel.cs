@@ -1,5 +1,4 @@
 ﻿using WhatMunch_MAUI.Extensions;
-using WhatMunch_MAUI.Pages;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
 
@@ -61,7 +60,7 @@ namespace WhatMunch_MAUI.ViewModels
             }
         }
 
-        public void ResetViewModel()
+        public override void ResetViewModel()
         {
             LoginModel = new LoginModel();
             IsBusy = false;

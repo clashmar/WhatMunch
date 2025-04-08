@@ -4,9 +4,9 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:WhatMunch_MAUI"
-    xmlns:pages="clr-namespace:WhatMunch_MAUI.Views"
+    xmlns:views="clr-namespace:WhatMunch_MAUI.Views"
     Shell.FlyoutBehavior="Flyout"
-    Title="WhatMunch_MAUI">
+    Title="WhatMunch">
 
     <ShellContent
         Title="Start"
