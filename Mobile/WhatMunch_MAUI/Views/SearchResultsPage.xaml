@@ -23,13 +23,11 @@
                                 ItemsUpdatingScrollMode="KeepItemsInView">
                     <CollectionView.EmptyView>
                         <StackLayout VerticalOptions="Center"
-                                     HorizontalOptions="Center"
-                                     WidthRequest="200"
-                                     HeightRequest="200">
+                                     HorizontalOptions="Center">
                             <Image Source="empty_plate.png"
                                    HorizontalOptions="Center"
                                    VerticalOptions="Center"
-                                   Aspect="AspectFill" />
+                                   Aspect="AspectFit" />
                         </StackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>

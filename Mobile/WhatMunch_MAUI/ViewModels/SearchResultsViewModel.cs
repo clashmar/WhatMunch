@@ -11,6 +11,7 @@ namespace WhatMunch_MAUI.ViewModels
 {
     [QueryProperty(nameof(Places), "Places")]
     [QueryProperty(nameof(NextPageToken), "NextPageToken")]
+    [QueryProperty(nameof(ShouldReset), "ShouldReset")]
     public partial class SearchResultsViewModel : BaseViewModel
     {
         private readonly ISearchService _searchService;
@@ -26,6 +27,7 @@ namespace WhatMunch_MAUI.ViewModels
             _shellService = shellService;
             _logger = logger;
         }
+        public bool ShouldReset { get; set; }
 
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _places = [];
@@ -107,6 +109,7 @@ namespace WhatMunch_MAUI.ViewModels
         {
             if (place is null) return;
 
+            ShouldReset = false;
             await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
@@ -180,7 +183,6 @@ namespace WhatMunch_MAUI.ViewModels
 
         public override void ResetViewModel()
         {
-            Places?.Clear();
             PageList.Clear();
             ResetPagination();
         } 

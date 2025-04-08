@@ -36,5 +36,11 @@ namespace WhatMunch_MAUI.Models
 
         [ObservableProperty]
         private string? _mainPhoto;
+
+        [ObservableProperty]
+        private string _ratingSummary = string.Empty;
+
+        [ObservableProperty]
+        private string _stars = string.Empty;
     }
 }

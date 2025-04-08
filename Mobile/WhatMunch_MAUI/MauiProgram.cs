@@ -14,6 +14,8 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+				fonts.AddFont("fa-regular-400.ttf", "FaRegular");
+				fonts.AddFont("fa-solid-900.ttf", "FaSolid");
             });
 
         builder.Services.AddHttpClient("WhatMunch", client =>

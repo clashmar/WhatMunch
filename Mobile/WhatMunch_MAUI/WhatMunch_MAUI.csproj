@@ -67,6 +67,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Resources\Fonts\FaRegular.cs" />
+	  <Compile Remove="Resources\Fonts\FaSolid.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="11.2.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.3" />
@@ -113,6 +118,9 @@
 	  <MauiXaml Update="Converters\Converters.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Controls\IconLabelView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\DashboardPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -137,6 +145,11 @@
 	  <None Update="MockData\mockPlace.json">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiFont Include="Models\Fonts\FaRegular.cs" />
+	  <MauiFont Include="Models\Fonts\FaSolid.cs" />
 	</ItemGroup>
 
 </Project>

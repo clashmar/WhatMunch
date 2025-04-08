@@ -4,8 +4,8 @@ public partial class SearchResultsPage : ContentPage
 {
     private readonly SearchResultsViewModel _viewModel;
     public SearchResultsPage(SearchResultsViewModel viewModel)
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         _viewModel = viewModel;
         BindingContext = _viewModel;
     }
@@ -13,12 +13,22 @@ public partial class SearchResultsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _viewModel.PageList.Add([.. _viewModel.Places]);
+
+        if (_viewModel.PageList.Count == 0 && _viewModel.Places.Count > 0)
+        {
+            _viewModel.PageList.Add([.. _viewModel.Places]);
+        }
+
+        _viewModel.ShouldReset = true;
     }
 
     protected override void OnDisappearing()
     {
+        if (_viewModel.ShouldReset)
+        {
+            _viewModel.ResetViewModel();
+        }
+
         base.OnDisappearing();
-        _viewModel.ResetViewModel();
     }
 }

@@ -33,8 +33,6 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 var response = await _searchService.GetSearchResponseAsync();
 
-                // Loading indicator
-
                 if (response.Places.Count > 0)
                 {
                     var places = response.Places.ToObservableCollection();
@@ -43,7 +41,8 @@ namespace WhatMunch_MAUI.ViewModels
                         new Dictionary<string, object>
                             {
                                 { "Places", places },
-                                { "NextPageToken", response.NextPageToken ?? string.Empty }
+                                { "NextPageToken", response.NextPageToken ?? string.Empty },
+                                { "ShouldReset", false }
                             });
                 }
                 else
