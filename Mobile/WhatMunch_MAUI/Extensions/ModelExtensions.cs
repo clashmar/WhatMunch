@@ -28,9 +28,10 @@ namespace WhatMunch_MAUI.Extensions
 
         public static PlaceModel ToModel(this PlaceDto placeDto)
         {
-            string reference = placeDto.Photos.FirstOrDefault()?.Name ?? string.Empty;
-            string key = ApiKeys.GOOGLE_MAPS_API_KEY;
-            string mainPhoto = $"https://places.googleapis.com/v1/{reference}/media?maxWidthPx=600&key={key}";
+            string? reference = placeDto.Photos?.FirstOrDefault()?.Name;
+            string mainPhoto = string.IsNullOrEmpty(reference)
+                ? "empty_photo.svg"
+                : $"https://places.googleapis.com/v1/{reference}/media?maxWidthPx=600&key={ApiKeys.GOOGLE_MAPS_API_KEY}";
 
             string ratingSummary = $"{placeDto.Rating} ({placeDto.UserRatingCount})";
 
@@ -43,7 +44,7 @@ namespace WhatMunch_MAUI.Extensions
                 UserRatingCount = placeDto.UserRatingCount,
                 PriceLevel = placeDto.PriceLevel,
                 OpenNow = placeDto.RegularOpeningHours!.OpenNow,
-                Photos = placeDto.Photos,
+                Photos = placeDto.Photos ?? [],
                 GoodForChildren = placeDto.GoodForChildren,
                 AllowsDogs = placeDto.AllowsDogs,
                 MainPhoto = mainPhoto,
@@ -79,11 +80,6 @@ namespace WhatMunch_MAUI.Extensions
             {
                 stars += FaSolid.StarHalf;
             }
-
-            // Calculate the empty stars
-            //int emptyStars = 5 - (fullStars + (hasHalfStar ? 1 : 0));
-            //stars += new string('☆', emptyStars);
-
             return stars;
         }
     }

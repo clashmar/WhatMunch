@@ -12,8 +12,24 @@
     <ScrollView>
         <Grid RowDefinitions="Auto,Auto,Auto,Auto"
               RowSpacing="10">
-            <Image Grid.Row="0"
-                   Source="{Binding Place.MainPhoto}" />
+
+            <Grid Grid.Row="0">
+                <Image Source="{Binding Place.MainPhoto}"
+                       Aspect="AspectFit" />
+                <BoxView VerticalOptions="End"
+                         HeightRequest="80"
+                         InputTransparent="True">
+                    <BoxView.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Color="#00000000"
+                                          Offset="0.0" />
+                            <GradientStop Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"
+                                          Offset="1.0" />
+                        </LinearGradientBrush>
+                    </BoxView.Background>
+                </BoxView>
+            </Grid>
+
             <FlexLayout Grid.Row="1"
                         BindableLayout.ItemsSource="{Binding Place.Types}"
                         Direction="Row"
