@@ -61,6 +61,38 @@ namespace WhatMunch_MAUI.Extensions
             {
                 displayAttributes.Add(new(FaSolid.DoorOpen, AppResources.OpenNow));
             }
+            else
+            {
+                displayAttributes.Add(new(FaSolid.DoorClosed, AppResources.Closed));
+            }
+
+            if (placeDto.Distance > 0)
+            {
+                string distance;
+
+                if (placeDto.Distance <= 0.4)
+                {
+                    distance = AppResources._5MinWalk;
+                }
+                else if (placeDto.Distance <= 0.8)
+                {
+                    distance = AppResources._10MinWalk;
+                }
+                else if (placeDto.Distance <= 1.2)
+                {
+                    distance = AppResources._15MinWalk;
+                }
+                else if (placeDto.Distance <= 1.6)
+                {
+                    distance = AppResources._20MinWalk;
+                }
+                else
+                {
+                    distance = AppResources._30MinWalk;
+                }
+
+                displayAttributes.Add(new(FaSolid.ShoePrints, distance));
+            }
 
             if (placeDto.AllowsDogs)
             {
@@ -113,6 +145,7 @@ namespace WhatMunch_MAUI.Extensions
             }
             return stars;
         }
+
         public static (string number, string remainder) ToDollarDisplay(this PriceLevel priceLevel)
         {
             string number = priceLevel switch

@@ -79,11 +79,20 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20+ Minute Walk.
+        ///   Looks up a localized string similar to 20 Minute Walk.
         /// </summary>
         internal static string _20MinWalk {
             get {
                 return ResourceManager.GetString("20MinWalk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 30+ Minute Walk.
+        /// </summary>
+        internal static string _30MinWalk {
+            get {
+                return ResourceManager.GetString("30MinWalk", resourceCulture);
             }
         }
         
@@ -111,6 +120,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         internal static string ChildFriendly {
             get {
                 return ResourceManager.GetString("ChildFriendly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closed.
+        /// </summary>
+        internal static string Closed {
+            get {
+                return ResourceManager.GetString("Closed", resourceCulture);
             }
         }
         
@@ -349,7 +367,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OpenNow.
+        ///   Looks up a localized string similar to Open Now.
         /// </summary>
         internal static string OpenNow {
             get {

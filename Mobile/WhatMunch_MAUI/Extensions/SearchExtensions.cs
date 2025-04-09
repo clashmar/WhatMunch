@@ -4,19 +4,20 @@ namespace WhatMunch_MAUI.Extensions
 {
     public static class SearchExtensions
     {
-        public static List<PlaceDto> FilterPreferences(this List<PlaceDto> places, SearchPreferencesModel preferences)
+        public static List<PlaceDto> AddDistances(this List<PlaceDto> places, Location? location = null)
         {
-            if (preferences.IsDogFriendly)
-            {
-                places = places.Where(p => p.AllowsDogs == true).ToList();
-            }
+            if (location is null) return places;
 
-            if (preferences.IsChildFriendly)
-            {
-                places = places.Where(p => p.GoodForChildren == true).ToList();
-            }
-
-            return places;
+            return places
+                .Select(p =>
+                {
+                    if (p.Location is not null)
+                    {
+                        p.Distance = location.CalculateDistance(p.Location.Latitude, p.Location.Longitude, DistanceUnits.Kilometers);
+                    }
+                    return p;
+                })
+                .ToList();
         }
     }
 }

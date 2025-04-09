@@ -35,7 +35,9 @@ namespace WhatMunch_MAUI.ViewModels
 
                 if (response.Places.Count > 0)
                 {
-                    var places = response.Places.ToObservableCollection();
+                    var places = response.Places
+                        .AddDistances(response.SearchLocation)
+                        .ToObservableCollection();
 
                     await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
                         new Dictionary<string, object>

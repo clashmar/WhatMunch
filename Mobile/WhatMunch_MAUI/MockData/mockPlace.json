@@ -32,7 +32,11 @@
       },
       "shortFormattedAddress": "Wittevrouwenstraat 14, Utrecht",
       "goodForChildren": false,
-      "allowsDogs":  true
+      "allowsDogs": true,
+      "location": {
+        "latitude": 52.092992300000006,
+        "longitude": 5.1221492
+      }
     }
   ],
   "nextPageToken": "AeeoHcI7Xnd8tU32jESwMvgnhAo6QAJfBz6liaHIUALeeGfQ-8NM763uoABKPHSXrxo6MwR6GPkQI3BuamzPLyfNC1ssp5P6JBXwRmUADDsokhrcRQ"

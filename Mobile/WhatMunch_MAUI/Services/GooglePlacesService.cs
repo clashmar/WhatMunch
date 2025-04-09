@@ -4,6 +4,7 @@ using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Secrets;
 using WhatMunch_MAUI.Utility;
+using WhatMunch_MAUI.Utility.Exceptions;
 
 namespace WhatMunch_MAUI.Services
 {
@@ -55,6 +56,7 @@ namespace WhatMunch_MAUI.Services
             var mockDeserializedData = JsonSerializer.Deserialize<TextSearchResponseDto>(MockJsonContent());
             if (mockDeserializedData is TextSearchResponseDto mockResponseDto)
             {
+                mockResponseDto.SearchLocation = await _locationService.GetLastSearchLocation();
                 return Result<TextSearchResponseDto>.Success(mockResponseDto);
             }
             else
@@ -81,6 +83,7 @@ namespace WhatMunch_MAUI.Services
 
                     if (deserializedData is TextSearchResponseDto searchResponseDto)
                     {
+                        searchResponseDto.SearchLocation = await _locationService.GetLastSearchLocation();
                         return Result<TextSearchResponseDto>.Success(searchResponseDto);
                     }
                     else
@@ -96,7 +99,7 @@ namespace WhatMunch_MAUI.Services
                     return Result<TextSearchResponseDto>.Failure($"{response.StatusCode}: {responseContent}");
                 }
             }
-            catch (InvalidOperationException ex)
+            catch (LocationException ex)
             {
                 _logger.LogError(ex, "Location services are unavailable");
                 return Result<TextSearchResponseDto>.Failure(AppResources.ErrorLocationServices);
@@ -146,7 +149,7 @@ namespace WhatMunch_MAUI.Services
                 };
                 return JsonSerializer.Serialize(request);
             }
-            catch (InvalidOperationException ex)
+            catch (LocationException ex)
             {
                 _logger.LogError(ex, "An error occurred while getting the geolocation of this device");
                 throw;
@@ -162,42 +165,46 @@ namespace WhatMunch_MAUI.Services
         {
             return @"
             {
-                ""places"": [
-                    {
-                        ""id"": ""ChIJxUpFWk9vxkcRwNu9kxkQoM8"",
-                        ""types"": [
-                            ""restaurant"",
-                            ""point_of_interest"",
-                            ""vegan_restaurant"",
-                            ""vegetarian_restaurant"",
-                            ""food"",
-                            ""establishment""
-                        ],
-                        ""rating"": 4.9,
-                        ""websiteUri"": ""https://www.pampalini.nl/"",
-                        ""regularOpeningHours"": {
-                            ""openNow"": true,
-                            ""weekdayDescriptions"": [
-                                ""Monday: Closed"",
-                                ""Tuesday: Closed"",
-                                ""Wednesday: 10:00 AM – 4:30 PM"",
-                                ""Thursday: 10:00 AM – 4:30 PM"",
-                                ""Friday: 10:00 AM – 4:30 PM"",
-                                ""Saturday: 10:00 AM – 4:30 PM"",
-                                ""Sunday: 10:00 AM – 4:30 PM""
-                            ]
-                        },
-                        ""userRatingCount"": 1765,
-                        ""displayName"": {
-                            ""text"": ""Pampalini Lunchroom & Coffee - Utrecht 2014"",
-                            ""languageCode"": ""en""
-                        },
-                        ""primaryTypeDisplayName"": {
-                            ""text"": ""Restaurant""
-                        },
-                        ""shortFormattedAddress"": ""Wittevrouwenstraat 14, Utrecht"",
-                        ""goodForChildren"": true,
-                        ""allowsDogs"": true
+            ""places"": [
+                {
+                    ""id"": ""ChIJxUpFWk9vxkcRwNu9kxkQoM8"",
+                    ""types"": [
+                        ""restaurant"",
+                        ""point_of_interest"",
+                        ""vegan_restaurant"",
+                        ""vegetarian_restaurant"",
+                        ""food"",
+                        ""establishment""
+                    ],
+                    ""rating"": 4.9,
+                    ""websiteUri"": ""https://www.pampalini.nl/"",
+                    ""regularOpeningHours"": {
+                        ""openNow"": true,
+                        ""weekdayDescriptions"": [
+                            ""Monday: Closed"",
+                            ""Tuesday: Closed"",
+                            ""Wednesday: 10:00 AM – 4:30 PM"",
+                            ""Thursday: 10:00 AM – 4:30 PM"",
+                            ""Friday: 10:00 AM – 4:30 PM"",
+                            ""Saturday: 10:00 AM – 4:30 PM"",
+                            ""Sunday: 10:00 AM – 4:30 PM""
+                        ]
+                    },
+                    ""userRatingCount"": 1765,
+                    ""displayName"": {
+                        ""text"": ""Pampalini Lunchroom & Coffee - Utrecht 2014"",
+                        ""languageCode"": ""en""
+                    },
+                    ""primaryTypeDisplayName"": {
+                        ""text"": ""Restaurant""
+                    },
+                    ""shortFormattedAddress"": ""Wittevrouwenstraat 14, Utrecht"",
+                    ""goodForChildren"": true,
+                    ""allowsDogs"": true,
+                    ""location"": {
+                            ""latitude"": 52.092992300000006,
+                            ""longitude"": 5.1221492
+                            }
                     }
                 ],
                 ""nextPageToken"": ""AeeoHcI7Xnd8tU32jESwMvgnhAo6QAJfBz6liaHIUALeeGfQ-8NM763uoABKPHSXrxo6MwR6GPkQI3BuamzPLyfNC1ssp5P6JBXwRmUADDsokhrcRQ""

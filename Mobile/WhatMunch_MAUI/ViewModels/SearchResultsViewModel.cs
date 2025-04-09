@@ -27,10 +27,10 @@ namespace WhatMunch_MAUI.ViewModels
             _shellService = shellService;
             _logger = logger;
         }
-        public bool ShouldReset { get; set; }
 
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _places = [];
+        public bool ShouldReset { get; set; }
 
         public List<ObservableCollection<PlaceDto>> PageList = []; // First page added in code behind on appearing
 

@@ -9,5 +9,8 @@ namespace WhatMunch_MAUI.Models.Dtos
 
         [JsonPropertyName("nextPageToken")]
         public string? NextPageToken { get; set; }
+
+        [JsonIgnore]
+        public Location? SearchLocation { get; set; }
     }
 }

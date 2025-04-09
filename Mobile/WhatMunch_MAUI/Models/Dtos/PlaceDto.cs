@@ -47,6 +47,12 @@ namespace WhatMunch_MAUI.Models.Dtos
 
         [JsonPropertyName("shortFormattedAddress")]
         public string ShortFormattedAddress { get; set; } = AppResources.NotAvailable;
+
+        [JsonPropertyName("location")]
+        public PlaceLocation? Location { get; set; }
+
+        [JsonIgnore]
+        public double Distance { get; set; }
     }
 
     public class DisplayName
@@ -86,8 +92,12 @@ namespace WhatMunch_MAUI.Models.Dtos
         [JsonPropertyName("googleMapsUri")]
         public string GoogleMapsUri { get; set; } = string.Empty;
     }
-    public class Location
+    public class PlaceLocation
     {
         [JsonPropertyName("latitude")]
+        public double Latitude { get; set; }
+
+        [JsonPropertyName("longitude")]
+        public double Longitude { get; set; }
     }
 }

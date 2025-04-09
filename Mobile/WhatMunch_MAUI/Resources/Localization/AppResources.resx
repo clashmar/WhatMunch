@@ -259,7 +259,7 @@
     <value>Very Expensive</value>
   </data>
   <data name="20MinWalk" xml:space="preserve">
-    <value>20+ Minute Walk</value>
+    <value>20 Minute Walk</value>
   </data>
   <data name="UpdatedPreferences" xml:space="preserve">
     <value>Updated Preferences</value>
@@ -286,7 +286,7 @@
     <value>NotAvailable</value>
   </data>
   <data name="OpenNow" xml:space="preserve">
-    <value>OpenNow</value>
+    <value>Open Now</value>
   </data>
   <data name="establishment" xml:space="preserve">
     <value>establishment</value>
@@ -308,5 +308,11 @@
   </data>
   <data name="Vegetarian" xml:space="preserve">
     <value>Vegetarian</value>
+  </data>
+  <data name="30MinWalk" xml:space="preserve">
+    <value>30+ Minute Walk</value>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>Closed</value>
   </data>
 </root>
