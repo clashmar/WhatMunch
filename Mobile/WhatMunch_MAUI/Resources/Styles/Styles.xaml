@@ -37,6 +37,20 @@
                 Value="32" />
     </Style>
 
+    <Style TargetType="Border"
+           x:Key="CardView">
+        <Setter Property="Stroke"
+                Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape"
+                Value="RoundRectangle 10" />
+        <Setter Property="StrokeThickness"
+                Value="1" />
+        <Setter Property="Padding"
+                Value="10" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray400}}" />
+    </Style>
+
     <Style TargetType="BoxView">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>

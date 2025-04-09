@@ -50,6 +50,7 @@ namespace WhatMunch_MAUI.Extensions
                 InternationalPhoneNumber = placeDto.InternationalPhoneNumber,
                 Website = placeDto.WebsiteUri,
                 Address = placeDto.ShortFormattedAddress,
+                Reviews = placeDto.Reviews,
             };
         }
 

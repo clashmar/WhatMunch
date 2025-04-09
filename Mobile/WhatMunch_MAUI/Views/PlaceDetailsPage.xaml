@@ -6,11 +6,12 @@
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              xmlns:fasolid="clr-namespace:WhatMunch_MAUI.Models.Fonts"
              xmlns:controls="clr-namespace:WhatMunch_MAUI.Views.Controls"
+             xmlns:dtos="clr-namespace:WhatMunch_MAUI.Models.Dtos"
              x:Class="WhatMunch_MAUI.Views.PlaceDetailsPage"
              Title="{Binding Title}"
              x:DataType="viewmodel:PlaceDetailsViewModel">
     <ScrollView>
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
               RowSpacing="10">
 
             <Grid Grid.Row="0">
@@ -147,6 +148,42 @@
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Grid>
+            <VerticalStackLayout Grid.Row="5"
+                                 Spacing="5"
+                                 WidthRequest="380"
+                                 Margin="0,15,0,15">
+                <Label Text="{x:Static strings:AppResources.Reviews}"
+                       FontAttributes="Bold"
+                       FontSize="16" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Place.Reviews}"
+                                     Spacing="15">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="dtos:Review">
+                            <Border Style="{StaticResource CardView}">
+                                <VerticalStackLayout Spacing="5">
+                                    <HorizontalStackLayout Grid.Column="1"
+                                                           HorizontalOptions="Center"
+                                                           VerticalOptions="Center">
+                                        <Label Text="{Binding Rating, Converter={StaticResource IntToStarsConverter}}"
+                                               TextColor="{StaticResource NaplesYellow}"
+                                               FontFamily="FaSolid"
+                                               FontSize="15" />
+                                        <Label Text="{Binding Rating, Converter={StaticResource IntToEmptyStarsConverter}}"
+                                               TextColor="{StaticResource Gray400}"
+                                               FontFamily="FaSolid"
+                                               FontSize="15" />
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding Text.Text}"
+                                           FontSize="12"
+                                           HorizontalOptions="Center" />
+                                    <Label Text="{Binding RelativePublishTimeDescription}"
+                                           FontSize="12"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

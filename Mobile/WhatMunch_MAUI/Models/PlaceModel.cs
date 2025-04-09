@@ -1,4 +1,5 @@
-﻿using WhatMunch_MAUI.Resources.Localization;
+﻿using WhatMunch_MAUI.Models.Dtos;
+using WhatMunch_MAUI.Resources.Localization;
 
 namespace WhatMunch_MAUI.Models
 {
@@ -54,6 +55,9 @@ namespace WhatMunch_MAUI.Models
 
         [ObservableProperty]
         private string _address = AppResources.NotAvailable;
+
+        [ObservableProperty]
+        private List<Review> _reviews = [];
     }
 
     public class DisplayAttribute(string? icon, string text)

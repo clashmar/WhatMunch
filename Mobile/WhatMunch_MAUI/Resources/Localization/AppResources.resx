@@ -315,4 +315,7 @@
   <data name="Closed" xml:space="preserve">
     <value>Closed</value>
   </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Reviews:</value>
+  </data>
 </root>

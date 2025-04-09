@@ -51,6 +51,9 @@ namespace WhatMunch_MAUI.Models.Dtos
         [JsonPropertyName("location")]
         public PlaceLocation? Location { get; set; }
 
+        [JsonPropertyName("reviews")]
+        public List<Review> Reviews { get; set; } = [];
+
         [JsonIgnore]
         public double Distance { get; set; }
     }
@@ -99,5 +102,26 @@ namespace WhatMunch_MAUI.Models.Dtos
 
         [JsonPropertyName("longitude")]
         public double Longitude { get; set; }
+    }
+
+    public class Review
+    {
+        [JsonPropertyName("relativePublishTimeDescription")]
+        public string RelativePublishTimeDescription { get; set; } = string.Empty;
+
+        [JsonPropertyName("rating")]
+        public int Rating { get; set; }
+
+        [JsonPropertyName("text")]
+        public ReviewText? Text { get; set; } 
+    }
+
+    public class ReviewText
+    {
+        [JsonPropertyName("text")]
+        public string Text { get; set; } = string.Empty;
+
+        [JsonPropertyName("languageCode")]
+        public string LanguageCode { get; set; } = string.Empty;
     }
 }
