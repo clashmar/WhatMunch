@@ -36,7 +36,7 @@ namespace WhatMunch_MAUI.Extensions
                 Id = placeDto.Id,
                 DisplayName = placeDto.DisplayName?.Text ?? AppResources.NotAvailable,
                 PrimaryType = placeDto.PrimaryTypeDisplayName?.Text ?? AppResources.NotAvailable,
-                Types = placeDto.Types.ToDisplayTypes(),
+                Attributes = placeDto.Types.ToDisplayAttributes(placeDto),
                 Rating = placeDto.Rating,
                 UserRatingCount = placeDto.UserRatingCount,
                 PriceLevel = placeDto.PriceLevel.ToDollarDisplay(),
@@ -53,20 +53,51 @@ namespace WhatMunch_MAUI.Extensions
             };
         }
 
-        public static List<string> ToDisplayTypes(this List<string> types)
+        public static List<DisplayAttribute> ToDisplayAttributes(this List<string> types, PlaceDto placeDto)
         {
-            List<string> displayTypes = [];
+            List<DisplayAttribute> displayAttributes = [];
+
+            if (placeDto.RegularOpeningHours?.OpenNow ?? false)
+            {
+                displayAttributes.Add(new(FaSolid.DoorOpen, AppResources.OpenNow));
+            }
+
+            if (placeDto.AllowsDogs)
+            {
+                displayAttributes.Add(new(FaSolid.Dog, AppResources.DogFriendly));
+            }
+
+            if (placeDto.GoodForChildren)
+            {
+                displayAttributes.Add(new(FaSolid.Child, AppResources.ChildFriendly));
+            }
 
             foreach (var type in types)
             {
+                if (type == AppResources.establishment 
+                    || type == AppResources.point_of_interest
+                    || type == AppResources.food) 
+                    continue;
+
                 var cleaned = type.Replace("_", " ");
 
-                var display = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cleaned.ToLower());
+                var attribute = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cleaned.ToLower());
 
-                displayTypes.Add(display);
+                if (attribute == AppResources.VegetarianRestaurant)
+                {
+                    displayAttributes.Add(new(FaSolid.Leaf, AppResources.Vegetarian));
+                }
+                else if(attribute == AppResources.VeganRestaurant)
+                {
+                    displayAttributes.Add(new(FaSolid.Leaf, AppResources.Vegan));
+                }
+                else
+                {
+                    displayAttributes.Add(new(null, attribute));
+                }
             }
 
-            return displayTypes;
+            return displayAttributes;
         }
 
         public static string ToStars(this double rating)
@@ -82,7 +113,6 @@ namespace WhatMunch_MAUI.Extensions
             }
             return stars;
         }
-
         public static (string number, string remainder) ToDollarDisplay(this PriceLevel priceLevel)
         {
             string number = priceLevel switch

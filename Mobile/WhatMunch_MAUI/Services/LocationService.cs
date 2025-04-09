@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Utility.Exceptions;
 
 namespace WhatMunch_MAUI.Services
 {
@@ -39,7 +40,7 @@ namespace WhatMunch_MAUI.Services
                 else
                 {
                     _logger.LogError("Location permissions are disabled or unavailable");
-                    throw new InvalidOperationException("Location permissions are disabled or unavailable");
+                    throw new LocationException("Location permissions are disabled or unavailable");
                 }
             }
             catch (Exception ex)

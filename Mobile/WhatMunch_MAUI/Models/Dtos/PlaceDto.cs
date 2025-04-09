@@ -86,4 +86,8 @@ namespace WhatMunch_MAUI.Models.Dtos
         [JsonPropertyName("googleMapsUri")]
         public string GoogleMapsUri { get; set; } = string.Empty;
     }
+    public class Location
+    {
+        [JsonPropertyName("latitude")]
+    }
 }

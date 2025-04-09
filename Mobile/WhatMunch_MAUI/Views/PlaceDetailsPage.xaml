@@ -71,24 +71,17 @@
                             IndicatorSize="10"
                             HorizontalOptions="Center"/>
             <FlexLayout Grid.Row="3"
-                        BindableLayout.ItemsSource="{Binding Place.Types}"
+                        BindableLayout.ItemsSource="{Binding Place.Attributes}"
                         Direction="Row"
                         Wrap="Wrap"
                         JustifyContent="Center"
                         AlignItems="Center"
                         Margin="10">
-                <controls:IconLabelView IsVisible="{Binding Place.AllowsDogs}" 
-                                        Icon="{x:Static fasolid:FaSolid.Dog}"
-                                        Text="{x:Static strings:AppResources.DogFriendly}" />
-                <controls:IconLabelView IsVisible="{Binding Place.GoodForChildren}" 
-                                        Icon="{x:Static fasolid:FaSolid.Child}"
-                                        Text="{x:Static strings:AppResources.ChildFriendly}" />
                 <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <Border Style="{StaticResource Attribute}">
-                            <Label Text="{Binding .}" 
-                                   FontSize="14"/>
-                        </Border>
+                    <DataTemplate x:DataType="model:DisplayAttribute">
+
+                            <controls:IconLabelView Icon="{Binding Icon}"
+                                                    Text="{Binding Text}" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>

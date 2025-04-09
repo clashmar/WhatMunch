@@ -214,11 +214,29 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to establishment.
+        /// </summary>
+        internal static string establishment {
+            get {
+                return ResourceManager.GetString("establishment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expensive.
         /// </summary>
         internal static string Expensive {
             get {
                 return ResourceManager.GetString("Expensive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to food.
+        /// </summary>
+        internal static string food {
+            get {
+                return ResourceManager.GetString("food", resourceCulture);
             }
         }
         
@@ -331,6 +349,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OpenNow.
+        /// </summary>
+        internal static string OpenNow {
+            get {
+                return ResourceManager.GetString("OpenNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Must contain at least one lowercase, uppercase and numeric character..
         /// </summary>
         internal static string PasswordFormatError {
@@ -381,6 +408,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         internal static string PhoneNumber {
             get {
                 return ResourceManager.GetString("PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to point_of_interest.
+        /// </summary>
+        internal static string point_of_interest {
+            get {
+                return ResourceManager.GetString("point_of_interest", resourceCulture);
             }
         }
         
@@ -520,6 +556,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vegan.
+        /// </summary>
+        internal static string Vegan {
+            get {
+                return ResourceManager.GetString("Vegan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vegan Options.
         /// </summary>
         internal static string VeganOptions {
@@ -529,11 +574,38 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vegan Restaurant.
+        /// </summary>
+        internal static string VeganRestaurant {
+            get {
+                return ResourceManager.GetString("VeganRestaurant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vegetarian.
+        /// </summary>
+        internal static string Vegetarian {
+            get {
+                return ResourceManager.GetString("Vegetarian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Vegetarian Options.
         /// </summary>
         internal static string VegetarianOptions {
             get {
                 return ResourceManager.GetString("VegetarianOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vegetarian Restaurant.
+        /// </summary>
+        internal static string VegetarianRestaurant {
+            get {
+                return ResourceManager.GetString("VegetarianRestaurant", resourceCulture);
             }
         }
         

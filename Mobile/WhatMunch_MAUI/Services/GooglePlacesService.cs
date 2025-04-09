@@ -46,6 +46,7 @@ namespace WhatMunch_MAUI.Services
             "places.websiteUri," +
             "places.internationalPhoneNumber," +
             "places.shortFormattedAddress," +
+            "places.location," +
             "nextPageToken";
 
         public async Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences, string? pageToken = null)
@@ -167,6 +168,8 @@ namespace WhatMunch_MAUI.Services
                         ""types"": [
                             ""restaurant"",
                             ""point_of_interest"",
+                            ""vegan_restaurant"",
+                            ""vegetarian_restaurant"",
                             ""food"",
                             ""establishment""
                         ],
@@ -193,7 +196,7 @@ namespace WhatMunch_MAUI.Services
                             ""text"": ""Restaurant""
                         },
                         ""shortFormattedAddress"": ""Wittevrouwenstraat 14, Utrecht"",
-                        ""goodForChildren"": false,
+                        ""goodForChildren"": true,
                         ""allowsDogs"": true
                     }
                 ],

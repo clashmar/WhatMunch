@@ -14,7 +14,7 @@ namespace WhatMunch_MAUI.Models
         private string _primaryType = string.Empty;
 
         [ObservableProperty]
-        private List<string> _types = [];
+        private List<DisplayAttribute> _attributes = [];
 
         [ObservableProperty]
         private double _rating;
@@ -54,5 +54,11 @@ namespace WhatMunch_MAUI.Models
 
         [ObservableProperty]
         private string _address = AppResources.NotAvailable;
+    }
+
+    public class DisplayAttribute(string? icon, string text)
+    {
+        public string? Icon { get; set; } = icon;
+        public string Text { get; set; } = text;
     }
 }

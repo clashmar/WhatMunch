@@ -285,4 +285,28 @@
   <data name="NotAvailable" xml:space="preserve">
     <value>NotAvailable</value>
   </data>
+  <data name="OpenNow" xml:space="preserve">
+    <value>OpenNow</value>
+  </data>
+  <data name="establishment" xml:space="preserve">
+    <value>establishment</value>
+  </data>
+  <data name="point_of_interest" xml:space="preserve">
+    <value>point_of_interest</value>
+  </data>
+  <data name="VegetarianRestaurant" xml:space="preserve">
+    <value>Vegetarian Restaurant</value>
+  </data>
+  <data name="VeganRestaurant" xml:space="preserve">
+    <value>Vegan Restaurant</value>
+  </data>
+  <data name="food" xml:space="preserve">
+    <value>food</value>
+  </data>
+  <data name="Vegan" xml:space="preserve">
+    <value>Vegan</value>
+  </data>
+  <data name="Vegetarian" xml:space="preserve">
+    <value>Vegetarian</value>
+  </data>
 </root>
