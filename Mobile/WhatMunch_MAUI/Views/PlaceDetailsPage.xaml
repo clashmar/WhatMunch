@@ -39,10 +39,10 @@
                 </BoxView>
             </Grid>
             <Grid Grid.Row="2"
-                  ColumnDefinitions="*,*">
+                  ColumnDefinitions="*,*"
+                  WidthRequest="300">
                 <VerticalStackLayout Spacing="5"
-                                     Grid.Column="0"
-                                     Grid.ColumnSpan="2">
+                                     Grid.Column="0">
                     <Label Text="{Binding Place.RatingSummary}"
                            FontSize="20"
                            HorizontalOptions="Center"/>
@@ -52,6 +52,18 @@
                            FontSize="20"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
+                <HorizontalStackLayout Grid.Column="1"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                    <Label Text="{Binding Place.PriceLevel.number}"
+                           TextColor="{StaticResource NaplesYellow}"
+                           FontFamily="FaSolid"
+                           FontSize="30" />
+                    <Label Text="{Binding Place.PriceLevel.remainder}"
+                           TextColor="{StaticResource Gray100}"
+                           FontFamily="FaSolid"
+                           FontSize="30" />
+                </HorizontalStackLayout>
             </Grid>
             <IndicatorView Grid.Row="1" x:Name="indicatorView"
                             IndicatorColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray100}}"
@@ -91,7 +103,7 @@
                         <Label Text="{x:Static strings:AppResources.Website}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding Place.Website}"
-                               TextDecorations="Underline"
+                               TextDecorations="{Binding Place.Website, Converter={StaticResource ConditionalUnderlineConverter}}"
                                LineBreakMode="WordWrap">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding GoToWebsiteCommand}"
@@ -100,10 +112,11 @@
                         </Label>
                     </VerticalStackLayout>
                     <VerticalStackLayout>
-                        <Label Text="{x:Static strings:AppResources.PhoneNumber}"
+                        <Label x:Name="phoneNumber" 
+                               Text="{x:Static strings:AppResources.PhoneNumber}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding Place.InternationalPhoneNumber}"
-                               TextDecorations="Underline"
+                               TextDecorations="{Binding Place.InternationalPhoneNumber, Converter={StaticResource ConditionalUnderlineConverter}}"
                                LineBreakMode="WordWrap">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding GoToPhoneCommand}"
@@ -115,7 +128,12 @@
                         <Label Text="{x:Static strings:AppResources.Address}"
                                FontAttributes="Bold" />
                         <Label Text="{Binding Place.Address}"
-                               LineBreakMode="WordWrap"/>
+                               TextDecorations="{Binding Place.Address, Converter={StaticResource ConditionalUnderlineConverter}}"
+                               LineBreakMode="WordWrap">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToMapCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
                 <VerticalStackLayout Grid.Column="1"

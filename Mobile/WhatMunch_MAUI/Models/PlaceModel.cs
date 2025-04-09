@@ -1,9 +1,12 @@
-﻿using WhatMunch_MAUI.Models.Dtos;
+﻿using WhatMunch_MAUI.Resources.Localization;
 
 namespace WhatMunch_MAUI.Models
 {
     public partial class PlaceModel : ObservableObject
     {
+        [ObservableProperty]
+        private string _id = string.Empty;
+
         [ObservableProperty]
         private string? _displayName;
 
@@ -20,7 +23,7 @@ namespace WhatMunch_MAUI.Models
         private int _userRatingCount;
 
         [ObservableProperty]
-        private PriceLevel _priceLevel;
+        private (string number, string remainder) _priceLevel;
 
         [ObservableProperty]
         private bool _openNow;
@@ -38,21 +41,18 @@ namespace WhatMunch_MAUI.Models
         private bool _allowsDogs;
 
         [ObservableProperty]
-        private string? _mainPhoto;
-
-        [ObservableProperty]
         private string _ratingSummary = string.Empty;
 
         [ObservableProperty]
         private string _stars = string.Empty;
 
         [ObservableProperty]
-        private string _internationalPhoneNumber = string.Empty;
+        private string _internationalPhoneNumber = AppResources.NotAvailable;
 
         [ObservableProperty]
-        private string _website = string.Empty;
+        private string _website = AppResources.NotAvailable;
 
         [ObservableProperty]
-        private string _address = string.Empty;
+        private string _address = AppResources.NotAvailable;
     }
 }

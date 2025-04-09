@@ -6,4 +6,5 @@
     <converters:EnumToIntConverter x:Key="EnumToIntConverter" />
     <converters:PriceLevelToStringConverter x:Key="PriceLevelToStringConverter" />
     <converters:SearchRadiusToStringConverter x:Key="SearchRadiusToStringConverter" />
+    <converters:ConditionalUnderlineConverter x:Key="ConditionalUnderlineConverter" />
 </ResourceDictionary>

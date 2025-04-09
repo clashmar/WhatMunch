@@ -1,9 +1,13 @@
 ﻿using System.Text.Json.Serialization;
+using WhatMunch_MAUI.Resources.Localization;
 
 namespace WhatMunch_MAUI.Models.Dtos
 {
     public class PlaceDto
     {
+        [JsonPropertyName("id")]
+        public string Id { get; set; } = string.Empty;
+
         [JsonPropertyName("displayName")]
         public DisplayName? DisplayName { get; set; }
 
@@ -36,19 +40,19 @@ namespace WhatMunch_MAUI.Models.Dtos
         public bool AllowsDogs { get; set; }
 
         [JsonPropertyName("internationalPhoneNumber")]
-        public string InternationalPhoneNumber { get; set; } = string.Empty;
+        public string InternationalPhoneNumber { get; set; } = AppResources.NotAvailable;
 
         [JsonPropertyName("websiteUri")]
-        public string WebsiteUri { get; set; } = string.Empty;
+        public string WebsiteUri { get; set; } = AppResources.NotAvailable;
 
         [JsonPropertyName("shortFormattedAddress")]
-        public string ShortFormattedAddress { get; set; } = string.Empty;
+        public string ShortFormattedAddress { get; set; } = AppResources.NotAvailable;
     }
 
     public class DisplayName
     {
         [JsonPropertyName("text")]
-        public string Text { get; set; } = string.Empty;
+        public string Text { get; set; } = AppResources.NotAvailable;
 
         [JsonPropertyName("languageCode")]
         public string LanguageCode { get; set; } = string.Empty;
@@ -57,7 +61,7 @@ namespace WhatMunch_MAUI.Models.Dtos
     public class PrimaryTypeDisplayName
     {
         [JsonPropertyName("text")]
-        public string Text { get; set; } = string.Empty;
+        public string Text { get; set; } = AppResources.NotAvailable;
     }
 
     public class RegularOpeningHours

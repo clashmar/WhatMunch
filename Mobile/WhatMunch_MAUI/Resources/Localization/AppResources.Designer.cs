@@ -304,6 +304,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NotAvailable.
+        /// </summary>
+        internal static string NotAvailable {
+            get {
+                return ResourceManager.GetString("NotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ok.
         /// </summary>
         internal static string Ok {

@@ -32,6 +32,7 @@ namespace WhatMunch_MAUI.Services
 
         // Specify what the api returns
         private const string FIELD_MASK = "" +
+            "places.id," +
             "places.displayName," +
             "places.photos," +
             "places.primaryTypeDisplayName," +
@@ -50,16 +51,16 @@ namespace WhatMunch_MAUI.Services
         public async Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences, string? pageToken = null)
         {
             //Mock data for development
-            //var mockDeserializedData = JsonSerializer.Deserialize<TextSearchResponseDto>(MockJsonContent());
-            //if (mockDeserializedData is TextSearchResponseDto mockResponseDto)
-            //{
-            //    return Result<TextSearchResponseDto>.Success(mockResponseDto);
-            //}
-            //else
-            //{
-            //    _logger.LogError("Failed to deserialize mock response");
-            //    return Result<TextSearchResponseDto>.Failure("Failed to deserialize mock response");
-            //}
+            var mockDeserializedData = JsonSerializer.Deserialize<TextSearchResponseDto>(MockJsonContent());
+            if (mockDeserializedData is TextSearchResponseDto mockResponseDto)
+            {
+                return Result<TextSearchResponseDto>.Success(mockResponseDto);
+            }
+            else
+            {
+                _logger.LogError("Failed to deserialize mock response");
+                return Result<TextSearchResponseDto>.Failure("Failed to deserialize mock response");
+            }
 
             try
             {
@@ -162,84 +163,41 @@ namespace WhatMunch_MAUI.Services
             {
                 ""places"": [
                     {
-                        ""displayName"": { ""text"": ""La Mar Cocina San Francisco"", ""languageCode"": ""en"" },
-                        ""primaryType"": ""restaurant"",
-                        ""types"": [""seafood_restaurant"", ""restaurant""],
-                        ""rating"": 4.5,
-                        ""userRatingCount"": 4338,
-                        ""priceLevel"": ""PRICE_LEVEL_MODERATE"",
-                        ""regularOpeningHours"": { ""openNow"": true },
-                        ""goodForChildren"": true,
-                        ""allowsDogs"": false
-                    },
-                    {
-                        ""displayName"": { ""text"": ""Nobu SF"", ""languageCode"": ""en"" },
-                        ""primaryType"": ""restaurant"",
-                        ""types"": [""japanese_restaurant"", ""restaurant""],
-                        ""rating"": 4.7,
-                        ""userRatingCount"": 3254,
-                        ""priceLevel"": ""PRICE_LEVEL_EXPENSIVE"",
-                        ""regularOpeningHours"": { ""openNow"": false },
-                        ""goodForChildren"": false,
-                        ""allowsDogs"": false
-                    },
-                    {
-                        ""displayName"": { ""text"": ""Pizzeria Delfina"", ""languageCode"": ""en"" },
-                        ""primaryType"": ""restaurant"",
-                        ""types"": [""pizza_restaurant"", ""restaurant"", ""food""],
-                        ""rating"": 4.4,
-                        ""userRatingCount"": 2311,
-                        ""priceLevel"": ""PRICE_LEVEL_MODERATE"",
-                        ""regularOpeningHours"": { ""openNow"": true },
-                        ""photos"": [
-                            { ""name"": ""places/ChIJ99qUbClvxkcRs0PxgzGel-g/photos/AeeoHcJXypkz2dK3eSXpkIQMotkBWqa_p95SVnjMm0I1kUJ0UD2WdYpDM7cn11GTCnQnXG9idpd0c6GYeV7T603TZOfHgZtukThGQSWq7FTDI4k-Cq3mE5OOov7LUOeDtwSQ1gSIcY8oiuH0ktJ-a2cDTiGAjF6Lany6ykSs-5UH7XXiT4b_o53h8bmgoZ1YMWzH3W5pyJhpaEYvpe3nKkkyXyF0QZtu7uSEobxmEFrVU5INaVZVZi9zfxMZeNSk9VRB5ezawhpWIhVxf-kvKzMR3eYQnN2-gNRvXVrhM747YFg"", ""widthPx"": 4000, ""heightPx"": 3000, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
+                        ""id"": ""ChIJxUpFWk9vxkcRwNu9kxkQoM8"",
+                        ""types"": [
+                            ""restaurant"",
+                            ""point_of_interest"",
+                            ""food"",
+                            ""establishment""
                         ],
-                        ""goodForChildren"": true,
-                        ""allowsDogs"": true
-                    },
-                    {
-                        ""displayName"": { ""text"": ""The French Laundry"", ""languageCode"": ""en"" },
-                        ""primaryType"": ""cafe"",
-                        ""types"": [""french_restaurant"", ""restaurant"", ""cafe""],
                         ""rating"": 4.9,
-                        ""userRatingCount"": 1245,
-                        ""priceLevel"": ""PRICE_LEVEL_EXPENSIVE"",
-                        ""regularOpeningHours"": { ""openNow"": false },
-                        ""photos"": [
-                            { ""name"": ""places/ChIJ99qUbClvxkcRs0PxgzGel-g/photos/AeeoHcJXypkz2dK3eSXpkIQMotkBWqa_p95SVnjMm0I1kUJ0UD2WdYpDM7cn11GTCnQnXG9idpd0c6GYeV7T603TZOfHgZtukThGQSWq7FTDI4k-Cq3mE5OOov7LUOeDtwSQ1gSIcY8oiuH0ktJ-a2cDTiGAjF6Lany6ykSs-5UH7XXiT4b_o53h8bmgoZ1YMWzH3W5pyJhpaEYvpe3nKkkyXyF0QZtu7uSEobxmEFrVU5INaVZVZi9zfxMZeNSk9VRB5ezawhpWIhVxf-kvKzMR3eYQnN2-gNRvXVrhM747YFg"", ""widthPx"": 4500, ""heightPx"": 3400, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
-                        ],
+                        ""websiteUri"": ""https://www.pampalini.nl/"",
+                        ""regularOpeningHours"": {
+                            ""openNow"": true,
+                            ""weekdayDescriptions"": [
+                                ""Monday: Closed"",
+                                ""Tuesday: Closed"",
+                                ""Wednesday: 10:00 AM – 4:30 PM"",
+                                ""Thursday: 10:00 AM – 4:30 PM"",
+                                ""Friday: 10:00 AM – 4:30 PM"",
+                                ""Saturday: 10:00 AM – 4:30 PM"",
+                                ""Sunday: 10:00 AM – 4:30 PM""
+                            ]
+                        },
+                        ""userRatingCount"": 1765,
+                        ""displayName"": {
+                            ""text"": ""Pampalini Lunchroom & Coffee - Utrecht 2014"",
+                            ""languageCode"": ""en""
+                        },
+                        ""primaryTypeDisplayName"": {
+                            ""text"": ""Restaurant""
+                        },
+                        ""shortFormattedAddress"": ""Wittevrouwenstraat 14, Utrecht"",
                         ""goodForChildren"": false,
-                        ""allowsDogs"": false
-                    },
-                    {
-                        ""displayName"": { ""text"": ""Mission Chinese Food"", ""languageCode"": ""en"" },
-                        ""primaryType"": ""restaurant"",
-                        ""types"": [""chinese_restaurant"", ""restaurant""],
-                        ""rating"": 4.3,
-                        ""userRatingCount"": 2891,
-                        ""priceLevel"": ""PRICE_LEVEL_INEXPENSIVE"",
-                        ""regularOpeningHours"": { ""openNow"": true },
-                        ""photos"": [
-                            { ""name"": ""places/ChIJ99qUbClvxkcRs0PxgzGel-g/photos/AeeoHcJXypkz2dK3eSXpkIQMotkBWqa_p95SVnjMm0I1kUJ0UD2WdYpDM7cn11GTCnQnXG9idpd0c6GYeV7T603TZOfHgZtukThGQSWq7FTDI4k-Cq3mE5OOov7LUOeDtwSQ1gSIcY8oiuH0ktJ-a2cDTiGAjF6Lany6ykSs-5UH7XXiT4b_o53h8bmgoZ1YMWzH3W5pyJhpaEYvpe3nKkkyXyF0QZtu7uSEobxmEFrVU5INaVZVZi9zfxMZeNSk9VRB5ezawhpWIhVxf-kvKzMR3eYQnN2-gNRvXVrhM747YFg"", ""widthPx"": 4200, ""heightPx"": 3100, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
-                        ],
-                        ""goodForChildren"": true,
-                        ""allowsDogs"": false
-                    },
-                    {
-                        ""displayName"": { ""text"": ""Benu"", ""languageCode"": ""en"" },
-                        ""primaryType"": ""restaurant"",
-                        ""types"": [""fine_dining_restaurant"", ""restaurant""],
-                        ""rating"": 4.8,
-                        ""userRatingCount"": 897,
-                        ""priceLevel"": ""PRICE_LEVEL_VERY_EXPENSIVE"",
-                        ""regularOpeningHours"": { ""openNow"": false },
-                        ""photos"": [
-                            { ""name"": ""places/ChIJ99qUbClvxkcRs0PxgzGel-g/photos/AeeoHcJXypkz2dK3eSXpkIQMotkBWqa_p95SVnjMm0I1kUJ0UD2WdYpDM7cn11GTCnQnXG9idpd0c6GYeV7T603TZOfHgZtukThGQSWq7FTDI4k-Cq3mE5OOov7LUOeDtwSQ1gSIcY8oiuH0ktJ-a2cDTiGAjF6Lany6ykSs-5UH7XXiT4b_o53h8bmgoZ1YMWzH3W5pyJhpaEYvpe3nKkkyXyF0QZtu7uSEobxmEFrVU5INaVZVZi9zfxMZeNSk9VRB5ezawhpWIhVxf-kvKzMR3eYQnN2-gNRvXVrhM747YFg"", ""widthPx"": 4600, ""heightPx"": 3500, ""googleMapsUri"": ""https://www.google.com/maps/place//data=!3m4!1e2!3m2!1sCIHM0ogKEICAgIDfhaO7_gE!2e10!4m2!3m1!1s0x8085806737ca1051:0xaa881a41cd0c4037"" }
-                        ],
-                        ""goodForChildren"": false,
-                        ""allowsDogs"": false
+                        ""allowsDogs"": true
                     }
-                ]
+                ],
+                ""nextPageToken"": ""AeeoHcI7Xnd8tU32jESwMvgnhAo6QAJfBz6liaHIUALeeGfQ-8NM763uoABKPHSXrxo6MwR6GPkQI3BuamzPLyfNC1ssp5P6JBXwRmUADDsokhrcRQ""
             }";
         }
     }
