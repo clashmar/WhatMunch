@@ -8,8 +8,20 @@
     Shell.FlyoutBehavior="Flyout"
     Title="WhatMunch">
 
-    <ShellContent
-        Title="Start"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent
+            Title="Start"
+            ContentTemplate="{DataTemplate local:MainPage}"
+            Route="MainPage" />
+
+        <ShellContent Title="Profile"
+                      Icon="person.png"
+                      Route="ProfilePage"
+                      ContentTemplate="{DataTemplate views:SearchPreferencesPage}" />
+
+        <ShellContent Title="Search"
+                      Icon="search.png"
+                      Route="SearchPage"
+                      ContentTemplate="{DataTemplate views:SearchPage}" />
+    </TabBar>
 </Shell>
