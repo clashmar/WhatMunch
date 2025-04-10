@@ -9,7 +9,6 @@ namespace WhatMunch_MAUI.Tests.Unit
 {
     public class SearchServiceTests
     {
-        private readonly Mock<IShellService> _shellServiceMock;
         private readonly Mock<ILogger<SearchService>> _loggerMock;
         private readonly Mock<IGooglePlacesService> _googlePlacesServiceMock;
         private readonly Mock<IConnectivity> _connectivityMock;
@@ -18,14 +17,12 @@ namespace WhatMunch_MAUI.Tests.Unit
 
         public SearchServiceTests()
         {
-            _shellServiceMock = new();
             _loggerMock = new();
             _googlePlacesServiceMock = new();
             _connectivityMock = new();
             _searchPreferencesServiceMock = new();
 
             _service = new(
-                _shellServiceMock.Object,
                 _loggerMock.Object,
                 _googlePlacesServiceMock.Object,
                 _connectivityMock.Object,

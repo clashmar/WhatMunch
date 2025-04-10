@@ -34,15 +34,54 @@
                         <DataTemplate x:DataType="model:PlaceDto">
                             <Grid Padding="10">
                                 <Border HeightRequest="125"
-                                        StrokeShape="RoundRectangle 10,10,10,10">
+                                        Style="{StaticResource CardView}">
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer CommandParameter="{Binding . }"
                                                               Command="{Binding GoToPlaceDetailsCommand, x:DataType=viewmodel:SearchResultsViewModel, Source={RelativeSource AncestorType={x:Type viewmodel:SearchResultsViewModel}}}" />
                                     </Border.GestureRecognizers>
-                                    <HorizontalStackLayout Spacing="10">
-                                        <Label Text="{Binding DisplayName.Text}" />
-                                        <Label Text="{Binding PrimaryTypeDisplayName.Text}" />
-                                    </HorizontalStackLayout>
+                                    <Grid ColumnDefinitions="Auto,*"
+                                          ColumnSpacing="10">
+                                        <!--<Image Grid.Column="0" 
+                                               Source="empty_photo.png"
+                                               VerticalOptions="Center"/>-->
+                                        <Label Grid.Column="0" Text="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToIconConverter}}"
+                                               FontFamily="FaSolid"
+                                               TextColor="{StaticResource Tomato}"
+                                               FontSize="60"
+                                               Margin="10"
+                                               VerticalOptions="Center"/>
+                                        <VerticalStackLayout Grid.Column="1" 
+                                                             Spacing="6"
+                                                             VerticalOptions="Center">
+                                            <Label Text="{Binding DisplayName.Text}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="15"/>
+                                            <Label Text="{Binding PrimaryTypeDisplayName.Text}"
+                                                       FontSize="16"/>
+                                            <HorizontalStackLayout Spacing="5">
+                                                <Border Style="{StaticResource ResultTag}">
+                                                    <HorizontalStackLayout Spacing="2">
+                                                        <Label Text="{Binding Rating}"
+                                                               FontSize="15"/>
+                                                        <Label Text="&#x2b50;"
+                                                               FontFamily="FaSolid"
+                                                               TextColor="{StaticResource NaplesYellow}"
+                                                               VerticalOptions="Center" />
+                                                    </HorizontalStackLayout>
+                                                </Border>
+                                                <Border Style="{StaticResource ResultTag}">
+                                                    <Label Text="{Binding PriceLevel, Converter={StaticResource PriceLevelToDollarSignConverter}}"
+                                                           FontSize="15"
+                                                           TextColor="{StaticResource NaplesYellow}"
+                                                           FontAttributes="Bold" />
+                                                </Border>
+                                                <Border Style="{StaticResource ResultTag}">
+                                                    <Label Text="{Binding Distance, Converter={StaticResource KilometersToLocalizedDistanceConverter}}"
+                                                           FontSize="15" />
+                                                </Border>
+                                            </HorizontalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Grid>
                                 </Border>
                             </Grid>
                         </DataTemplate>

@@ -36,7 +36,6 @@ namespace WhatMunch_MAUI.ViewModels
                 if (response.Places.Count > 0)
                 {
                     var places = response.Places
-                        .AddDistances(response.SearchLocation)
                         .ToObservableCollection();
 
                     await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
@@ -102,6 +101,7 @@ namespace WhatMunch_MAUI.ViewModels
 
         public override void ResetViewModel()
         {
+            // TODO: Implement ResetViewModel in Dashboard
             throw new NotImplementedException();
         }
     }

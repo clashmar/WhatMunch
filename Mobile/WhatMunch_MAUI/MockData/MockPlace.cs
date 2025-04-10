@@ -9,6 +9,7 @@
             ""places"": [
                 {
                     ""id"": ""ChIJxUpFWk9vxkcRwNu9kxkQoM8"",
+                    ""primaryType"": ""cafe"",
                     ""types"": [
                         ""restaurant"",
                         ""point_of_interest"",

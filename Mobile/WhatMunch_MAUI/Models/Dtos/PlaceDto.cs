@@ -8,6 +8,9 @@ namespace WhatMunch_MAUI.Models.Dtos
         [JsonPropertyName("id")]
         public string Id { get; set; } = string.Empty;
 
+        [JsonPropertyName("primaryType")]
+        public string PrimaryType { get; set; } = string.Empty;
+
         [JsonPropertyName("displayName")]
         public DisplayName? DisplayName { get; set; }
 

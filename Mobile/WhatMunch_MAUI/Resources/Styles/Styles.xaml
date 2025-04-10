@@ -51,6 +51,20 @@
                 Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray400}}" />
     </Style>
 
+    <Style TargetType="Border"
+           x:Key="ResultTag">
+        <Setter Property="Stroke"
+                Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+        <Setter Property="StrokeShape"
+                Value="RoundRectangle 10" />
+        <Setter Property="StrokeThickness"
+                Value="1" />
+        <Setter Property="Padding"
+                Value="8,2,8,2" />
+        <Setter Property="BackgroundColor"
+                Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource White}}" />
+    </Style>
+
     <Style TargetType="BoxView">
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>

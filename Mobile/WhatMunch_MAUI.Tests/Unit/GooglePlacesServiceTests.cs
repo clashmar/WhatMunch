@@ -63,6 +63,7 @@ namespace WhatMunch_MAUI.Tests.Unit
             Assert.Equal(PriceLevel.PRICE_LEVEL_MODERATE, place.PriceLevel);
 
             // Types
+            Assert.Equal("cafe", place.PrimaryType);
             Assert.Contains("restaurant", place.Types);
             Assert.Contains("food", place.Types);
 

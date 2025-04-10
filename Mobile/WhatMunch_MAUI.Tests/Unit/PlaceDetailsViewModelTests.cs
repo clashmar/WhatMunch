@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using System;
 using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.ViewModels;
 
@@ -13,7 +12,6 @@ namespace WhatMunch_MAUI.Tests.Unit
         private readonly PlaceDetailsViewModel _viewModel;
 
         private const string VALID_PHONE_NUMBER = "123456789";
-        private const string InvalidPhoneNumber = "";
 
         public PlaceDetailsViewModelTests()
         {

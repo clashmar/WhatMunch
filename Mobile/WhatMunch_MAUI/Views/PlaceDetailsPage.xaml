@@ -21,6 +21,7 @@
                               HeightRequest="250">
                     <CarouselView.ItemTemplate>
                         <DataTemplate x:DataType="x:String">
+                            <!-- TODO: Lazy load images -->
                             <Image Source="{Binding .}"
                                    Aspect="AspectFill" />
                         </DataTemplate>
