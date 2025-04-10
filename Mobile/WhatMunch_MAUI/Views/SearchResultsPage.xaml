@@ -41,12 +41,9 @@
                                     </Border.GestureRecognizers>
                                     <Grid ColumnDefinitions="Auto,*"
                                           ColumnSpacing="10">
-                                        <!--<Image Grid.Column="0" 
-                                               Source="empty_photo.png"
-                                               VerticalOptions="Center"/>-->
                                         <Label Grid.Column="0" Text="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToIconConverter}}"
                                                FontFamily="FaSolid"
-                                               TextColor="{StaticResource Tomato}"
+                                               TextColor="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToColorConverter}}"
                                                FontSize="60"
                                                Margin="10"
                                                VerticalOptions="Center"/>

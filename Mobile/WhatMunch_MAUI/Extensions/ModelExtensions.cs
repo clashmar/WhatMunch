@@ -95,9 +95,11 @@ namespace WhatMunch_MAUI.Extensions
 
             foreach (var type in types)
             {
-                if (type == AppResources.establishment
-                    || type == AppResources.point_of_interest
-                    || type == AppResources.food)
+                if (type == "establishment"
+                    || type == "point_of_interest"
+                    || type == "food_store"
+                    || type == "store"
+                    || type == "food")
                     continue;
 
                 var attribute = CultureInfo.CurrentCulture.TextInfo

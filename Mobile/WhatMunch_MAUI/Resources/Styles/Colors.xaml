@@ -33,12 +33,16 @@
     <Color x:Key="NaplesYellow">#F4D35E</Color>
     <Color x:Key="SandyBrown">#EE964B</Color>
     <Color x:Key="Tomato">#F95738</Color>
+    <Color x:Key="OliveGreen">#90B44B</Color>
+    <Color x:Key="TrueBrown">#8B4513</Color>
 
     <Color x:Key="YaleBlueDark">#0A2C52</Color>
     <Color x:Key="BeigeDark">#3A3A30</Color>
     <Color x:Key="NaplesYellowDark">#C9A742</Color>
     <Color x:Key="SandyBrownDark">#B86A3F</Color>
     <Color x:Key="TomatoDark">#BF3C2C</Color>
+    <Color x:Key="OliveGreenDark">#5A7B2E</Color>
+    <Color x:Key="TrueBrownDark">#5C2A08</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>

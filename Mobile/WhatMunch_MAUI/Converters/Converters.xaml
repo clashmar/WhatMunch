@@ -12,4 +12,5 @@
     <converters:IntToEmptyStarsConverter x:Key="IntToEmptyStarsConverter" />
     <converters:KilometersToLocalizedDistanceConverter x:Key="KilometersToLocalizedDistanceConverter" />
     <converters:PrimaryTypeToIconConverter x:Key="PrimaryTypeToIconConverter" />
+    <converters:PrimaryTypeToColorConverter x:Key="PrimaryTypeToColorConverter" />
 </ResourceDictionary>

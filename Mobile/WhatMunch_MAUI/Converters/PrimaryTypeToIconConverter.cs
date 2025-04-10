@@ -38,4 +38,46 @@ namespace WhatMunch_MAUI.Converters
             return 0;
         }
     }
+    public class PrimaryTypeToColorConverter : IValueConverter
+    {
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            if (value is not string type)
+                return Colors.Transparent;
+
+            bool isDark = Application.Current?.RequestedTheme == AppTheme.Dark;
+
+            return type switch
+            {
+                "american_restaurant" => GetColor("Tomato", isDark),
+                "asian_restaurant" or "thai_restaurant" or "sushi_restaurant" => GetColor("SandyBrown", isDark),
+                "bakery" => GetColor("NaplesYellow", isDark),
+                "brunch_restaurant" or "breakfast_restaurant" => GetColor("Tomato", isDark),
+                "cafe" or "coffee_shop" => GetColor("TrueBrown", isDark),
+                "meal_takeaway" => GetColor("Tomato", isDark),
+                "mexican_restaurant" => GetColor("Tomato", isDark),
+                "pub" => GetColor("NaplesYellow", isDark),
+                "ramen_restaurant" => GetColor("SandyBrown", isDark),
+                "wine_bar" or "bar" => GetColor("Tomato", isDark),
+                "fast_food_restaurant" => GetColor("Tomato", isDark),
+                "seafood_restaurant" => GetColor("YaleBlue", isDark),
+                "vegan_restaurant" or "vegetarian_restaurant" => GetColor("OliveGreen", isDark),
+                "italian_restaurant" or "pizza_restaurant" => GetColor("Tomato", isDark),
+                "dessert_restaurant" or "dessert_shop" => GetColor("NaplesYellow", isDark),
+                "candy_store" => GetColor("Tomato", isDark),
+                _ => GetColor("YaleBlue", isDark)
+            };
+        }
+
+        private static Color GetColor(string baseKey, bool isDark)
+        {
+            string key = isDark ? $"{baseKey}Dark" : baseKey;
+            return Application.Current?.Resources[key] as Color ?? Colors.Black;
+        }
+
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
