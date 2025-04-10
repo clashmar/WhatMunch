@@ -81,7 +81,6 @@
                         Margin="10">
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="model:DisplayAttribute">
-
                             <controls:IconLabelView Icon="{Binding Icon}"
                                                     Text="{Binding Text}" />
                     </DataTemplate>

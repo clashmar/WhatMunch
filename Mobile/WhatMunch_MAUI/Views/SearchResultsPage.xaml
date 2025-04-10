@@ -5,7 +5,7 @@
              xmlns:model="clr-namespace:WhatMunch_MAUI.Models.Dtos"
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              x:Class="WhatMunch_MAUI.Views.SearchResultsPage"
-             Title="SearchResultsPage"
+             Title="{x:Static strings:AppResources.Results}"
              x:DataType="viewmodel:SearchResultsViewModel">
     <Grid>
         <ActivityIndicator IsVisible="{Binding IsBusy}"

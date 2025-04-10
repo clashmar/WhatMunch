@@ -13,4 +13,5 @@
     <converters:KilometersToLocalizedDistanceConverter x:Key="KilometersToLocalizedDistanceConverter" />
     <converters:PrimaryTypeToIconConverter x:Key="PrimaryTypeToIconConverter" />
     <converters:PrimaryTypeToColorConverter x:Key="PrimaryTypeToColorConverter" />
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 </ResourceDictionary>

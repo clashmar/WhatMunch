@@ -232,29 +232,11 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to establishment.
-        /// </summary>
-        public static string establishment {
-            get {
-                return ResourceManager.GetString("establishment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Expensive.
         /// </summary>
         public static string Expensive {
             get {
                 return ResourceManager.GetString("Expensive", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to food.
-        /// </summary>
-        public static string food {
-            get {
-                return ResourceManager.GetString("food", resourceCulture);
             }
         }
         
@@ -430,15 +412,6 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to point_of_interest.
-        /// </summary>
-        public static string point_of_interest {
-            get {
-                return ResourceManager.GetString("point_of_interest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Previous.
         /// </summary>
         public static string Previous {
@@ -462,6 +435,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string Relevance {
             get {
                 return ResourceManager.GetString("Relevance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Results:.
+        /// </summary>
+        public static string Results {
+            get {
+                return ResourceManager.GetString("Results", resourceCulture);
             }
         }
         

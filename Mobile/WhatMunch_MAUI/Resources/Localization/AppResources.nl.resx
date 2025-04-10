@@ -288,19 +288,10 @@
   <data name="OpenNow" xml:space="preserve">
     <value />
   </data>
-  <data name="establishment" xml:space="preserve">
-    <value />
-  </data>
-  <data name="point_of_interest" xml:space="preserve">
-    <value />
-  </data>
   <data name="VegetarianRestaurant" xml:space="preserve">
     <value />
   </data>
   <data name="VeganRestaurant" xml:space="preserve">
-    <value />
-  </data>
-  <data name="food" xml:space="preserve">
     <value />
   </data>
   <data name="Vegan" xml:space="preserve">
@@ -316,6 +307,9 @@
     <value />
   </data>
   <data name="Reviews" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Results" xml:space="preserve">
     <value />
   </data>
 </root>
