@@ -8,8 +8,12 @@ namespace WhatMunch_MAUI.Extensions
 {
     public static class ModelExtensions
     {
+        private const string EmptyPhoto = "empty_photo.svg";
+
         public static RegistrationRequestDto ToDto(this RegistrationModel registrationModel)
         {
+            ArgumentNullException.ThrowIfNull(registrationModel);
+
             return new RegistrationRequestDto()
             {
                 Email = registrationModel.Email,
@@ -20,6 +24,8 @@ namespace WhatMunch_MAUI.Extensions
 
         public static LoginRequestDto ToDto(this LoginModel loginModel)
         {
+            ArgumentNullException.ThrowIfNull(loginModel);
+
             return new LoginRequestDto()
             {
                 Username = loginModel.Username,
@@ -29,6 +35,8 @@ namespace WhatMunch_MAUI.Extensions
 
         public static PlaceModel ToModel(this PlaceDto placeDto)
         {
+            ArgumentNullException.ThrowIfNull(placeDto);
+
             string ratingSummary = $"{placeDto.Rating} ({placeDto.UserRatingCount})";
 
             return new PlaceModel()
@@ -42,7 +50,7 @@ namespace WhatMunch_MAUI.Extensions
                 PriceLevel = placeDto.PriceLevel.ToDollarDisplay(),
                 OpenNow = placeDto.RegularOpeningHours!.OpenNow,
                 OpeningTimes = placeDto.RegularOpeningHours.WeekdayDescriptions ?? [],
-                Photos = placeDto.Photos?.ToDisplayPhotos() ?? ["empty_photo.svg"],
+                Photos = placeDto.Photos?.ToDisplayPhotos() ?? [EmptyPhoto],
                 GoodForChildren = placeDto.GoodForChildren,
                 AllowsDogs = placeDto.AllowsDogs,
                 Stars = placeDto.Rating.ToStars(),
@@ -56,6 +64,9 @@ namespace WhatMunch_MAUI.Extensions
 
         public static List<DisplayAttribute> ToDisplayAttributes(this List<string> types, PlaceDto placeDto)
         {
+            ArgumentNullException.ThrowIfNull(types);
+            ArgumentNullException.ThrowIfNull(placeDto);
+
             List<DisplayAttribute> displayAttributes = [];
 
             if (placeDto.RegularOpeningHours?.OpenNow ?? false)
@@ -69,30 +80,7 @@ namespace WhatMunch_MAUI.Extensions
 
             if (placeDto.Distance > 0)
             {
-                string distance;
-
-                if (placeDto.Distance <= 0.4)
-                {
-                    distance = AppResources._5MinWalk;
-                }
-                else if (placeDto.Distance <= 0.8)
-                {
-                    distance = AppResources._10MinWalk;
-                }
-                else if (placeDto.Distance <= 1.2)
-                {
-                    distance = AppResources._15MinWalk;
-                }
-                else if (placeDto.Distance <= 1.6)
-                {
-                    distance = AppResources._20MinWalk;
-                }
-                else
-                {
-                    distance = AppResources._30MinWalk;
-                }
-
-                displayAttributes.Add(new(FaSolid.ShoePrints, distance));
+                displayAttributes.Add(new DisplayAttribute(FaSolid.ShoePrints, GetDistanceDescription(placeDto.Distance)));
             }
 
             if (placeDto.AllowsDogs)
@@ -107,20 +95,20 @@ namespace WhatMunch_MAUI.Extensions
 
             foreach (var type in types)
             {
-                if (type == AppResources.establishment 
+                if (type == AppResources.establishment
                     || type == AppResources.point_of_interest
-                    || type == AppResources.food) 
+                    || type == AppResources.food)
                     continue;
 
-                var cleaned = type.Replace("_", " ");
-
-                var attribute = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(cleaned.ToLower());
+                var attribute = CultureInfo.CurrentCulture.TextInfo
+                    .ToTitleCase(type.Replace("_", " ")
+                    .ToLower());
 
                 if (attribute == AppResources.VegetarianRestaurant)
                 {
                     displayAttributes.Add(new(FaSolid.Leaf, AppResources.Vegetarian));
                 }
-                else if(attribute == AppResources.VeganRestaurant)
+                else if (attribute == AppResources.VeganRestaurant)
                 {
                     displayAttributes.Add(new(FaSolid.Leaf, AppResources.Vegan));
                 }
@@ -165,20 +153,25 @@ namespace WhatMunch_MAUI.Extensions
 
         public static List<string> ToDisplayPhotos(this List<PlacePhoto> photos)
         {
-            if (photos is null || photos.Count < 1) return ["empty_photo.svg"];
+            if (photos == null || photos.Count == 0) return [EmptyPhoto];
 
-            List<string> displayPhotos = [];
+            return photos.Select(photo =>
+                string.IsNullOrEmpty(photo.Name)
+                    ? EmptyPhoto
+                    : $"https://places.googleapis.com/v1/{photo.Name}/media?maxWidthPx=600&key={ApiKeys.GOOGLE_MAPS_API_KEY}"
+            ).ToList();
+        }
 
-            foreach (var photo in photos)
+        private static string GetDistanceDescription(double distance)
+        {
+            return distance switch
             {
-                string? reference = photo.Name;
-                string displayPhoto = string.IsNullOrEmpty(reference)
-                    ? "empty_photo.svg"
-                    : $"https://places.googleapis.com/v1/{reference}/media?maxWidthPx=600&key={ApiKeys.GOOGLE_MAPS_API_KEY}";
-
-                displayPhotos.Add(displayPhoto);
-            }
-            return displayPhotos.Count > 0 ? displayPhotos : ["empty_photo.svg"];
+                <= 0.4 => AppResources._5MinWalk,
+                <= 0.8 => AppResources._10MinWalk,
+                <= 1.2 => AppResources._15MinWalk,
+                <= 1.6 => AppResources._20MinWalk,
+                _ => AppResources._30MinWalk
+            };
         }
     }
 }
