@@ -6,9 +6,12 @@
         "restaurant",
         "point_of_interest",
         "food",
-        "establishment"
+        "establishment",
+        "vegetarian_retaurant",
+        "vegan_restaurant"
       ],
       "rating": 4.9,
+      "priceLevel": "PRICE_LEVEL_MODERATE",
       "websiteUri": "https://www.pampalini.nl/",
       "regularOpeningHours": {
         "openNow": true,
@@ -31,7 +34,7 @@
         "text": "Restaurant"
       },
       "shortFormattedAddress": "Wittevrouwenstraat 14, Utrecht",
-      "goodForChildren": false,
+      "goodForChildren": true,
       "allowsDogs": true,
       "location": {
         "latitude": 52.092992300000006,

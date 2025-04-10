@@ -36,7 +36,9 @@ public static class MauiProgram
         builder.Services
             .AddLogging()
             .AddSingleton<IConnectivity>(Connectivity.Current)
-            .AddSingleton<IGeolocation>(Geolocation.Default)
+            .AddSingleton<IGeolocation>(Geolocation.Default);
+
+        builder.Services
             .AddSingleton<ITokenService, TokenService>()
             .AddSingleton<IShellService, ShellService>()
             .AddSingleton<ISearchService, SearchService>()
@@ -45,8 +47,9 @@ public static class MauiProgram
             .AddSingleton<ISearchPreferencesService, SearchPreferencesService>()
             .AddSingleton<IRegistrationService, RegistrationService>()
             .AddSingleton<ILoginService, LoginService>()
-            .AddSingleton<IGooglePlacesService, GooglePlacesService>()
-            .AddSingleton<AppShell>()
+            .AddSingleton<IGooglePlacesService, GooglePlacesService>();
+
+        builder.Services
             .AddSingleton<LoginViewModel>()
             .AddSingleton<RegistrationViewModel>()
             .AddSingleton<DashboardViewModel>()
@@ -54,6 +57,8 @@ public static class MauiProgram
             .AddSingleton<SearchPreferencesViewModel>()
             .AddTransient<PlaceDetailsViewModel>();
 
-		return builder.Build();
+        builder.Services.AddSingleton<AppShell>();
+
+        return builder.Build();
 	}
 }

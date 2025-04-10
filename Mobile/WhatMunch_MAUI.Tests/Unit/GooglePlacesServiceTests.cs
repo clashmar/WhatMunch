@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using RichardSzalay.MockHttp;
+using WhatMunch_MAUI.MockData;
 using WhatMunch_MAUI.Models;
-using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Services;
 
 namespace WhatMunch_MAUI.Tests.Unit
@@ -28,8 +28,8 @@ namespace WhatMunch_MAUI.Tests.Unit
         public async Task GetNearbySearchResults_DeserializesCorrectly_AndReturnsSuccess()
         {
             // Arrange
-            var jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MockData", "mockPlace.json");
-            var mockJson = File.ReadAllText(jsonPath);
+            var mockJson = MockPlace.GetMockPlaceJson();
+
 
             _locationServiceMock.Setup(m => m.GetLocationWithTimeoutAsync())
                 .ReturnsAsync(new Location(37.7749, -122.4194));
@@ -51,15 +51,43 @@ namespace WhatMunch_MAUI.Tests.Unit
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Data);
             Assert.NotEmpty(result.Data.Places);
-            Assert.Equal("La Mar Cocina Peruana San Francisco", result.Data.Places.First()?.DisplayName?.Text);
-            Assert.Equal(4.5, result.Data.Places.First()?.Rating);
-            Assert.Equal(4338, result.Data.Places.First()?.UserRatingCount);
-            Assert.Equal(PriceLevel.PRICE_LEVEL_MODERATE, result.Data.Places.First()?.PriceLevel);
-            Assert.True(result.Data.Places.First()?.RegularOpeningHours.OpenNow);
-            Assert.True(result.Data.Places.First()?.GoodForChildren);
-            Assert.True(result.Data.Places.First()?.AllowsDogs);
-            Assert.False(string.IsNullOrEmpty(result.Data.Places.First()?.Photos.First()?.GoogleMapsUri));
-            Assert.Contains("restaurant", result.Data.Places.First()?.Types!);
+
+            var place = result.Data.Places.First();
+
+            // Basic info
+            Assert.Equal("Pampalini Lunchroom & Coffee - Utrecht 2014", place.DisplayName?.Text);
+            Assert.Equal(4.9, place.Rating);
+            Assert.Equal(1765, place.UserRatingCount);
+            Assert.Equal("Wittevrouwenstraat 14, Utrecht", place.ShortFormattedAddress);
+            Assert.Equal("https://www.pampalini.nl/", place.WebsiteUri);
+            Assert.Equal(PriceLevel.PRICE_LEVEL_MODERATE, place.PriceLevel);
+
+            // Types
+            Assert.Contains("restaurant", place.Types);
+            Assert.Contains("food", place.Types);
+
+            // Boolean flags
+            Assert.True(place.GoodForChildren);
+            Assert.True(place.AllowsDogs);
+
+            // Location
+            Assert.Equal(52.092992300000006, place.Location?.Latitude);
+            Assert.Equal(5.1221492, place.Location?.Longitude);
+
+            // Opening hours
+            Assert.NotNull(place.RegularOpeningHours);
+            Assert.True(place.RegularOpeningHours.OpenNow);
+            Assert.Equal(7, place.RegularOpeningHours.WeekdayDescriptions.Count);
+            Assert.Contains("Monday: Closed", place.RegularOpeningHours.WeekdayDescriptions);
+
+            // Reviews
+            Assert.NotNull(place.Reviews);
+            Assert.Equal(5, place.Reviews.Count);
+            Assert.Contains(place.Reviews, r => r.Text?.Text.Contains("chicken panini") == true);
+            Assert.Contains(place.Reviews, r => r.Text?.Text.Contains("wrap") == true);
+
+            // Next Page Token
+            Assert.Equal("AeeoHcI7Xnd8tU32jESwMvgnhAo6QAJfBz6liaHIUALeeGfQ-8NM763uoABKPHSXrxo6MwR6GPkQI3BuamzPLyfNC1ssp5P6JBXwRmUADDsokhrcRQ", result.Data.NextPageToken);
         }
     }
 }

@@ -109,7 +109,7 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	  </EmbeddedResource>
 	  <EmbeddedResource Update="Resources\Localization\AppResources.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
+	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
 	</ItemGroup>
