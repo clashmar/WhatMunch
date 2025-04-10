@@ -1,46 +1,63 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
+using System;
+using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.ViewModels;
 
 namespace WhatMunch_MAUI.Tests.Unit
 {
     public class PlaceDetailsViewModelTests
     {
+        private readonly Mock<ILauncher> _launcherMock;
         private readonly Mock<ILogger<PlaceDetailsViewModel>> _loggerMock;
         private readonly PlaceDetailsViewModel _viewModel;
 
+        private const string VALID_PHONE_NUMBER = "123456789";
+        private const string InvalidPhoneNumber = "";
+
         public PlaceDetailsViewModelTests()
         {
-            _loggerMock = new Mock<ILogger<PlaceDetailsViewModel>>();
-            _viewModel = new PlaceDetailsViewModel(_loggerMock.Object);
+            _launcherMock = new();
+            _loggerMock = new();
+            _viewModel = new PlaceDetailsViewModel(_launcherMock.Object, _loggerMock.Object);
         }
 
-        [Fact]
-        public async Task GoToWebsite_ValidUrl_OpensUrl()
+        [Theory]
+        [InlineData("https://www.example.com")]
+        [InlineData("https://example.com")]
+        [InlineData("www.example.com")]
+        public async Task GoToWebsite_ValidUrl_OpensUrl(string url)
         {
             // Arrange
-            var url = "www.example.com";
+            url = url.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? url : $"https://{url}";
+            var uri = new Uri(url);
+
+            _launcherMock
+                .Setup(l => l.OpenAsync(It.IsAny<Uri>()))
+                .ReturnsAsync(true);
 
             // Act
             await _viewModel.GoToWebsiteCommand.ExecuteAsync(url);
 
             // Assert
-            // Verify that the URL was opened (mock Launcher.Default.OpenAsync if needed)
+            _launcherMock.Verify(
+                l => l.OpenAsync(uri),
+                Times.Once
+            );
         }
 
-        [Fact]
-        public async Task GoToWebsite_InvalidUrl_LogsWarning()
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public async Task GoToWebsite_NoUrl_Returns(string? url)
         {
-            // Arrange
-            var invalidUrl = "invalid-url";
-
             // Act
-            await _viewModel.GoToWebsiteCommand.ExecuteAsync(invalidUrl);
+            await _viewModel.GoToWebsiteCommand.ExecuteAsync(url);
 
             // Assert
-            _loggerMock.Verify(
-                logger => logger.LogWarning(It.IsAny<string>(), invalidUrl),
-                Times.Once
+            _launcherMock.Verify(
+                l => l.OpenAsync(It.IsAny<Uri>()),
+                Times.Never
             );
         }
 
@@ -48,27 +65,32 @@ namespace WhatMunch_MAUI.Tests.Unit
         public async Task GoToPhone_ValidNumber_OpensPhoneUri()
         {
             // Arrange
-            var phoneNumber = "123456789";
+            var uri = new Uri($"tel:{VALID_PHONE_NUMBER}");
+            _launcherMock
+                .Setup(launcher => launcher.OpenAsync(It.IsAny<Uri>()))
+                .ReturnsAsync(true);
 
             // Act
-            await _viewModel.GoToPhoneCommand.ExecuteAsync(phoneNumber);
+            await _viewModel.GoToPhoneCommand.ExecuteAsync(VALID_PHONE_NUMBER);
 
             // Assert
-            // Verify that the phone URI was opened (mock Launcher.Default.OpenAsync if needed)
+            _launcherMock.Verify(
+                launcher => launcher.OpenAsync(uri),
+                Times.Once
+            );
         }
 
-        [Fact]
-        public async Task GoToPhone_InvalidNumber_LogsError()
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public async Task GoToPhone_NpNumber_Returns(string? number)
         {
-            // Arrange
-            var invalidNumber = "";
-
             // Act
-            await _viewModel.GoToPhoneCommand.ExecuteAsync(invalidNumber);
+            await _viewModel.GoToPhoneCommand.ExecuteAsync(number);
 
             // Assert
-            _loggerMock.Verify(
-                logger => logger.LogError(It.IsAny<Exception>(), It.IsAny<string>(), invalidNumber),
+            _launcherMock.Verify(
+                l => l.OpenAsync(It.IsAny<Uri>()),
                 Times.Never
             );
         }
@@ -77,28 +99,38 @@ namespace WhatMunch_MAUI.Tests.Unit
         public async Task GoToMap_ValidPlaceId_OpensMapUri()
         {
             // Arrange
-            _viewModel.Place = new PlaceModel { Id = "valid-place-id" };
+            var placeId = "valid-place-id";
+            _viewModel.Place = new PlaceModel { Id = placeId };
+            var uri = new Uri($"https://www.google.com/maps/place/?q=place_id:{placeId}");
+            _launcherMock
+                .Setup(l => l.OpenAsync(It.IsAny<Uri>()))
+                .ReturnsAsync(true);
 
             // Act
             await _viewModel.GoToMapCommand.ExecuteAsync(null);
 
             // Assert
-            // Verify that the map URI was opened (mock Launcher.Default.OpenAsync if needed)
+            _launcherMock.Verify(
+                l => l.OpenAsync(uri),
+                Times.Once
+            );
         }
 
-        [Fact]
-        public async Task GoToMap_NullPlaceId_LogsWarning()
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public async Task GoToMap_NoPlaceId_Returns(string? id)
         {
             // Arrange
-            _viewModel.Place = new PlaceModel { Id = null };
+            _viewModel.Place = new PlaceModel { Id = id! };
 
             // Act
             await _viewModel.GoToMapCommand.ExecuteAsync(null);
 
             // Assert
-            _loggerMock.Verify(
-                logger => logger.LogWarning("Place ID is null or empty."),
-                Times.Once
+            _launcherMock.Verify(
+                l => l.OpenAsync(It.IsAny<Uri>()),
+                Times.Never
             );
         }
     }

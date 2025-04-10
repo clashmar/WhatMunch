@@ -36,7 +36,8 @@ public static class MauiProgram
         builder.Services
             .AddLogging()
             .AddSingleton<IConnectivity>(Connectivity.Current)
-            .AddSingleton<IGeolocation>(Geolocation.Default);
+            .AddSingleton<IGeolocation>(Geolocation.Default)
+            .AddSingleton<ILauncher>(Launcher.Default);
 
         builder.Services
             .AddSingleton<ITokenService, TokenService>()
