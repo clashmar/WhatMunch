@@ -49,27 +49,21 @@ namespace WhatMunch_MAUI.ViewModels
                 }
                 else
                 {
-                    await _shellService.DisplayAlert(
-                        AppResources.Error,
-                        AppResources.NoPlacesFound,
-                        AppResources.Ok);
+                    await DisplayErrorAlertAsync(AppResources.NoPlacesFound);
                 }
             }
             catch (ConnectivityException)
             {
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorInternetConnection, AppResources.Ok);
+                await DisplayErrorAlertAsync(AppResources.ErrorInternetConnection);
             }
             catch (HttpRequestException ex)
             {
-                await _shellService.DisplayAlert(
-                        AppResources.Error,
-                        ex.Message ?? AppResources.ErrorUnexpected,
-                        AppResources.Ok);
+                await DisplayErrorAlertAsync(ex.Message ?? AppResources.ErrorUnexpected);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred while executing search");
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorUnexpected, AppResources.Ok);
+                await DisplayErrorAlertAsync(AppResources.ErrorUnexpected);
             }
         }
 
@@ -101,18 +95,9 @@ namespace WhatMunch_MAUI.ViewModels
             }
         }
 
-        [RelayCommand]
-        private async Task HandleTestToken()
+        private async Task DisplayErrorAlertAsync(string message)
         {
-            try
-            {
-                string? token = await _tokenService.GetAccessTokenAsync();
-                Debug.WriteLine(token);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            await _shellService.DisplayAlert(AppResources.Error, message, AppResources.Ok);
         }
 
         public override void ResetViewModel()

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
 using WhatMunch_MAUI.Resources.Localization;
 
 namespace WhatMunch_MAUI.ViewModels
@@ -20,29 +19,44 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         private async Task GoToWebsite(string url)
         {
+            if (IsBusy) return;
+            IsBusy = true;
+
             try
             {
-                if (string.IsNullOrWhiteSpace(url) || url.SequenceEqual(AppResources.NotAvailable))
+                if (string.IsNullOrWhiteSpace(url) || url == AppResources.NotAvailable)
                     return;
 
-                if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase))
-                    url = $"https://{url}";
+                url = url.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? url : $"https://{url}";
 
-                Uri uri = new(url);
-                await Launcher.Default.OpenAsync(uri);
+                if (Uri.TryCreate(url, UriKind.Absolute, out var uri))
+                {
+                    await Launcher.Default.OpenAsync(uri);
+                }
+                else
+                {
+                    _logger.LogWarning("Invalid URL: {Url}", url);
+                }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while accessing website.");
+                _logger.LogError(ex, "Error opening website: {Url}", url);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
         [RelayCommand]
         private async Task GoToPhone(string number)
         {
+            if (IsBusy) return;
+            IsBusy = true;
+
             try
             {
-                if (string.IsNullOrWhiteSpace(number) || number.SequenceEqual(AppResources.NotAvailable))
+                if (string.IsNullOrWhiteSpace(number) || number == AppResources.NotAvailable)
                     return;
 
                 var phoneUri = $"tel:{number}";
@@ -50,21 +64,38 @@ namespace WhatMunch_MAUI.ViewModels
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while accessing phone.");
+                _logger.LogError(ex, "Error opening phone number: {Number}", number);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
         [RelayCommand]
         private async Task GoToMap()
         {
+            if (IsBusy) return;
+            IsBusy = true;
+
             try
             {
+                if (string.IsNullOrWhiteSpace(Place?.Id))
+                {
+                    _logger.LogWarning("Place ID is null or empty.");
+                    return;
+                }
+
                 string uri = $"https://www.google.com/maps/place/?q=place_id:{Place?.Id}";
                 await Launcher.Default.OpenAsync(uri);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while accessing map.");
+                _logger.LogError(ex, "Error opening map for Place ID: {PlaceId}", Place?.Id);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 

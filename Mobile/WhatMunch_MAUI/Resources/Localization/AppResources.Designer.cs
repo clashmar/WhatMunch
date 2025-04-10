@@ -340,7 +340,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NotAvailable.
+        ///   Looks up a localized string similar to Not Available.
         /// </summary>
         public static string NotAvailable {
             get {
