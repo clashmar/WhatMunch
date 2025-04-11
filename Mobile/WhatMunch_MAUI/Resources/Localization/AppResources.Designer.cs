@@ -115,7 +115,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AreYouSure?.
+        ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         public static string AreYouSure {
             get {
@@ -669,6 +669,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string Website {
             get {
                 return ResourceManager.GetString("Website", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WhatMunch.
+        /// </summary>
+        public static string WhatMunch {
+            get {
+                return ResourceManager.GetString("WhatMunch", resourceCulture);
             }
         }
         

@@ -6,21 +6,23 @@
              x:Class="WhatMunch_MAUI.Views.DashboardPage"
              Title="{x:Static strings:AppResources.Search}"
              x:DataType="viewmodel:DashboardViewModel">
-    <VerticalStackLayout>
+    <Grid>
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="Fill"
-                           VerticalOptions="Center" />
-        <VerticalStackLayout IsVisible="{Binding IsNotBusy}">
+                           VerticalOptions="Center"/>
+        <VerticalStackLayout IsVisible="{Binding IsNotBusy}"
+                             VerticalOptions="Center">
             <Button Margin="0,30,0,0"
-                    HeightRequest="60"
-                    Text="{x:Static strings:AppResources.Logout}"
-                    Command="{Binding HandleLogoutCommand}" />
-
-            <Button Margin="0,30,0,0"
-                    HeightRequest="60"
+                    HeightRequest="120"
+                    WidthRequest="120"
+                    CornerRadius="100"
+                    FontSize="20"
+                    BorderColor="{StaticResource YaleBlueLight}"
+                    BorderWidth="10"
+                    VerticalOptions="Center"
                     Text="{x:Static strings:AppResources.Search}"
                     Command="{Binding HandleSearchCommand}" />
         </VerticalStackLayout>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

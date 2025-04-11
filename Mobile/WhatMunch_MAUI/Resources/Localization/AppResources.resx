@@ -319,12 +319,15 @@
     <value>Saved</value>
   </data>
   <data name="AreYouSure" xml:space="preserve">
-    <value>AreYouSure?</value>
+    <value>Are you sure?</value>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
+  </data>
+  <data name="WhatMunch" xml:space="preserve">
+    <value>WhatMunch</value>
   </data>
 </root>

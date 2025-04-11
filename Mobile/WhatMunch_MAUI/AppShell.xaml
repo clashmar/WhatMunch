@@ -13,7 +13,7 @@
                   Route="MainPage" />
 
     <TabBar Route="MainTabs">
-        <ShellContent Title="{x:Static strings:AppResources.Search}"
+        <ShellContent Title="{x:Static strings:AppResources.WhatMunch}"
                       Icon="search.png"
                       Route="DashboardPage"
                       ContentTemplate="{DataTemplate views:DashboardPage}">
@@ -21,14 +21,9 @@
                 <Grid>
                     <Label Text="{x:Static strings:AppResources.Search}"
                            Style="{StaticResource Title}"/>
-                    <Button Text="{x:Static strings:AppResources.Logout}"
-                            Clicked="OnLogoutClicked"
-                            HorizontalOptions="End"
-                            VerticalOptions="End"
-                            BackgroundColor="{StaticResource YaleBlueDark}"
-                            Padding="5"
-                            HeightRequest="10"
-                            Margin="10"/>
+
+                    <Button Style="{StaticResource Logout}"
+                            Clicked="OnLogoutClicked" />
                 </Grid>
             </Shell.TitleView>
         </ShellContent>
@@ -38,8 +33,12 @@
                       Route="SavedPlacesPage"
                       ContentTemplate="{DataTemplate views:SavedPlacesPage}">
             <Shell.TitleView>
-                <Label Text="{x:Static strings:AppResources.Saved}"
-                       Style="{StaticResource Title}" />
+                <Grid>
+                    <Label Text="{x:Static strings:AppResources.Saved}"
+                           Style="{StaticResource Title}" />
+                    <Button Style="{StaticResource Logout}"
+                            Clicked="OnLogoutClicked" />
+                </Grid>
             </Shell.TitleView>
         </ShellContent>
 
@@ -48,8 +47,12 @@
                       Route="SearchPreferencesPage"
                       ContentTemplate="{DataTemplate views:SearchPreferencesPage}">
             <Shell.TitleView>
-                <Label Text="{x:Static strings:AppResources.Settings}"
-                       Style="{StaticResource Title}" />
+                <Grid>
+                    <Label Text="{x:Static strings:AppResources.Settings}"
+                           Style="{StaticResource Title}" />
+                    <Button Style="{StaticResource Logout}"
+                            Clicked="OnLogoutClicked" />
+                </Grid>
             </Shell.TitleView>
         </ShellContent>
     </TabBar>

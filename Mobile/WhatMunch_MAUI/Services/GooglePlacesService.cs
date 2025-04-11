@@ -59,17 +59,17 @@ namespace WhatMunch_MAUI.Services
             if (preferences is null) preferences = SearchPreferencesModel.Default;
 
             //Mock data for development
-            //var mockDeserializedData = JsonSerializer.Deserialize<TextSearchResponseDto>(MockPlace.GetMockPlaceJson());
-            //if (mockDeserializedData is TextSearchResponseDto mockResponseDto)
-            //{
-            //    mockResponseDto.SearchLocation = await _locationService.GetLastSearchLocation();
-            //    return Result<TextSearchResponseDto>.Success(mockResponseDto);
-            //}
-            //else
-            //{
-            //    _logger.LogError("Failed to deserialize mock response");
-            //    return Result<TextSearchResponseDto>.Failure("Failed to deserialize mock response");
-            //}
+            var mockDeserializedData = JsonSerializer.Deserialize<TextSearchResponseDto>(MockPlace.GetMockPlaceJson());
+            if (mockDeserializedData is TextSearchResponseDto mockResponseDto)
+            {
+                mockResponseDto.SearchLocation = await _locationService.GetLastSearchLocation();
+                return Result<TextSearchResponseDto>.Success(mockResponseDto);
+            }
+            else
+            {
+                _logger.LogError("Failed to deserialize mock response");
+                return Result<TextSearchResponseDto>.Failure("Failed to deserialize mock response");
+            }
 
             try
             {
