@@ -46,8 +46,7 @@ namespace WhatMunch_MAUI.ViewModels
                         new Dictionary<string, object>
                             {
                                 { "Places", places },
-                                { "NextPageToken", response.NextPageToken ?? string.Empty },
-                                { "ShouldReset", false }
+                                { "NextPageToken", response.NextPageToken ?? string.Empty }
                             });
                 }
                 else

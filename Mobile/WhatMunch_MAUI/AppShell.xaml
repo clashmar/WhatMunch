@@ -13,7 +13,7 @@
                   Route="MainPage" />
 
     <TabBar Route="MainTabs">
-        <ShellContent Title="{x:Static strings:AppResources.WhatMunch}"
+        <ShellContent Title="{x:Static strings:AppResources.Search}"
                       Icon="search.png"
                       Route="DashboardPage"
                       ContentTemplate="{DataTemplate views:DashboardPage}">

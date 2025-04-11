@@ -4,7 +4,7 @@
              xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              x:Class="WhatMunch_MAUI.Views.DashboardPage"
-             Title="{x:Static strings:AppResources.Search}"
+             Title="{x:Static strings:AppResources.WhatMunch}"
              x:DataType="viewmodel:DashboardViewModel">
     <Grid>
         <ActivityIndicator IsVisible="{Binding IsBusy}"

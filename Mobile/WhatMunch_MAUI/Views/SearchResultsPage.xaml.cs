@@ -13,21 +13,15 @@ public partial class SearchResultsPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-
-        if (_viewModel.PageList.Count == 0 && _viewModel.Places.Count > 0)
-        {
-            _viewModel.PageList.Add([.. _viewModel.Places]);
-        }
-
-        _viewModel.ShouldReset = true;
+        _viewModel.InitializePageList();
     }
 
     protected override void OnDisappearing()
     {
-        if (_viewModel.ShouldReset)
-        {
-            _viewModel.ResetViewModel();
-        }
+        //if (_viewModel.ShouldReset)
+        //{
+        //    _viewModel.ResetViewModel();
+        //}
 
         base.OnDisappearing();
     }

@@ -7,6 +7,9 @@
              x:Class="WhatMunch_MAUI.Views.SearchResultsPage"
              Title="{x:Static strings:AppResources.Results}"
              x:DataType="viewmodel:SearchResultsViewModel">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior Command="{Binding GoBackCommand}"/>
+    </Shell.BackButtonBehavior>
     <Grid>
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"

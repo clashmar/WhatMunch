@@ -11,7 +11,6 @@ namespace WhatMunch_MAUI.ViewModels
 {
     [QueryProperty(nameof(Places), "Places")]
     [QueryProperty(nameof(NextPageToken), "NextPageToken")]
-    [QueryProperty(nameof(ShouldReset), "ShouldReset")]
     public partial class SearchResultsViewModel : BaseViewModel
     {
         private readonly ISearchService _searchService;
@@ -30,9 +29,8 @@ namespace WhatMunch_MAUI.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _places = [];
-        public bool ShouldReset { get; set; }
 
-        public List<ObservableCollection<PlaceDto>> PageList = []; // First page added in code behind on appearing
+        public List<ObservableCollection<PlaceDto>> PageList = []; 
 
         private int currentPageIndex = 0;
 
@@ -43,6 +41,15 @@ namespace WhatMunch_MAUI.ViewModels
         [NotifyPropertyChangedFor(nameof(HasNextPage))]
         private string? _nextPageToken;
         public bool HasNextPage => !string.IsNullOrEmpty(NextPageToken) | PageList.ElementAtOrDefault(currentPageIndex + 1) is not null;
+
+        public void InitializePageList()
+        {
+            //Called from code behind
+            if (PageList.Count == 0 && Places.Count > 0)
+            {
+                PageList.Add([..Places]);
+            }
+        }
 
         [RelayCommand]
         private async Task HandleRefresh()
@@ -109,7 +116,6 @@ namespace WhatMunch_MAUI.ViewModels
         {
             if (place is null) return;
 
-            ShouldReset = false;
             await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
@@ -171,6 +177,20 @@ namespace WhatMunch_MAUI.ViewModels
             finally
             {
                 IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task GoBackAsync()
+        {
+            try
+            {
+                ResetViewModel();
+                await _shellService.GoToAsync("..");
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
