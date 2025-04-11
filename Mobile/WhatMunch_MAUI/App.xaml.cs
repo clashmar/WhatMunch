@@ -1,4 +1,6 @@
-﻿namespace WhatMunch_MAUI
+﻿using Microsoft.Maui.Controls.PlatformConfiguration;
+
+namespace WhatMunch_MAUI
 {
     public partial class App : Application
     {
@@ -16,5 +18,7 @@
 
             return new Window(appShell);
         }
+
+        
     }
 }

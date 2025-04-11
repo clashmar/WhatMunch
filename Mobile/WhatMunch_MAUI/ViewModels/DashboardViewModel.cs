@@ -29,8 +29,12 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         private async Task HandleSearch()
         {
+            if (IsBusy) return;
+            IsBusy = true;
+
             try
             {
+
                 var response = await _searchService.GetSearchResponseAsync();
 
                 if (response.Places.Count > 0)
@@ -64,6 +68,10 @@ namespace WhatMunch_MAUI.ViewModels
                 _logger.LogError(ex, "An unexpected error occurred while executing search");
                 await DisplayErrorAlertAsync(AppResources.ErrorUnexpected);
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
@@ -73,20 +81,6 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 _tokenService.Logout();
                 await Shell.Current.GoToAsync($"{nameof(LoginPage)}");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        [RelayCommand]
-        private async Task HandleSetPreferences()
-        {
-            try
-            {
-                _tokenService.Logout();
-                await Shell.Current.GoToAsync($"{nameof(SearchPreferencesPage)}");
             }
             catch (Exception)
             {

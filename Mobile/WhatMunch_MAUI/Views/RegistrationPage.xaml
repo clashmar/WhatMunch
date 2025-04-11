@@ -5,7 +5,8 @@
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              x:Class="WhatMunch_MAUI.Views.RegistrationPage"
              Title="RegistrationPage"
-             x:DataType="viewmodel:RegistrationViewModel">
+             x:DataType="viewmodel:RegistrationViewModel"
+             Shell.TabBarIsVisible="False">
     
     <Grid RowDefinitions=".1*, .7*">
         <Label  Text="{x:Static strings:AppResources.RegisterWelcome}"

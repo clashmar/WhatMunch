@@ -6,12 +6,12 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
+    <Color x:Key="Primary">#083D77</Color>
+    <Color x:Key="PrimaryDark">#3b70aa</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="SecondaryDarkText">#3b70aa</Color>
+    <Color x:Key="Tertiary">#0A2C52</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
@@ -27,6 +27,14 @@
     <Color x:Key="Gray600">#404040</Color>
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
+
+    <Color x:Key="YaleBlueLight">#3b70aa</Color>
+    <Color x:Key="BeigeLight">#ffffff</Color>
+    <Color x:Key="NaplesYellowLight">#ffff91</Color>
+    <Color x:Key="SandyBrownLight">#ffc97e</Color>
+    <Color x:Key="TomatoLight">#ff8a6b</Color>
+    <Color x:Key="OliveGreenLight">#c3e77e</Color>
+    <Color x:Key="TrueBrownLight">#be7846</Color>
 
     <Color x:Key="YaleBlue">#083D77</Color>
     <Color x:Key="Beige">#EBEBD3</Color>

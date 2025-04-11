@@ -5,7 +5,8 @@
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              x:Class="WhatMunch_MAUI.Views.LoginPage"
              Title="LoginPage"
-             x:DataType="viewmodel:LoginViewModel">
+             x:DataType="viewmodel:LoginViewModel"
+             Shell.TabBarIsVisible="False">
 
     <Grid RowDefinitions=".3*, .7*">
         <Label 

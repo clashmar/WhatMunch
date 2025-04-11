@@ -234,7 +234,7 @@
   <data name="Relevance" xml:space="preserve">
     <value />
   </data>
-  <data name="SavePreferences" xml:space="preserve">
+  <data name="Save" xml:space="preserve">
     <value />
   </data>
   <data name="5MinWalk" xml:space="preserve">
@@ -310,6 +310,21 @@
     <value />
   </data>
   <data name="Results" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value />
+  </data>
+  <data name="No" xml:space="preserve">
     <value />
   </data>
 </root>

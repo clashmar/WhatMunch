@@ -1,27 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="WhatMunch_MAUI.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:WhatMunch_MAUI"
-    xmlns:views="clr-namespace:WhatMunch_MAUI.Views"
-    Shell.FlyoutBehavior="Flyout"
-    Title="WhatMunch">
+<Shell x:Class="WhatMunch_MAUI.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:WhatMunch_MAUI"
+       xmlns:views="clr-namespace:WhatMunch_MAUI.Views"
+       xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
+       Shell.FlyoutBehavior="Disabled"
+       Title="WhatMunch">
 
-    <TabBar>
-        <ShellContent
-            Title="Start"
-            ContentTemplate="{DataTemplate local:MainPage}"
-            Route="MainPage" />
+    <ShellContent Title="Startup"
+                  ContentTemplate="{DataTemplate local:MainPage}"
+                  Route="MainPage" />
 
-        <ShellContent Title="Profile"
-                      Icon="person.png"
-                      Route="ProfilePage"
-                      ContentTemplate="{DataTemplate views:SearchPreferencesPage}" />
-
-        <ShellContent Title="Search"
+    <TabBar Route="MainTabs">
+        <ShellContent Title="{x:Static strings:AppResources.Search}"
                       Icon="search.png"
-                      Route="SearchPage"
-                      ContentTemplate="{DataTemplate views:SearchPage}" />
+                      Route="DashboardPage"
+                      ContentTemplate="{DataTemplate views:DashboardPage}">
+            <Shell.TitleView>
+                <Grid>
+                    <Label Text="{x:Static strings:AppResources.Search}"
+                           Style="{StaticResource Title}"/>
+                    <Button Text="{x:Static strings:AppResources.Logout}"
+                            Clicked="OnLogoutClicked"
+                            HorizontalOptions="End"
+                            VerticalOptions="End"
+                            BackgroundColor="{StaticResource YaleBlueDark}"
+                            Padding="5"
+                            HeightRequest="10"
+                            Margin="10"/>
+                </Grid>
+            </Shell.TitleView>
+        </ShellContent>
+
+        <ShellContent Title="{x:Static strings:AppResources.Saved}"
+                      Icon="saved.png"
+                      Route="SavedPlacesPage"
+                      ContentTemplate="{DataTemplate views:SavedPlacesPage}">
+            <Shell.TitleView>
+                <Label Text="{x:Static strings:AppResources.Saved}"
+                       Style="{StaticResource Title}" />
+            </Shell.TitleView>
+        </ShellContent>
+
+        <ShellContent Title="{x:Static strings:AppResources.Settings}"
+                      Icon="settings.png"
+                      Route="SearchPreferencesPage"
+                      ContentTemplate="{DataTemplate views:SearchPreferencesPage}">
+            <Shell.TitleView>
+                <Label Text="{x:Static strings:AppResources.Settings}"
+                       Style="{StaticResource Title}" />
+            </Shell.TitleView>
+        </ShellContent>
     </TabBar>
 </Shell>

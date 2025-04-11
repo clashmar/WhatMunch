@@ -4,7 +4,7 @@
              xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              x:Class="WhatMunch_MAUI.Views.DashboardPage"
-             Title="Dashboard"
+             Title="{x:Static strings:AppResources.Search}"
              x:DataType="viewmodel:DashboardViewModel">
     <VerticalStackLayout>
         <ActivityIndicator IsVisible="{Binding IsBusy}"
@@ -12,11 +12,6 @@
                            HorizontalOptions="Fill"
                            VerticalOptions="Center" />
         <VerticalStackLayout IsVisible="{Binding IsNotBusy}">
-            <Label 
-                Text="Welcome to .NET MAUI!"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
                     Text="{x:Static strings:AppResources.Logout}"
@@ -26,11 +21,6 @@
                     HeightRequest="60"
                     Text="{x:Static strings:AppResources.Search}"
                     Command="{Binding HandleSearchCommand}" />
-
-            <Button Margin="0,30,0,0"
-                    HeightRequest="60"
-                    Text="{x:Static strings:AppResources.SearchPreferences}"
-                    Command="{Binding HandleSetPreferencesCommand}" />
         </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
