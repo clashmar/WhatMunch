@@ -9,13 +9,11 @@ namespace WhatMunch_MAUI.ViewModels
     public partial class PlaceDetailsViewModel : BaseViewModel
     {
         private readonly ILauncher _launcher;
-        private readonly IShellService _shellService;
         private readonly ILogger<PlaceDetailsViewModel> _logger;
 
         public PlaceDetailsViewModel(ILauncher launcher, IShellService shellService, ILogger<PlaceDetailsViewModel> logger)
         {
             _launcher = launcher;
-            _shellService = shellService;
             _logger = logger;
         }
 

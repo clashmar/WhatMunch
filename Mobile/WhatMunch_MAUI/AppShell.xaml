@@ -14,12 +14,12 @@
     <TabBar Route="MainTabs">
 
         <ShellContent Title="{x:Static strings:AppResources.Search}"
-                      Icon="search.png"
+                      Icon="search"
                       Route="DashboardPage"
                       ContentTemplate="{DataTemplate views:DashboardPage}">
             <Shell.TitleView>
                 <Grid>
-                    <Label Text="{x:Static strings:AppResources.Search}"
+                    <Label Text="{x:Static strings:AppResources.WhatMunch}"
                            Style="{StaticResource Title}" />
                     <Button Style="{StaticResource Logout}"
                             Clicked="OnLogoutClicked" />
@@ -28,7 +28,7 @@
         </ShellContent>
 
         <ShellContent Title="{x:Static strings:AppResources.Saved}"
-                          Icon="saved.svg"
+                          Icon="saved"
                           Route="SavedPlacesPage"
                           ContentTemplate="{DataTemplate views:SavedPlacesPage}">
                 <Shell.TitleView>
@@ -42,7 +42,7 @@
             </ShellContent>
 
             <ShellContent Title="{x:Static strings:AppResources.Settings}"
-                          Icon="search.svg"
+                          Icon="settings"
                           Route="SearchPreferencesPage"
                           ContentTemplate="{DataTemplate views:SearchPreferencesPage}">
                 <Shell.TitleView>
