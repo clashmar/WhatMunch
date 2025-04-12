@@ -42,9 +42,9 @@ namespace WhatMunch_MAUI.ViewModels
         private string? _nextPageToken;
         public bool HasNextPage => !string.IsNullOrEmpty(NextPageToken) | PageList.ElementAtOrDefault(currentPageIndex + 1) is not null;
 
+        //Called from code behind
         public void InitializePageList()
         {
-            //Called from code behind
             if (PageList.Count == 0 && Places.Count > 0)
             {
                 PageList.Add([..Places]);

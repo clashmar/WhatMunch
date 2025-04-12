@@ -31,7 +31,6 @@ namespace WhatMunch_MAUI.ViewModels
 
             try
             {
-
                 var response = await _searchService.GetSearchResponseAsync();
 
                 if (response.Places.Count > 0)
