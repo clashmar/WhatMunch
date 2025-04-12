@@ -18,11 +18,6 @@ public partial class SearchResultsPage : ContentPage
 
     protected override void OnDisappearing()
     {
-        //if (_viewModel.ShouldReset)
-        //{
-        //    _viewModel.ResetViewModel();
-        //}
-
         base.OnDisappearing();
     }
 }

@@ -278,7 +278,7 @@
         <Setter Property="VerticalOptions"
                 Value="Center" />
         <Setter Property="HorizontalOptions"
-                Value="Center" />
+                Value="Start" />
         <Setter Property="FontAttributes"
                 Value="Bold" />
     </Style>

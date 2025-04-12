@@ -1,5 +1,4 @@
-﻿using Microsoft.Maui.Controls.PlatformConfiguration;
-using WhatMunch_MAUI.Services;
+﻿using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI
@@ -40,7 +39,7 @@ namespace WhatMunch_MAUI
             }
             catch (Exception)
             {
-
+                // TODO: Handle AuthCheck errors in MainPage.xaml.cs
                 throw;
             }
         }

@@ -6,6 +6,8 @@
         Task DisplayAlert(string title, string message, string accept);
 
         Task GoToAsync(string route, Dictionary<string, object> navigationParameter);
+
+        Task GoToAsync(string route, bool animate, Dictionary<string, object> navigationParameter);
     }
     public class ShellService : IShellService
     {
@@ -17,6 +19,11 @@
         public async Task GoToAsync(string route, Dictionary<string, object> navigationParameter)
         {
             await Shell.Current.GoToAsync(route, navigationParameter);
+        }
+
+        public async Task GoToAsync(string route, bool animate, Dictionary<string, object> navigationParameter)
+        {
+            await Shell.Current.GoToAsync(route, animate, navigationParameter);
         }
 
         public async Task DisplayAlert(string title, string message, string accept)

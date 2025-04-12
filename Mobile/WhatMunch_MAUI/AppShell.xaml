@@ -7,12 +7,12 @@
        xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
        Shell.FlyoutBehavior="Disabled"
        Title="WhatMunch">
-
     <ShellContent Title="Startup"
                   ContentTemplate="{DataTemplate local:MainPage}"
                   Route="MainPage" />
 
     <TabBar Route="MainTabs">
+
         <ShellContent Title="{x:Static strings:AppResources.Search}"
                       Icon="search.png"
                       Route="DashboardPage"
@@ -20,8 +20,7 @@
             <Shell.TitleView>
                 <Grid>
                     <Label Text="{x:Static strings:AppResources.Search}"
-                           Style="{StaticResource Title}"/>
-
+                           Style="{StaticResource Title}" />
                     <Button Style="{StaticResource Logout}"
                             Clicked="OnLogoutClicked" />
                 </Grid>
@@ -29,31 +28,31 @@
         </ShellContent>
 
         <ShellContent Title="{x:Static strings:AppResources.Saved}"
-                      Icon="saved.png"
-                      Route="SavedPlacesPage"
-                      ContentTemplate="{DataTemplate views:SavedPlacesPage}">
-            <Shell.TitleView>
-                <Grid>
-                    <Label Text="{x:Static strings:AppResources.Saved}"
-                           Style="{StaticResource Title}" />
-                    <Button Style="{StaticResource Logout}"
-                            Clicked="OnLogoutClicked" />
-                </Grid>
-            </Shell.TitleView>
-        </ShellContent>
+                          Icon="saved.svg"
+                          Route="SavedPlacesPage"
+                          ContentTemplate="{DataTemplate views:SavedPlacesPage}">
+                <Shell.TitleView>
+                    <Grid>
+                        <Label Text="{x:Static strings:AppResources.Saved}"
+                               Style="{StaticResource Title}" />
+                        <Button Style="{StaticResource Logout}"
+                                Clicked="OnLogoutClicked" />
+                    </Grid>
+                </Shell.TitleView>
+            </ShellContent>
 
-        <ShellContent Title="{x:Static strings:AppResources.Settings}"
-                      Icon="settings.png"
-                      Route="SearchPreferencesPage"
-                      ContentTemplate="{DataTemplate views:SearchPreferencesPage}">
-            <Shell.TitleView>
-                <Grid>
-                    <Label Text="{x:Static strings:AppResources.Settings}"
-                           Style="{StaticResource Title}" />
-                    <Button Style="{StaticResource Logout}"
-                            Clicked="OnLogoutClicked" />
-                </Grid>
-            </Shell.TitleView>
-        </ShellContent>
+            <ShellContent Title="{x:Static strings:AppResources.Settings}"
+                          Icon="search.svg"
+                          Route="SearchPreferencesPage"
+                          ContentTemplate="{DataTemplate views:SearchPreferencesPage}">
+                <Shell.TitleView>
+                    <Grid>
+                        <Label Text="{x:Static strings:AppResources.Settings}"
+                               Style="{StaticResource Title}" />
+                        <Button Style="{StaticResource Logout}"
+                                Clicked="OnLogoutClicked" />
+                    </Grid>
+                </Shell.TitleView>
+            </ShellContent>
     </TabBar>
 </Shell>

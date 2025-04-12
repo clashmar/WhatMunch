@@ -104,7 +104,7 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         private void HandlePrevious()
         {
-            if (currentPageIndex < 1 | PageList.ElementAtOrDefault(currentPageIndex - 1) is null) return;
+            if (currentPageIndex < 1 || PageList.ElementAtOrDefault(currentPageIndex - 1) is null) return;
             Places = PageList[currentPageIndex - 1];
             currentPageIndex -= 1;
             if(currentPageIndex < 1) HasPreviousPage = false;

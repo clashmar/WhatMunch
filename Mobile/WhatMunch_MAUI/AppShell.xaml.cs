@@ -13,11 +13,11 @@ namespace WhatMunch_MAUI
             _tokenService = tokenService;
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
-            Routing.RegisterRoute(nameof(DashboardPage), typeof(DashboardPage));
+            //Routing.RegisterRoute(nameof(DashboardPage), typeof(DashboardPage));
             Routing.RegisterRoute(nameof(SearchResultsPage), typeof(SearchResultsPage));
-            Routing.RegisterRoute(nameof(SearchPreferencesPage), typeof(SearchPreferencesPage));
+            //Routing.RegisterRoute(nameof(SearchPreferencesPage), typeof(SearchPreferencesPage));
             Routing.RegisterRoute(nameof(PlaceDetailsPage), typeof(PlaceDetailsPage));
-            Routing.RegisterRoute(nameof(SavedPlacesPage), typeof(SavedPlacesPage));
+            //Routing.RegisterRoute(nameof(SavedPlacesPage), typeof(SavedPlacesPage));
         }
 
         protected override void OnAppearing()
@@ -27,7 +27,6 @@ namespace WhatMunch_MAUI
 
         private async void OnLogoutClicked(object sender, EventArgs e)
         {
-            // TODO: localize logout alert
             bool isConfirmed = await DisplayAlert(AppResources.Logout, AppResources.AreYouSure, AppResources.Yes, AppResources.No);
             if (!isConfirmed) return;
 
@@ -38,6 +37,7 @@ namespace WhatMunch_MAUI
             }
             catch (Exception)
             {
+                // TODO: Handle logout error in AppShell.xaml.cs
                 throw;
             }
         }

@@ -11,5 +11,6 @@
     <ActivityIndicator IsVisible="True"
                        IsRunning="True"
                        HorizontalOptions="Fill"
-                       VerticalOptions="Center" />
+                       VerticalOptions="Center"
+                       Color="White"/>
 </ContentPage>

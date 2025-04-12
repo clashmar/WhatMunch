@@ -17,6 +17,5 @@ public partial class PlaceDetailsPage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        _viewModel.ResetViewModel();
     }
 }
