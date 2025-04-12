@@ -54,7 +54,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#083D77" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" BaseSize="400,400" />
 		
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#083D77" BaseSize="500,500" />
@@ -157,5 +157,9 @@
 	<ItemGroup>
 	  <MauiFont Include="Models\Fonts\FaRegular.cs" />
 	  <MauiFont Include="Models\Fonts\FaSolid.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\AppIcon\" />
 	</ItemGroup>
 </Project>

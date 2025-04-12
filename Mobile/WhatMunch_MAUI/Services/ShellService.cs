@@ -1,13 +1,14 @@
-﻿namespace WhatMunch_MAUI.Services
+﻿using WhatMunch_MAUI.Resources.Localization;
+
+namespace WhatMunch_MAUI.Services
 {
     public interface IShellService
     {
         Task GoToAsync(string route);
         Task DisplayAlert(string title, string message, string accept);
-
         Task GoToAsync(string route, Dictionary<string, object> navigationParameter);
-
         Task GoToAsync(string route, bool animate, Dictionary<string, object> navigationParameter);
+        Task DisplayError(string message);
     }
     public class ShellService : IShellService
     {
@@ -29,6 +30,11 @@
         public async Task DisplayAlert(string title, string message, string accept)
         {
             await Shell.Current.DisplayAlert(title, message, accept);
+        }
+
+        public async Task DisplayError(string message)
+        {
+            await DisplayAlert(AppResources.Error, message, AppResources.Ok);
         }
     }
 }

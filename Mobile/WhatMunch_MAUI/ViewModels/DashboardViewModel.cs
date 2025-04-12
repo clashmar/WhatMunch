@@ -9,18 +9,15 @@ namespace WhatMunch_MAUI.ViewModels
 {
     public partial class DashboardViewModel : BaseViewModel
     {
-        private readonly ITokenService _tokenService;
         private readonly ISearchService _searchService;
         private readonly IShellService _shellService;
         private readonly ILogger<DashboardViewModel> _logger;
 
         public DashboardViewModel(
-            ITokenService tokenService,
             ISearchService searchService,
             IShellService shellService,
             ILogger<DashboardViewModel> logger)
         {
-            _tokenService = tokenService;
             _searchService = searchService;
             _shellService = shellService;
             _logger = logger;
@@ -51,45 +48,26 @@ namespace WhatMunch_MAUI.ViewModels
                 }
                 else
                 {
-                    await DisplayErrorAlertAsync(AppResources.NoPlacesFound);
+                    await _shellService.DisplayError(AppResources.NoPlacesFound);
                 }
             }
             catch (ConnectivityException)
             {
-                await DisplayErrorAlertAsync(AppResources.ErrorInternetConnection);
+                await _shellService.DisplayError(AppResources.ErrorInternetConnection);
             }
             catch (HttpRequestException ex)
             {
-                await DisplayErrorAlertAsync(ex.Message ?? AppResources.ErrorUnexpected);
+                await _shellService.DisplayError(ex.Message ?? AppResources.ErrorUnexpected);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred while executing search");
-                await DisplayErrorAlertAsync(AppResources.ErrorUnexpected);
+                await _shellService.DisplayError(AppResources.ErrorUnexpected);
             }
             finally
             {
                 IsBusy = false;
             }
-        }
-
-        [RelayCommand]
-        private async Task HandleLogout()
-        {
-            try
-            {
-                _tokenService.Logout();
-                await Shell.Current.GoToAsync($"{nameof(LoginPage)}");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        private async Task DisplayErrorAlertAsync(string message)
-        {
-            await _shellService.DisplayAlert(AppResources.Error, message, AppResources.Ok);
         }
 
         public override void ResetViewModel()
