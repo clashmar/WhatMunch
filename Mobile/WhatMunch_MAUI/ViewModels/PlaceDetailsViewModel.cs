@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Resources.Localization;
-using WhatMunch_MAUI.Services;
-using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
@@ -11,7 +9,7 @@ namespace WhatMunch_MAUI.ViewModels
         private readonly ILauncher _launcher;
         private readonly ILogger<PlaceDetailsViewModel> _logger;
 
-        public PlaceDetailsViewModel(ILauncher launcher, IShellService shellService, ILogger<PlaceDetailsViewModel> logger)
+        public PlaceDetailsViewModel(ILauncher launcher, ILogger<PlaceDetailsViewModel> logger)
         {
             _launcher = launcher;
             _logger = logger;

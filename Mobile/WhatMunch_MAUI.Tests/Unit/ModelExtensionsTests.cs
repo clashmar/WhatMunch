@@ -170,11 +170,11 @@ namespace WhatMunch_MAUI.Tests.Unit
             var priceLevel = PriceLevel.PRICE_LEVEL_EXPENSIVE;
 
             // Act
-            var (number, remainder) = priceLevel.ToDollarDisplay();
+            var priceLevelDisplay = priceLevel.ToDollarDisplay();
 
             // Assert
-            Assert.Equal("$$$", number);
-            Assert.Equal("$", remainder);
+            Assert.Equal("$$$", priceLevelDisplay.Number);
+            Assert.Equal("$", priceLevelDisplay.Remainder);
         }
 
         [Fact]
