@@ -57,11 +57,11 @@
                 <HorizontalStackLayout Grid.Column="1"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center">
-                    <Label Text="{Binding Place.PriceLevel.number}"
+                    <Label Text="{Binding Place.PriceLevel.Number}"
                            TextColor="{StaticResource NaplesYellow}"
                            FontFamily="FaSolid"
                            FontSize="30" />
-                    <Label Text="{Binding Place.PriceLevel.remainder}"
+                    <Label Text="{Binding Place.PriceLevel.Remainder}"
                            TextColor="{StaticResource Gray100}"
                            FontFamily="FaSolid"
                            FontSize="30" />

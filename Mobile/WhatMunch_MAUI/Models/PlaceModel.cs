@@ -24,7 +24,7 @@ namespace WhatMunch_MAUI.Models
         private int _userRatingCount;
 
         [ObservableProperty]
-        private (string number, string remainder) _priceLevel;
+        private PriceLevelDisplay? _priceLevel;
 
         [ObservableProperty]
         private bool _openNow;
@@ -64,5 +64,11 @@ namespace WhatMunch_MAUI.Models
     {
         public string? Icon { get; set; } = icon;
         public string Text { get; set; } = text;
+    }
+
+    public class PriceLevelDisplay(string number, string remainder)
+    {
+        public string Number { get; set; } = number;
+        public string Remainder { get; set; } = remainder;
     }
 }

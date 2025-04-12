@@ -137,7 +137,7 @@ namespace WhatMunch_MAUI.Extensions
             return stars;
         }
 
-        public static (string number, string remainder) ToDollarDisplay(this PriceLevel priceLevel)
+        public static PriceLevelDisplay ToDollarDisplay(this PriceLevel priceLevel)
         {
             string number = priceLevel switch
             {
@@ -150,7 +150,7 @@ namespace WhatMunch_MAUI.Extensions
 
             string remainder = new(FaSolid.DollarSign[0], 4 - number.Length);
 
-            return (number, remainder);
+            return new PriceLevelDisplay(number, remainder);
         }
 
         public static List<string> ToDisplayPhotos(this List<PlacePhoto> photos)
