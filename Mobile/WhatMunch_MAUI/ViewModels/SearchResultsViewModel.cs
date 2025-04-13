@@ -29,8 +29,7 @@ namespace WhatMunch_MAUI.ViewModels
 
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _places = [];
-
-        public List<ObservableCollection<PlaceDto>> PageList = []; 
+        public List<ObservableCollection<PlaceDto>> PageList { get; set; } = []; 
 
         private int currentPageIndex = 0;
 
@@ -63,6 +62,7 @@ namespace WhatMunch_MAUI.ViewModels
                 if (result.IsSuccess)
                 {
                     ResetPagination();
+                    PageList.Add([.. Places]);
                     NextPageToken = result.Data;
                 }
             }
@@ -196,6 +196,7 @@ namespace WhatMunch_MAUI.ViewModels
 
         public void ResetPagination()
         {
+            PageList.Clear();
             NextPageToken = null;
             HasPreviousPage = false;
             currentPageIndex = 0;
@@ -203,7 +204,6 @@ namespace WhatMunch_MAUI.ViewModels
 
         public override void ResetViewModel()
         {
-            PageList.Clear();
             ResetPagination();
         } 
     }

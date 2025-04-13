@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using WhatMunch_MAUI.Resources.Localization;
+using WhatMunch_MAUI.Extensions;
 
 namespace WhatMunch_MAUI.Models.Dtos
 {
@@ -59,6 +60,9 @@ namespace WhatMunch_MAUI.Models.Dtos
 
         [JsonIgnore]
         public double Distance { get; set; }
+
+        [JsonIgnore]
+        public string DisplayNameText => DisplayName?.Text.ToDisplayNameText() ?? AppResources.NotAvailable;
     }
 
     public class DisplayName

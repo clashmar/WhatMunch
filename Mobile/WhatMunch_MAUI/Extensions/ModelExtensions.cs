@@ -33,6 +33,14 @@ namespace WhatMunch_MAUI.Extensions
             };
         }
 
+        public static string ToDisplayNameText(this string displayName)
+        {
+            if (string.IsNullOrEmpty(displayName))
+                return AppResources.NotAvailable;
+
+            return displayName.Length > 26 ? $"{displayName[..26]}...": displayName;
+        }
+
         public static PlaceModel ToModel(this PlaceDto placeDto)
         {
             ArgumentNullException.ThrowIfNull(placeDto);

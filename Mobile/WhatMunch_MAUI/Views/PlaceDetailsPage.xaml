@@ -34,7 +34,7 @@
                         <LinearGradientBrush EndPoint="0,1">
                             <GradientStop Color="#00000000"
                                           Offset="0.0" />
-                            <GradientStop Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}"
+                            <GradientStop Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}"
                                           Offset="1.0" />
                         </LinearGradientBrush>
                     </BoxView.Background>

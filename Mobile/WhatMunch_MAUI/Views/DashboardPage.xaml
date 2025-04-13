@@ -18,8 +18,8 @@
                     WidthRequest="120"
                     CornerRadius="100"
                     FontSize="20"
-                    BorderColor="{StaticResource YaleBlueLight}"
-                    BorderWidth="10"
+                    BorderColor="{AppThemeBinding Light={StaticResource YaleBlueLight}, Dark={StaticResource Primary}}"
+                    BorderWidth="6"
                     VerticalOptions="Center"
                     Text="{x:Static strings:AppResources.Search}"
                     Command="{Binding HandleSearchCommand}" />

@@ -28,9 +28,9 @@
         </ShellContent>
 
         <ShellContent Title="{x:Static strings:AppResources.Saved}"
-                          Icon="saved"
-                          Route="SavedPlacesPage"
-                          ContentTemplate="{DataTemplate views:SavedPlacesPage}">
+                      Icon="saved"
+                      Route="SavedPlacesPage"
+                      ContentTemplate="{DataTemplate views:SavedPlacesPage}">
                 <Shell.TitleView>
                     <Grid>
                         <Label Text="{x:Static strings:AppResources.Saved}"
