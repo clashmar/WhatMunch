@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.Services;
 namespace WhatMunch_MAUI;
 public static class MauiProgram
@@ -38,7 +39,8 @@ public static class MauiProgram
 			.AddLogging()
 			.AddSingleton<IConnectivity>(Connectivity.Current)
 			.AddSingleton<IGeolocation>(Geolocation.Default)
-			.AddSingleton<ILauncher>(Launcher.Default);
+			.AddSingleton<ILauncher>(Launcher.Default)
+			.AddSingleton<LocalDatabase>();
 
 		builder.Services
 			.AddSingleton<ITokenService, TokenService>()
