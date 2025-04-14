@@ -41,7 +41,7 @@ namespace WhatMunch_MAUI.ViewModels
         private string? _nextPageToken;
         public bool HasNextPage => !string.IsNullOrEmpty(NextPageToken) | PageList.ElementAtOrDefault(currentPageIndex + 1) is not null;
 
-        //Called from code behind
+        //Called from code behind 
         public void InitializePageList()
         {
             if (PageList.Count == 0 && Places.Count > 0)
@@ -146,32 +146,26 @@ namespace WhatMunch_MAUI.ViewModels
                 }
                 else
                 {
-                    await _shellService.DisplayAlert(
-                        AppResources.Error,
-                        AppResources.NoPlacesFound,
-                        AppResources.Ok);
+                    await _shellService.DisplayError(AppResources.NoPlacesFound);
 
                     return Result<string?>.Failure();
                 }
             }
             catch (ConnectivityException)
             {
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorInternetConnection, AppResources.Ok);
+                await _shellService.DisplayError(AppResources.ErrorInternetConnection);
                 return Result<string?>.Failure();
             }
             catch (HttpRequestException ex)
             {
-                await _shellService.DisplayAlert(
-                        AppResources.Error,
-                        ex.Message ?? AppResources.ErrorUnexpected,
-                        AppResources.Ok);
+                await _shellService.DisplayError(ex.Message ?? AppResources.ErrorUnexpected);
 
                 return Result<string?>.Failure();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred while executing search");
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorUnexpected, AppResources.Ok);
+                await _shellService.DisplayError(AppResources.ErrorUnexpected);
                 return Result<string?>.Failure();
             }
             finally
