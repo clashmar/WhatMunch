@@ -28,7 +28,7 @@
         <Setter Property="StrokeThickness"
                 Value="1" />
         <Setter Property="BackgroundColor"
-                Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray400}}" />
+                Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray500}}" />
         <Setter Property="Padding"
                 Value="8,4" />
         <Setter Property="Margin"
@@ -40,7 +40,7 @@
     <Style TargetType="Border"
            x:Key="CardView">
         <Setter Property="Stroke"
-                Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
+                Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}" />
         <Setter Property="StrokeShape"
                 Value="RoundRectangle 10" />
         <Setter Property="StrokeThickness"
@@ -48,7 +48,7 @@
         <Setter Property="Padding"
                 Value="10" />
         <Setter Property="BackgroundColor"
-                Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray400}}" />
+                Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray500}}" />
     </Style>
 
     <Style TargetType="Border"

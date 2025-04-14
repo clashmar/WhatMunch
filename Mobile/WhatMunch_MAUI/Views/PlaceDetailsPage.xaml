@@ -69,7 +69,7 @@
             </Grid>
             <IndicatorView Grid.Row="1" x:Name="indicatorView"
                             IndicatorColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray100}}"
-                            SelectedIndicatorColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource White}}"
+                           SelectedIndicatorColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray600}}"
                             IndicatorSize="10"
                             HorizontalOptions="Center"/>
             <FlexLayout Grid.Row="3"

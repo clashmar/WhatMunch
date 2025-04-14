@@ -3,61 +3,43 @@ using WhatMunch_MAUI.Resources.Localization;
 
 namespace WhatMunch_MAUI.Models
 {
-    public partial class PlaceModel : ObservableObject
+    public partial class PlaceModel
     {
-        [ObservableProperty]
-        private string _id = string.Empty;
+        public string Id { get; set; } = string.Empty;
+     
+        public string? DisplayName { get; set; }
+        
+        public string PrimaryType { get; set; } = string.Empty;
 
-        [ObservableProperty]
-        private string? _displayName;
+        public List<DisplayAttribute> Attributes { get; set; } = [];
 
-        [ObservableProperty]
-        private string _primaryType = string.Empty;
+        public double Rating { get; set; }
 
-        [ObservableProperty]
-        private List<DisplayAttribute> _attributes = [];
+        public int UserRatingCount { get; set; }
+        
+        public PriceLevelDisplay? PriceLevel { get; set; }
+        
+        public bool OpenNow { get; set; }
+        
+        public List<string> OpeningTimes { get; set; } = [];
+        
+        public List<string> Photos { get; set; } = [];
 
-        [ObservableProperty]
-        private double _rating;
+        public bool GoodForChildren { get; set; }
+        
+        public bool AllowsDogs { get; set; }
 
-        [ObservableProperty]
-        private int _userRatingCount;
+        public string RatingSummary { get; set; }  = string.Empty;
 
-        [ObservableProperty]
-        private PriceLevelDisplay? _priceLevel;
+        public string Stars { get; set; } = string.Empty;
 
-        [ObservableProperty]
-        private bool _openNow;
+        public string InternationalPhoneNumber { get; set; } = AppResources.NotAvailable;
 
-        [ObservableProperty]
-        private List<string> _openingTimes = [];
+        public string Website { get; set; } = AppResources.NotAvailable;
+        
+        public string Address { get; set; } = AppResources.NotAvailable;
 
-        [ObservableProperty]
-        private List<string> _photos = [];
-
-        [ObservableProperty]
-        private bool _goodForChildren;
-
-        [ObservableProperty]
-        private bool _allowsDogs;
-
-        [ObservableProperty]
-        private string _ratingSummary = string.Empty;
-
-        [ObservableProperty]
-        private string _stars = string.Empty;
-
-        [ObservableProperty]
-        private string _internationalPhoneNumber = AppResources.NotAvailable;
-
-        [ObservableProperty]
-        private string _website = AppResources.NotAvailable;
-
-        [ObservableProperty]
-        private string _address = AppResources.NotAvailable;
-
-        [ObservableProperty]
-        private List<Review> _reviews = [];
+        public List<Review> Reviews { get; set; } = [];
     }
 
     public class DisplayAttribute(string? icon, string text)
