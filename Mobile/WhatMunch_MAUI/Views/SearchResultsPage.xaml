@@ -39,10 +39,7 @@
                             <Grid Padding="10">
                                 <Border HeightRequest="125"
                                         Style="{StaticResource CardView}">
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer CommandParameter="{Binding . }"
-                                                              Command="{Binding GoToPlaceDetailsCommand, x:DataType=viewmodel:SearchResultsViewModel, Source={RelativeSource AncestorType={x:Type viewmodel:SearchResultsViewModel}}}" />
-                                    </Border.GestureRecognizers>
+                                    
                                     <Grid ColumnDefinitions="Auto,*"
                                           ColumnSpacing="10">
                                         <Label Grid.Column="0" Text="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToIconConverter}}"
@@ -82,7 +79,21 @@
                                                 </Border>
                                             </HorizontalStackLayout>
                                         </VerticalStackLayout>
+                                        <Button Grid.Column="1"
+                                                ImageSource="saved"
+                                                BackgroundColor="Transparent"
+                                                BorderColor="Transparent" 
+                                                HorizontalOptions="End"
+                                                VerticalOptions="End"
+                                                WidthRequest="60"
+                                                HeightRequest="60"
+                                                CommandParameter="{Binding . }"
+                                                Command="{Binding AddFavouriteCommand, x:DataType=viewmodel:SearchResultsViewModel, Source={RelativeSource AncestorType={x:Type viewmodel:SearchResultsViewModel}}}"/>
                                     </Grid>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer CommandParameter="{Binding . }"
+                                                                Command="{Binding GoToPlaceDetailsCommand, x:DataType=viewmodel:SearchResultsViewModel, Source={RelativeSource AncestorType={x:Type viewmodel:SearchResultsViewModel}}}" />
+                                    </Border.GestureRecognizers>
                                 </Border>
                             </Grid>
                         </DataTemplate>

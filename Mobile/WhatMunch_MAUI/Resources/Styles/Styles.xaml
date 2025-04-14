@@ -106,7 +106,7 @@
         <Setter Property="Padding"
                 Value="0" />
         <Setter Property="ImageSource"
-                Value="logout.png" />
+                Value="logout" />
         <Setter Property="HorizontalOptions"
                 Value="End" />
         <Setter Property="Margin"

@@ -53,6 +53,7 @@ namespace WhatMunch_MAUI.Data.SQLite
 
             try
             {
+                await Init();
                 return await _database!.InsertOrReplaceAsync(place);
             }
             catch (Exception ex)
@@ -68,6 +69,7 @@ namespace WhatMunch_MAUI.Data.SQLite
 
             try
             {
+                await Init();
                 return await _database!.DeleteAsync<PlaceDbEntry>(id);
             }
             catch (Exception ex)

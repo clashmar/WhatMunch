@@ -15,15 +15,18 @@ namespace WhatMunch_MAUI.ViewModels
     {
         private readonly ISearchService _searchService;
         private readonly IShellService _shellService;
+        private readonly IFavouritesService _favouritesService;
         private readonly ILogger<SearchResultsViewModel> _logger;
 
         public SearchResultsViewModel(
             ISearchService searchService, 
             IShellService shellService,
+            IFavouritesService favouritesService,
             ILogger<SearchResultsViewModel> logger)
         {
             _searchService = searchService;
             _shellService = shellService;
+            _favouritesService = favouritesService;
             _logger = logger;
         }
 
@@ -191,6 +194,21 @@ namespace WhatMunch_MAUI.ViewModels
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred while trying to go back");
+            }
+        }
+
+        [RelayCommand]
+        private async Task AddFavouriteAsync(PlaceDto place)
+        {
+            try
+            {
+                await _favouritesService.SaveUserFavouriteAsync(place);
+                await _shellService.DisplayAlert("Success", "Added", "Ok");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while trying to add place: {place.Id}", place.Id);
+                await _shellService.DisplayError(AppResources.ErrorUnexpected);
             }
         }
 

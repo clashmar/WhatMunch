@@ -40,7 +40,7 @@ public static class MauiProgram
 			.AddSingleton<IConnectivity>(Connectivity.Current)
 			.AddSingleton<IGeolocation>(Geolocation.Default)
 			.AddSingleton<ILauncher>(Launcher.Default)
-			.AddSingleton<LocalDatabase>();
+			.AddSingleton<ILocalDatabase, LocalDatabase>();
 
 		builder.Services
 			.AddSingleton<ITokenService, TokenService>()
@@ -61,7 +61,8 @@ public static class MauiProgram
 			.AddSingleton<DashboardViewModel>()
 			.AddSingleton<SearchResultsViewModel>()
 			.AddSingleton<SearchPreferencesViewModel>()
-			.AddTransient<PlaceDetailsViewModel>();
+			.AddTransient<PlaceDetailsViewModel>()
+			.AddTransient<SavedPlacesViewModel>();
 
 
 		return builder.Build();

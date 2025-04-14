@@ -25,7 +25,6 @@ namespace WhatMunch_MAUI.Services
                 _logger.LogError(ex, "Failed to get save username in secure storage");
                 throw;
             }
-            
         }
 
         public async Task<string?> GetUsernameAsync()
@@ -39,7 +38,6 @@ namespace WhatMunch_MAUI.Services
                 _logger.LogError(ex, "Failed to get get username from secure storage");
                 throw;
             }
-            
         }
     }
 }

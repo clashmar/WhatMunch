@@ -8,6 +8,7 @@ namespace WhatMunch_MAUI.Services
     public interface IFavouritesService
     {
         Task<Result<List<PlaceDto?>>> GetUserFavouritesAsync();
+        Task SaveUserFavouriteAsync(PlaceDto placeDto);
     }
     public class FavouritesService : IFavouritesService
     {
@@ -39,7 +40,7 @@ namespace WhatMunch_MAUI.Services
                         .Select(f => JsonSerializer.Deserialize<PlaceDto>(f.PlaceJson))
                         .ToList();
 
-                    return Result< List<PlaceDto?>>.Success(result);
+                    return Result<List<PlaceDto?>>.Success(result);
                 }
 
                 // TODO: make another call to the backend and update localdatabase
@@ -70,7 +71,7 @@ namespace WhatMunch_MAUI.Services
         private async Task<PlaceDbEntry> CreatePlaceDbEntryAsync(PlaceDto placeDto)
         {
             var username = await _secureStorageService.GetUsernameAsync() 
-                ?? throw new Exception("Username not found");
+                ?? throw new InvalidOperationException("Username is not available from secure storage");
 
             var placeJson = JsonSerializer.Serialize(placeDto);
 

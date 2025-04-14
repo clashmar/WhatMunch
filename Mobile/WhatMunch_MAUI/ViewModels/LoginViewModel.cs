@@ -42,7 +42,7 @@ namespace WhatMunch_MAUI.ViewModels
                 if(result.IsSuccess)
                 {
                     await _shellService.DisplayAlert("Success", "Login was successful.", "Ok");
-                    await _shellService.GoToAsync($"{nameof(DashboardPage)}");
+                    await _shellService.GoToAsync($"//MainTabs/DashboardPage");
                 }
                 else
                 {
