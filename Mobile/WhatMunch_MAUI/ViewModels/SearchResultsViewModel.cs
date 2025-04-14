@@ -119,12 +119,24 @@ namespace WhatMunch_MAUI.ViewModels
         private async Task GoToPlaceDetails(PlaceDto place)
         {
             if (place is null) return;
+            IsBusy = true;
 
-            await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
+            try
+            {
+                await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
                             { "Place", place.ToModel() }
                         });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while navigating to {place}", place);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task<Result<TextSearchResponseDto>> Search(string? pageToken = null)
