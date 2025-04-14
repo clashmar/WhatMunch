@@ -37,7 +37,7 @@ namespace WhatMunch_MAUI.Services
                     {
                         await _tokenService.SaveAccessTokenAsync(deserializedData.AccessToken);
                         await _tokenService.SaveRefreshTokenAsync(deserializedData.RefreshToken);
-                        await SecureStorage.Default.SetAsync(_usernameKey, requestDto.Username);
+                        await _secureStorageService.SaveUsernameAsync(requestDto.Username);
                         return Result<LoginResponseDto>.Success(deserializedData);
                     }
 
