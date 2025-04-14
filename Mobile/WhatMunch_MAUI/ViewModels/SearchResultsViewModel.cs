@@ -62,8 +62,10 @@ namespace WhatMunch_MAUI.ViewModels
                 if (result.IsSuccess)
                 {
                     ResetPagination();
-                    PageList.Add([.. Places]);
-                    NextPageToken = result.Data;
+                    var data = result.Data!;
+                    Places = data.Places.ToObservableCollection();
+                    PageList.Add(data.Places.ToObservableCollection());
+                    NextPageToken = data.NextPageToken;
                 }
             }
             catch (Exception ex)
@@ -93,10 +95,12 @@ namespace WhatMunch_MAUI.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    PageList.Add([..Places]);
+                    var data = result.Data!;
+                    Places = data.Places.ToObservableCollection();
+                    PageList.Add(data.Places.ToObservableCollection());
                     HasPreviousPage = true;
                     currentPageIndex += 1; // Must be set before page token
-                    NextPageToken = result.Data;
+                    NextPageToken = data.NextPageToken;
                 }
             }
         }
@@ -119,11 +123,11 @@ namespace WhatMunch_MAUI.ViewModels
             await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
-                                { "Place", place.ToModel() }
-                            });
+                            { "Place", place.ToModel() }
+                        });
         }
 
-        private async Task<Result<string?>> Search(string? pageToken = null)
+        private async Task<Result<TextSearchResponseDto>> Search(string? pageToken = null)
         {
             try
             {
@@ -133,40 +137,30 @@ namespace WhatMunch_MAUI.ViewModels
 
                 if (response.Places.Count > 0)
                 {
-                    var places = response.Places.ToObservableCollection();
-
-                    if(Places.Count != 0) Places.Clear();
-
-                    foreach(var place in places)
-                    {
-                        Places.Add(place);
-                    }
-
-                    return Result<string?>.Success(response.NextPageToken);
+                    return Result<TextSearchResponseDto>.Success(response);
                 }
                 else
                 {
                     await _shellService.DisplayError(AppResources.NoPlacesFound);
-
-                    return Result<string?>.Failure();
+                    return Result<TextSearchResponseDto>.Failure();
                 }
             }
             catch (ConnectivityException)
             {
                 await _shellService.DisplayError(AppResources.ErrorInternetConnection);
-                return Result<string?>.Failure();
+                return Result<TextSearchResponseDto>.Failure();
             }
             catch (HttpRequestException ex)
             {
                 await _shellService.DisplayError(ex.Message ?? AppResources.ErrorUnexpected);
 
-                return Result<string?>.Failure();
+                return Result<TextSearchResponseDto>.Failure();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred while executing search");
                 await _shellService.DisplayError(AppResources.ErrorUnexpected);
-                return Result<string?>.Failure();
+                return Result<TextSearchResponseDto>.Failure();
             }
             finally
             {
@@ -182,9 +176,9 @@ namespace WhatMunch_MAUI.ViewModels
                 ResetViewModel();
                 await _shellService.GoToAsync("..");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                _logger.LogError(ex, "An unexpected error occurred while trying to go back");
             }
         }
 
