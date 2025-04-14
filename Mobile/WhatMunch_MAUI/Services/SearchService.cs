@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Utility.Exceptions;
+using WhatMunch_MAUI.Extensions;
 
 namespace WhatMunch_MAUI.Services
 {
@@ -11,20 +12,17 @@ namespace WhatMunch_MAUI.Services
 
     public class SearchService : ISearchService
     {
-        private readonly IShellService _shellService;
         private readonly ILogger<SearchService> _logger;
         private readonly IGooglePlacesService _googlePlacesService;
         private readonly IConnectivity _connectivity;
         private readonly ISearchPreferencesService _searchPreferencesService;
 
         public SearchService(
-            IShellService shellService, 
             ILogger<SearchService> logger, 
             IGooglePlacesService googlePlacesService, 
             IConnectivity connectivity,
             ISearchPreferencesService searchPreferencesService)
         {
-            _shellService = shellService;
             _logger = logger;
             _googlePlacesService = googlePlacesService;
             _connectivity = connectivity;
@@ -46,13 +44,22 @@ namespace WhatMunch_MAUI.Services
 
                 if (result.IsSuccess && result.Data is not null)
                 {
-                    return result.Data;
+                    var dto = result.Data;
+                    dto.Places = dto.Places
+                        .AddDistances(dto.SearchLocation)
+                        .FilterDistances();
+                    return dto;
                 }
                 else
                 {
                     _logger.LogError("Search service error: {result.ErrorMessage}", result.ErrorMessage);
                     throw new HttpRequestException(result.ErrorMessage);
                 }
+            }
+            catch (HttpRequestException ex)
+            {
+                _logger.LogError(ex, "HTTP request failed while fetching search results.");
+                throw;
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
-﻿namespace WhatMunch_MAUI
+﻿
+namespace WhatMunch_MAUI
 {
     public partial class App : Application
     {

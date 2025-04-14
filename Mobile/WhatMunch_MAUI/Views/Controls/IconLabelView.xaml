@@ -9,7 +9,8 @@
             <Label Text="{Binding Icon, Source={x:Reference This}}"
                    FontFamily="FaSolid"
                    FontSize="14"
-                   VerticalOptions="Center" />
+                   VerticalOptions="Center"
+                   IsVisible="{Binding Icon, Source={x:Reference This}, Converter={StaticResource NullToVisibilityConverter}}"/>
             <Label Text="{Binding Text, Source={x:Reference This}}"
                    FontSize="14"
                    VerticalOptions="Center" />

@@ -9,7 +9,7 @@ namespace WhatMunch_MAUI.Converters
         {
             if (value is double searchRadius)
             {
-                if(0 < searchRadius && searchRadius <= 400.0)
+                if(searchRadius <= 400.0)
                 {
                     return AppResources._5MinWalk;
                 }
@@ -26,7 +26,7 @@ namespace WhatMunch_MAUI.Converters
                     return AppResources._20MinWalk;
                 }
             }
-            return "?";
+            return "error";
         }
         public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {

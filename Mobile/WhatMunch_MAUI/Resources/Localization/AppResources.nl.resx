@@ -133,7 +133,7 @@
     <value>E-mailadres is verplicht.</value>
   </data>
   <data name="ErrorUnexpected" xml:space="preserve">
-    <value />
+    <value>Er is een onverwachte fout opgetreden.</value>
   </data>
   <data name="LoginWelcome" xml:space="preserve">
     <value>Welkom bij WhatMunch</value>
@@ -157,7 +157,7 @@
     <value>Registreer voor WhatMunch</value>
   </data>
   <data name="SearchReturned" xml:space="preserve">
-    <value />
+    <value>Zoekopdracht geretourneerd</value>
   </data>
   <data name="SubmitButton" xml:space="preserve">
     <value>Verzend</value>
@@ -181,93 +181,153 @@
     <value>Login</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value />
+    <value>Zoekopdracht</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value />
+    <value>Uitloggen</value>
   </data>
   <data name="Ok" xml:space="preserve">
-    <value />
+    <value>Ok</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value />
+    <value>Fout</value>
   </data>
   <data name="ErrorInternetConnection" xml:space="preserve">
-    <value />
+    <value>Controleer uw internetverbinding.</value>
   </data>
   <data name="ErrorLocationServices" xml:space="preserve">
-    <value />
+    <value>Er kon geen toegang worden verkregen tot locatievoorzieningen op dit apparaat.</value>
   </data>
   <data name="NoPlacesFound" xml:space="preserve">
-    <value />
+    <value>Geen plaatsen gevonden.</value>
   </data>
   <data name="SearchPreferences" xml:space="preserve">
-    <value />
+    <value>Zoekvoorkeuren</value>
   </data>
   <data name="MinimumRating" xml:space="preserve">
-    <value />
+    <value>Minimale Beoordeling</value>
   </data>
   <data name="MaxPriceLevel" xml:space="preserve">
-    <value />
+    <value>Maximaal Prijsniveau</value>
   </data>
   <data name="VegetarianOptions" xml:space="preserve">
-    <value />
+    <value>Vegetarische Opties</value>
   </data>
   <data name="VeganOptions" xml:space="preserve">
-    <value />
+    <value>Veganistische Opties</value>
   </data>
   <data name="ChildFriendly" xml:space="preserve">
-    <value />
+    <value>Kindvriendelijk</value>
   </data>
   <data name="DogFriendly" xml:space="preserve">
-    <value />
+    <value>Hondvriendelijk</value>
   </data>
   <data name="WithinAnApproximately" xml:space="preserve">
-    <value />
+    <value>Binnen Ongeveer:</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value />
+    <value>Sorteer Op:</value>
   </data>
   <data name="Distance" xml:space="preserve">
-    <value />
+    <value>Afstand</value>
   </data>
   <data name="Relevance" xml:space="preserve">
-    <value />
+    <value>Relevantie</value>
   </data>
-  <data name="SavePreferences" xml:space="preserve">
-    <value />
+  <data name="Save" xml:space="preserve">
+    <value>Opslaan</value>
   </data>
   <data name="5MinWalk" xml:space="preserve">
-    <value />
+    <value>5 Minuten Lopen</value>
   </data>
   <data name="10MinWalk" xml:space="preserve">
-    <value />
+    <value>10 Minuten Lopen</value>
   </data>
   <data name="15MinWalk" xml:space="preserve">
-    <value />
+    <value>15 Minuten Lopen</value>
   </data>
   <data name="Inexpensive" xml:space="preserve">
-    <value />
+    <value>Goedkoop</value>
   </data>
   <data name="Moderate" xml:space="preserve">
-    <value />
+    <value>Gematigd</value>
   </data>
   <data name="Expensive" xml:space="preserve">
-    <value />
+    <value>Duur</value>
   </data>
   <data name="VeryExpensive" xml:space="preserve">
-    <value />
+    <value>Erg Duur</value>
   </data>
   <data name="20MinWalk" xml:space="preserve">
-    <value />
+    <value>20 Minuten Lopen</value>
   </data>
   <data name="UpdatedPreferences" xml:space="preserve">
-    <value />
+    <value>Bijgewerkte Voorkeuren</value>
   </data>
   <data name="Next" xml:space="preserve">
-    <value />
+    <value>Volgende</value>
   </data>
   <data name="Previous" xml:space="preserve">
-    <value />
+    <value>Vorig</value>
+  </data>
+  <data name="OpeningHours" xml:space="preserve">
+    <value>Openingstijden:</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Telefoonnummer:</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website:</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Adres:</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Niet beschikbaar</value>
+  </data>
+  <data name="OpenNow" xml:space="preserve">
+    <value>Nu Openen</value>
+  </data>
+  <data name="VegetarianRestaurant" xml:space="preserve">
+    <value>Vegetarisch Restaurant</value>
+  </data>
+  <data name="VeganRestaurant" xml:space="preserve">
+    <value>Veganistisch Restaurant</value>
+  </data>
+  <data name="Vegan" xml:space="preserve">
+    <value>Veganistisch</value>
+  </data>
+  <data name="Vegetarian" xml:space="preserve">
+    <value>Vegetarisch</value>
+  </data>
+  <data name="30MinWalk" xml:space="preserve">
+    <value>30+ Minuten Lopen</value>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>Gesloten</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Beoordelingen:</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>Resultaten:</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Opgeslagen</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Weet je het zeker?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>Nee</value>
+  </data>
+  <data name="WhatMunch" xml:space="preserve">
+    <value>WhatMunch</value>
   </data>
 </root>

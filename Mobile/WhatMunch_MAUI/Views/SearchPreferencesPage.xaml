@@ -11,7 +11,8 @@
     <ScrollView>
         <Grid RowSpacing="20"
               RowDefinitions="Auto,Auto,Auto,Auto"
-              WidthRequest="350">
+              WidthRequest="350"
+              VerticalOptions="Center">
             <Grid Grid.Row="0" 
                   ColumnDefinitions="*,*">
                 <VerticalStackLayout Grid.Column="0">
@@ -79,9 +80,9 @@
                     <Label Text="{x:Static strings:AppResources.WithinAnApproximately}"
                            HorizontalOptions="Center"/>
                     <Label Text="{Binding Preferences.SearchRadius, Converter={StaticResource SearchRadiusToStringConverter}}"
-                           HorizontalOptions="Center"/>
+                           HorizontalOptions="Center" />
                     <Stepper Increment="400"
-                             Minimum="400"
+                             Minimum="{Binding SearchRadiusMinimum}"
                              Maximum="1200"
                              Value="{Binding Preferences.SearchRadius, Mode=TwoWay}"
                              HeightRequest="40"
@@ -106,7 +107,8 @@
 
             <Button Grid.Row="4"
                     HeightRequest="60"
-                    Text="{x:Static strings:AppResources.SavePreferences}"
+                    WidthRequest="150"
+                    Text="{x:Static strings:AppResources.Save}"
                     Command="{Binding HandleSavePreferencesCommand}" />
         </Grid>
     </ScrollView>

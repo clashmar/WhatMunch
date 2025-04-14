@@ -9,18 +9,15 @@ namespace WhatMunch_MAUI.ViewModels
 {
     public partial class DashboardViewModel : BaseViewModel
     {
-        private readonly ITokenService _tokenService;
         private readonly ISearchService _searchService;
         private readonly IShellService _shellService;
         private readonly ILogger<DashboardViewModel> _logger;
 
         public DashboardViewModel(
-            ITokenService tokenService,
             ISearchService searchService,
             IShellService shellService,
             ILogger<DashboardViewModel> logger)
         {
-            _tokenService = tokenService;
             _searchService = searchService;
             _shellService = shellService;
             _logger = logger;
@@ -29,92 +26,52 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         private async Task HandleSearch()
         {
+            if (IsBusy) return;
+            IsBusy = true;
+
             try
             {
                 var response = await _searchService.GetSearchResponseAsync();
 
                 if (response.Places.Count > 0)
                 {
-                    var places = response.Places.ToObservableCollection();
+                    var places = response.Places
+                        .ToObservableCollection();
 
                     await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
                         new Dictionary<string, object>
                             {
                                 { "Places", places },
-                                { "NextPageToken", response.NextPageToken ?? string.Empty },
-                                { "ShouldReset", false }
+                                { "NextPageToken", response.NextPageToken ?? string.Empty }
                             });
                 }
                 else
                 {
-                    await _shellService.DisplayAlert(
-                        AppResources.Error,
-                        AppResources.NoPlacesFound,
-                        AppResources.Ok);
+                    await _shellService.DisplayError(AppResources.NoPlacesFound);
                 }
             }
             catch (ConnectivityException)
             {
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorInternetConnection, AppResources.Ok);
+                await _shellService.DisplayError(AppResources.ErrorInternetConnection);
             }
             catch (HttpRequestException ex)
             {
-                await _shellService.DisplayAlert(
-                        AppResources.Error,
-                        ex.Message ?? AppResources.ErrorUnexpected,
-                        AppResources.Ok);
+                await _shellService.DisplayError(ex.Message ?? AppResources.ErrorUnexpected);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred while executing search");
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorUnexpected, AppResources.Ok);
+                await _shellService.DisplayError(AppResources.ErrorUnexpected);
             }
-        }
-
-        [RelayCommand]
-        private async Task HandleLogout()
-        {
-            try
+            finally
             {
-                _tokenService.Logout();
-                await Shell.Current.GoToAsync($"{nameof(LoginPage)}");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        [RelayCommand]
-        private async Task HandleSetPreferences()
-        {
-            try
-            {
-                _tokenService.Logout();
-                await Shell.Current.GoToAsync($"{nameof(SearchPreferencesPage)}");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        [RelayCommand]
-        private async Task HandleTestToken()
-        {
-            try
-            {
-                string? token = await _tokenService.GetAccessTokenAsync();
-                Debug.WriteLine(token);
-            }
-            catch (Exception)
-            {
-                throw;
+                IsBusy = false;
             }
         }
 
         public override void ResetViewModel()
         {
+            // TODO: Implement ResetViewModel in Dashboard
             throw new NotImplementedException();
         }
     }

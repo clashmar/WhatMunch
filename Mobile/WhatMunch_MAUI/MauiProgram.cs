@@ -9,50 +9,56 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-            .UseMauiCommunityToolkit()
+			.UseMauiCommunityToolkit()
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 				fonts.AddFont("fa-regular-400.ttf", "FaRegular");
 				fonts.AddFont("fa-solid-900.ttf", "FaSolid");
-            });
+			});
 
-        builder.Services.AddHttpClient("WhatMunch", client =>
-        {
-            client.Timeout = TimeSpan.FromSeconds(10);
-            client.BaseAddress = new Uri("http://10.0.2.2:8000/api/");
-        });
-        builder.Services.AddHttpClient("GooglePlaces", client =>
-        {
-            client.Timeout = TimeSpan.FromSeconds(10);
-            client.BaseAddress = new Uri("https://places.googleapis.com/");
-        });
+		builder.Services.AddHttpClient("WhatMunch", client =>
+		{
+			client.Timeout = TimeSpan.FromSeconds(10);
+			client.BaseAddress = new Uri("http://10.0.2.2:8000/api/");
+		});
+		builder.Services.AddHttpClient("GooglePlaces", client =>
+		{
+			client.Timeout = TimeSpan.FromSeconds(10);
+			client.BaseAddress = new Uri("https://places.googleapis.com/");
+		});
 
 #if DEBUG
-        builder.Logging.AddDebug();
+		builder.Logging.AddDebug();
 #endif
+		builder.Services.AddSingleton<AppShell>();
 
-        builder.Services
-            .AddLogging()
-            .AddSingleton<IConnectivity>(Connectivity.Current)
-            .AddSingleton<IGeolocation>(Geolocation.Default)
-            .AddSingleton<ITokenService, TokenService>()
-            .AddSingleton<IShellService, ShellService>()
-            .AddSingleton<ISearchService, SearchService>()
-            .AddSingleton<IPermissionsService, PermissionsService>()
-            .AddSingleton<ILocationService, LocationService>()
-            .AddSingleton<ISearchPreferencesService, SearchPreferencesService>()
-            .AddSingleton<IRegistrationService, RegistrationService>()
-            .AddSingleton<ILoginService, LoginService>()
-            .AddSingleton<IGooglePlacesService, GooglePlacesService>()
-            .AddSingleton<AppShell>()
-            .AddSingleton<LoginViewModel>()
-            .AddSingleton<RegistrationViewModel>()
-            .AddSingleton<DashboardViewModel>()
-            .AddSingleton<SearchResultsViewModel>()
-            .AddSingleton<SearchPreferencesViewModel>()
-            .AddTransient<PlaceDetailsViewModel>();
+		builder.Services
+			.AddLogging()
+			.AddSingleton<IConnectivity>(Connectivity.Current)
+			.AddSingleton<IGeolocation>(Geolocation.Default)
+			.AddSingleton<ILauncher>(Launcher.Default);
+
+		builder.Services
+			.AddSingleton<ITokenService, TokenService>()
+			.AddSingleton<IShellService, ShellService>()
+			.AddSingleton<ISearchService, SearchService>()
+			.AddSingleton<IPermissionsService, PermissionsService>()
+			.AddSingleton<ILocationService, LocationService>()
+			.AddSingleton<ISearchPreferencesService, SearchPreferencesService>()
+			.AddSingleton<IRegistrationService, RegistrationService>()
+			.AddSingleton<ILoginService, LoginService>()
+			.AddSingleton<IGooglePlacesService, GooglePlacesService>();
+
+		builder.Services
+			.AddSingleton<LoginViewModel>()
+			.AddSingleton<RegistrationViewModel>()
+			.AddSingleton<DashboardViewModel>()
+			.AddSingleton<SearchResultsViewModel>()
+			.AddSingleton<SearchPreferencesViewModel>()
+			.AddTransient<PlaceDetailsViewModel>();
+
 
 		return builder.Build();
 	}

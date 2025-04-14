@@ -6,56 +6,184 @@
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              xmlns:fasolid="clr-namespace:WhatMunch_MAUI.Models.Fonts"
              xmlns:controls="clr-namespace:WhatMunch_MAUI.Views.Controls"
+             xmlns:dtos="clr-namespace:WhatMunch_MAUI.Models.Dtos"
              x:Class="WhatMunch_MAUI.Views.PlaceDetailsPage"
              Title="{Binding Title}"
              x:DataType="viewmodel:PlaceDetailsViewModel">
     <ScrollView>
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
               RowSpacing="10">
-            <Image Grid.Row="0"
-                   Source="{Binding Place.MainPhoto}" />
-            <FlexLayout Grid.Row="1"
-                        BindableLayout.ItemsSource="{Binding Place.Types}"
+
+            <Grid Grid.Row="0">
+                <CarouselView ItemsSource="{Binding Place.Photos}"
+                              IndicatorView="indicatorView"
+                              WidthRequest="400"
+                              HeightRequest="250">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <!-- TODO: Lazy load images -->
+                            <Image Source="{Binding .}"
+                                   Aspect="AspectFill" />
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+                <BoxView VerticalOptions="End"
+                         HeightRequest="80"
+                         InputTransparent="True">
+                    <BoxView.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Color="#00000000"
+                                          Offset="0.0" />
+                            <GradientStop Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}"
+                                          Offset="1.0" />
+                        </LinearGradientBrush>
+                    </BoxView.Background>
+                </BoxView>
+            </Grid>
+            <Grid Grid.Row="2"
+                  ColumnDefinitions="*,*"
+                  WidthRequest="300">
+                <VerticalStackLayout Spacing="5"
+                                     Grid.Column="0">
+                    <Label Text="{Binding Place.RatingSummary}"
+                           FontSize="20"
+                           HorizontalOptions="Center"/>
+                    <Label Text="{Binding Place.Stars}"
+                           Style="{StaticResource Stars}"
+                           FontFamily="FaSolid"
+                           FontSize="20"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+                <HorizontalStackLayout Grid.Column="1"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                    <Label Text="{Binding Place.PriceLevel.Number}"
+                           TextColor="{StaticResource NaplesYellow}"
+                           FontFamily="FaSolid"
+                           FontSize="30" />
+                    <Label Text="{Binding Place.PriceLevel.Remainder}"
+                           TextColor="{StaticResource Gray100}"
+                           FontFamily="FaSolid"
+                           FontSize="30" />
+                </HorizontalStackLayout>
+            </Grid>
+            <IndicatorView Grid.Row="1" x:Name="indicatorView"
+                            IndicatorColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray100}}"
+                           SelectedIndicatorColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray600}}"
+                            IndicatorSize="10"
+                            HorizontalOptions="Center"/>
+            <FlexLayout Grid.Row="3"
+                        BindableLayout.ItemsSource="{Binding Place.Attributes}"
                         Direction="Row"
                         Wrap="Wrap"
                         JustifyContent="Center"
                         AlignItems="Center"
                         Margin="10">
                 <BindableLayout.ItemTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <Border Style="{StaticResource Attribute}">
-                            <Label Text="{Binding .}" 
-                                   FontSize="14"/>
-                        </Border>
+                    <DataTemplate x:DataType="model:DisplayAttribute">
+                            <controls:IconLabelView Icon="{Binding Icon}"
+                                                    Text="{Binding Text}" />
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
-            <Grid Grid.Row="2"
+            <Grid Grid.Row="4"
                   ColumnDefinitions="*,*">
-                <VerticalStackLayout Spacing="5"
-                                     Grid.Column="0"
-                                     Grid.ColumnSpan="2">
-                        <Label Text="{Binding Place.RatingSummary}"
-                               FontSize="20"
-                               HorizontalOptions="Center"/>
-                        <Label Text="{Binding Place.Stars}"
-                               Style="{StaticResource Stars}"
-                               FontFamily="FaSolid"
-                               FontSize="20"
-                               HorizontalOptions="Center"/>
+                <VerticalStackLayout Grid.Column="0"
+                                     Margin="20,0,0,0"
+                                     Spacing="5"
+                                     HorizontalOptions="Center"
+                                     VerticalOptions="Center">
+                    <VerticalStackLayout>
+                        <Label Text="{x:Static strings:AppResources.Website}"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding Place.Website}"
+                               TextDecorations="{Binding Place.Website, Converter={StaticResource ConditionalUnderlineConverter}}"
+                               LineBreakMode="WordWrap">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToWebsiteCommand}"
+                                                      CommandParameter="{Binding Place.Website}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Label x:Name="phoneNumber" 
+                               Text="{x:Static strings:AppResources.PhoneNumber}"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding Place.InternationalPhoneNumber}"
+                               TextDecorations="{Binding Place.InternationalPhoneNumber, Converter={StaticResource ConditionalUnderlineConverter}}"
+                               LineBreakMode="WordWrap">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToPhoneCommand}"
+                                                      CommandParameter="{Binding Place.InternationalPhoneNumber}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout>
+                        <Label Text="{x:Static strings:AppResources.Address}"
+                               FontAttributes="Bold" />
+                        <Label Text="{Binding Place.Address}"
+                               TextDecorations="{Binding Place.Address, Converter={StaticResource ConditionalUnderlineConverter}}"
+                               LineBreakMode="WordWrap">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding GoToMapCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1"
+                                     HorizontalOptions="Center"
+                                     Spacing="4">
+                    <Label Text="{x:Static strings:AppResources.OpeningHours}"
+                           FontAttributes="Bold"
+                           FontSize="16"
+                           HorizontalOptions="Center"/>
+                    <VerticalStackLayout BindableLayout.ItemsSource="{Binding Place.OpeningTimes}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <Label Text="{Binding .}"
+                                       FontSize="12"
+                                       HorizontalOptions="Center"/>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
                 </VerticalStackLayout>
             </Grid>
-            <FlexLayout Grid.Row="3"
-                        Direction="Row"
-                        Wrap="Wrap"
-                        JustifyContent="Center"
-                        AlignItems="Center"
-                        Margin="4">
-                <controls:IconLabelView Icon="{x:Static fasolid:FaSolid.Dog}"
-                                        Text="{x:Static strings:AppResources.DogFriendly}" />
-                <controls:IconLabelView Icon="{x:Static fasolid:FaSolid.Child}"
-                                        Text="{x:Static strings:AppResources.ChildFriendly}" />
-            </FlexLayout>
+            <VerticalStackLayout Grid.Row="5"
+                                 Spacing="5"
+                                 WidthRequest="380"
+                                 Margin="0,15,0,15">
+                <Label Text="{x:Static strings:AppResources.Reviews}"
+                       FontAttributes="Bold"
+                       FontSize="16" />
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Place.Reviews}"
+                                     Spacing="15">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="dtos:Review">
+                            <Border Style="{StaticResource CardView}">
+                                <VerticalStackLayout Spacing="5">
+                                    <HorizontalStackLayout Grid.Column="1"
+                                                           HorizontalOptions="Center"
+                                                           VerticalOptions="Center">
+                                        <Label Text="{Binding Rating, Converter={StaticResource IntToStarsConverter}}"
+                                               TextColor="{StaticResource NaplesYellow}"
+                                               FontFamily="FaSolid"
+                                               FontSize="15" />
+                                        <Label Text="{Binding Rating, Converter={StaticResource IntToEmptyStarsConverter}}"
+                                               TextColor="{StaticResource Gray400}"
+                                               FontFamily="FaSolid"
+                                               FontSize="15" />
+                                    </HorizontalStackLayout>
+                                    <Label Text="{Binding Text.Text}"
+                                           FontSize="12"
+                                           HorizontalOptions="Center" />
+                                    <Label Text="{Binding RelativePublishTimeDescription}"
+                                           FontSize="12"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

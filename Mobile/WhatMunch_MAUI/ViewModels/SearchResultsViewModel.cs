@@ -11,7 +11,6 @@ namespace WhatMunch_MAUI.ViewModels
 {
     [QueryProperty(nameof(Places), "Places")]
     [QueryProperty(nameof(NextPageToken), "NextPageToken")]
-    [QueryProperty(nameof(ShouldReset), "ShouldReset")]
     public partial class SearchResultsViewModel : BaseViewModel
     {
         private readonly ISearchService _searchService;
@@ -27,12 +26,10 @@ namespace WhatMunch_MAUI.ViewModels
             _shellService = shellService;
             _logger = logger;
         }
-        public bool ShouldReset { get; set; }
 
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _places = [];
-
-        public List<ObservableCollection<PlaceDto>> PageList = []; // First page added in code behind on appearing
+        public List<ObservableCollection<PlaceDto>> PageList { get; set; } = []; 
 
         private int currentPageIndex = 0;
 
@@ -43,6 +40,15 @@ namespace WhatMunch_MAUI.ViewModels
         [NotifyPropertyChangedFor(nameof(HasNextPage))]
         private string? _nextPageToken;
         public bool HasNextPage => !string.IsNullOrEmpty(NextPageToken) | PageList.ElementAtOrDefault(currentPageIndex + 1) is not null;
+
+        //Called from code behind 
+        public void InitializePageList()
+        {
+            if (PageList.Count == 0 && Places.Count > 0)
+            {
+                PageList.Add([..Places]);
+            }
+        }
 
         [RelayCommand]
         private async Task HandleRefresh()
@@ -56,7 +62,10 @@ namespace WhatMunch_MAUI.ViewModels
                 if (result.IsSuccess)
                 {
                     ResetPagination();
-                    NextPageToken = result.Data;
+                    var data = result.Data!;
+                    Places = data.Places.ToObservableCollection();
+                    PageList.Add(data.Places.ToObservableCollection());
+                    NextPageToken = data.NextPageToken;
                 }
             }
             catch (Exception ex)
@@ -86,10 +95,12 @@ namespace WhatMunch_MAUI.ViewModels
 
                 if (result.IsSuccess)
                 {
-                    PageList.Add([..Places]);
+                    var data = result.Data!;
+                    Places = data.Places.ToObservableCollection();
+                    PageList.Add(data.Places.ToObservableCollection());
                     HasPreviousPage = true;
                     currentPageIndex += 1; // Must be set before page token
-                    NextPageToken = result.Data;
+                    NextPageToken = data.NextPageToken;
                 }
             }
         }
@@ -97,7 +108,7 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         private void HandlePrevious()
         {
-            if (currentPageIndex < 1 | PageList.ElementAtOrDefault(currentPageIndex - 1) is null) return;
+            if (currentPageIndex < 1 || PageList.ElementAtOrDefault(currentPageIndex - 1) is null) return;
             Places = PageList[currentPageIndex - 1];
             currentPageIndex -= 1;
             if(currentPageIndex < 1) HasPreviousPage = false;
@@ -109,15 +120,14 @@ namespace WhatMunch_MAUI.ViewModels
         {
             if (place is null) return;
 
-            ShouldReset = false;
             await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
-                                { "Place", place.ToModel() }
-                            });
+                            { "Place", place.ToModel() }
+                        });
         }
 
-        private async Task<Result<string?>> Search(string? pageToken = null)
+        private async Task<Result<TextSearchResponseDto>> Search(string? pageToken = null)
         {
             try
             {
@@ -127,46 +137,30 @@ namespace WhatMunch_MAUI.ViewModels
 
                 if (response.Places.Count > 0)
                 {
-                    var places = response.Places.ToObservableCollection();
-
-                    if(Places.Count != 0) Places.Clear();
-
-                    foreach(var place in places)
-                    {
-                        Places.Add(place);
-                    }
-
-                    return Result<string?>.Success(response.NextPageToken);
+                    return Result<TextSearchResponseDto>.Success(response);
                 }
                 else
                 {
-                    await _shellService.DisplayAlert(
-                        AppResources.Error,
-                        AppResources.NoPlacesFound,
-                        AppResources.Ok);
-
-                    return Result<string?>.Failure();
+                    await _shellService.DisplayError(AppResources.NoPlacesFound);
+                    return Result<TextSearchResponseDto>.Failure();
                 }
             }
             catch (ConnectivityException)
             {
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorInternetConnection, AppResources.Ok);
-                return Result<string?>.Failure();
+                await _shellService.DisplayError(AppResources.ErrorInternetConnection);
+                return Result<TextSearchResponseDto>.Failure();
             }
             catch (HttpRequestException ex)
             {
-                await _shellService.DisplayAlert(
-                        AppResources.Error,
-                        ex.Message ?? AppResources.ErrorUnexpected,
-                        AppResources.Ok);
+                await _shellService.DisplayError(ex.Message ?? AppResources.ErrorUnexpected);
 
-                return Result<string?>.Failure();
+                return Result<TextSearchResponseDto>.Failure();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred while executing search");
-                await _shellService.DisplayAlert(AppResources.Error, AppResources.ErrorUnexpected, AppResources.Ok);
-                return Result<string?>.Failure();
+                await _shellService.DisplayError(AppResources.ErrorUnexpected);
+                return Result<TextSearchResponseDto>.Failure();
             }
             finally
             {
@@ -174,8 +168,23 @@ namespace WhatMunch_MAUI.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task GoBackAsync()
+        {
+            try
+            {
+                ResetViewModel();
+                await _shellService.GoToAsync("..");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while trying to go back");
+            }
+        }
+
         public void ResetPagination()
         {
+            PageList.Clear();
             NextPageToken = null;
             HasPreviousPage = false;
             currentPageIndex = 0;
@@ -183,7 +192,6 @@ namespace WhatMunch_MAUI.ViewModels
 
         public override void ResetViewModel()
         {
-            PageList.Clear();
             ResetPagination();
         } 
     }

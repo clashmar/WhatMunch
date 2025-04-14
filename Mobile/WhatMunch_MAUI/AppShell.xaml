@@ -1,15 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="WhatMunch_MAUI.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:WhatMunch_MAUI"
-    xmlns:views="clr-namespace:WhatMunch_MAUI.Views"
-    Shell.FlyoutBehavior="Flyout"
-    Title="WhatMunch">
+<Shell x:Class="WhatMunch_MAUI.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:WhatMunch_MAUI"
+       xmlns:views="clr-namespace:WhatMunch_MAUI.Views"
+       xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
+       Shell.FlyoutBehavior="Disabled"
+       Title="WhatMunch">
+    <ShellContent Title="Startup"
+                  ContentTemplate="{DataTemplate local:MainPage}"
+                  Route="MainPage" />
 
-    <ShellContent
-        Title="Start"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar Route="MainTabs">
+
+        <ShellContent Title="{x:Static strings:AppResources.Search}"
+                      Icon="search"
+                      Route="DashboardPage"
+                      ContentTemplate="{DataTemplate views:DashboardPage}">
+            <Shell.TitleView>
+                <Grid>
+                    <Label Text="{x:Static strings:AppResources.WhatMunch}"
+                           Style="{StaticResource Title}" />
+                    <Button Style="{StaticResource Logout}"
+                            Clicked="OnLogoutClicked" />
+                </Grid>
+            </Shell.TitleView>
+        </ShellContent>
+
+        <ShellContent Title="{x:Static strings:AppResources.Saved}"
+                      Icon="saved"
+                      Route="SavedPlacesPage"
+                      ContentTemplate="{DataTemplate views:SavedPlacesPage}">
+                <Shell.TitleView>
+                    <Grid>
+                        <Label Text="{x:Static strings:AppResources.Saved}"
+                               Style="{StaticResource Title}" />
+                        <Button Style="{StaticResource Logout}"
+                                Clicked="OnLogoutClicked" />
+                    </Grid>
+                </Shell.TitleView>
+            </ShellContent>
+
+            <ShellContent Title="{x:Static strings:AppResources.Settings}"
+                          Icon="settings"
+                          Route="SearchPreferencesPage"
+                          ContentTemplate="{DataTemplate views:SearchPreferencesPage}">
+                <Shell.TitleView>
+                    <Grid>
+                        <Label Text="{x:Static strings:AppResources.Settings}"
+                               Style="{StaticResource Title}" />
+                        <Button Style="{StaticResource Logout}"
+                                Clicked="OnLogoutClicked" />
+                    </Grid>
+                </Shell.TitleView>
+            </ShellContent>
+    </TabBar>
 </Shell>

@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Utility.Exceptions;
 
 namespace WhatMunch_MAUI.Services
 {
     public interface ILocationService
     {
         Task<Location> GetLocationWithTimeoutAsync();
+        Task<Location> GetLastSearchLocation();
     }
     public class LocationService : ILocationService
     {
@@ -19,27 +21,30 @@ namespace WhatMunch_MAUI.Services
             _logger = logger;
         }
 
+        private Location? lastSearchLocation;
+
         public async Task<Location> GetLocationWithTimeoutAsync()
         {
             try
             {
                 if (await _permissionsService.CheckAndRequestLocationPermissionAsync())
                 {
-                    var lastLocation = await _geolocation.GetLastKnownLocationAsync();
+                    //var lastLocation = await _geolocation.GetLastKnownLocationAsync();
 
                     var location = await _geolocation.GetLastKnownLocationAsync() ??
                         await _geolocation.GetLocationAsync(new GeolocationRequest
                         {
                             DesiredAccuracy = GeolocationAccuracy.High,
                             Timeout = TimeSpan.FromSeconds(10)
-                        }) ?? throw new InvalidOperationException("Location services are disabled or unavailable.");
+                        }) ?? throw new LocationException("Location services are disabled or unavailable.");
 
+                    lastSearchLocation = location;
                     return location;
                 }
                 else
                 {
                     _logger.LogError("Location permissions are disabled or unavailable");
-                    throw new InvalidOperationException("Location permissions are disabled or unavailable");
+                    throw new LocationException("Location permissions are disabled or unavailable");
                 }
             }
             catch (Exception ex)
@@ -47,6 +52,11 @@ namespace WhatMunch_MAUI.Services
                 _logger.LogError(ex, "An unexpected error occurred while getting geolocation");
                 throw;
             }
+        }
+
+        public async Task<Location> GetLastSearchLocation()
+        {
+            return lastSearchLocation is not null ? lastSearchLocation : await GetLocationWithTimeoutAsync();
         }
     }
 }

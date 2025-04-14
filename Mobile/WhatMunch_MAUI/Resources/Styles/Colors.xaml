@@ -6,12 +6,12 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
+    <Color x:Key="Primary">#083D77</Color>
+    <Color x:Key="PrimaryDark">#3b70aa</Color>
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="SecondaryDarkText">#9880e5</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="SecondaryDarkText">#3b70aa</Color>
+    <Color x:Key="Tertiary">#0A2C52</Color>
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
@@ -28,17 +28,29 @@
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
 
+    <Color x:Key="YaleBlueLight">#3b70aa</Color>
+    <Color x:Key="BeigeLight">#ffffff</Color>
+    <Color x:Key="NaplesYellowLight">#ffff91</Color>
+    <Color x:Key="SandyBrownLight">#ffc97e</Color>
+    <Color x:Key="TomatoLight">#ff8a6b</Color>
+    <Color x:Key="OliveGreenLight">#c3e77e</Color>
+    <Color x:Key="TrueBrownLight">#be7846</Color>
+
     <Color x:Key="YaleBlue">#083D77</Color>
     <Color x:Key="Beige">#EBEBD3</Color>
     <Color x:Key="NaplesYellow">#F4D35E</Color>
     <Color x:Key="SandyBrown">#EE964B</Color>
     <Color x:Key="Tomato">#F95738</Color>
+    <Color x:Key="OliveGreen">#90B44B</Color>
+    <Color x:Key="TrueBrown">#8B4513</Color>
 
     <Color x:Key="YaleBlueDark">#0A2C52</Color>
     <Color x:Key="BeigeDark">#3A3A30</Color>
     <Color x:Key="NaplesYellowDark">#C9A742</Color>
     <Color x:Key="SandyBrownDark">#B86A3F</Color>
     <Color x:Key="TomatoDark">#BF3C2C</Color>
+    <Color x:Key="OliveGreenDark">#5A7B2E</Color>
+    <Color x:Key="TrueBrownDark">#5C2A08</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}"/>
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}"/>

@@ -5,5 +5,13 @@
                     xmlns:converters="clr-namespace:WhatMunch_MAUI.Converters">
     <converters:EnumToIntConverter x:Key="EnumToIntConverter" />
     <converters:PriceLevelToStringConverter x:Key="PriceLevelToStringConverter" />
+    <converters:PriceLevelToDollarSignConverter x:Key="PriceLevelToDollarSignConverter" />
     <converters:SearchRadiusToStringConverter x:Key="SearchRadiusToStringConverter" />
+    <converters:ConditionalUnderlineConverter x:Key="ConditionalUnderlineConverter" />
+    <converters:IntToStarsConverter x:Key="IntToStarsConverter" />
+    <converters:IntToEmptyStarsConverter x:Key="IntToEmptyStarsConverter" />
+    <converters:KilometersToLocalizedDistanceConverter x:Key="KilometersToLocalizedDistanceConverter" />
+    <converters:PrimaryTypeToIconConverter x:Key="PrimaryTypeToIconConverter" />
+    <converters:PrimaryTypeToColorConverter x:Key="PrimaryTypeToColorConverter" />
+    <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
 </ResourceDictionary>

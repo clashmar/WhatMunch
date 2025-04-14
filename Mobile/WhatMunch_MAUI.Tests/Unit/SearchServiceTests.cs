@@ -2,7 +2,6 @@
 using Moq;
 using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.Models.Dtos;
-using WhatMunch_MAUI.Models.Places;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility;
 
@@ -10,7 +9,6 @@ namespace WhatMunch_MAUI.Tests.Unit
 {
     public class SearchServiceTests
     {
-        private readonly Mock<IShellService> _shellServiceMock;
         private readonly Mock<ILogger<SearchService>> _loggerMock;
         private readonly Mock<IGooglePlacesService> _googlePlacesServiceMock;
         private readonly Mock<IConnectivity> _connectivityMock;
@@ -19,14 +17,12 @@ namespace WhatMunch_MAUI.Tests.Unit
 
         public SearchServiceTests()
         {
-            _shellServiceMock = new();
             _loggerMock = new();
             _googlePlacesServiceMock = new();
             _connectivityMock = new();
             _searchPreferencesServiceMock = new();
 
             _service = new(
-                _shellServiceMock.Object,
                 _loggerMock.Object,
                 _googlePlacesServiceMock.Object,
                 _connectivityMock.Object,
@@ -38,6 +34,7 @@ namespace WhatMunch_MAUI.Tests.Unit
         {
             // Arrange
             _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
+            string nextPageToken = "token";
 
             var testPreferences = new SearchPreferencesModel()
             {
@@ -49,10 +46,10 @@ namespace WhatMunch_MAUI.Tests.Unit
             _searchPreferencesServiceMock.Setup(c => c.GetPreferencesAsync()).ReturnsAsync(testPreferences);
 
             var searchResult = Result<TextSearchResponseDto>.Success(new TextSearchResponseDto() { Places = MockPlacesList });
-            _googlePlacesServiceMock.Setup(c => c.GetNearbySearchResultsAsync(testPreferences)).ReturnsAsync(searchResult);
+            _googlePlacesServiceMock.Setup(c => c.GetNearbySearchResultsAsync(testPreferences, nextPageToken)).ReturnsAsync(searchResult);
 
             // Act
-            var result = await _service.GetSearchResponseAsync();
+            var result = await _service.GetSearchResponseAsync(nextPageToken);
 
             // Assert
             Assert.Equivalent(result.Places, MockPlacesList);
@@ -62,7 +59,7 @@ namespace WhatMunch_MAUI.Tests.Unit
         new PlaceDto()
         {
             DisplayName = new DisplayName { Text = "Central Park Coffee", LanguageCode = "en" },
-            PrimaryType = "cafe",
+            PrimaryTypeDisplayName = new PrimaryTypeDisplayName() { Text = "cafe" },
             Types = ["cafe", "coffee_shop"],
             Rating = 4.5,
             UserRatingCount = 530,
@@ -74,7 +71,7 @@ namespace WhatMunch_MAUI.Tests.Unit
         new PlaceDto()
         {
             DisplayName = new DisplayName { Text = "Sushi Express", LanguageCode = "ja" },
-            PrimaryType = "sushi_restaurant",
+            PrimaryTypeDisplayName = new PrimaryTypeDisplayName() { Text = "sushi_restaurant" },
             Types = ["sushi_restaurant", "restaurant"],
             Rating = 4.3,
             UserRatingCount = 178,

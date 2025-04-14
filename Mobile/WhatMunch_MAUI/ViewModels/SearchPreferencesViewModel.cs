@@ -25,7 +25,8 @@ namespace WhatMunch_MAUI.ViewModels
         [ObservableProperty]
         private SearchPreferencesModel _preferences = SearchPreferencesModel.Default;
 
-
+        [ObservableProperty]
+        private double _searchRadiusMinimum = 400;
 
         [RelayCommand]
         public async Task HandleSavePreferences()
@@ -74,6 +75,8 @@ namespace WhatMunch_MAUI.ViewModels
                 IsBusy = false;
             }
         }
+
+
         public override void ResetViewModel()
         {
             throw new NotImplementedException();

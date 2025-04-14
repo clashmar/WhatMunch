@@ -234,8 +234,8 @@
   <data name="Relevance" xml:space="preserve">
     <value>Relevance</value>
   </data>
-  <data name="SavePreferences" xml:space="preserve">
-    <value>Save Preferences</value>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="5MinWalk" xml:space="preserve">
     <value>5 Minute Walk</value>
@@ -259,7 +259,7 @@
     <value>Very Expensive</value>
   </data>
   <data name="20MinWalk" xml:space="preserve">
-    <value>20+ Minute Walk</value>
+    <value>20 Minute Walk</value>
   </data>
   <data name="UpdatedPreferences" xml:space="preserve">
     <value>Updated Preferences</value>
@@ -269,5 +269,65 @@
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Previous</value>
+  </data>
+  <data name="OpeningHours" xml:space="preserve">
+    <value>Opening Hours:</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>Phone Number:</value>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Website:</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address:</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Not Available</value>
+  </data>
+  <data name="OpenNow" xml:space="preserve">
+    <value>Open Now</value>
+  </data>
+  <data name="VegetarianRestaurant" xml:space="preserve">
+    <value>Vegetarian Restaurant</value>
+  </data>
+  <data name="VeganRestaurant" xml:space="preserve">
+    <value>Vegan Restaurant</value>
+  </data>
+  <data name="Vegan" xml:space="preserve">
+    <value>Vegan</value>
+  </data>
+  <data name="Vegetarian" xml:space="preserve">
+    <value>Vegetarian</value>
+  </data>
+  <data name="30MinWalk" xml:space="preserve">
+    <value>30+ Minute Walk</value>
+  </data>
+  <data name="Closed" xml:space="preserve">
+    <value>Closed</value>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>Reviews:</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>Results:</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="AreYouSure" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="WhatMunch" xml:space="preserve">
+    <value>WhatMunch</value>
   </data>
 </root>
