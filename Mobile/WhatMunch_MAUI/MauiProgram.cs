@@ -51,7 +51,9 @@ public static class MauiProgram
 			.AddSingleton<ISearchPreferencesService, SearchPreferencesService>()
 			.AddSingleton<IRegistrationService, RegistrationService>()
 			.AddSingleton<ILoginService, LoginService>()
-			.AddSingleton<IGooglePlacesService, GooglePlacesService>();
+			.AddSingleton<IGooglePlacesService, GooglePlacesService>()
+			.AddSingleton<IFavouritesService, FavouritesService>()
+			.AddSingleton<ISecureStorageService, SecureStorageService>();
 
 		builder.Services
 			.AddSingleton<LoginViewModel>()
