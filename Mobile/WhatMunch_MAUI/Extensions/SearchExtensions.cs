@@ -6,6 +6,7 @@ namespace WhatMunch_MAUI.Extensions
     {
         public static List<PlaceDto> AddDistances(this List<PlaceDto> places, Location? location = null)
         {
+            ArgumentNullException.ThrowIfNull(places);
             if (location is null) return places;
 
             return places
@@ -18,6 +19,12 @@ namespace WhatMunch_MAUI.Extensions
                     return p;
                 })
                 .ToList();
+        }
+        public static List<PlaceDto> FilterDistances(this List<PlaceDto> places)
+        {
+            ArgumentNullException.ThrowIfNull(places);
+
+            return places.Where(p => p.Distance < 3.0).ToList();
         }
     }
 }

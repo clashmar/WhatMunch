@@ -45,7 +45,9 @@ namespace WhatMunch_MAUI.Services
                 if (result.IsSuccess && result.Data is not null)
                 {
                     var dto = result.Data;
-                    dto.Places = dto.Places.AddDistances(dto.SearchLocation);
+                    dto.Places = dto.Places
+                        .AddDistances(dto.SearchLocation)
+                        .FilterDistances();
                     return dto;
                 }
                 else
