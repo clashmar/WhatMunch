@@ -7,27 +7,35 @@ namespace WhatMunch_MAUI.Services
 {
     public interface IFavouritesService
     {
-        Task<Result<List<PlaceDto?>>> GetUserFavourites();
+        Task<Result<List<PlaceDto?>>> GetUserFavouritesAsync();
     }
     public class FavouritesService : IFavouritesService
     {
         private readonly ILocalDatabase _localDatabase;
         private readonly ILogger<FavouritesService> _logger;
-        public FavouritesService(ILocalDatabase localDatabase, ILogger<FavouritesService> logger)
+        private readonly ISecureStorageService _secureStorageService;
+        public FavouritesService(
+            ILocalDatabase localDatabase, 
+            ILogger<FavouritesService> logger, 
+            ISecureStorageService secureStorageService) 
         {
             _localDatabase = localDatabase;
             _logger = logger;
+            _secureStorageService = secureStorageService;
         }
 
-        public async Task<Result<List<PlaceDto?>>> GetUserFavourites()
+        public async Task<Result<List<PlaceDto?>>> GetUserFavouritesAsync()
         {
             try
             {
-                List<PlaceDbEntry> localFavourites = await _localDatabase.GetUserPlacesAsync("userId");
+                string? username = await _secureStorageService.GetUsernameAsync();
+                if (username == null) return Result<List<PlaceDto?>>.Failure(); // TODO: Handle redirect to login if no username can be found
 
-                if (localFavourites is not null && localFavourites.Count > 0)
+                List<PlaceDbEntry> favourites = await _localDatabase.GetUserPlacesAsync(username);
+
+                if (favourites is not null && favourites.Count > 0)
                 {
-                    var result = localFavourites
+                    var result = favourites
                         .Select(f => JsonSerializer.Deserialize<PlaceDto>(f.PlaceJson))
                         .ToList();
 
@@ -35,13 +43,45 @@ namespace WhatMunch_MAUI.Services
                 }
 
                 // TODO: make another call to the backend and update localdatabase
-                return Result<List<PlaceDto?>>.Failure("Failure");
+                return Result<List<PlaceDto?>>.Failure();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while trying to get user favouries");
+                _logger.LogError(ex, "Unexpected error while trying to get user favourites");
                 return Result<List<PlaceDto?>>.Failure(ex.Message);
             }
+        }
+
+        public async Task SaveUserFavouriteAsync(PlaceDto placeDto) 
+        {
+            try
+            {
+                var placeDbEntry = await CreatePlaceDbEntryAsync(placeDto);
+
+                await _localDatabase.SavePlaceAsync(placeDbEntry);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while trying to save to favourites");
+                throw;
+            }
+        }
+
+        private async Task<PlaceDbEntry> CreatePlaceDbEntryAsync(PlaceDto placeDto)
+        {
+            var username = await _secureStorageService.GetUsernameAsync() 
+                ?? throw new Exception("Username not found");
+
+            var placeJson = JsonSerializer.Serialize(placeDto);
+
+            var result = new PlaceDbEntry()
+            {
+                UserId = username,
+                PlaceId = placeDto.Id,
+                PlaceJson = placeJson,
+            };
+
+            return result;
         }
     }
 }

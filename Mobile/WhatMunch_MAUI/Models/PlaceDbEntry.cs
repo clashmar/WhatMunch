@@ -4,8 +4,8 @@ namespace WhatMunch_MAUI.Models
 {
     public class PlaceDbEntry
     {
-        [PrimaryKey]
-        public string Id { get; set; } = string.Empty;
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
         public string UserId { get; set; } = string.Empty;
 
         [Unique]
