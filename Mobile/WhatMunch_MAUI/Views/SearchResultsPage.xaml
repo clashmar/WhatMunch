@@ -23,8 +23,9 @@
                          IsRefreshing="{Binding IsRefreshing}">
                 <templates:PlacesCollectionTemplate BindingContext="{Binding}" 
                                                     Places="{Binding Places}"
-                                                    AddFavouriteCommand="{Binding AddFavouriteCommand}"
-                                                    GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"/>
+                                                    HandleFavouriteCommand="{Binding AddFavouriteCommand}"
+                                                    GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"
+                                                    ButtonIcon="like"/>
             </RefreshView>
             <Grid Grid.Row="1"
                   ColumnDefinitions="*,*"

@@ -51,7 +51,8 @@
                                                    FontSize="15" />
                                             <Label Text="&#x2b50;"
                                                    FontFamily="FaSolid"
-                                                   TextColor="{StaticResource NaplesYellow}" />
+                                                   TextColor="{StaticResource NaplesYellow}"
+                                                   VerticalOptions="Center"/>
                                         </HorizontalStackLayout>
                                     </Border>
                                     <Border Style="{StaticResource ResultTag}">
@@ -69,8 +70,9 @@
                             <!-- Favourite -->
                             <Button Grid.Column="1"
                                     Style="{StaticResource Favourite}"
+                                    ImageSource="{Binding ButtonIcon, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
                                     CommandParameter="{Binding .}"
-                                    Command="{Binding AddFavouriteCommand, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}" />
+                                    Command="{Binding HandleFavouriteCommand, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}" />
                         </Grid>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer CommandParameter="{Binding .}"

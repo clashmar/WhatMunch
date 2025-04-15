@@ -14,13 +14,13 @@ public partial class PlacesCollectionTemplate : ContentView
         set => SetValue(PlacesProperty, value);
     }
 
-    public static readonly BindableProperty AddFavouriteCommandProperty =
-        BindableProperty.Create(nameof(AddFavouriteCommand), typeof(ICommand), typeof(PlacesCollectionTemplate));
+    public static readonly BindableProperty HandleFavouriteCommandProperty =
+        BindableProperty.Create(nameof(HandleFavouriteCommand), typeof(ICommand), typeof(PlacesCollectionTemplate));
 
-    public ICommand AddFavouriteCommand
+    public ICommand HandleFavouriteCommand
     {
-        get => (ICommand)GetValue(AddFavouriteCommandProperty);
-        set => SetValue(AddFavouriteCommandProperty, value);
+        get => (ICommand)GetValue(HandleFavouriteCommandProperty);
+        set => SetValue(HandleFavouriteCommandProperty, value);
     }
 
     public static readonly BindableProperty GoToPlaceDetailsCommandProperty =
@@ -30,6 +30,15 @@ public partial class PlacesCollectionTemplate : ContentView
     {
         get => (ICommand)GetValue(GoToPlaceDetailsCommandProperty);
         set => SetValue(GoToPlaceDetailsCommandProperty, value);
+    }
+
+    public static readonly BindableProperty ButtonIconProperty =
+        BindableProperty.Create(nameof(ButtonIcon), typeof(string), typeof(PlacesCollectionTemplate), default(string));
+
+    public string ButtonIcon
+    {
+        get => (string)GetValue(ButtonIconProperty);
+        set => SetValue(ButtonIconProperty, value);
     }
 
     public PlacesCollectionTemplate()

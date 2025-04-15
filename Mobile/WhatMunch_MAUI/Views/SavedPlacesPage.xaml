@@ -19,7 +19,9 @@
 
             <templates:PlacesCollectionTemplate BindingContext="{Binding}"
                                                 Places="{Binding Favourites}"
-                                                GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}" />
+                                                HandleFavouriteCommand="{Binding DeleteFavouriteCommand}"
+                                                GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"
+                                                ButtonIcon="delete"/>
         </Grid>
     </Grid>
 </ContentPage>

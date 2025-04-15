@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
+using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
 
@@ -23,10 +24,12 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [ObservableProperty]
-        private ObservableCollection<PlaceDto?> _favourites = [];
+        private ObservableCollection<PlaceDto> _favourites = [];
 
         public async void LoadFavouritesAsync()
         {
+            IsBusy = true;
+
             try
             {
                 var result = await _favouritesService.GetUserFavouritesAsync();
@@ -39,6 +42,10 @@ namespace WhatMunch_MAUI.ViewModels
             catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 
@@ -63,6 +70,22 @@ namespace WhatMunch_MAUI.ViewModels
             finally
             {
                 IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeleteFavouriteAsync(PlaceDto place)
+        {
+            try
+            {
+                await _favouritesService.DeleteUserFavouriteAsync(place);
+                await _shellService.DisplayAlert("Success", "Deleted", "Ok");
+                Favourites.Remove(place);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while trying to add place: {place.Id}", place.Id);
+                await _shellService.DisplayError(AppResources.ErrorUnexpected);
             }
         }
 

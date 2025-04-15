@@ -29,8 +29,6 @@ namespace WhatMunch_MAUI.Services
             {
                 if (await _permissionsService.CheckAndRequestLocationPermissionAsync())
                 {
-                    //var lastLocation = await _geolocation.GetLastKnownLocationAsync();
-
                     var location = await _geolocation.GetLastKnownLocationAsync() ??
                         await _geolocation.GetLocationAsync(new GeolocationRequest
                         {
