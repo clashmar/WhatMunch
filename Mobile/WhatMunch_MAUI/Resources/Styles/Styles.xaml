@@ -113,6 +113,26 @@
                 Value="10" />
     </Style>
 
+    <Style TargetType="Button"
+           x:Key="Favourite">
+        <Setter Property="BackgroundColor"
+                Value="Transparent" />
+        <Setter Property="BorderColor"
+                Value="Transparent" />
+        <Setter Property="Padding"
+                Value="0" />
+        <Setter Property="ImageSource"
+                Value="saved" />
+        <Setter Property="HorizontalOptions"
+                Value="End" />
+        <Setter Property="VerticalOptions"
+                Value="End" />
+        <Setter Property="WidthRequest"
+                Value="60" />
+        <Setter Property="HeightRequest"
+                Value="60" />
+    </Style>
+
     <Style TargetType="CheckBox">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>

@@ -119,7 +119,7 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToPlaceDetails(PlaceDto place)
+        public async Task GoToPlaceDetails(PlaceDto place)
         {
             if (place is null) return;
             IsBusy = true;
