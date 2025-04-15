@@ -4,10 +4,22 @@
              xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
              xmlns:model="clr-namespace:WhatMunch_MAUI.Models.Dtos"
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
+             xmlns:templates="clr-namespace:WhatMunch_MAUI.Views.Templates"
              x:Class="WhatMunch_MAUI.Views.SavedPlacesPage"
              Title="SavedPlacesPage"
              x:DataType="viewmodel:SavedPlacesViewModel">
-    <VerticalStackLayout>
-        <Label Text="{Binding Favourites.Count}" />
-    </VerticalStackLayout>
+    <Grid>
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" />
+        <Grid IsVisible="{Binding IsNotBusy}"
+              RowDefinitions="*,Auto"
+              Margin="0,10,0,0">
+
+            <templates:PlacesCollectionTemplate BindingContext="{Binding}"
+                                                Places="{Binding Favourites}"
+                                                GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}" />
+        </Grid>
+    </Grid>
 </ContentPage>

@@ -30,16 +30,21 @@ namespace WhatMunch_MAUI.Services
             try
             {
                 string? username = await _secureStorageService.GetUsernameAsync();
-                if (username == null) return Result<List<PlaceDto?>>.Failure(); // TODO: Handle redirect to login if no username can be found
+                if (string.IsNullOrEmpty(username))
+                {
+                    _logger.LogWarning("No username found in secure storage.");
+                    return Result<List<PlaceDto?>>.Failure();
+                    // TODO: Handle redirect to login if no username can be found
+                }
 
-                List<PlaceDbEntry> favourites = await _localDatabase.GetUserPlacesAsync(username);
+                var favourites = await _localDatabase.GetUserPlacesAsync(username);
 
                 if (favourites is not null && favourites.Count > 0)
                 {
                     var result = favourites
                         .Select(f => JsonSerializer.Deserialize<PlaceDto>(f.PlaceJson))
-                        .ToList();
-
+                        .ToList() ?? [];
+                    
                     return Result<List<PlaceDto?>>.Success(result);
                 }
 
