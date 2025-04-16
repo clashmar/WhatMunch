@@ -16,17 +16,20 @@ namespace WhatMunch_MAUI.Services
         private readonly IGooglePlacesService _googlePlacesService;
         private readonly IConnectivity _connectivity;
         private readonly ISearchPreferencesService _searchPreferencesService;
+        private readonly IFavouritesService _favouritesService;
 
         public SearchService(
             ILogger<SearchService> logger, 
             IGooglePlacesService googlePlacesService, 
             IConnectivity connectivity,
-            ISearchPreferencesService searchPreferencesService)
+            ISearchPreferencesService searchPreferencesService,
+            IFavouritesService favouritesService)
         {
             _logger = logger;
             _googlePlacesService = googlePlacesService;
             _connectivity = connectivity;
             _searchPreferencesService = searchPreferencesService;
+            _favouritesService = favouritesService;
         }
 
         public async Task<TextSearchResponseDto> GetSearchResponseAsync(string? pageToken = null)
@@ -39,15 +42,19 @@ namespace WhatMunch_MAUI.Services
 
             try
             {
+                var favouritesTask = _favouritesService.GetUserFavouritesAsync();
                 var preferences = await _searchPreferencesService.GetPreferencesAsync();
                 var result = await _googlePlacesService.GetNearbySearchResultsAsync(preferences, pageToken);
 
                 if (result.IsSuccess && result.Data is not null)
                 {
+                    var favouritesResult = await favouritesTask;
+                    var favourites = favouritesResult.Data ?? [];
                     var dto = result.Data;
                     dto.Places = dto.Places
                         .AddDistances(dto.SearchLocation)
-                        .FilterDistances();
+                        .FilterDistances()
+                        .CheckIsFavourite(favourites);
                     return dto;
                 }
                 else

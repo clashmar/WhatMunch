@@ -34,6 +34,7 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
+                // TODO: check open now/remove open now/update dto
                 var locationTask = _locationService.GetLastSearchLocation();
 
                 string? username = await _secureStorageService.GetUsernameAsync();

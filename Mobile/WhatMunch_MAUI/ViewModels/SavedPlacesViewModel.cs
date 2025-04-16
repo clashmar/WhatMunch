@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
+using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
@@ -85,6 +87,7 @@ namespace WhatMunch_MAUI.ViewModels
                 await _favouritesService.DeleteUserFavouriteAsync(place);
                 await _shellService.DisplayAlert("Success", "Deleted", "Ok");
                 Favourites.Remove(place);
+                Messenger.Send(new FavouriteDeletedMessage(place.Id));
             }
             catch (Exception ex)
             {
@@ -96,6 +99,13 @@ namespace WhatMunch_MAUI.ViewModels
         public override void ResetViewModel()
         {
             throw new NotImplementedException();
+        }
+    }
+
+    public sealed class FavouriteDeletedMessage : ValueChangedMessage<string>
+    {
+        public FavouriteDeletedMessage(string value) : base(value)
+        {
         }
     }
 }

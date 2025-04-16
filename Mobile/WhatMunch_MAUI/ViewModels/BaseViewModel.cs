@@ -1,6 +1,6 @@
 ﻿namespace WhatMunch_MAUI.ViewModels
 {
-    public abstract partial class BaseViewModel : ObservableObject
+    public abstract partial class BaseViewModel : ObservableRecipient
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(IsNotBusy))]

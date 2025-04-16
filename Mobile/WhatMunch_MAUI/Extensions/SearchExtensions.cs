@@ -26,5 +26,19 @@ namespace WhatMunch_MAUI.Extensions
 
             return places.Where(p => p.Distance < 3.0).ToList();
         }
+
+        public static List<PlaceDto> CheckIsFavourite(this List<PlaceDto> places, List<PlaceDto> favourites)
+        {
+            ArgumentNullException.ThrowIfNull(places);
+            ArgumentNullException.ThrowIfNull(favourites);
+
+            return places
+                .Select(p =>
+                {
+                    p.IsFavourite = favourites.Any(f => f.Id == p.Id);
+                    return p;
+                })
+                .ToList();
+        }
     }
 }
