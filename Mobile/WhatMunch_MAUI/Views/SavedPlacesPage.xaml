@@ -6,6 +6,7 @@
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              xmlns:templates="clr-namespace:WhatMunch_MAUI.Views.Templates"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:constants="clr-namespace:WhatMunch_MAUI.Data"
              x:Class="WhatMunch_MAUI.Views.SavedPlacesPage"
              Title="SavedPlacesPage"
              x:DataType="viewmodel:SavedPlacesViewModel">
@@ -22,7 +23,7 @@
                                                 Places="{Binding Favourites}"
                                                 HandleFavouriteCommand="{Binding DeleteFavouriteCommand}"
                                                 GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"
-                                                PageName="saved"/>
+                                                PageName="{x:Static constants:Constants.SEARCH_RESULTS_PAGE}"/>
             <Button Grid.Row="1"
                     IsVisible="{Binding Favourites.Count, Converter={toolkit:IntToBoolConverter}}"
                     Margin="20"
