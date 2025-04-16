@@ -79,7 +79,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 20 Minute Walk.
+        ///   Looks up a localized string similar to 20+ Minute Walk.
         /// </summary>
         public static string _20MinWalk {
             get {
@@ -106,7 +106,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Address:.
+        ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
             get {
@@ -156,6 +156,24 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string CreateAccountButton {
             get {
                 return ResourceManager.GetString("CreateAccountButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete All.
+        /// </summary>
+        public static string DeleteAll {
+            get {
+                return ResourceManager.GetString("DeleteAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Favourite.
+        /// </summary>
+        public static string DeleteFavourite {
+            get {
+                return ResourceManager.GetString("DeleteFavourite", resourceCulture);
             }
         }
         
@@ -340,7 +358,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Available.
+        ///   Looks up a localized string similar to Not available.
         /// </summary>
         public static string NotAvailable {
             get {
@@ -358,7 +376,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Opening Hours:.
+        ///   Looks up a localized string similar to Opening Hours.
         /// </summary>
         public static string OpeningHours {
             get {
@@ -421,7 +439,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone Number:.
+        ///   Looks up a localized string similar to Phone Number.
         /// </summary>
         public static string PhoneNumber {
             get {
@@ -489,6 +507,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string Saved {
             get {
                 return ResourceManager.GetString("Saved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Preferences.
+        /// </summary>
+        public static string SavePreferences {
+            get {
+                return ResourceManager.GetString("SavePreferences", resourceCulture);
             }
         }
         
@@ -664,7 +691,7 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Website:.
+        ///   Looks up a localized string similar to Website.
         /// </summary>
         public static string Website {
             get {

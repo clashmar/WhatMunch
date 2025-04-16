@@ -30,11 +30,11 @@ namespace WhatMunch_MAUI
 
                 if (!isAuthenticated)
                 {
-                    await _shellService.GoToAsync("//MainTabs/DashboardPage");
+                    await _shellService.GoToAsync($"{nameof(LoginPage)}");
                 }
                 else
                 {
-                    await _shellService.GoToAsync($"//MainTabs/{nameof(DashboardPage)}");
+                    await _shellService.GoToAsync($"//MainTabs/DashboardPage");
                 }
             }
             catch (Exception)

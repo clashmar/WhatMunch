@@ -2,8 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
-             xmlns:model="clr-namespace:WhatMunch_MAUI.Models.Dtos"
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
+             xmlns:templates="clr-namespace:WhatMunch_MAUI.Views.Templates"
              x:Class="WhatMunch_MAUI.Views.SearchResultsPage"
              Title="{x:Static strings:AppResources.Results}"
              x:DataType="viewmodel:SearchResultsViewModel">
@@ -21,73 +21,11 @@
             <RefreshView Grid.Row="0"
                          Command="{Binding HandleRefreshCommand}"
                          IsRefreshing="{Binding IsRefreshing}">
-                <CollectionView x:Name="resultsView"
-                                ItemsSource="{Binding Places}"
-                                SelectionMode="None"
-                                ItemsUpdatingScrollMode="KeepItemsInView">
-                    <CollectionView.EmptyView>
-                        <StackLayout VerticalOptions="Center"
-                                     HorizontalOptions="Center">
-                            <Image Source="empty_plate.png"
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   Aspect="AspectFit" />
-                        </StackLayout>
-                    </CollectionView.EmptyView>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="model:PlaceDto">
-                            <Grid Padding="10">
-                                <Border HeightRequest="125"
-                                        Style="{StaticResource CardView}">
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer CommandParameter="{Binding . }"
-                                                              Command="{Binding GoToPlaceDetailsCommand, x:DataType=viewmodel:SearchResultsViewModel, Source={RelativeSource AncestorType={x:Type viewmodel:SearchResultsViewModel}}}" />
-                                    </Border.GestureRecognizers>
-                                    <Grid ColumnDefinitions="Auto,*"
-                                          ColumnSpacing="10">
-                                        <Label Grid.Column="0" Text="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToIconConverter}}"
-                                               FontFamily="FaSolid"
-                                               TextColor="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToColorConverter}}"
-                                               FontSize="60"
-                                               Margin="10"
-                                               VerticalOptions="Center"/>
-                                        <VerticalStackLayout Grid.Column="1" 
-                                                             Spacing="6"
-                                                             VerticalOptions="Center">
-                                            <Label Text="{Binding DisplayNameText}"
-                                                   FontAttributes="Bold"
-                                                   FontSize="15"/>
-                                            <Label Text="{Binding PrimaryTypeDisplayName.Text}"
-                                                       FontSize="16"/>
-                                            <HorizontalStackLayout Spacing="5">
-                                                <Border Style="{StaticResource ResultTag}">
-                                                    <HorizontalStackLayout Spacing="2">
-                                                        <Label Text="{Binding Rating}"
-                                                               FontSize="15"/>
-                                                        <Label Text="&#x2b50;"
-                                                               FontFamily="FaSolid"
-                                                               TextColor="{StaticResource NaplesYellow}"
-                                                               VerticalOptions="Center" />
-                                                    </HorizontalStackLayout>
-                                                </Border>
-                                                <Border Style="{StaticResource ResultTag}">
-                                                    <Label Text="{Binding PriceLevel, Converter={StaticResource PriceLevelToDollarSignConverter}}"
-                                                           FontSize="15"
-                                                           TextColor="{StaticResource NaplesYellow}"
-                                                           FontAttributes="Bold" />
-                                                </Border>
-                                                <Border Style="{StaticResource ResultTag}">
-                                                    <Label Text="{Binding Distance, Converter={StaticResource KilometersToLocalizedDistanceConverter}}"
-                                                           FontSize="15" />
-                                                </Border>
-                                            </HorizontalStackLayout>
-                                        </VerticalStackLayout>
-                                    </Grid>
-                                </Border>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                <templates:PlacesCollectionTemplate BindingContext="{Binding}" 
+                                                    Places="{Binding Places}"
+                                                    HandleFavouriteCommand="{Binding ToggleFavouriteCommand}"
+                                                    GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"
+                                                    PageName="search"/>
             </RefreshView>
             <Grid Grid.Row="1"
                   ColumnDefinitions="*,*"

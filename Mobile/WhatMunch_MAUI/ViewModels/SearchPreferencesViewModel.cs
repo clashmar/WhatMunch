@@ -34,28 +34,12 @@ namespace WhatMunch_MAUI.ViewModels
             try
             {
                 await _searchPreferencesService.SavePreferencesAsync(Preferences);
-
-                CancellationTokenSource cancellationTokenSource = new();
-
-                string text = AppResources.UpdatedPreferences;
-                ToastDuration duration = ToastDuration.Short;
-                double fontSize = 14;
-
-                var toast = Toast.Make(text, duration, fontSize);
-
-                await toast.Show(cancellationTokenSource.Token);
+                await DisplayToast(AppResources.UpdatedPreferences);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                CancellationTokenSource cancellationTokenSource = new();
-
-                string text = AppResources.Error;
-                ToastDuration duration = ToastDuration.Short;
-                double fontSize = 14;
-
-                var toast = Toast.Make(text, duration, fontSize);
-
-                await toast.Show(cancellationTokenSource.Token);
+                _logger.LogError(ex, "Unexpected error while saving preferences");
+                await DisplayToast(AppResources.Error);
             }
             
         }
@@ -76,6 +60,14 @@ namespace WhatMunch_MAUI.ViewModels
             }
         }
 
+        private async Task DisplayToast(string text)
+        {
+            CancellationTokenSource cancellationTokenSource = new();
+            ToastDuration duration = ToastDuration.Short;
+            double fontSize = 14;
+            var toast = Toast.Make(text, duration, fontSize);
+            await toast.Show(cancellationTokenSource.Token);
+        }
 
         public override void ResetViewModel()
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
@@ -15,16 +16,20 @@ namespace WhatMunch_MAUI.ViewModels
     {
         private readonly ISearchService _searchService;
         private readonly IShellService _shellService;
+        private readonly IFavouritesService _favouritesService;
         private readonly ILogger<SearchResultsViewModel> _logger;
 
         public SearchResultsViewModel(
             ISearchService searchService, 
             IShellService shellService,
+            IFavouritesService favouritesService,
             ILogger<SearchResultsViewModel> logger)
         {
             _searchService = searchService;
             _shellService = shellService;
+            _favouritesService = favouritesService;
             _logger = logger;
+            IsActive = true;
         }
 
         [ObservableProperty]
@@ -116,7 +121,7 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [RelayCommand]
-        private async Task GoToPlaceDetails(PlaceDto place)
+        public async Task GoToPlaceDetails(PlaceDto place)
         {
             if (place is null) return;
             IsBusy = true;
@@ -192,6 +197,44 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 _logger.LogError(ex, "An unexpected error occurred while trying to go back");
             }
+        }
+
+        [RelayCommand]
+        private async Task ToggleFavouriteAsync(PlaceDto place)
+        {
+            try
+            {
+                place.IsFavourite = !place.IsFavourite;
+                if (place.IsFavourite)
+                {
+                    await _favouritesService.SaveUserFavouriteAsync(place);
+                }
+                else
+                {
+                    await _favouritesService.DeleteUserFavouriteAsync(place);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while trying to add place: {place.Id}", place.Id);
+                await _shellService.DisplayError(AppResources.ErrorUnexpected);
+            }
+        }
+
+        protected override void OnActivated()
+        {
+            WeakReferenceMessenger.Default.Register<SearchResultsViewModel, FavouriteDeletedMessage>(this, (r, m) => {
+                var place = PageList
+                    .SelectMany(page => page)
+                    .FirstOrDefault(place => place.Id == m.Value);
+
+                if (place is not null) 
+                    place.IsFavourite = false;
+            });
+
+            WeakReferenceMessenger.Default.Register<SearchResultsViewModel, AllFavouritesDeletedMessage>(this, (r, m) => {
+                PageList.ForEach(page => page.ToList().ForEach(place => place.IsFavourite = false));
+            });
         }
 
         public void ResetPagination()

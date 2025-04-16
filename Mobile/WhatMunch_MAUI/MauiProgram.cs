@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.Services;
 namespace WhatMunch_MAUI;
 public static class MauiProgram
@@ -38,7 +39,8 @@ public static class MauiProgram
 			.AddLogging()
 			.AddSingleton<IConnectivity>(Connectivity.Current)
 			.AddSingleton<IGeolocation>(Geolocation.Default)
-			.AddSingleton<ILauncher>(Launcher.Default);
+			.AddSingleton<ILauncher>(Launcher.Default)
+			.AddSingleton<ILocalDatabase, LocalDatabase>();
 
 		builder.Services
 			.AddSingleton<ITokenService, TokenService>()
@@ -49,7 +51,9 @@ public static class MauiProgram
 			.AddSingleton<ISearchPreferencesService, SearchPreferencesService>()
 			.AddSingleton<IRegistrationService, RegistrationService>()
 			.AddSingleton<ILoginService, LoginService>()
-			.AddSingleton<IGooglePlacesService, GooglePlacesService>();
+			.AddSingleton<IGooglePlacesService, GooglePlacesService>()
+			.AddSingleton<IFavouritesService, FavouritesService>()
+			.AddSingleton<ISecureStorageService, SecureStorageService>();
 
 		builder.Services
 			.AddSingleton<LoginViewModel>()
@@ -57,7 +61,8 @@ public static class MauiProgram
 			.AddSingleton<DashboardViewModel>()
 			.AddSingleton<SearchResultsViewModel>()
 			.AddSingleton<SearchPreferencesViewModel>()
-			.AddTransient<PlaceDetailsViewModel>();
+			.AddTransient<PlaceDetailsViewModel>()
+			.AddTransient<SavedPlacesViewModel>();
 
 
 		return builder.Build();

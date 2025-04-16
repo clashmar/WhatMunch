@@ -26,7 +26,7 @@ namespace WhatMunch_MAUI.Services
                 if(response.IsSuccessStatusCode)
                 {
                     return Result<string>.Success("Registration successful.");
-                    //Login and get token
+                    // TODO: Auto login and get token after registration
                 }
                 else
                 {
