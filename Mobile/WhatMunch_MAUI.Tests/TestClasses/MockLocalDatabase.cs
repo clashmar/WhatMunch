@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SQLite;
+using WhatMunch_MAUI.Data;
 using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.Models;
 

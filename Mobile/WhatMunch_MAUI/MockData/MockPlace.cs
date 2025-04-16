@@ -2,13 +2,14 @@
 {
     public static class MockPlace
     {
+        public const string ID = "ChIJxUpFWk9vxkcRwNu9kxkQoM8";
         public static string GetMockPlaceJson()
         {
             return @"
             {
             ""places"": [
                 {
-                    ""id"": ""ChIJxUpFWk9vxkcRwNu9kxkQoM8"",
+                    ""id"": ""_PLACE_ID_"",
                     ""primaryType"": ""cafe"",
                     ""types"": [
                         ""restaurant"",
@@ -93,7 +94,7 @@
                 }
             ],
             ""nextPageToken"": ""AeeoHcI7Xnd8tU32jESwMvgnhAo6QAJfBz6liaHIUALeeGfQ-8NM763uoABKPHSXrxo6MwR6GPkQI3BuamzPLyfNC1ssp5P6JBXwRmUADDsokhrcRQ""
-            }";
+            }".Replace("_PLACE_ID_",ID);
         }
     }
 }

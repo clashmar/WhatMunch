@@ -23,7 +23,7 @@
                                                 Places="{Binding Favourites}"
                                                 HandleFavouriteCommand="{Binding DeleteFavouriteCommand}"
                                                 GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"
-                                                PageName="{x:Static constants:Constants.SEARCH_RESULTS_PAGE}"/>
+                                                PageName="{x:Static constants:Constants.SAVED_PLACES_PAGE}"/>
             <Button Grid.Row="1"
                     IsVisible="{Binding Favourites.Count, Converter={toolkit:IntToBoolConverter}}"
                     Margin="20"

@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using WhatMunch_MAUI.Data;
 using WhatMunch_MAUI.Models.Dtos;
-using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.Converters
 {
