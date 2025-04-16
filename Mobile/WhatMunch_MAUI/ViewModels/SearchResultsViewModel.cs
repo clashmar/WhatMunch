@@ -202,7 +202,7 @@ namespace WhatMunch_MAUI.ViewModels
         {
             try
             {
-                place.IsFavourite = true;
+                place.IsFavourite = !place.IsFavourite;
                 await _favouritesService.SaveUserFavouriteAsync(place);
             }
             catch (Exception ex)

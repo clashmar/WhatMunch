@@ -92,7 +92,7 @@ namespace WhatMunch_MAUI.Services
             {
                 var placeDbEntry = await CreatePlaceDbEntryAsync(placeDto);
 
-                await _localDatabase.DeletePlaceAsync(placeDto.Id);
+                await _localDatabase.DeletePlaceAsync(placeDto.DbId);
             }
             catch (Exception ex)
             {

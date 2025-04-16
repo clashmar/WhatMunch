@@ -8,7 +8,7 @@ namespace WhatMunch_MAUI.Data.SQLite
         Task Init();
         Task<List<PlaceDbEntry>> GetUserPlacesAsync(string userId);
         Task<int> SavePlaceAsync(PlaceDbEntry place);
-        Task<int> DeletePlaceAsync(string id);
+        Task<int> DeletePlaceAsync(int id);
     }
     public class LocalDatabase: ILocalDatabase
     {
@@ -63,10 +63,8 @@ namespace WhatMunch_MAUI.Data.SQLite
             }
         }
 
-        public async Task<int> DeletePlaceAsync(string id)
+        public async Task<int> DeletePlaceAsync(int id)
         {
-            ArgumentNullException.ThrowIfNull(id, nameof(id));
-
             try
             {
                 await Init();
