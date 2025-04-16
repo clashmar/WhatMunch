@@ -25,7 +25,7 @@
                                                     Places="{Binding Places}"
                                                     HandleFavouriteCommand="{Binding AddFavouriteCommand}"
                                                     GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"
-                                                    ButtonIcon="like"/>
+                                                    PageName="search"/>
             </RefreshView>
             <Grid Grid.Row="1"
                   ColumnDefinitions="*,*"

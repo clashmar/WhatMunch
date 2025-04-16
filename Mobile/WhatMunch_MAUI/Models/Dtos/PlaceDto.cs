@@ -4,7 +4,7 @@ using WhatMunch_MAUI.Extensions;
 
 namespace WhatMunch_MAUI.Models.Dtos
 {
-    public class PlaceDto
+    public partial class PlaceDto : ObservableObject
     {
         [JsonPropertyName("id")]
         public string Id { get; set; } = string.Empty;
@@ -57,6 +57,10 @@ namespace WhatMunch_MAUI.Models.Dtos
 
         [JsonPropertyName("reviews")]
         public List<Review> Reviews { get; set; } = [];
+
+        [JsonPropertyName("isFavourite")]
+        [ObservableProperty]
+        public bool _isFavourite;
 
         [JsonIgnore]
         public double Distance { get; set; }

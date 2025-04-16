@@ -21,7 +21,7 @@
                                                 Places="{Binding Favourites}"
                                                 HandleFavouriteCommand="{Binding DeleteFavouriteCommand}"
                                                 GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"
-                                                ButtonIcon="delete"/>
+                                                PageName="saved"/>
         </Grid>
     </Grid>
 </ContentPage>

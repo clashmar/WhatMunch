@@ -32,13 +32,13 @@ public partial class PlacesCollectionTemplate : ContentView
         set => SetValue(GoToPlaceDetailsCommandProperty, value);
     }
 
-    public static readonly BindableProperty ButtonIconProperty =
-        BindableProperty.Create(nameof(ButtonIcon), typeof(string), typeof(PlacesCollectionTemplate), default(string));
+    public static readonly BindableProperty PageNameProperty =
+    BindableProperty.Create(nameof(PageName), typeof(string), typeof(PlacesCollectionTemplate), default(string));
 
-    public string ButtonIcon
+    public string PageName
     {
-        get => (string)GetValue(ButtonIconProperty);
-        set => SetValue(ButtonIconProperty, value);
+        get => (string)GetValue(PageNameProperty);
+        set => SetValue(PageNameProperty, value);
     }
 
     public PlacesCollectionTemplate()

@@ -202,8 +202,8 @@ namespace WhatMunch_MAUI.ViewModels
         {
             try
             {
+                place.IsFavourite = true;
                 await _favouritesService.SaveUserFavouriteAsync(place);
-                await _shellService.DisplayAlert("Success", "Added", "Ok");
             }
             catch (Exception ex)
             {

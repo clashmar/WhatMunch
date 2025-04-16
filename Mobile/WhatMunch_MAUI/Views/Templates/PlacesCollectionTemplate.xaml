@@ -70,9 +70,17 @@
                             <!-- Favourite -->
                             <Button Grid.Column="1"
                                     Style="{StaticResource Favourite}"
-                                    ImageSource="{Binding ButtonIcon, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
                                     CommandParameter="{Binding .}"
-                                    Command="{Binding HandleFavouriteCommand, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}" />
+                                    Command="{Binding HandleFavouriteCommand, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}">
+                                <Button.ImageSource>
+                                    <MultiBinding Converter="{StaticResource FavouriteIconConverter}">
+                                        <Binding Path="." />
+                                        <Binding x:DataType="templates:PlacesCollectionTemplate"
+                                                 Source="{x:Reference This}"
+                                                 Path="PageName" />
+                                    </MultiBinding>
+                                </Button.ImageSource>
+                            </Button> 
                         </Grid>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer CommandParameter="{Binding .}"
