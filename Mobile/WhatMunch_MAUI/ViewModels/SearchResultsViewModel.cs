@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
@@ -28,6 +29,7 @@ namespace WhatMunch_MAUI.ViewModels
             _shellService = shellService;
             _favouritesService = favouritesService;
             _logger = logger;
+            IsActive = true;
         }
 
         [ObservableProperty]
@@ -218,6 +220,17 @@ namespace WhatMunch_MAUI.ViewModels
                 _logger.LogError(ex, "An unexpected error occurred while trying to add place: {place.Id}", place.Id);
                 await _shellService.DisplayError(AppResources.ErrorUnexpected);
             }
+        }
+
+        protected override void OnActivated()
+        {
+            WeakReferenceMessenger.Default.Register<SearchResultsViewModel, FavouriteDeletedMessage>(this, (r, m) => {
+                var place = Places
+                .Where(p => p.Id == m.Value)
+                .FirstOrDefault();
+
+                if(place is not null) place.IsFavourite = false;
+            });
         }
 
         public void ResetPagination()

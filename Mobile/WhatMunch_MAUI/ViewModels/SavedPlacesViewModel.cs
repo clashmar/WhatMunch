@@ -87,7 +87,7 @@ namespace WhatMunch_MAUI.ViewModels
                 await _favouritesService.DeleteUserFavouriteAsync(place);
                 await _shellService.DisplayAlert("Success", "Deleted", "Ok");
                 Favourites.Remove(place);
-                Messenger.Send(new FavouriteDeletedMessage(place.Id));
+                WeakReferenceMessenger.Default.Send(new FavouriteDeletedMessage(place.Id));
             }
             catch (Exception ex)
             {
