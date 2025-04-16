@@ -234,8 +234,8 @@
   <data name="Relevance" xml:space="preserve">
     <value>Relevantie</value>
   </data>
-  <data name="Save" xml:space="preserve">
-    <value>Opslaan</value>
+  <data name="SavePreferences" xml:space="preserve">
+    <value>Bewaar Voorkeuren</value>
   </data>
   <data name="5MinWalk" xml:space="preserve">
     <value>5 Minuten Lopen</value>
@@ -269,6 +269,9 @@
   </data>
   <data name="Previous" xml:space="preserve">
     <value>Vorig</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Opslaan</value>
   </data>
   <data name="OpeningHours" xml:space="preserve">
     <value>Openingstijden:</value>
@@ -329,5 +332,11 @@
   </data>
   <data name="WhatMunch" xml:space="preserve">
     <value>WhatMunch</value>
+  </data>
+  <data name="DeleteAll" xml:space="preserve">
+    <value>Alles Verwijderen</value>
+  </data>
+  <data name="DeleteFavourite" xml:space="preserve">
+    <value>Favoriet Verwijderen</value>
   </data>
 </root>

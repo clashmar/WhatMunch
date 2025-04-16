@@ -9,6 +9,7 @@ namespace WhatMunch_MAUI.Services
         Task GoToAsync(string route, Dictionary<string, object> navigationParameter);
         Task GoToAsync(string route, bool animate, Dictionary<string, object> navigationParameter);
         Task DisplayError(string message);
+        Task<bool> CheckUserPrompt(string message);
     }
     public class ShellService : IShellService
     {
@@ -35,6 +36,11 @@ namespace WhatMunch_MAUI.Services
         public async Task DisplayError(string message)
         {
             await DisplayAlert(AppResources.Error, message, AppResources.Ok);
+        }
+
+        public async Task<bool> CheckUserPrompt(string message)
+        {
+            return await Shell.Current.DisplayAlert(message, AppResources.AreYouSure, AppResources.Yes, AppResources.No);
         }
     }
 }

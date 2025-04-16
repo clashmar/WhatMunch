@@ -11,6 +11,7 @@ namespace WhatMunch_MAUI.Services
         Task<Result<List<PlaceDto>>> GetUserFavouritesAsync();
         Task SaveUserFavouriteAsync(PlaceDto placeDto);
         Task DeleteUserFavouriteAsync(PlaceDto placeDto);
+        Task DeleteAllUserFavouritesAsync();
     }
     public class FavouritesService : IFavouritesService
     {
@@ -59,8 +60,6 @@ namespace WhatMunch_MAUI.Services
                         .OrderBy(f => f.Distance)
                         .ToList() ?? [];
 
-                    // TODO: Order by distance
-                    
                     return Result<List<PlaceDto>>.Success(result);
                 }
 
@@ -96,7 +95,20 @@ namespace WhatMunch_MAUI.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while trying to save to favourites");
+                _logger.LogError(ex, "Unexpected error while trying to save to delete favourite {placeDto.Id}", placeDto.Id);
+                throw;
+            }
+        }
+
+        public async Task DeleteAllUserFavouritesAsync()
+        {
+            try
+            {
+                await _localDatabase.DeleteAllPlacesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while trying to delete all favourites");
                 throw;
             }
         }

@@ -224,11 +224,16 @@ namespace WhatMunch_MAUI.ViewModels
         protected override void OnActivated()
         {
             WeakReferenceMessenger.Default.Register<SearchResultsViewModel, FavouriteDeletedMessage>(this, (r, m) => {
-                var place = Places
-                .Where(p => p.Id == m.Value)
-                .FirstOrDefault();
+                var place = PageList
+                    .SelectMany(page => page)
+                    .FirstOrDefault(place => place.Id == m.Value);
 
-                if(place is not null) place.IsFavourite = false;
+                if (place is not null) 
+                    place.IsFavourite = false;
+            });
+
+            WeakReferenceMessenger.Default.Register<SearchResultsViewModel, AllFavouritesDeletedMessage>(this, (r, m) => {
+                PageList.ForEach(page => page.ToList().ForEach(place => place.IsFavourite = false));
             });
         }
 

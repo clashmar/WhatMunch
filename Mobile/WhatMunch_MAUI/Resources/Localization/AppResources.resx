@@ -333,4 +333,10 @@
   <data name="WhatMunch" xml:space="preserve">
     <value>WhatMunch</value>
   </data>
+  <data name="DeleteAll" xml:space="preserve">
+    <value>Delete All</value>
+  </data>
+  <data name="DeleteFavourite" xml:space="preserve">
+    <value>Delete Favourite</value>
+  </data>
 </root>

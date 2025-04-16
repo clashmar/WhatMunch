@@ -84,8 +84,10 @@ namespace WhatMunch_MAUI.ViewModels
         {
             try
             {
+                bool isConfirmed = await _shellService.CheckUserPrompt(AppResources.DeleteFavourite);
+                if (!isConfirmed) return;
+
                 await _favouritesService.DeleteUserFavouriteAsync(place);
-                await _shellService.DisplayAlert("Success", "Deleted", "Ok");
                 Favourites.Remove(place);
                 WeakReferenceMessenger.Default.Send(new FavouriteDeletedMessage(place.Id));
             }
@@ -96,6 +98,26 @@ namespace WhatMunch_MAUI.ViewModels
             }
         }
 
+        [RelayCommand]
+        private async Task DeleteAllFavouritesAsync()
+        {
+            try
+            {
+                bool isConfirmed = await _shellService.CheckUserPrompt(AppResources.DeleteAll);
+                if (!isConfirmed) return;
+
+                await _favouritesService.DeleteAllUserFavouritesAsync();
+                Favourites.Clear();
+                WeakReferenceMessenger.Default.Send(new AllFavouritesDeletedMessage(string.Empty));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An unexpected error occurred while trying to delete favourites");
+                await _shellService.DisplayError(AppResources.ErrorUnexpected);
+            }
+        }
+
+
         public override void ResetViewModel()
         {
             throw new NotImplementedException();
@@ -105,6 +127,13 @@ namespace WhatMunch_MAUI.ViewModels
     public sealed class FavouriteDeletedMessage : ValueChangedMessage<string>
     {
         public FavouriteDeletedMessage(string value) : base(value)
+        {
+        }
+    }
+
+    public sealed class AllFavouritesDeletedMessage : ValueChangedMessage<string>
+    {
+        public AllFavouritesDeletedMessage(string value) : base(value)
         {
         }
     }

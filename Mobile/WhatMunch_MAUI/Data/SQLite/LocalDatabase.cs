@@ -9,6 +9,7 @@ namespace WhatMunch_MAUI.Data.SQLite
         Task<List<PlaceDbEntry>> GetUserPlacesAsync(string userId);
         Task SavePlaceAsync(PlaceDbEntry place);
         Task DeletePlaceAsync(string id);
+        Task DeleteAllPlacesAsync();
     }
     public class LocalDatabase: ILocalDatabase
     {
@@ -74,6 +75,20 @@ namespace WhatMunch_MAUI.Data.SQLite
             {
                 _logger.LogError(ex, "Unexpected error while deleting entry: {id}", placeId);
                 throw new InvalidOperationException("Unexpected error while deleting place: ", ex);
+            }
+        }
+
+        public async Task DeleteAllPlacesAsync()
+        {
+            try
+            {
+                await Init();
+                await _database!.DeleteAllAsync<PlaceDbEntry>();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error while deleting all places");
+                throw new InvalidOperationException("Unexpected error while deleting all places", ex);
             }
         }
     }

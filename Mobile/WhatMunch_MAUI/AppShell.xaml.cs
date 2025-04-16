@@ -13,11 +13,8 @@ namespace WhatMunch_MAUI
             _tokenService = tokenService;
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
-            //Routing.RegisterRoute(nameof(DashboardPage), typeof(DashboardPage));
             Routing.RegisterRoute(nameof(SearchResultsPage), typeof(SearchResultsPage));
-            //Routing.RegisterRoute(nameof(SearchPreferencesPage), typeof(SearchPreferencesPage));
             Routing.RegisterRoute(nameof(PlaceDetailsPage), typeof(PlaceDetailsPage));
-            //Routing.RegisterRoute(nameof(SavedPlacesPage), typeof(SavedPlacesPage));
         }
 
         protected override void OnAppearing()
