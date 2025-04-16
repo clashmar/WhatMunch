@@ -207,8 +207,7 @@ namespace WhatMunch_MAUI.ViewModels
                 place.IsFavourite = !place.IsFavourite;
                 if (place.IsFavourite)
                 {
-                    var dbId = await _favouritesService.SaveUserFavouriteAsync(place);
-                    place.DbId = dbId;
+                    await _favouritesService.SaveUserFavouriteAsync(place);
                 }
                 else
                 {

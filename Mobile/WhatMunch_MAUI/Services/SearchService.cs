@@ -54,7 +54,8 @@ namespace WhatMunch_MAUI.Services
                     dto.Places = dto.Places
                         .AddDistances(dto.SearchLocation)
                         .FilterDistances()
-                        .CheckIsFavourite(favourites);
+                        .CheckIsFavourite(favourites)
+                        .ToList();
                     return dto;
                 }
                 else

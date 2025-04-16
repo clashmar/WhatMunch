@@ -9,7 +9,7 @@ namespace WhatMunch_MAUI.Services
     public interface IFavouritesService
     {
         Task<Result<List<PlaceDto>>> GetUserFavouritesAsync();
-        Task<int> SaveUserFavouriteAsync(PlaceDto placeDto);
+        Task SaveUserFavouriteAsync(PlaceDto placeDto);
         Task DeleteUserFavouriteAsync(PlaceDto placeDto);
     }
     public class FavouritesService : IFavouritesService
@@ -53,11 +53,11 @@ namespace WhatMunch_MAUI.Services
                         .Select(f =>
                         {
                             var place = JsonSerializer.Deserialize<PlaceDto>(f.PlaceJson) ?? throw new Exception("Deserialization failed");
-                            place.DbId = f.Id;
                             return place;
                         })
-                        .ToList()
-                        .AddDistances(await locationTask) ?? [];
+                        .AddDistances(await locationTask)
+                        .OrderBy(f => f.Distance)
+                        .ToList() ?? [];
 
                     // TODO: Order by distance
                     
@@ -74,12 +74,12 @@ namespace WhatMunch_MAUI.Services
             }
         }
 
-        public async Task<int> SaveUserFavouriteAsync(PlaceDto placeDto) 
+        public async Task SaveUserFavouriteAsync(PlaceDto placeDto) 
         {
             try
             {
                 var placeDbEntry = await CreatePlaceDbEntryAsync(placeDto);
-                return await _localDatabase.SavePlaceAsync(placeDbEntry);
+                await _localDatabase.SavePlaceAsync(placeDbEntry);
             }
             catch (Exception ex)
             {
@@ -92,7 +92,7 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
-                await _localDatabase.DeletePlaceAsync(placeDto.DbId);
+                await _localDatabase.DeletePlaceAsync(placeDto.Id);
             }
             catch (Exception ex)
             {

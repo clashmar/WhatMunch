@@ -7,8 +7,8 @@ namespace WhatMunch_MAUI.Data.SQLite
     {
         Task Init();
         Task<List<PlaceDbEntry>> GetUserPlacesAsync(string userId);
-        Task<int> SavePlaceAsync(PlaceDbEntry place);
-        Task<int> DeletePlaceAsync(int id);
+        Task SavePlaceAsync(PlaceDbEntry place);
+        Task DeletePlaceAsync(string id);
     }
     public class LocalDatabase: ILocalDatabase
     {
@@ -47,7 +47,7 @@ namespace WhatMunch_MAUI.Data.SQLite
             
         }
 
-        public async Task<int> SavePlaceAsync(PlaceDbEntry place)
+        public async Task SavePlaceAsync(PlaceDbEntry place)
         {
             ArgumentNullException.ThrowIfNull(place, nameof(place));
 
@@ -55,12 +55,6 @@ namespace WhatMunch_MAUI.Data.SQLite
             {
                 await Init();
                 await _database!.InsertOrReplaceAsync(place);
-
-                var result = await _database!.Table<PlaceDbEntry>()
-                    .Where(p => p.PlaceId == place.PlaceId)
-                    .FirstOrDefaultAsync();
-
-                return result.Id;
             }
             catch (Exception ex)
             {
@@ -69,16 +63,16 @@ namespace WhatMunch_MAUI.Data.SQLite
             }
         }
 
-        public async Task<int> DeletePlaceAsync(int id)
+        public async Task DeletePlaceAsync(string placeId)
         {
             try
             {
                 await Init();
-                return await _database!.DeleteAsync<PlaceDbEntry>(id);
+                await _database!.DeleteAsync<PlaceDbEntry>(placeId);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while deleting entry: {id}", id);
+                _logger.LogError(ex, "Unexpected error while deleting entry: {id}", placeId);
                 throw new InvalidOperationException("Unexpected error while deleting place: ", ex);
             }
         }

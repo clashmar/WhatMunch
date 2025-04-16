@@ -67,9 +67,6 @@ namespace WhatMunch_MAUI.Models.Dtos
 
         [JsonIgnore]
         public string DisplayNameText => DisplayName?.Text.ToDisplayNameText() ?? AppResources.NotAvailable;
-
-        [JsonIgnore]
-        public int DbId { get; set; }
     }
 
     public class DisplayName

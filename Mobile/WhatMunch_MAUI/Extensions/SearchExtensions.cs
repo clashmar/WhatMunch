@@ -4,7 +4,7 @@ namespace WhatMunch_MAUI.Extensions
 {
     public static class SearchExtensions
     {
-        public static List<PlaceDto> AddDistances(this List<PlaceDto> places, Location? location = null)
+        public static IEnumerable<PlaceDto> AddDistances(this IEnumerable<PlaceDto> places, Location? location = null)
         {
             ArgumentNullException.ThrowIfNull(places);
             if (location is null) return places;
@@ -20,14 +20,14 @@ namespace WhatMunch_MAUI.Extensions
                 })
                 .ToList();
         }
-        public static List<PlaceDto> FilterDistances(this List<PlaceDto> places)
+        public static IEnumerable<PlaceDto> FilterDistances(this IEnumerable<PlaceDto> places)
         {
             ArgumentNullException.ThrowIfNull(places);
 
             return places.Where(p => p.Distance < 3.0).ToList();
         }
 
-        public static List<PlaceDto> CheckIsFavourite(this List<PlaceDto> places, List<PlaceDto> favourites)
+        public static IEnumerable<PlaceDto> CheckIsFavourite(this IEnumerable<PlaceDto> places, IEnumerable<PlaceDto> favourites)
         {
             ArgumentNullException.ThrowIfNull(places);
             ArgumentNullException.ThrowIfNull(favourites);
