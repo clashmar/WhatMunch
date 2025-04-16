@@ -13,6 +13,7 @@ namespace WhatMunch_MAUI.Tests.Unit
         private readonly Mock<IGooglePlacesService> _googlePlacesServiceMock;
         private readonly Mock<IConnectivity> _connectivityMock;
         private readonly Mock<ISearchPreferencesService> _searchPreferencesServiceMock;
+        private readonly Mock<IFavouritesService> _favouritesServiceMock;
         private readonly SearchService _service;
 
         public SearchServiceTests()
@@ -21,12 +22,14 @@ namespace WhatMunch_MAUI.Tests.Unit
             _googlePlacesServiceMock = new();
             _connectivityMock = new();
             _searchPreferencesServiceMock = new();
+            _favouritesServiceMock = new();
 
             _service = new(
                 _loggerMock.Object,
                 _googlePlacesServiceMock.Object,
                 _connectivityMock.Object,
-                _searchPreferencesServiceMock.Object);
+                _searchPreferencesServiceMock.Object,
+                _favouritesServiceMock.Object);
         }
 
         [Fact]
@@ -43,19 +46,23 @@ namespace WhatMunch_MAUI.Tests.Unit
                 IsChildFriendly = true,
                 IsDogFriendly = true
             };
-            _searchPreferencesServiceMock.Setup(c => c.GetPreferencesAsync()).ReturnsAsync(testPreferences);
+            var favouritesResult = Result<List<PlaceDto>>.Success(_mockFavouritesList);
+            _favouritesServiceMock.Setup(m => m.GetUserFavouritesAsync()).ReturnsAsync((favouritesResult));
+            _searchPreferencesServiceMock.Setup(m => m.GetPreferencesAsync()).ReturnsAsync(testPreferences);
 
-            var searchResult = Result<TextSearchResponseDto>.Success(new TextSearchResponseDto() { Places = MockPlacesList });
+            var searchResult = Result<TextSearchResponseDto>.Success(new TextSearchResponseDto() { Places = _mockPlacesList });
             _googlePlacesServiceMock.Setup(c => c.GetNearbySearchResultsAsync(testPreferences, nextPageToken)).ReturnsAsync(searchResult);
 
             // Act
             var result = await _service.GetSearchResponseAsync(nextPageToken);
 
             // Assert
-            Assert.Equivalent(result.Places, MockPlacesList);
+            Assert.Equivalent(result.Places, _mockPlacesList);
         }
 
-        private readonly List<PlaceDto> MockPlacesList = [
+        private readonly List<PlaceDto> _mockFavouritesList = []; 
+
+        private readonly List<PlaceDto> _mockPlacesList = [
         new PlaceDto()
         {
             DisplayName = new DisplayName { Text = "Central Park Coffee", LanguageCode = "en" },
