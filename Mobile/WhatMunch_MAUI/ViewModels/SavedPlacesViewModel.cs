@@ -38,6 +38,10 @@ namespace WhatMunch_MAUI.ViewModels
                 {
                     Favourites = result.Data.ToObservableCollection();
                 }
+                else
+                {
+                    Favourites.Clear();
+                }
             }
             catch (Exception)
             {

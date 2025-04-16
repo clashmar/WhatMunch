@@ -198,12 +198,20 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [RelayCommand]
-        private async Task AddFavouriteAsync(PlaceDto place)
+        private async Task ToggleFavouriteAsync(PlaceDto place)
         {
             try
             {
                 place.IsFavourite = !place.IsFavourite;
-                await _favouritesService.SaveUserFavouriteAsync(place);
+                if (place.IsFavourite)
+                {
+                    var dbId = await _favouritesService.SaveUserFavouriteAsync(place);
+                    place.DbId = dbId;
+                }
+                else
+                {
+                    await _favouritesService.DeleteUserFavouriteAsync(place);
+                }
             }
             catch (Exception ex)
             {

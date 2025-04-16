@@ -54,7 +54,13 @@ namespace WhatMunch_MAUI.Data.SQLite
             try
             {
                 await Init();
-                return await _database!.InsertOrReplaceAsync(place);
+                await _database!.InsertOrReplaceAsync(place);
+
+                var result = await _database!.Table<PlaceDbEntry>()
+                    .Where(p => p.PlaceId == place.PlaceId)
+                    .FirstOrDefaultAsync();
+
+                return result.Id;
             }
             catch (Exception ex)
             {

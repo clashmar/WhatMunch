@@ -9,7 +9,7 @@ namespace WhatMunch_MAUI.Services
     public interface IFavouritesService
     {
         Task<Result<List<PlaceDto>>> GetUserFavouritesAsync();
-        Task SaveUserFavouriteAsync(PlaceDto placeDto);
+        Task<int> SaveUserFavouriteAsync(PlaceDto placeDto);
         Task DeleteUserFavouriteAsync(PlaceDto placeDto);
     }
     public class FavouritesService : IFavouritesService
@@ -57,6 +57,8 @@ namespace WhatMunch_MAUI.Services
                         })
                         .ToList()
                         .AddDistances(await locationTask) ?? [];
+
+                    // TODO: Order by distance
                     
                     return Result<List<PlaceDto>>.Success(result);
                 }
@@ -71,13 +73,12 @@ namespace WhatMunch_MAUI.Services
             }
         }
 
-        public async Task SaveUserFavouriteAsync(PlaceDto placeDto) 
+        public async Task<int> SaveUserFavouriteAsync(PlaceDto placeDto) 
         {
             try
             {
                 var placeDbEntry = await CreatePlaceDbEntryAsync(placeDto);
-
-                await _localDatabase.SavePlaceAsync(placeDbEntry);
+                return await _localDatabase.SavePlaceAsync(placeDbEntry);
             }
             catch (Exception ex)
             {
@@ -90,8 +91,6 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
-                var placeDbEntry = await CreatePlaceDbEntryAsync(placeDto);
-
                 await _localDatabase.DeletePlaceAsync(placeDto.DbId);
             }
             catch (Exception ex)

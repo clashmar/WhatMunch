@@ -23,7 +23,7 @@
                          IsRefreshing="{Binding IsRefreshing}">
                 <templates:PlacesCollectionTemplate BindingContext="{Binding}" 
                                                     Places="{Binding Places}"
-                                                    HandleFavouriteCommand="{Binding AddFavouriteCommand}"
+                                                    HandleFavouriteCommand="{Binding ToggleFavouriteCommand}"
                                                     GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"
                                                     PageName="search"/>
             </RefreshView>
