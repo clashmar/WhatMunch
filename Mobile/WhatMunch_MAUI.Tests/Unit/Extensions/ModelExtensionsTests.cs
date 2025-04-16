@@ -4,7 +4,7 @@ using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Models.Fonts;
 using WhatMunch_MAUI.Resources.Localization;
 
-namespace WhatMunch_MAUI.Tests.Unit
+namespace WhatMunch_MAUI.Tests.Unit.Extensions
 {
     public class ModelExtensionsTests
     {
