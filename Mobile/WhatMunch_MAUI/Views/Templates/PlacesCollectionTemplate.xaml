@@ -80,6 +80,28 @@
                                                  Path="PageName" />
                                     </MultiBinding>
                                 </Button.ImageSource>
+                                <Button.Triggers>
+                                    <MultiTrigger TargetType="Button">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding IsFavourite}"
+                                                              Value="True" />
+                                            <BindingCondition Binding="{Binding PageName, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
+                                                              Value="search" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="ImageSource"
+                                                Value="liked" />
+                                    </MultiTrigger>
+                                    <MultiTrigger TargetType="Button">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding IsFavourite}"
+                                                              Value="False" />
+                                            <BindingCondition Binding="{Binding PageName, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
+                                                              Value="search" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="ImageSource"
+                                                Value="like" />
+                                    </MultiTrigger>
+                                </Button.Triggers>
                             </Button> 
                         </Grid>
                         <Border.GestureRecognizers>

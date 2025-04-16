@@ -41,6 +41,8 @@ public partial class PlacesCollectionTemplate : ContentView
         set => SetValue(PageNameProperty, value);
     }
 
+    public string FavouriteIcon => "search";
+
     public PlacesCollectionTemplate()
     {
         InitializeComponent();
