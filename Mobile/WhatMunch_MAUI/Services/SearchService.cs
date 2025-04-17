@@ -10,70 +10,73 @@ namespace WhatMunch_MAUI.Services
         Task<TextSearchResponseDto> GetSearchResponseAsync(string? pageToken = null);
     }
 
-    public class SearchService : ISearchService
+    public class SearchService(
+        ILogger<SearchService> logger,
+        IGooglePlacesService googlePlacesService,
+        IConnectivity connectivity,
+        ISearchPreferencesService searchPreferencesService,
+        IFavouritesService favouritesService) : ISearchService
     {
-        private readonly ILogger<SearchService> _logger;
-        private readonly IGooglePlacesService _googlePlacesService;
-        private readonly IConnectivity _connectivity;
-        private readonly ISearchPreferencesService _searchPreferencesService;
-        private readonly IFavouritesService _favouritesService;
-
-        public SearchService(
-            ILogger<SearchService> logger, 
-            IGooglePlacesService googlePlacesService, 
-            IConnectivity connectivity,
-            ISearchPreferencesService searchPreferencesService,
-            IFavouritesService favouritesService)
-        {
-            _logger = logger;
-            _googlePlacesService = googlePlacesService;
-            _connectivity = connectivity;
-            _searchPreferencesService = searchPreferencesService;
-            _favouritesService = favouritesService;
-        }
-
         public async Task<TextSearchResponseDto> GetSearchResponseAsync(string? pageToken = null)
         {
-            if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+            if (connectivity.NetworkAccess != NetworkAccess.Internet)
             {
-                _logger.LogWarning("No internet connection.");
+                logger.LogWarning("No internet connection.");
                 throw new ConnectivityException();
             }
 
             try
             {
-                var favouritesTask = _favouritesService.GetUserFavouritesAsync();
-                var preferences = await _searchPreferencesService.GetPreferencesAsync();
-                var result = await _googlePlacesService.GetNearbySearchResultsAsync(preferences, pageToken);
+                var preferencesTask = searchPreferencesService.GetPreferencesAsync();
+                var favouritesTask = favouritesService.GetUserFavouritesAsync();
+
+                await Task.WhenAll(preferencesTask, favouritesTask);
+
+                var preferences = preferencesTask.Result;
+                var favouritesResult = favouritesTask.Result;
+
+                if (preferences is null)
+                {
+                    logger.LogError("Failed to retrieve search preferences.");
+                    throw new InvalidOperationException("Search preferences are null.");
+                }
+
+                var result = await googlePlacesService.GetNearbySearchResultsAsync(preferences, pageToken);
 
                 if (result.IsSuccess && result.Data is not null)
                 {
-                    var favouritesResult = await favouritesTask;
                     var favourites = favouritesResult.Data ?? [];
-                    var dto = result.Data;
-                    dto.Places = dto.Places
-                        .AddDistances(dto.SearchLocation)
-                        .FilterDistances()
-                        .CheckIsFavourite(favourites)
-                        .ToList();
-                    return dto;
+                    return ProcessSearchResults(result.Data, favourites);
                 }
                 else
                 {
-                    _logger.LogError("Search service error: {result.ErrorMessage}", result.ErrorMessage);
+                    logger.LogError("Search service error: {result.ErrorMessage}", result.ErrorMessage);
                     throw new HttpRequestException(result.ErrorMessage);
                 }
             }
             catch (HttpRequestException ex)
             {
-                _logger.LogError(ex, "HTTP request failed while fetching search results.");
+                logger.LogError(ex, "HTTP request failed while fetching search results.");
                 throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while executing search");
+                logger.LogError(ex, "An unexpected error occurred while executing search");
                 throw;
             }
+        }
+
+        protected static TextSearchResponseDto ProcessSearchResults(
+            TextSearchResponseDto dto, 
+            List<PlaceDto> favourites)
+        {
+            dto.Places = dto.Places
+                .AddDistances(dto.SearchLocation)
+                .FilterDistances()
+                .CheckIsFavourite(favourites)
+                .ToList();
+
+            return dto;
         }
     }
 }

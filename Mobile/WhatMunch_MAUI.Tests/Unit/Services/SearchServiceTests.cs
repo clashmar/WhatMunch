@@ -4,8 +4,9 @@ using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility;
+using WhatMunch_MAUI.Utility.Exceptions;
 
-namespace WhatMunch_MAUI.Tests.Unit
+namespace WhatMunch_MAUI.Tests.Unit.Services
 {
     public class SearchServiceTests
     {
@@ -32,26 +33,35 @@ namespace WhatMunch_MAUI.Tests.Unit
                 _favouritesServiceMock.Object);
         }
 
-        [Fact]
-        public async Task GetSearchResponseAsync_ReturnsCorrectlData()
-        {
-            // Arrange
-            _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
-            string nextPageToken = "token";
+        private const string TOKEN = "token";
 
-            var testPreferences = new SearchPreferencesModel()
+        private void SetupMocks(string nextPageToken)
+        {
+            _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
+
+            var testPreferences = new SearchPreferencesModel
             {
                 MinRating = 3,
                 MaxPriceLevel = PriceLevel.PRICE_LEVEL_MODERATE,
                 IsChildFriendly = true,
                 IsDogFriendly = true
             };
+
             var favouritesResult = Result<List<PlaceDto>>.Success(_mockFavouritesList);
-            _favouritesServiceMock.Setup(m => m.GetUserFavouritesAsync()).ReturnsAsync((favouritesResult));
+            _favouritesServiceMock.Setup(m => m.GetUserFavouritesAsync()).ReturnsAsync(favouritesResult);
             _searchPreferencesServiceMock.Setup(m => m.GetPreferencesAsync()).ReturnsAsync(testPreferences);
 
-            var searchResult = Result<TextSearchResponseDto>.Success(new TextSearchResponseDto() { Places = _mockPlacesList });
+            var searchResult = Result<TextSearchResponseDto>.Success(new TextSearchResponseDto { Places = _mockPlacesList });
             _googlePlacesServiceMock.Setup(c => c.GetNearbySearchResultsAsync(testPreferences, nextPageToken)).ReturnsAsync(searchResult);
+        }
+
+        [Theory]
+        [InlineData(TOKEN)]
+        [InlineData(null)]
+        public async Task GetSearchResponseAsync_ReturnsCorrectlData(string nextPageToken)
+        {
+            // Arrange
+            SetupMocks(nextPageToken);
 
             // Act
             var result = await _service.GetSearchResponseAsync(nextPageToken);
@@ -60,7 +70,25 @@ namespace WhatMunch_MAUI.Tests.Unit
             Assert.Equivalent(result.Places, _mockPlacesList);
         }
 
-        private readonly List<PlaceDto> _mockFavouritesList = []; 
+        [Fact]
+        public async Task GetSearchResponseAsync_NoInternet_ThrowsException()
+        {
+            // Arrange
+            _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.None);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ConnectivityException>(() => _service.GetSearchResponseAsync(TOKEN));
+        }
+
+        private readonly List<PlaceDto> _mockFavouritesList =
+        [
+            new PlaceDto
+            {
+                DisplayName = new DisplayName { Text = "Favorite Place", LanguageCode = "en" },
+                Rating = 5.0,
+                PriceLevel = PriceLevel.PRICE_LEVEL_INEXPENSIVE
+            }
+        ];
 
         private readonly List<PlaceDto> _mockPlacesList = [
         new PlaceDto()
