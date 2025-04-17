@@ -10,9 +10,8 @@ namespace WhatMunch_MAUI.Services
     }
     public class SecureStorageService(ILogger<SecureStorageService> logger) : ISecureStorageService
     {
-        private readonly ILogger<SecureStorageService> _logger = logger;
-
         private const string USERNAME_KEY = "username_key";
+        
 
         public async Task SaveUsernameAsync(string username)
         {
@@ -22,7 +21,7 @@ namespace WhatMunch_MAUI.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to get save username in secure storage");
+                logger.LogError(ex, "Failed to get save username in secure storage");
                 throw;
             }
         }
@@ -35,7 +34,7 @@ namespace WhatMunch_MAUI.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to get get username from secure storage");
+                logger.LogError(ex, "Failed to get get username from secure storage");
                 throw;
             }
         }

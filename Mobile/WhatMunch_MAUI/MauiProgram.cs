@@ -40,6 +40,7 @@ public static class MauiProgram
 			.AddSingleton<IConnectivity>(Connectivity.Current)
 			.AddSingleton<IGeolocation>(Geolocation.Default)
 			.AddSingleton<ILauncher>(Launcher.Default)
+			.AddSingleton<ISecureStorage>(SecureStorage.Default)
 			.AddSingleton<ILocalDatabase, LocalDatabase>();
 
 		builder.Services
