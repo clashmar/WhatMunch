@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Data;
 using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
@@ -16,7 +17,7 @@ namespace WhatMunch_MAUI.Services
     public class FavouritesService(
         ILocalDatabase localDatabase,
         ILogger<FavouritesService> logger,
-        ISecureStorageService secureStorageService,
+        ISecureStorage secureStorage,
         ILocationService locationService) : IFavouritesService
     {
         public async Task<Result<List<PlaceDto>>> GetUserFavouritesAsync()
@@ -25,7 +26,7 @@ namespace WhatMunch_MAUI.Services
             {
                 // TODO: check open now/remove open now/update dto
                 var locationTask = locationService.GetLastSearchLocation();
-                string? username = await secureStorageService.GetUsernameAsync();
+                string? username = await secureStorage.GetAsync(Constants.USERNAME_KEY);
 
                 if (string.IsNullOrEmpty(username))
                 {
@@ -99,7 +100,7 @@ namespace WhatMunch_MAUI.Services
 
         private async Task<PlaceDbEntry> CreatePlaceDbEntryAsync(PlaceDto placeDto)
         {
-            var username = await secureStorageService.GetUsernameAsync() 
+            var username = await secureStorage.GetAsync(Constants.USERNAME_KEY) 
                 ?? throw new InvalidOperationException("Username is not available from secure storage");
 
             var placeJson = JsonSerializer.Serialize(placeDto);

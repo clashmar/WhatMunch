@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using System.Text.Json;
+using WhatMunch_MAUI.Data;
 using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.MockData;
 using WhatMunch_MAUI.Models;
@@ -13,7 +14,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
     {
         private readonly Mock<ILocalDatabase> _localDatabaseMock;
         private readonly Mock<ILogger<FavouritesService>> _loggerMock;
-        private readonly Mock<ISecureStorageService> _secureStorageServiceMock;
+        private readonly Mock<ISecureStorage> _secureStorageMock;
         private readonly Mock<ILocationService> _locationServiceMock;
         private readonly FavouritesService _favouritesService;
 
@@ -21,13 +22,13 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
         {
             _localDatabaseMock = new();
             _loggerMock = new();
-            _secureStorageServiceMock = new();
+            _secureStorageMock = new();
             _locationServiceMock = new();
 
             _favouritesService = new FavouritesService(
                 _localDatabaseMock.Object,
                 _loggerMock.Object,
-                _secureStorageServiceMock.Object,
+                _secureStorageMock.Object,
                 _locationServiceMock.Object
             );
         }
@@ -50,8 +51,8 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
                 new() { PlaceId = MockPlace.ID, UserId = USERNAME, PlaceJson = placeJson }
             };
 
-            _secureStorageServiceMock
-                .Setup(s => s.GetUsernameAsync())
+            _secureStorageMock
+                .Setup(s => s.GetAsync(Constants.USERNAME_KEY))
                 .ReturnsAsync(USERNAME);
 
             _localDatabaseMock
@@ -76,7 +77,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
         public async Task SaveUserFavouriteAsync_CallsCorrectMethod()
         {
             // Arrange
-            _secureStorageServiceMock.Setup(s => s.GetUsernameAsync())
+            _secureStorageMock.Setup(s => s.GetAsync(Constants.USERNAME_KEY))
                 .ReturnsAsync(USERNAME);
 
             // Act
@@ -110,7 +111,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
         public async Task CreatePlaceDbEntryAsync_CreatesCorrectPlaceDbEntry()
         {
             // Arrange
-            _secureStorageServiceMock.Setup(s => s.GetUsernameAsync())
+            _secureStorageMock.Setup(s => s.GetAsync(Constants.USERNAME_KEY))
                 .ReturnsAsync(USERNAME);
 
             var method = typeof(FavouritesService).GetMethod("CreatePlaceDbEntryAsync",

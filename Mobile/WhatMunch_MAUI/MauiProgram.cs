@@ -53,8 +53,7 @@ public static class MauiProgram
 			.AddSingleton<IRegistrationService, RegistrationService>()
 			.AddSingleton<ILoginService, LoginService>()
 			.AddSingleton<IGooglePlacesService, GooglePlacesService>()
-			.AddSingleton<IFavouritesService, FavouritesService>()
-			.AddSingleton<ISecureStorageService, SecureStorageService>();
+			.AddSingleton<IFavouritesService, FavouritesService>();
 
 		builder.Services
 			.AddSingleton<LoginViewModel>()
@@ -64,7 +63,6 @@ public static class MauiProgram
 			.AddSingleton<SearchPreferencesViewModel>()
 			.AddTransient<PlaceDetailsViewModel>()
 			.AddTransient<SavedPlacesViewModel>();
-
 
 		return builder.Build();
 	}

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using WhatMunch_MAUI.Data;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Utility;
@@ -13,17 +14,13 @@ namespace WhatMunch_MAUI.Services
     public class LoginService(
         IHttpClientFactory clientFactory, 
         ITokenService tokenService, 
-        ISecureStorageService secureStorageService) : ILoginService
+        ISecureStorage secureStorage) : ILoginService
     {
-        private readonly IHttpClientFactory _clientFactory = clientFactory;
-        private readonly ITokenService _tokenService = tokenService;
-        private readonly ISecureStorageService _secureStorageService = secureStorageService;
-
         public async Task<Result<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto)
         {
             try
             {
-                var client = _clientFactory.CreateClient("WhatMunch").UpdateLanguageHeaders();
+                var client = clientFactory.CreateClient("WhatMunch").UpdateLanguageHeaders();
                 var json = JsonSerializer.Serialize(requestDto);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var response = await client.PostAsync("token/", content);
@@ -35,9 +32,9 @@ namespace WhatMunch_MAUI.Services
                     
                     if(deserializedData != null)
                     {
-                        await _tokenService.SaveAccessTokenAsync(deserializedData.AccessToken);
-                        await _tokenService.SaveRefreshTokenAsync(deserializedData.RefreshToken);
-                        await _secureStorageService.SaveUsernameAsync(requestDto.Username);
+                        await tokenService.SaveAccessTokenAsync(deserializedData.AccessToken);
+                        await tokenService.SaveRefreshTokenAsync(deserializedData.RefreshToken);
+                        await secureStorage.SetAsync(Constants.USERNAME_KEY, requestDto.Username);
                         return Result<LoginResponseDto>.Success(deserializedData);
                     }
 
