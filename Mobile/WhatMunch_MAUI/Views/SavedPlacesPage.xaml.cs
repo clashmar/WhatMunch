@@ -11,8 +11,8 @@ public partial class SavedPlacesPage : ContentPage
         BindingContext = _viewModel;
 	}
 
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-        _viewModel.LoadFavouritesAsync();
+        await _viewModel.LoadFavouritesAsync();
     }
 }

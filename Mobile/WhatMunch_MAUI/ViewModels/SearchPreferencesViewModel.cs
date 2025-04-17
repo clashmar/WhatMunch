@@ -6,22 +6,10 @@ using WhatMunch_MAUI.Resources.Localization;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class SearchPreferencesViewModel : BaseViewModel
+    public partial class SearchPreferencesViewModel(
+        ISearchPreferencesService searchPreferencesService,
+        ILogger<SearchPreferencesViewModel> logger) : BaseViewModel
     {
-        private readonly IShellService _shellService;
-        private readonly ISearchPreferencesService _searchPreferencesService;
-        private readonly ILogger<SearchPreferencesViewModel> _logger;
-
-        public SearchPreferencesViewModel(
-            IShellService shellService, 
-            ISearchPreferencesService searchPreferencesService, 
-            ILogger<SearchPreferencesViewModel> logger)
-        {
-            _shellService = shellService;
-            _searchPreferencesService = searchPreferencesService;
-            _logger = logger;
-        }
-
         [ObservableProperty]
         private SearchPreferencesModel _preferences = SearchPreferencesModel.Default;
 
@@ -33,26 +21,25 @@ namespace WhatMunch_MAUI.ViewModels
         {
             try
             {
-                await _searchPreferencesService.SavePreferencesAsync(Preferences);
+                await searchPreferencesService.SavePreferencesAsync(Preferences);
                 await DisplayToast(AppResources.UpdatedPreferences);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while saving preferences");
+                logger.LogError(ex, "Unexpected error while saving preferences");
                 await DisplayToast(AppResources.Error);
             }
-            
         }
-        public async void LoadPreferencesAsync()
+        public async Task LoadPreferencesAsync()
         {
             try
             {
                 IsBusy = true;
-                Preferences = await _searchPreferencesService.GetPreferencesAsync();
+                Preferences = await searchPreferencesService.GetPreferencesAsync();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to load search preferences");
+                logger.LogError(ex, "Failed to load search preferences");
             }
             finally
             {

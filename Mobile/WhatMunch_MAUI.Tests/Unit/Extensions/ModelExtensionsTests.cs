@@ -97,7 +97,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Extensions
             };
 
             // Act
-            var result = placeDto.ToModel();
+            PlaceModel result = placeDto.ToPlaceModel();
 
             // Assert
             Assert.NotNull(result);
@@ -124,7 +124,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Extensions
             PlaceDto placeDto = null!;
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => placeDto.ToModel());
+            Assert.Throws<ArgumentNullException>(() => placeDto.ToPlaceModel());
         }
 
         [Fact]

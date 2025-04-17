@@ -9,32 +9,22 @@ using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class SavedPlacesViewModel : BaseViewModel
+    public partial class SavedPlacesViewModel(
+        IFavouritesService favouritesService,
+        IShellService shellService,
+        ILogger<SavedPlacesViewModel> logger) : BaseViewModel
     {
-        private readonly IFavouritesService _favouritesService;
-        private readonly IShellService _shellService;
-        private readonly ILogger<SavedPlacesViewModel> _logger;
-
-        public SavedPlacesViewModel(
-            IFavouritesService favouritesService,
-            IShellService shellService,
-            ILogger<SavedPlacesViewModel> logger)
-        {
-            _favouritesService = favouritesService;
-            _shellService = shellService;
-            _logger = logger;
-        }
-
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _favourites = [];
 
-        public async void LoadFavouritesAsync()
+        public async Task LoadFavouritesAsync()
         {
+            if (IsBusy) return;
             IsBusy = true;
 
             try
             {
-                var result = await _favouritesService.GetUserFavouritesAsync();
+                var result = await favouritesService.GetUserFavouritesAsync();
 
                 if (result.IsSuccess && result.Data is not null)
                 {
@@ -45,9 +35,10 @@ namespace WhatMunch_MAUI.ViewModels
                     Favourites.Clear();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                logger.LogError(ex, "Failed to load favorites.");
+                await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
             finally
             {
@@ -59,19 +50,20 @@ namespace WhatMunch_MAUI.ViewModels
         public async Task GoToPlaceDetails(PlaceDto place)
         {
             if (place is null) return;
+            if (IsBusy) return;
             IsBusy = true;
 
             try
             {
-                await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
+                await shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
-                            { "Place", place.ToModel() }
+                            { "Place", place.ToPlaceModel() }
                         });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while navigating to {place}", place);
+                logger.LogError(ex, "An unexpected error occurred while navigating to {place}", place);
             }
             finally
             {
@@ -80,43 +72,44 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [RelayCommand]
-        private async Task DeleteFavouriteAsync(PlaceDto place)
+        public async Task DeleteFavouriteAsync(PlaceDto place)
         {
+            if (place is null) return;
+
             try
             {
-                bool isConfirmed = await _shellService.CheckUserPrompt(AppResources.DeleteFavourite);
+                bool isConfirmed = await shellService.CheckUserPrompt(AppResources.DeleteFavourite);
                 if (!isConfirmed) return;
 
-                await _favouritesService.DeleteUserFavouriteAsync(place);
+                await favouritesService.DeleteUserFavouriteAsync(place);
                 Favourites.Remove(place);
                 WeakReferenceMessenger.Default.Send(new FavouriteDeletedMessage(place.Id));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while trying to add place: {place.Id}", place.Id);
-                await _shellService.DisplayError(AppResources.ErrorUnexpected);
+                logger.LogError(ex, "An unexpected error occurred while trying to add place: {place.Id}", place.Id);
+                await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
         }
 
         [RelayCommand]
-        private async Task DeleteAllFavouritesAsync()
+        public async Task DeleteAllFavouritesAsync()
         {
             try
             {
-                bool isConfirmed = await _shellService.CheckUserPrompt(AppResources.DeleteAll);
+                bool isConfirmed = await shellService.CheckUserPrompt(AppResources.DeleteAll);
                 if (!isConfirmed) return;
 
-                await _favouritesService.DeleteAllUserFavouritesAsync();
+                await favouritesService.DeleteAllUserFavouritesAsync();
                 Favourites.Clear();
                 WeakReferenceMessenger.Default.Send(new AllFavouritesDeletedMessage(string.Empty));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while trying to delete favourites");
-                await _shellService.DisplayError(AppResources.ErrorUnexpected);
+                logger.LogError(ex, "An unexpected error occurred while trying to delete favourites");
+                await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
         }
-
 
         public override void ResetViewModel()
         {
@@ -124,17 +117,11 @@ namespace WhatMunch_MAUI.ViewModels
         }
     }
 
-    public sealed class FavouriteDeletedMessage : ValueChangedMessage<string>
+    public sealed class FavouriteDeletedMessage(string value) : ValueChangedMessage<string>(value)
     {
-        public FavouriteDeletedMessage(string value) : base(value)
-        {
-        }
     }
 
-    public sealed class AllFavouritesDeletedMessage : ValueChangedMessage<string>
+    public sealed class AllFavouritesDeletedMessage(string value) : ValueChangedMessage<string>(value)
     {
-        public AllFavouritesDeletedMessage(string value) : base(value)
-        {
-        }
     }
 }

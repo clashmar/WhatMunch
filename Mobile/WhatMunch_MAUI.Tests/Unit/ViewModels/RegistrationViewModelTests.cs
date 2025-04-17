@@ -6,7 +6,7 @@ using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.ViewModels;
 using WhatMunch_MAUI.Views;
 
-namespace WhatMunch_MAUI.Tests.Unit
+namespace WhatMunch_MAUI.Tests.Unit.ViewModels
 {
     public class RegistrationViewModelTests
     {

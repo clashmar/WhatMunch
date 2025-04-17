@@ -35,8 +35,7 @@ namespace WhatMunch_MAUI.ViewModels
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _places = [];
         public List<ObservableCollection<PlaceDto>> PageList { get; set; } = []; 
-
-        private int currentPageIndex = 0;
+        public int CurrentPageIndex { get; set; } = 0;
 
         [ObservableProperty]
         private bool _hasPreviousPage;
@@ -44,7 +43,7 @@ namespace WhatMunch_MAUI.ViewModels
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(HasNextPage))]
         private string? _nextPageToken;
-        public bool HasNextPage => !string.IsNullOrEmpty(NextPageToken) | PageList.ElementAtOrDefault(currentPageIndex + 1) is not null;
+        public bool HasNextPage => !string.IsNullOrEmpty(NextPageToken) | PageList.ElementAtOrDefault(CurrentPageIndex + 1) is not null;
 
         //Called from code behind 
         public void InitializePageList()
@@ -58,6 +57,8 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         private async Task HandleRefresh()
         {
+            if (IsBusy) return;
+
             try
             {
                 IsRefreshing = true;
@@ -86,13 +87,14 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         private async Task HandleNext()
         {
+            if (IsBusy) return;
             if (!HasNextPage) return;
 
-            if(PageList.ElementAtOrDefault(currentPageIndex + 1) is not null)
+            if(PageList.ElementAtOrDefault(CurrentPageIndex + 1) is not null)
             {
-                Places = PageList[currentPageIndex + 1];
+                Places = PageList[CurrentPageIndex + 1];
                 HasPreviousPage = true;
-                currentPageIndex += 1;
+                CurrentPageIndex++;
             }
             else
             {
@@ -101,10 +103,11 @@ namespace WhatMunch_MAUI.ViewModels
                 if (result.IsSuccess)
                 {
                     var data = result.Data!;
-                    Places = data.Places.ToObservableCollection();
-                    PageList.Add(data.Places.ToObservableCollection());
+                    var newPage = data.Places.ToObservableCollection();
+                    Places = newPage;
+                    PageList.Add(newPage);
                     HasPreviousPage = true;
-                    currentPageIndex += 1; // Must be set before page token
+                    CurrentPageIndex++; // Must be set before page token
                     NextPageToken = data.NextPageToken;
                 }
             }
@@ -113,10 +116,11 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         private void HandlePrevious()
         {
-            if (currentPageIndex < 1 || PageList.ElementAtOrDefault(currentPageIndex - 1) is null) return;
-            Places = PageList[currentPageIndex - 1];
-            currentPageIndex -= 1;
-            if(currentPageIndex < 1) HasPreviousPage = false;
+            if(IsBusy) return;
+            if (CurrentPageIndex < 1 || PageList.ElementAtOrDefault(CurrentPageIndex - 1) is null) return;
+            Places = PageList[CurrentPageIndex - 1];
+            CurrentPageIndex -= 1;
+            if(CurrentPageIndex < 1) HasPreviousPage = false;
             OnPropertyChanged(nameof(HasNextPage));
         }
 
@@ -131,7 +135,7 @@ namespace WhatMunch_MAUI.ViewModels
                 await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
-                            { "Place", place.ToModel() }
+                            { "Place", place.ToPlaceModel() }
                         });
             }
             catch (Exception ex)
@@ -149,7 +153,6 @@ namespace WhatMunch_MAUI.ViewModels
             try
             {
                 IsBusy = true;
-
                 var response = await _searchService.GetSearchResponseAsync(pageToken);
 
                 if (response.Places.Count > 0)
@@ -200,7 +203,7 @@ namespace WhatMunch_MAUI.ViewModels
         }
 
         [RelayCommand]
-        private async Task ToggleFavouriteAsync(PlaceDto place)
+        public async Task ToggleFavouriteAsync(PlaceDto place)
         {
             try
             {
@@ -242,7 +245,7 @@ namespace WhatMunch_MAUI.ViewModels
             PageList.Clear();
             NextPageToken = null;
             HasPreviousPage = false;
-            currentPageIndex = 0;
+            CurrentPageIndex = 0;
         }
 
         public override void ResetViewModel()

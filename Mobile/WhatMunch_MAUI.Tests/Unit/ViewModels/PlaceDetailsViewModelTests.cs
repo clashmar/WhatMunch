@@ -3,7 +3,7 @@ using Moq;
 using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.ViewModels;
 
-namespace WhatMunch_MAUI.Tests.Unit
+namespace WhatMunch_MAUI.Tests.Unit.ViewModels
 {
     public class PlaceDetailsViewModelTests
     {

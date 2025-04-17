@@ -5,7 +5,7 @@ using WhatMunch_MAUI.MockData;
 using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.Services;
 
-namespace WhatMunch_MAUI.Tests.Unit
+namespace WhatMunch_MAUI.Tests.Unit.Services
 {
     public class GooglePlacesServiceTests
     {
