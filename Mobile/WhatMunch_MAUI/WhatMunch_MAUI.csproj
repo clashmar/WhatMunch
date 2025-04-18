@@ -24,7 +24,7 @@
 		<ApplicationTitle>WhatMunch</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.whatmunch_maui</ApplicationId>
+		<ApplicationId>dev.clashmar.whatmunch_maui</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -40,16 +40,27 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
-		<UserSecretsId>bffaa3f2-78a2-4e06-9b3c-ae2bcc2c0b56</UserSecretsId>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
 	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidSigningKeyStore>Secrets\Android\key.keystore</AndroidSigningKeyStore>
+	  <AndroidSigningStorePass>BIRMAn55</AndroidSigningStorePass>
+	  <AndroidSigningKeyAlias>WhatMunch</AndroidSigningKeyAlias>
+	  <AndroidSigningKeyPass>BIRMAn55</AndroidSigningKeyPass>
 	</PropertyGroup>
 	
 	<PropertyGroup>
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
+	  <AndroidKeyStore>True</AndroidKeyStore>
+	  <AndroidSigningStorePass>BIRMAn55</AndroidSigningStorePass>
+	  <AndroidSigningKeyAlias>WhatMunch</AndroidSigningKeyAlias>
+	  <AndroidSigningKeyPass>BIRMAn55</AndroidSigningKeyPass>
 	</PropertyGroup>
 
 	<ItemGroup>
