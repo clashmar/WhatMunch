@@ -7,27 +7,20 @@ namespace WhatMunch_MAUI.Services
         Task SavePreferencesAsync(SearchPreferencesModel preferencesModel);
         Task<SearchPreferencesModel> GetPreferencesAsync();
     }
-    public class SearchPreferencesService : ISearchPreferencesService
+    public class SearchPreferencesService(ISecureStorage secureStorage, ILogger<SearchPreferencesService> logger) : ISearchPreferencesService
     {
-        private readonly ILogger<SearchPreferencesService> _logger;
-
-        public SearchPreferencesService(ILogger<SearchPreferencesService> logger)
-        {
-            _logger = logger;
-        }
-
-        private readonly string _preferencesKey = "search_preferences";
+        private const string PREFERENCES_KEY = "search_preferences";
 
         public async Task SavePreferencesAsync(SearchPreferencesModel preferences)
         {
             try
             {
                 string json = JsonSerializer.Serialize(preferences);
-                await SecureStorage.Default.SetAsync(_preferencesKey, json);
+                await secureStorage.SetAsync(PREFERENCES_KEY, json);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to save search preferences");
+                logger.LogError(ex, "Failed to save search preferences.");
                 throw;
             }
         }
@@ -35,7 +28,7 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
-                string? json = await SecureStorage.Default.GetAsync(_preferencesKey);
+                string? json = await secureStorage.GetAsync(PREFERENCES_KEY);
 
                 if(string.IsNullOrEmpty(json))
                 {
@@ -48,7 +41,7 @@ namespace WhatMunch_MAUI.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to get search preferences");
+                logger.LogError(ex, "Failed to get search preferences.");
                 return SearchPreferencesModel.Default;
             }
         }

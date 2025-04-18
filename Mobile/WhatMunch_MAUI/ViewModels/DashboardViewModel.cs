@@ -7,22 +7,11 @@ using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class DashboardViewModel : BaseViewModel
+    public partial class DashboardViewModel(
+        ISearchService searchService,
+        IShellService shellService,
+        ILogger<DashboardViewModel> logger) : BaseViewModel
     {
-        private readonly ISearchService _searchService;
-        private readonly IShellService _shellService;
-        private readonly ILogger<DashboardViewModel> _logger;
-
-        public DashboardViewModel(
-            ISearchService searchService,
-            IShellService shellService,
-            ILogger<DashboardViewModel> logger)
-        {
-            _searchService = searchService;
-            _shellService = shellService;
-            _logger = logger;
-        }
-
         [RelayCommand]
         private async Task HandleSearch()
         {
@@ -31,14 +20,14 @@ namespace WhatMunch_MAUI.ViewModels
 
             try
             {
-                var response = await _searchService.GetSearchResponseAsync();
+                var response = await searchService.GetSearchResponseAsync();
 
                 if (response.Places.Count > 0)
                 {
                     var places = response.Places
                         .ToObservableCollection();
 
-                    await _shellService.GoToAsync($"{nameof(SearchResultsPage)}",
+                    await shellService.GoToAsync($"{nameof(SearchResultsPage)}",
                         new Dictionary<string, object>
                             {
                                 { "Places", places },
@@ -47,21 +36,21 @@ namespace WhatMunch_MAUI.ViewModels
                 }
                 else
                 {
-                    await _shellService.DisplayError(AppResources.NoPlacesFound);
+                    await shellService.DisplayError(AppResources.NoPlacesFound);
                 }
             }
             catch (ConnectivityException)
             {
-                await _shellService.DisplayError(AppResources.ErrorInternetConnection);
+                await shellService.DisplayError(AppResources.ErrorInternetConnection);
             }
             catch (HttpRequestException ex)
             {
-                await _shellService.DisplayError(ex.Message ?? AppResources.ErrorUnexpected);
+                await shellService.DisplayError(ex.Message ?? AppResources.ErrorUnexpected);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while executing search");
-                await _shellService.DisplayError(AppResources.ErrorUnexpected);
+                logger.LogError(ex, "An unexpected error occurred while executing search");
+                await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
             finally
             {

@@ -10,9 +10,9 @@ public partial class SearchPreferencesPage : ContentPage
 		BindingContext = _viewModel;
 	}
 
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
-		_viewModel.LoadPreferencesAsync();
+		await _viewModel.LoadPreferencesAsync();
     }
 
 	private void OnMaxPriceChanged(object sender, ValueChangedEventArgs e)

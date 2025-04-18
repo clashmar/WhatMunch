@@ -1,22 +1,42 @@
-﻿namespace WhatMunch_MAUI.Services
+﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
+using System.Security;
+
+namespace WhatMunch_MAUI.Services
 {
     public interface IPermissionsService
     {
         Task<bool> CheckAndRequestLocationPermissionAsync();
     }
 
-    public class PermissionsService : IPermissionsService
+    public class PermissionsService(ILogger<PermissionsService> logger) : IPermissionsService
     {
+        [ExcludeFromCodeCoverage]
+        public Func<Task<PermissionStatus>> CheckStatusAsyncMethod { get; set; } = 
+            () => Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+
+        [ExcludeFromCodeCoverage]
+        public Func<Task<PermissionStatus>> RequestAsyncMethod { get; set; } =
+            () => Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+
         public async Task<bool> CheckAndRequestLocationPermissionAsync()
         {
-            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-
-            if (status != PermissionStatus.Granted)
+            try
             {
-                status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            }
+                var status = await CheckStatusAsyncMethod.Invoke();
 
-            return status == PermissionStatus.Granted;
+                if (status != PermissionStatus.Granted)
+                {
+                    status = await RequestAsyncMethod.Invoke();
+                }
+
+                return status == PermissionStatus.Granted;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while checking or requesting location permission.");
+                return false;
+            }
         }
     }
 }

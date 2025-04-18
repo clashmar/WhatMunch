@@ -11,16 +11,11 @@ namespace WhatMunch_MAUI.Data.SQLite
         Task DeletePlaceAsync(string id);
         Task DeleteAllPlacesAsync();
     }
-    public class LocalDatabase: ILocalDatabase
+    public class LocalDatabase(ILogger<LocalDatabase> logger) : ILocalDatabase
     {
-        private readonly ILogger<LocalDatabase> _logger;
-        public LocalDatabase(ILogger<LocalDatabase> logger)
-        {
-            _logger = logger;
-        }
-        private SQLiteAsyncConnection? _database;
+        protected SQLiteAsyncConnection? _database;
 
-        public async Task Init()
+        public virtual async Task Init()
         {
             if (_database is not null)
                 return;
@@ -42,7 +37,7 @@ namespace WhatMunch_MAUI.Data.SQLite
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while getting places for user: {userId}", userId);
+                logger.LogError(ex, "Unexpected error while getting places for user: {userId}", userId);
                 throw new InvalidOperationException("Unexpected error while getting places: ", ex);
             }
             
@@ -59,7 +54,7 @@ namespace WhatMunch_MAUI.Data.SQLite
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while saving place: {place.PlaceId}", place.PlaceId);
+                logger.LogError(ex, "Unexpected error while saving place: {place.PlaceId}", place.PlaceId);
                 throw new InvalidOperationException("Unexpected error while saving place: ", ex);
             }
         }
@@ -73,7 +68,7 @@ namespace WhatMunch_MAUI.Data.SQLite
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while deleting entry: {id}", placeId);
+                logger.LogError(ex, "Unexpected error while deleting entry: {id}", placeId);
                 throw new InvalidOperationException("Unexpected error while deleting place: ", ex);
             }
         }
@@ -87,7 +82,7 @@ namespace WhatMunch_MAUI.Data.SQLite
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while deleting all places");
+                logger.LogError(ex, "Unexpected error while deleting all places");
                 throw new InvalidOperationException("Unexpected error while deleting all places", ex);
             }
         }

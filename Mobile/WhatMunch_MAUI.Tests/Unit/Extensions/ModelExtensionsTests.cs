@@ -4,7 +4,7 @@ using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Models.Fonts;
 using WhatMunch_MAUI.Resources.Localization;
 
-namespace WhatMunch_MAUI.Tests.Unit
+namespace WhatMunch_MAUI.Tests.Unit.Extensions
 {
     public class ModelExtensionsTests
     {
@@ -97,7 +97,7 @@ namespace WhatMunch_MAUI.Tests.Unit
             };
 
             // Act
-            var result = placeDto.ToModel();
+            PlaceModel result = placeDto.ToPlaceModel();
 
             // Assert
             Assert.NotNull(result);
@@ -124,7 +124,7 @@ namespace WhatMunch_MAUI.Tests.Unit
             PlaceDto placeDto = null!;
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => placeDto.ToModel());
+            Assert.Throws<ArgumentNullException>(() => placeDto.ToPlaceModel());
         }
 
         [Fact]

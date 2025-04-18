@@ -41,7 +41,7 @@ namespace WhatMunch_MAUI.Extensions
             return displayName.Length > 26 ? $"{displayName[..26]}...": displayName;
         }
 
-        public static PlaceModel ToModel(this PlaceDto placeDto)
+        public static PlaceModel ToPlaceModel(this PlaceDto placeDto)
         {
             ArgumentNullException.ThrowIfNull(placeDto);
 
@@ -56,8 +56,8 @@ namespace WhatMunch_MAUI.Extensions
                 Rating = placeDto.Rating,
                 UserRatingCount = placeDto.UserRatingCount,
                 PriceLevel = placeDto.PriceLevel.ToDollarDisplay(),
-                OpenNow = placeDto.RegularOpeningHours!.OpenNow,
-                OpeningTimes = placeDto.RegularOpeningHours.WeekdayDescriptions ?? [],
+                OpenNow = placeDto.RegularOpeningHours?.OpenNow ?? false,
+                OpeningTimes = placeDto.RegularOpeningHours?.WeekdayDescriptions ?? [],
                 Photos = placeDto.Photos?.ToDisplayPhotos() ?? [EmptyPhoto],
                 GoodForChildren = placeDto.GoodForChildren,
                 AllowsDogs = placeDto.AllowsDogs,

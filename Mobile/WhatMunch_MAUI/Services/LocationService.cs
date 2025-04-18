@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
 using WhatMunch_MAUI.Utility.Exceptions;
 
 namespace WhatMunch_MAUI.Services
@@ -8,29 +9,25 @@ namespace WhatMunch_MAUI.Services
         Task<Location> GetLocationWithTimeoutAsync();
         Task<Location> GetLastSearchLocation();
     }
-    public class LocationService : ILocationService
+    public class LocationService(
+        IGeolocation geolocation, 
+        IPermissionsService permissionsService, 
+        ILogger<LocationService> logger) : ILocationService
     {
-        private readonly IGeolocation _geolocation;
-        private readonly IPermissionsService _permissionsService;
-        private readonly ILogger<LocationService> _logger;
-
-        public LocationService(IGeolocation geolocation, IPermissionsService permissionsService, ILogger<LocationService> logger)
-        {
-            _geolocation = geolocation;
-            _permissionsService = permissionsService;
-            _logger = logger;
-        }
-
         private Location? lastSearchLocation;
+
+        [ExcludeFromCodeCoverage]
+        public Func<IGeolocation, GeolocationRequest, Task<Location?>> GetLocationAsyncMethod { get; set; } 
+            = (obj, geo) => obj.GetLocationAsync(geo);
 
         public async Task<Location> GetLocationWithTimeoutAsync()
         {
             try
             {
-                if (await _permissionsService.CheckAndRequestLocationPermissionAsync())
+                if (await permissionsService.CheckAndRequestLocationPermissionAsync())
                 {
-                    var location = await _geolocation.GetLastKnownLocationAsync() ??
-                        await _geolocation.GetLocationAsync(new GeolocationRequest
+                    var location = await geolocation.GetLastKnownLocationAsync() ??
+                        await GetLocationAsyncMethod.Invoke(geolocation, new GeolocationRequest
                         {
                             DesiredAccuracy = GeolocationAccuracy.High,
                             Timeout = TimeSpan.FromSeconds(10)
@@ -41,13 +38,13 @@ namespace WhatMunch_MAUI.Services
                 }
                 else
                 {
-                    _logger.LogError("Location permissions are disabled or unavailable");
+                    logger.LogError("Location permissions are disabled or unavailable");
                     throw new LocationException("Location permissions are disabled or unavailable");
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while getting geolocation");
+                logger.LogError(ex, "An unexpected error occurred while getting geolocation");
                 throw;
             }
         }

@@ -4,6 +4,7 @@
              xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
              xmlns:templates="clr-namespace:WhatMunch_MAUI.Views.Templates"
+             xmlns:constants="clr-namespace:WhatMunch_MAUI.Data"
              x:Class="WhatMunch_MAUI.Views.SearchResultsPage"
              Title="{x:Static strings:AppResources.Results}"
              x:DataType="viewmodel:SearchResultsViewModel">
@@ -25,7 +26,7 @@
                                                     Places="{Binding Places}"
                                                     HandleFavouriteCommand="{Binding ToggleFavouriteCommand}"
                                                     GoToPlaceDetailsCommand="{Binding GoToPlaceDetailsCommand}"
-                                                    PageName="search"/>
+                                                    PageName="{x:Static constants:Constants.SEARCH_RESULTS_PAGE}"/>
             </RefreshView>
             <Grid Grid.Row="1"
                   ColumnDefinitions="*,*"

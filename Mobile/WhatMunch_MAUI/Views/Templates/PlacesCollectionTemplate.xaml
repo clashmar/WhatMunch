@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:WhatMunch_MAUI.Models.Dtos"
              xmlns:templates="clr-namespace:WhatMunch_MAUI.Views.Templates"
+             xmlns:constants="clr-namespace:WhatMunch_MAUI.Data"
              x:Class="WhatMunch_MAUI.Views.Templates.PlacesCollectionTemplate"
              x:Name="This">
 
@@ -86,7 +87,7 @@
                                             <BindingCondition Binding="{Binding IsFavourite}"
                                                               Value="True" />
                                             <BindingCondition Binding="{Binding PageName, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
-                                                              Value="search" />
+                                                              Value="{x:Static constants:Constants.SEARCH_RESULTS_PAGE}" />
                                         </MultiTrigger.Conditions>
                                         <Setter Property="ImageSource"
                                                 Value="liked" />
@@ -96,7 +97,7 @@
                                             <BindingCondition Binding="{Binding IsFavourite}"
                                                               Value="False" />
                                             <BindingCondition Binding="{Binding PageName, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
-                                                              Value="search" />
+                                                              Value="{x:Static constants:Constants.SEARCH_RESULTS_PAGE}" />
                                         </MultiTrigger.Conditions>
                                         <Setter Property="ImageSource"
                                                 Value="like" />

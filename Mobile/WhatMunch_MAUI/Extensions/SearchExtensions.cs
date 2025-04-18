@@ -9,22 +9,26 @@ namespace WhatMunch_MAUI.Extensions
             ArgumentNullException.ThrowIfNull(places);
             if (location is null) return places;
 
-            return places
-                .Select(p =>
+            foreach (var place in places)
+            {
+                if (place.Location is not null)
                 {
-                    if (p.Location is not null)
-                    {
-                        p.Distance = location.CalculateDistance(p.Location.Latitude, p.Location.Longitude, DistanceUnits.Kilometers);
-                    }
-                    return p;
-                })
-                .ToList();
+                    place.Distance = location.CalculateDistance(
+                        place.Location.Latitude,
+                        place.Location.Longitude,
+                        DistanceUnits.Kilometers
+                    );
+                }
+            }
+
+            return places;
         }
+
         public static IEnumerable<PlaceDto> FilterDistances(this IEnumerable<PlaceDto> places)
         {
             ArgumentNullException.ThrowIfNull(places);
 
-            return places.Where(p => p.Distance < 3.0).ToList();
+            return places.Where(p => p.Distance < 3.0);
         }
 
         public static IEnumerable<PlaceDto> CheckIsFavourite(this IEnumerable<PlaceDto> places, IEnumerable<PlaceDto> favourites)
@@ -32,13 +36,14 @@ namespace WhatMunch_MAUI.Extensions
             ArgumentNullException.ThrowIfNull(places);
             ArgumentNullException.ThrowIfNull(favourites);
 
-            return places
-                .Select(p =>
-                {
-                    p.IsFavourite = favourites.Any(f => f.Id == p.Id);
-                    return p;
-                })
-                .ToList();
+            var favouriteIds = favourites.Select(f => f.Id).ToHashSet();
+
+            foreach (var place in places)
+            {
+                place.IsFavourite = favouriteIds.Contains(place.Id);
+            }
+
+            return places;
         }
     }
 }

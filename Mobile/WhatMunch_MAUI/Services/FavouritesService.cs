@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Data;
 using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
@@ -13,62 +14,46 @@ namespace WhatMunch_MAUI.Services
         Task DeleteUserFavouriteAsync(PlaceDto placeDto);
         Task DeleteAllUserFavouritesAsync();
     }
-    public class FavouritesService : IFavouritesService
+    public class FavouritesService(
+        ILocalDatabase localDatabase,
+        ILogger<FavouritesService> logger,
+        ISecureStorage secureStorage,
+        ILocationService locationService) : IFavouritesService
     {
-        private readonly ILocalDatabase _localDatabase;
-        private readonly ILogger<FavouritesService> _logger;
-        private readonly ISecureStorageService _secureStorageService;
-        private readonly ILocationService _locationService;
-        public FavouritesService(
-            ILocalDatabase localDatabase, 
-            ILogger<FavouritesService> logger, 
-            ISecureStorageService secureStorageService,
-            ILocationService locationService) 
-        {
-            _localDatabase = localDatabase;
-            _logger = logger;
-            _secureStorageService = secureStorageService;
-            _locationService = locationService;
-        }
-
         public async Task<Result<List<PlaceDto>>> GetUserFavouritesAsync()
         {
             try
             {
                 // TODO: check open now/remove open now/update dto
-                var locationTask = _locationService.GetLastSearchLocation();
+                var locationTask = locationService.GetLastSearchLocation();
+                string? username = await secureStorage.GetAsync(Constants.USERNAME_KEY);
 
-                string? username = await _secureStorageService.GetUsernameAsync();
                 if (string.IsNullOrEmpty(username))
                 {
-                    _logger.LogWarning("No username found in secure storage.");
-                    return Result<List<PlaceDto>>.Failure();
+                    logger.LogWarning("No username found in secure storage.");
+                    return Result<List<PlaceDto>>.Failure("Username not found.");
                     // TODO: Handle redirect to login if no username can be found
                 }
 
-                var favourites = await _localDatabase.GetUserPlacesAsync(username);
+                var favourites = await localDatabase.GetUserPlacesAsync(username);
 
                 if (favourites is not null && favourites.Count > 0)
                 {
                     var result = favourites
-                        .Select(f =>
-                        {
-                            var place = JsonSerializer.Deserialize<PlaceDto>(f.PlaceJson) ?? throw new Exception("Deserialization failed");
-                            return place;
-                        })
+                        .Select(f => DeserializePlace(f.PlaceJson))
                         .AddDistances(await locationTask)
                         .OrderBy(f => f.Distance)
-                        .ToList() ?? [];
+                        .ToList();
 
                     return Result<List<PlaceDto>>.Success(result);
                 }
 
                 // TODO: make another call to the backend and update localdatabase
-                return Result<List<PlaceDto>>.Failure();
+                return Result<List<PlaceDto>>.Failure("No favorites found.");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while trying to get user favourites");
+                logger.LogError(ex, "Error while retrieving user favorites.");
                 return Result<List<PlaceDto>>.Failure(ex.Message);
             }
         }
@@ -78,11 +63,11 @@ namespace WhatMunch_MAUI.Services
             try
             {
                 var placeDbEntry = await CreatePlaceDbEntryAsync(placeDto);
-                await _localDatabase.SavePlaceAsync(placeDbEntry);
+                await localDatabase.SavePlaceAsync(placeDbEntry);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while trying to save to favourites");
+                logger.LogError(ex, "Error while saving to favourites");
                 throw;
             }
         }
@@ -91,11 +76,11 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
-                await _localDatabase.DeletePlaceAsync(placeDto.Id);
+                await localDatabase.DeletePlaceAsync(placeDto.Id);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while trying to save to delete favourite {placeDto.Id}", placeDto.Id);
+                logger.LogError(ex, "Error while deleting favourite.");
                 throw;
             }
         }
@@ -104,18 +89,18 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
-                await _localDatabase.DeleteAllPlacesAsync();
+                await localDatabase.DeleteAllPlacesAsync();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error while trying to delete all favourites");
+                logger.LogError(ex, "Error while deleting all favourites.");
                 throw;
             }
         }
 
         private async Task<PlaceDbEntry> CreatePlaceDbEntryAsync(PlaceDto placeDto)
         {
-            var username = await _secureStorageService.GetUsernameAsync() 
+            var username = await secureStorage.GetAsync(Constants.USERNAME_KEY) 
                 ?? throw new InvalidOperationException("Username is not available from secure storage");
 
             var placeJson = JsonSerializer.Serialize(placeDto);
@@ -125,9 +110,16 @@ namespace WhatMunch_MAUI.Services
                 UserId = username,
                 PlaceId = placeDto.Id,
                 PlaceJson = placeJson,
+                SavedAt = DateTime.UtcNow
             };
 
             return result;
+        }
+
+        private static PlaceDto DeserializePlace(string placeJson)
+        {
+            return JsonSerializer.Deserialize<PlaceDto>(placeJson)
+                ?? throw new InvalidOperationException("Failed to deserialize PlaceDto.");
         }
     }
 }

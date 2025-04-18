@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Text;
 using WhatMunch_MAUI.Extensions;
-using WhatMunch_MAUI.MockData;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Secrets;

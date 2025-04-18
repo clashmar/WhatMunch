@@ -40,6 +40,7 @@ public static class MauiProgram
 			.AddSingleton<IConnectivity>(Connectivity.Current)
 			.AddSingleton<IGeolocation>(Geolocation.Default)
 			.AddSingleton<ILauncher>(Launcher.Default)
+			.AddSingleton<ISecureStorage>(SecureStorage.Default)
 			.AddSingleton<ILocalDatabase, LocalDatabase>();
 
 		builder.Services
@@ -52,8 +53,7 @@ public static class MauiProgram
 			.AddSingleton<IRegistrationService, RegistrationService>()
 			.AddSingleton<ILoginService, LoginService>()
 			.AddSingleton<IGooglePlacesService, GooglePlacesService>()
-			.AddSingleton<IFavouritesService, FavouritesService>()
-			.AddSingleton<ISecureStorageService, SecureStorageService>();
+			.AddSingleton<IFavouritesService, FavouritesService>();
 
 		builder.Services
 			.AddSingleton<LoginViewModel>()
@@ -63,7 +63,6 @@ public static class MauiProgram
 			.AddSingleton<SearchPreferencesViewModel>()
 			.AddTransient<PlaceDetailsViewModel>()
 			.AddTransient<SavedPlacesViewModel>();
-
 
 		return builder.Build();
 	}
