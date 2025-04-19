@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
+    'rest_framework.authtoken',
     'authentication',
     'allauth',
     'allauth.account',
@@ -136,8 +137,9 @@ LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]
 
-LOGIN_REDIRECT_URL = '/api/auth/oauth-redirect-jwt/'
-
+LOGIN_REDIRECT_URL = '/api/auth/google-redirect/'
+CSRF_TRUSTED_ORIGINS = ['https://6fa2-217-123-90-227.ngrok-free.app']
+SOCIALACCOUNT_LOGIN_ON_GET = True
 TIME_ZONE = 'UTC'
 
 USE_I18N = True

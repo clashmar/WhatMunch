@@ -9,6 +9,7 @@ namespace WhatMunch_MAUI.Services
     public interface ILoginService
     {
         Task<Result<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto);
+        Task<Result<LoginResponseDto>> GoogleLoginAsync();
     }
 
     public class LoginService(
@@ -54,6 +55,32 @@ namespace WhatMunch_MAUI.Services
             catch (Exception)
             {
                 return Result<LoginResponseDto>.Failure("An unexpected error occurred. Please try again later.");
+            }
+        }
+
+        public async Task <Result<LoginResponseDto>> GoogleLoginAsync()
+        {
+            try
+            {
+                WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
+                    new WebAuthenticatorOptions()
+                    {
+                        Url = new Uri("https://6fa2-217-123-90-227.ngrok-free.app/accounts/google/login/"),
+                        CallbackUrl = new Uri("whatmunch://oauth-redirect"),
+                        PrefersEphemeralWebBrowserSession = false,
+
+                    });
+                //new Uri("https://aae9-217-123-90-227.ngrok-free.app/accounts/google/login/"),
+                //    new Uri("whatmunch://oauth-redirect"));
+                string ? accessToken = authResult?.AccessToken;
+                string? refreshToken = authResult?.RefreshToken;
+
+                return Result<LoginResponseDto>.Success(new LoginResponseDto() { AccessToken = accessToken, RefreshToken = refreshToken });
+            }
+            catch (TaskCanceledException ex)
+            {
+                // Use stopped auth
+                throw;
             }
         }
     }

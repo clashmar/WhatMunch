@@ -60,6 +60,43 @@ namespace WhatMunch_MAUI.ViewModels
             }
         }
 
+        [RelayCommand]
+        async Task HandleGoogleLoginAsync()
+        {
+            if (IsBusy) return;
+
+            try
+            {
+                if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+                {
+                    await _shellService.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
+                    return;
+                }
+
+                IsBusy = true;
+                var result = await _loginService.GoogleLoginAsync();
+
+                if (result.IsSuccess)
+                {
+                    await _shellService.DisplayAlert("Success", "Login was successful.", "Ok");
+                    await _shellService.GoToAsync($"//MainTabs/DashboardPage");
+                }
+                else
+                {
+                    await _shellService.DisplayAlert("Login Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
+                }
+
+            }
+            catch (Exception)
+            {
+                await _shellService.DisplayAlert("Hmm", "Something went wrong.", "Ok");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
         public override void ResetViewModel()
         {
             LoginModel = new LoginModel();

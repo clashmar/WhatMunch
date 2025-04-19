@@ -55,6 +55,11 @@
 
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
+                    Text="Login With Google"
+                    Command="{Binding HandleGoogleLoginCommand}" />
+
+            <Button Margin="0,30,0,0"
+                    HeightRequest="60"
                     Text="{x:Static strings:AppResources.CreateAccountButton}"
                     Command="{Binding GoToRegistrationPageCommand}"/>
         </VerticalStackLayout>
