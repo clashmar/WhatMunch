@@ -19,7 +19,7 @@ class TestProtectedView(APIView):
     def get(self, request):
         return Response({'message': 'This is a protected endpoint!'})
     
-class GoogleRedirectView(APIView):
+class LoginRedirectView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
@@ -30,7 +30,8 @@ class GoogleRedirectView(APIView):
 
         query_params = urlencode({
             'access_token': access_token,
-            'refresh_token': refresh_token
+            'refresh_token': refresh_token,
+            'email': user.email
         })
-        
+
         return HttpResponseRedirect(f"whatmunch://oauth-redirect?{query_params}")

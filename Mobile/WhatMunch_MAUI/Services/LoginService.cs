@@ -78,14 +78,16 @@ namespace WhatMunch_MAUI.Services
                 {
                     string accessToken = authResult.AccessToken;
                     string refreshToken = authResult.RefreshToken;
+                    string username = authResult.Properties["email"];
 
-                    if (accessToken is null || refreshToken is null) return Result.Failure("Tokens were not received.");
+                    if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken)) return Result.Failure("Tokens were not received.");
+                    if (string.IsNullOrEmpty(username)) return Result.Failure("Username was not received.");
 
-                    await HandleLoginDetails(accessToken, refreshToken, "");
+                    await HandleLoginDetails(accessToken, refreshToken, username);
 
                     return Result.Success();
                 }
-
+                    
                 return Result.Failure("WebAuthenticatorResult was null.");
             }
             catch (TaskCanceledException ex)
@@ -106,7 +108,7 @@ namespace WhatMunch_MAUI.Services
             {
                 await tokenService.SaveAccessTokenAsync(accessToken);
                 await tokenService.SaveRefreshTokenAsync(refreshToken);
-                //await secureStorage.SetAsync(Constants.USERNAME_KEY, username);
+                await secureStorage.SetAsync(Constants.USERNAME_KEY, username);
             }
             catch (Exception ex)
             {
