@@ -1,17 +1,19 @@
-﻿using WhatMunch_MAUI.Extensions;
+﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class LoginViewModel(ILoginService loginService, IConnectivity connectivity, IShellService shellService) : BaseViewModel
+    public partial class LoginViewModel(
+        ILoginService loginService, 
+        IConnectivity connectivity, 
+        IShellService shellService,
+        ILogger<LoginViewModel> logger) : BaseViewModel
     {
         [ObservableProperty]
         public LoginModel _loginModel = new();
-
-        private readonly ILoginService _loginService = loginService;
-        private readonly IShellService _shellService = shellService;
-        private readonly IConnectivity _connectivity = connectivity;
 
         [ObservableProperty]
         public double _errorOpacity = 0;
@@ -30,29 +32,29 @@ namespace WhatMunch_MAUI.ViewModels
 
             try
             {
-                if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+                if (connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
-                    await _shellService.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
+                    await shellService.DisplayError(AppResources.ErrorInternetConnection);
                     return;
                 }
 
                 IsBusy = true;
-                var result = await _loginService.LoginUserAsync(LoginModel.ToDto());
+                var result = await loginService.LoginUserAsync(LoginModel.ToDto());
 
                 if(result.IsSuccess)
                 {
-                    await _shellService.DisplayAlert("Success", "Login was successful.", "Ok");
-                    await _shellService.GoToAsync($"//MainTabs/DashboardPage");
+                    await shellService.DisplayAlert("Success", "Login was successful.", "Ok");
+                    await shellService.GoToAsync($"//MainTabs/DashboardPage");
                 }
                 else
                 {
-                    await _shellService.DisplayAlert("Login Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
+                    await shellService.DisplayAlert("Login Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
                 }
 
             }
             catch (Exception)
             {
-                await _shellService.DisplayAlert("Hmm", "Something went wrong.", "Ok");
+                await shellService.DisplayAlert("Hmm", "Something went wrong.", "Ok");
             }
             finally
             {
@@ -67,29 +69,30 @@ namespace WhatMunch_MAUI.ViewModels
 
             try
             {
-                if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+                if (connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
-                    await _shellService.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
+                    await shellService.DisplayError(AppResources.ErrorInternetConnection);
                     return;
                 }
 
                 IsBusy = true;
-                var result = await _loginService.GoogleLoginAsync();
+                var result = await loginService.SocialLoginAsync();
 
                 if (result.IsSuccess)
                 {
-                    await _shellService.DisplayAlert("Success", "Login was successful.", "Ok");
-                    await _shellService.GoToAsync($"//MainTabs/DashboardPage");
+                    await shellService.DisplayAlert("Success", "Login was successful.", "Ok");
+                    await shellService.GoToAsync($"//MainTabs/DashboardPage");
                 }
                 else
                 {
-                    await _shellService.DisplayAlert("Login Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
+                    await shellService.DisplayError(result.ErrorMessage ?? "Invalid server response.");
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await _shellService.DisplayAlert("Hmm", "Something went wrong.", "Ok");
+                logger.LogError(ex, "Error while logging in with social account.");
+                await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
             finally
             {
@@ -107,7 +110,7 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task GoToRegistrationPageAsync()
         {
-            await _shellService.GoToAsync($"{nameof(RegistrationPage)}");
+            await shellService.GoToAsync($"{nameof(RegistrationPage)}");
         }
     }
 }

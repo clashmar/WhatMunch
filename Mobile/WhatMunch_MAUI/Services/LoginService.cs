@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Microsoft.Extensions.Logging;
+using System.Text;
 using WhatMunch_MAUI.Data;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
@@ -9,13 +10,14 @@ namespace WhatMunch_MAUI.Services
     public interface ILoginService
     {
         Task<Result<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto);
-        Task<Result<LoginResponseDto>> GoogleLoginAsync();
+        Task<Result> SocialLoginAsync();
     }
 
     public class LoginService(
         IHttpClientFactory clientFactory, 
         ITokenService tokenService, 
-        ISecureStorage secureStorage) : ILoginService
+        ISecureStorage secureStorage,
+        ILogger<LoginService> logger) : ILoginService
     {
         public async Task<Result<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto)
         {
@@ -31,7 +33,7 @@ namespace WhatMunch_MAUI.Services
                     var responseContent = await response.Content.ReadAsStringAsync();
                     var deserializedData = JsonSerializer.Deserialize<LoginResponseDto>(responseContent);
                     
-                    if(deserializedData != null)
+                    if(deserializedData is not null)
                     {
                         await tokenService.SaveAccessTokenAsync(deserializedData.AccessToken);
                         await tokenService.SaveRefreshTokenAsync(deserializedData.RefreshToken);
@@ -58,28 +60,57 @@ namespace WhatMunch_MAUI.Services
             }
         }
 
-        public async Task <Result<LoginResponseDto>> GoogleLoginAsync()
+        public async Task<Result> SocialLoginAsync()
         {
             try
             {
                 WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
                     new WebAuthenticatorOptions()
                     {
-                        Url = new Uri("https://6fa2-217-123-90-227.ngrok-free.app/accounts/google/login/"),
+                        // TODO: parameterize social provider
+                        Url = new Uri("https://28b7-217-123-90-227.ngrok-free.app/accounts/google/login/"),
                         CallbackUrl = new Uri("whatmunch://oauth-redirect"),
                         PrefersEphemeralWebBrowserSession = false,
 
                     });
-                //new Uri("https://aae9-217-123-90-227.ngrok-free.app/accounts/google/login/"),
-                //    new Uri("whatmunch://oauth-redirect"));
-                string ? accessToken = authResult?.AccessToken;
-                string? refreshToken = authResult?.RefreshToken;
+                
+                if (authResult is not null)
+                {
+                    string accessToken = authResult.AccessToken;
+                    string refreshToken = authResult.RefreshToken;
 
-                return Result<LoginResponseDto>.Success(new LoginResponseDto() { AccessToken = accessToken, RefreshToken = refreshToken });
+                    if (accessToken is null || refreshToken is null) return Result.Failure("Tokens were not received.");
+
+                    await HandleLoginDetails(accessToken, refreshToken, "");
+
+                    return Result.Success();
+                }
+
+                return Result.Failure("WebAuthenticatorResult was null.");
             }
             catch (TaskCanceledException ex)
             {
-                // Use stopped auth
+                logger.LogError(ex, "Login cancelled.");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while logging in with social account.");
+                throw;
+            }
+        }
+
+        private async Task HandleLoginDetails(string accessToken, string refreshToken, string username)
+        {
+            try
+            {
+                await tokenService.SaveAccessTokenAsync(accessToken);
+                await tokenService.SaveRefreshTokenAsync(refreshToken);
+                //await secureStorage.SetAsync(Constants.USERNAME_KEY, username);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while saving login details.");
                 throw;
             }
         }
