@@ -2,12 +2,12 @@
 
 namespace WhatMunch_MAUI.Models.Dtos
 {
-    public class LoginResponseDto(string accessToken, string refreshToken)
+    public class LoginResponseDto
     {
         [JsonPropertyName("refresh")]
-        public string RefreshToken { get; set; } = refreshToken;
+        public string RefreshToken { get; set; } = string.Empty;
 
         [JsonPropertyName("access")]
-        public string AccessToken { get; set; } = accessToken;
+        public string AccessToken { get; set; } = string.Empty;
     }
 }

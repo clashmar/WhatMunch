@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using Microsoft.Extensions.Logging;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace WhatMunch_MAUI.Services
 {
@@ -8,40 +10,57 @@ namespace WhatMunch_MAUI.Services
         Task SaveRefreshTokenAsync(string token);
         Task<string?> GetAccessTokenAsync();
         Task<string?> GetRefreshTokenAsync();
-        void Logout();
+        Task LogoutAsync();
         Task<bool> IsUserAuthenticated();
         Task UpdateHeaders(HttpClient httpClient);
     }
 
-    public class TokenService : ITokenService
+    public class TokenService(
+        ISecureStorage secureStorage,
+        IHttpClientFactory clientFactory, 
+        ILogger<TokenService> logger) : ITokenService
     {
         public readonly string _accessTokenKey = "jwt_token";
         private readonly string _refreshTokenKey = "jwtRefreshToken";
 
         public async Task SaveAccessTokenAsync(string token)
         {
-            await SecureStorage.SetAsync(_accessTokenKey, token);
+            await secureStorage.SetAsync(_accessTokenKey, token);
         }
 
         public async Task SaveRefreshTokenAsync(string token)
         {
-            await SecureStorage.SetAsync(_refreshTokenKey, token);
+            await secureStorage.SetAsync(_refreshTokenKey, token);
         }
 
         public async Task<string?> GetAccessTokenAsync()
         {
-            return await SecureStorage.GetAsync(_accessTokenKey);
+            return await secureStorage.GetAsync(_accessTokenKey);
         }
 
         public async Task<string?> GetRefreshTokenAsync()
         {
-            return await SecureStorage.GetAsync(_refreshTokenKey);
+            return await secureStorage.GetAsync(_refreshTokenKey);
         }
 
-        public void Logout()
+        public async Task LogoutAsync()
         {
-            SecureStorage.Remove(_accessTokenKey);
-            SecureStorage.Remove(_refreshTokenKey);
+            try
+            {
+                var client = clientFactory.CreateClient("WhatMunch");
+                await UpdateHeaders(client);
+                var response = await client.PostAsync("auth/logout/", null);
+
+                //if (!response.IsSuccessStatusCode) throw new Exception("Could not logout of django.");
+
+                secureStorage.Remove(_accessTokenKey);
+                secureStorage.Remove(_refreshTokenKey);
+            }
+            catch (Exception  ex)
+            {
+                logger.LogError(ex, "Unexpected error while logging out.");
+                throw;
+            }
         }
 
         public async Task<bool> IsUserAuthenticated()

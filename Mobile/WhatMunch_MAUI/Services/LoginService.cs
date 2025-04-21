@@ -70,7 +70,7 @@ namespace WhatMunch_MAUI.Services
                         // TODO: parameterize social provider
                         Url = new Uri("https://28b7-217-123-90-227.ngrok-free.app/accounts/google/login/"),
                         CallbackUrl = new Uri("whatmunch://oauth-redirect"),
-                        PrefersEphemeralWebBrowserSession = false,
+                        PrefersEphemeralWebBrowserSession = true,
 
                     });
                 
@@ -104,6 +104,10 @@ namespace WhatMunch_MAUI.Services
 
         private async Task HandleLoginDetails(string accessToken, string refreshToken, string username)
         {
+            ArgumentException.ThrowIfNullOrWhiteSpace(accessToken, nameof(accessToken));
+            ArgumentException.ThrowIfNullOrWhiteSpace(refreshToken, nameof(refreshToken));
+            ArgumentException.ThrowIfNullOrWhiteSpace(username, nameof(username));
+
             try
             {
                 await tokenService.SaveAccessTokenAsync(accessToken);

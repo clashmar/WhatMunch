@@ -29,12 +29,12 @@ namespace WhatMunch_MAUI
 
             try
             {
-                _tokenService.Logout();
+                await _tokenService.LogoutAsync();
                 await GoToAsync($"{nameof(LoginPage)}");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: Handle logout error in AppShell.xaml.cs
+                await DisplayAlert(AppResources.Error, ex.Message, AppResources.Ok);
                 throw;
             }
         }

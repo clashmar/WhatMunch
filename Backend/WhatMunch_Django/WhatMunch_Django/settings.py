@@ -141,11 +141,23 @@ LOGIN_REDIRECT_URL = '/api/auth/login-redirect/'
 CSRF_TRUSTED_ORIGINS = ['https://28b7-217-123-90-227.ngrok-free.app']
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_USERNAME_REQUIRED = False
-# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SOCIALACCOUNT_EMAIL_REQUIRED = True
-# SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["email"],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+            "prompt": "select_account"
+        },
+        "OAUTH_PKCE_ENABLED": True,
+    }
+}
+
+
 
 
 TIME_ZONE = 'UTC'
