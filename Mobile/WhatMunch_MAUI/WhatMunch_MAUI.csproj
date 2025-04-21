@@ -43,14 +43,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidSigningKeyStore>Secrets\Android\key.keystore</AndroidSigningKeyStore>
-	  <AndroidSigningStorePass>BIRMAn55</AndroidSigningStorePass>
-	  <AndroidSigningKeyAlias>WhatMunch</AndroidSigningKeyAlias>
-	  <AndroidSigningKeyPass>BIRMAn55</AndroidSigningKeyPass>
-	</PropertyGroup>
+	<Import Project="Secrets\Android.signing.props" Condition="Exists('Secrets\Android.signing.props')" />
 	
 	<PropertyGroup>
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>

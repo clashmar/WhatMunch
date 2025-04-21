@@ -2,6 +2,7 @@
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
@@ -19,51 +20,20 @@ namespace WhatMunch_MAUI.ViewModels
         public double _errorOpacity = 0;
 
         [RelayCommand]
-        async Task HandleLoginAsync()
+        public async Task HandleUsernameLoginAsync()
         {
             ErrorOpacity = 1.0;
-
-            if (IsBusy) return;
-
-            if (!LoginModel.IsValid())
-            {
-                return;
-            }
-
-            try
-            {
-                if (connectivity.NetworkAccess != NetworkAccess.Internet)
-                {
-                    await shellService.DisplayError(AppResources.ErrorInternetConnection);
-                    return;
-                }
-
-                IsBusy = true;
-                var result = await loginService.LoginUserAsync(LoginModel.ToDto());
-
-                if(result.IsSuccess)
-                {
-                    await shellService.DisplayAlert("Success", "Login was successful.", "Ok");
-                    await shellService.GoToAsync($"//MainTabs/DashboardPage");
-                }
-                else
-                {
-                    await shellService.DisplayAlert("Login Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
-                }
-
-            }
-            catch (Exception)
-            {
-                await shellService.DisplayAlert("Hmm", "Something went wrong.", "Ok");
-            }
-            finally
-            {
-                IsBusy = false;
-            }
+            if (!LoginModel.IsValid()) return;
+            await ExecuteLoginAsync(() => loginService.LoginUserAsync(LoginModel.ToDto()));
         }
 
         [RelayCommand]
-        async Task HandleGoogleLoginAsync()
+        public async Task HandleSocialLoginAsync()
+        {
+            await ExecuteLoginAsync(() => loginService.LoginSocialUserAsync());
+        }
+
+        public async Task ExecuteLoginAsync(Func<Task<Result>> loginFunction)
         {
             if (IsBusy) return;
 
@@ -76,9 +46,10 @@ namespace WhatMunch_MAUI.ViewModels
                 }
 
                 IsBusy = true;
-                var result = await loginService.SocialLoginAsync();
 
-                if (result.IsSuccess)
+                var result = await loginFunction.Invoke();
+
+                if(result.IsSuccess)
                 {
                     await shellService.DisplayAlert("Success", "Login was successful.", "Ok");
                     await shellService.GoToAsync($"//MainTabs/DashboardPage");
@@ -91,7 +62,7 @@ namespace WhatMunch_MAUI.ViewModels
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error while logging in with social account.");
+                logger.LogError(ex, "Error during login.");
                 await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
             finally

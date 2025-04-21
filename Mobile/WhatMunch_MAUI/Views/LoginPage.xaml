@@ -51,12 +51,12 @@
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
                     Text="{x:Static strings:AppResources.SubmitButton}"
-                    Command="{Binding HandleLoginCommand}" />
+                    Command="{Binding HandleUsernameLoginCommand}" />
 
             <Button Margin="0,30,0,0"
                     HeightRequest="60"
                     Text="Login With Google"
-                    Command="{Binding HandleGoogleLoginCommand}" />
+                    Command="{Binding HandleSocialLoginCommand}" />
 
             <Button Margin="0,30,0,0"
                     HeightRequest="60"

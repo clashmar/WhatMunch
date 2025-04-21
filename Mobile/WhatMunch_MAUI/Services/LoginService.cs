@@ -9,8 +9,8 @@ namespace WhatMunch_MAUI.Services
 {
     public interface ILoginService
     {
-        Task<Result<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto);
-        Task<Result> SocialLoginAsync();
+        Task<Result> LoginUserAsync(LoginRequestDto requestDto);
+        Task<Result> LoginSocialUserAsync();
     }
 
     public class LoginService(
@@ -19,7 +19,7 @@ namespace WhatMunch_MAUI.Services
         ISecureStorage secureStorage,
         ILogger<LoginService> logger) : ILoginService
     {
-        public async Task<Result<LoginResponseDto>> LoginUserAsync(LoginRequestDto requestDto)
+        public async Task<Result> LoginUserAsync(LoginRequestDto requestDto)
         {
             try
             {
@@ -35,32 +35,30 @@ namespace WhatMunch_MAUI.Services
                     
                     if(deserializedData is not null)
                     {
-                        await tokenService.SaveAccessTokenAsync(deserializedData.AccessToken);
-                        await tokenService.SaveRefreshTokenAsync(deserializedData.RefreshToken);
-                        await secureStorage.SetAsync(Constants.USERNAME_KEY, requestDto.Username);
-                        return Result<LoginResponseDto>.Success(deserializedData);
+                        await HandleLoginDetails(deserializedData.AccessToken, deserializedData.RefreshToken, requestDto.Username);
+                        return Result.Success();
                     }
 
-                    return Result<LoginResponseDto>.Failure("Invalid server response.");
+                    return Result.Failure("Invalid server response.");
                 }
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
                     var error = JsonSerializer.Deserialize<ErrorMessageDto>(errorContent);
-                    return Result<LoginResponseDto>.Failure($"Login failed: {error!.ErrorMessage}.");
+                    return Result.Failure($"Login failed: {error!.ErrorMessage}.");
                 }
             }
             catch (HttpRequestException)
             {
-                return Result<LoginResponseDto>.Failure("Failed to connect to the server. Please check your internet connection.");
+                return Result.Failure("Failed to connect to the server. Please check your internet connection.");
             }
             catch (Exception)
             {
-                return Result<LoginResponseDto>.Failure("An unexpected error occurred. Please try again later.");
+                return Result.Failure("An unexpected error occurred. Please try again later.");
             }
         }
 
-        public async Task<Result> SocialLoginAsync()
+        public async Task<Result> LoginSocialUserAsync()
         {
             try
             {
@@ -80,8 +78,8 @@ namespace WhatMunch_MAUI.Services
                     string refreshToken = authResult.RefreshToken;
                     string username = authResult.Properties["email"];
 
-                    if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken)) return Result.Failure("Tokens were not received.");
-                    if (string.IsNullOrEmpty(username)) return Result.Failure("Username was not received.");
+                    if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken)) return Result.Failure("Could not fetch tokens on login.");
+                    if (string.IsNullOrEmpty(username)) return Result.Failure("Could not fetch username on login.");
 
                     await HandleLoginDetails(accessToken, refreshToken, username);
 

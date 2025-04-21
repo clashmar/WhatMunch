@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Net.Http.Headers;
-using System.Text;
 
 namespace WhatMunch_MAUI.Services
 {
@@ -51,7 +50,7 @@ namespace WhatMunch_MAUI.Services
                 await UpdateHeaders(client);
                 var response = await client.PostAsync("auth/logout/", null);
 
-                //if (!response.IsSuccessStatusCode) throw new Exception("Could not logout of django.");
+                if (!response.IsSuccessStatusCode) logger.LogWarning("Could not log out from server.");
 
                 secureStorage.Remove(_accessTokenKey);
                 secureStorage.Remove(_refreshTokenKey);
