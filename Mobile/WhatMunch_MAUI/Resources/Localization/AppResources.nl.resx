@@ -339,4 +339,7 @@
   <data name="DeleteFavourite" xml:space="preserve">
     <value>Favoriet Verwijderen</value>
   </data>
+  <data name="LoginSuccessful" xml:space="preserve">
+    <value>Inloggen Succesvol</value>
+  </data>
 </root>

@@ -48,20 +48,13 @@
 	<PropertyGroup>
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
 	</PropertyGroup>
-	
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-	  <AndroidKeyStore>True</AndroidKeyStore>
-	  <AndroidSigningStorePass>BIRMAn55</AndroidSigningStorePass>
-	  <AndroidSigningKeyAlias>WhatMunch</AndroidSigningKeyAlias>
-	  <AndroidSigningKeyPass>BIRMAn55</AndroidSigningKeyPass>
-	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" ForegroundScale="0.8" />
 		
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#083D77" BaseSize="500,500" />
+		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#083D77" BaseSize="250,250" />
 		
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -160,7 +153,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiFont Include="Models\Fonts\FaRegular.cs" />
 	  <MauiFont Include="Models\Fonts\FaSolid.cs" />
 	</ItemGroup>
 </Project>

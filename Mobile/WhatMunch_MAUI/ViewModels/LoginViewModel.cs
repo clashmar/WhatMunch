@@ -11,7 +11,8 @@ namespace WhatMunch_MAUI.ViewModels
         ILoginService loginService, 
         IConnectivity connectivity, 
         IShellService shellService,
-        ILogger<LoginViewModel> logger) : BaseViewModel
+        ILogger<LoginViewModel> logger,
+        IToastService toastService) : BaseViewModel
     {
         [ObservableProperty]
         public LoginModel _loginModel = new();
@@ -51,12 +52,12 @@ namespace WhatMunch_MAUI.ViewModels
 
                 if(result.IsSuccess)
                 {
-                    await shellService.DisplayAlert("Success", "Login was successful.", "Ok");
+                    await toastService.DisplayToast(AppResources.LoginSuccessful);
                     await shellService.GoToAsync($"//MainTabs/DashboardPage");
                 }
                 else
                 {
-                    await shellService.DisplayError(result.ErrorMessage ?? "Invalid server response.");
+                    await shellService.DisplayError(result.ErrorMessage ?? AppResources.ErrorUnexpected);
                 }
 
             }
