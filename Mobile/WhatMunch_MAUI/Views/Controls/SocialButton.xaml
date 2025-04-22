@@ -9,12 +9,11 @@
             Padding="0"
             BackgroundColor="Transparent">
 
-        <HorizontalStackLayout VerticalOptions="Center"
-                               HorizontalOptions="Center">
+        <HorizontalStackLayout VerticalOptions="Center">
             <Image Source="{Binding Icon, Source={x:Reference This}}"
                    WidthRequest="24"
                    HeightRequest="24"
-                   Margin="0,0,10,0" />
+                   Margin="18,0,10,0" />
 
             <Label Text="{Binding Text, Source={x:Reference This}}"
                    VerticalOptions="Center"

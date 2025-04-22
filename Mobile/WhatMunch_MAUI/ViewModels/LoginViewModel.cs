@@ -57,6 +57,7 @@ namespace WhatMunch_MAUI.ViewModels
                 }
                 else
                 {
+                    logger.LogError("Error during login.");
                     await shellService.DisplayError(result.ErrorMessage ?? AppResources.ErrorUnexpected);
                 }
 

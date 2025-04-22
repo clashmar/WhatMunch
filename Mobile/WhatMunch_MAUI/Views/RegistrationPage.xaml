@@ -13,19 +13,17 @@
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="Fill"
                            VerticalOptions="Center" />
-        <Grid IsVisible="{Binding IsNotBusy}" 
+        <Grid IsVisible="{Binding IsNotBusy}"
               RowDefinitions=".1*, .7*">
             <Label  Text="{x:Static strings:AppResources.RegisterWelcome}"
                     FontSize="Large"
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Grid.Row="0" />
-
             <VerticalStackLayout Margin="30,0,30,0"
                                  Grid.Row="1"
                                  WidthRequest="250"
                                  Spacing="10">
-
                 <VerticalStackLayout>
                     <Label Text="{x:Static strings:AppResources.EmailLabel}"
                            FontSize="Small" />
@@ -38,7 +36,6 @@
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
-
                 <VerticalStackLayout>
                     <Label Text="{x:Static strings:AppResources.UsernameLabel}"
                            FontSize="Small" />
@@ -51,7 +48,6 @@
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
-
                 <VerticalStackLayout>
                     <Label Text="{x:Static strings:AppResources.PasswordLabel}"
                            FontSize="Small" />
@@ -65,7 +61,6 @@
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
-
                 <VerticalStackLayout>
                     <Label Text="{x:Static strings:AppResources.ConfirmPasswordLabel}"
                            FontSize="Small" />
@@ -79,16 +74,13 @@
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
-
                 <Button Margin="0,30,0,0"
                         HeightRequest="60"
                         Text="{x:Static strings:AppResources.SubmitButton}"
                         Command="{Binding HandleRegistrationCommand}" />
-
                 <controls:SocialButton Icon="google_logo"
                                        Text="{x:Static strings:AppResources.SignUpWithGoogle}"
-                                       LoginCommand="{Binding HandleSocialLoginCommand}" />
-
+                                       LoginCommand="{Binding HandleSocialRegistrationCommand}" />
                 <Label Margin="0,30,0,0"
                        Style="{StaticResource TextLink}"
                        Text="{x:Static strings:AppResources.AlreadyHaveAnAccount}">
