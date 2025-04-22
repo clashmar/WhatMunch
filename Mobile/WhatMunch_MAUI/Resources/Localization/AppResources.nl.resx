@@ -342,4 +342,31 @@
   <data name="LoginSuccessful" xml:space="preserve">
     <value>Inloggen Succesvol</value>
   </data>
+  <data name="SignInWithGoogle" xml:space="preserve">
+    <value>Log in met Google</value>
+  </data>
+  <data name="AlreadyHaveAnAccount" xml:space="preserve">
+    <value>Heb je al een account? Ga naar de aanmeldpagina.</value>
+  </data>
+  <data name="DontHaveAnAccount" xml:space="preserve">
+    <value>Nog geen account? Ga naar de registratiepagina.</value>
+  </data>
+  <data name="SignUpWithGoogle" xml:space="preserve">
+    <value>Meld u aan bij Google</value>
+  </data>
+  <data name="ErrorServerConnection" xml:space="preserve">
+    <value>Er kan geen verbinding worden gemaakt met de server.</value>
+  </data>
+  <data name="RegistrationFailed" xml:space="preserve">
+    <value>Registratie mislukt:</value>
+  </data>
+  <data name="InvalidServerResponse" xml:space="preserve">
+    <value>Ongeldige serverreactie.</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Inloggen mislukt:</value>
+  </data>
+  <data name="RegistrationSuccessful" xml:space="preserve">
+    <value>Registratie Succesvol</value>
+  </data>
 </root>

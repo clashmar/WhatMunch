@@ -115,6 +115,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Already have an account? Go to sign in page..
+        /// </summary>
+        public static string AlreadyHaveAnAccount {
+            get {
+                return ResourceManager.GetString("AlreadyHaveAnAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         public static string AreYouSure {
@@ -196,6 +205,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t have an account? Go to registration page..
+        /// </summary>
+        public static string DontHaveAnAccount {
+            get {
+                return ResourceManager.GetString("DontHaveAnAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid e-mail format..
         /// </summary>
         public static string EmailFormatError {
@@ -250,6 +268,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to connect to the server..
+        /// </summary>
+        public static string ErrorServerConnection {
+            get {
+                return ResourceManager.GetString("ErrorServerConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An unexpected error occurred..
         /// </summary>
         public static string ErrorUnexpected {
@@ -282,6 +309,24 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string Inexpensive {
             get {
                 return ResourceManager.GetString("Inexpensive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid server response..
+        /// </summary>
+        public static string InvalidServerResponse {
+            get {
+                return ResourceManager.GetString("InvalidServerResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login failed:.
+        /// </summary>
+        public static string LoginFailed {
+            get {
+                return ResourceManager.GetString("LoginFailed", resourceCulture);
             }
         }
         
@@ -475,6 +520,24 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registration failed:.
+        /// </summary>
+        public static string RegistrationFailed {
+            get {
+                return ResourceManager.GetString("RegistrationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registration Successful.
+        /// </summary>
+        public static string RegistrationSuccessful {
+            get {
+                return ResourceManager.GetString("RegistrationSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Relevance.
         /// </summary>
         public static string Relevance {
@@ -561,6 +624,24 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign in with Google.
+        /// </summary>
+        public static string SignInWithGoogle {
+            get {
+                return ResourceManager.GetString("SignInWithGoogle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sign up with Google.
+        /// </summary>
+        public static string SignUpWithGoogle {
+            get {
+                return ResourceManager.GetString("SignUpWithGoogle", resourceCulture);
             }
         }
         

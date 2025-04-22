@@ -138,13 +138,14 @@ LOCALE_PATHS = [
 ]
 
 LOGIN_REDIRECT_URL = '/api/auth/login-redirect/'
-CSRF_TRUSTED_ORIGINS = ['https://28b7-217-123-90-227.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://4691-217-123-90-227.ngrok-free.app']
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SOCIALACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_ADAPTER = "authentication.adapters.CustomSocialAccountAdapter"
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {

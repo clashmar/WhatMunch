@@ -342,4 +342,31 @@
   <data name="LoginSuccessful" xml:space="preserve">
     <value>Login Successful</value>
   </data>
+  <data name="SignInWithGoogle" xml:space="preserve">
+    <value>Sign in with Google</value>
+  </data>
+  <data name="AlreadyHaveAnAccount" xml:space="preserve">
+    <value>Already have an account? Go to sign in page.</value>
+  </data>
+  <data name="DontHaveAnAccount" xml:space="preserve">
+    <value>Don't have an account? Go to registration page.</value>
+  </data>
+  <data name="SignUpWithGoogle" xml:space="preserve">
+    <value>Sign up with Google</value>
+  </data>
+  <data name="ErrorServerConnection" xml:space="preserve">
+    <value>Failed to connect to the server.</value>
+  </data>
+  <data name="RegistrationFailed" xml:space="preserve">
+    <value>Registration failed:</value>
+  </data>
+  <data name="InvalidServerResponse" xml:space="preserve">
+    <value>Invalid server response.</value>
+  </data>
+  <data name="LoginFailed" xml:space="preserve">
+    <value>Login failed:</value>
+  </data>
+  <data name="RegistrationSuccessful" xml:space="preserve">
+    <value>Registration Successful</value>
+  </data>
 </root>

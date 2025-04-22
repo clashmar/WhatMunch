@@ -15,7 +15,7 @@
 
     <Style TargetType="Border">
         <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
-        <Setter Property="StrokeShape" Value="Rectangle"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
         <Setter Property="StrokeThickness" Value="1"/>
     </Style>
 
@@ -301,6 +301,20 @@
                 Value="Start" />
         <Setter Property="FontAttributes"
                 Value="Bold" />
+    </Style>
+
+    <Style TargetType="Label"
+           x:Key="TextLink">
+        <Setter Property="TextColor"
+                Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+        <Setter Property="FontSize"
+                Value="18" />
+        <Setter Property="TextDecorations"
+                Value="Underline" />
+        <Setter Property="HorizontalOptions"
+                Value="Center" />
+        <Setter Property="HorizontalTextAlignment"
+                Value="Center" />
     </Style>
 
     <Style TargetType="ListView">

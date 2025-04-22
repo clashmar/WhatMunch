@@ -3,86 +3,100 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:WhatMunch_MAUI.ViewModels"
              xmlns:strings="clr-namespace:WhatMunch_MAUI.Resources.Localization"
+             xmlns:controls="clr-namespace:WhatMunch_MAUI.Views.Controls"
              x:Class="WhatMunch_MAUI.Views.RegistrationPage"
              Title="RegistrationPage"
              x:DataType="viewmodel:RegistrationViewModel"
              Shell.TabBarIsVisible="False">
-    
-    <Grid RowDefinitions=".1*, .7*">
-        <Label  Text="{x:Static strings:AppResources.RegisterWelcome}"
-                FontSize="Large"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center"
-                Grid.Row="0"/>
+    <Grid>
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           HorizontalOptions="Fill"
+                           VerticalOptions="Center" />
+        <Grid IsVisible="{Binding IsNotBusy}" 
+              RowDefinitions=".1*, .7*">
+            <Label  Text="{x:Static strings:AppResources.RegisterWelcome}"
+                    FontSize="Large"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Grid.Row="0" />
 
-        <VerticalStackLayout Margin="30,0,30,0"
-                             Grid.Row="1"
-                             WidthRequest="250"
-                             Spacing="10">
+            <VerticalStackLayout Margin="30,0,30,0"
+                                 Grid.Row="1"
+                                 WidthRequest="250"
+                                 Spacing="10">
 
-            <VerticalStackLayout>
-                <Label Text="{x:Static strings:AppResources.EmailLabel}"
-                       FontSize="Small"/>
-                <Entry Placeholder="{x:Static strings:AppResources.EmailLabel}"
-                       Text="{Binding RegistrationModel.Email, Mode=TwoWay}"
-                       VerticalOptions="Center"
-                       ClearButtonVisibility="WhileEditing" />
-                <Label Text="{Binding RegistrationModel.EmailError}"
-                       TextColor="Red"
-                       FontSize="Small"
-                       Opacity="{Binding ErrorOpacity}"/>
+                <VerticalStackLayout>
+                    <Label Text="{x:Static strings:AppResources.EmailLabel}"
+                           FontSize="Small" />
+                    <Entry Placeholder="{x:Static strings:AppResources.EmailLabel}"
+                           Text="{Binding RegistrationModel.Email, Mode=TwoWay}"
+                           VerticalOptions="Center"
+                           ClearButtonVisibility="WhileEditing" />
+                    <Label Text="{Binding RegistrationModel.EmailError}"
+                           TextColor="Red"
+                           FontSize="Small"
+                           Opacity="{Binding ErrorOpacity}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="{x:Static strings:AppResources.UsernameLabel}"
+                           FontSize="Small" />
+                    <Entry Placeholder="{x:Static strings:AppResources.UsernameLabel}"
+                           Text="{Binding RegistrationModel.Username, Mode=TwoWay}"
+                           VerticalOptions="Center"
+                           ClearButtonVisibility="WhileEditing" />
+                    <Label Text="{Binding RegistrationModel.UsernameError}"
+                           TextColor="Red"
+                           FontSize="Small"
+                           Opacity="{Binding ErrorOpacity}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="{x:Static strings:AppResources.PasswordLabel}"
+                           FontSize="Small" />
+                    <Entry Placeholder="{x:Static strings:AppResources.PasswordLabel}"
+                           Text="{Binding RegistrationModel.Password, Mode=TwoWay}"
+                           VerticalOptions="Center"
+                           ClearButtonVisibility="WhileEditing"
+                           IsPassword="True" />
+                    <Label Text="{Binding RegistrationModel.PasswordError}"
+                           TextColor="Red"
+                           FontSize="Small"
+                           Opacity="{Binding ErrorOpacity}" />
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="{x:Static strings:AppResources.ConfirmPasswordLabel}"
+                           FontSize="Small" />
+                    <Entry Placeholder="{x:Static strings:AppResources.ConfirmPasswordLabel}"
+                           Text="{Binding RegistrationModel.ConfirmPassword, Mode=TwoWay}"
+                           VerticalOptions="Center"
+                           ClearButtonVisibility="WhileEditing"
+                           IsPassword="True" />
+                    <Label Text="{Binding RegistrationModel.ConfirmPasswordError}"
+                           TextColor="Red"
+                           FontSize="Small"
+                           Opacity="{Binding ErrorOpacity}" />
+                </VerticalStackLayout>
+
+                <Button Margin="0,30,0,0"
+                        HeightRequest="60"
+                        Text="{x:Static strings:AppResources.SubmitButton}"
+                        Command="{Binding HandleRegistrationCommand}" />
+
+                <controls:SocialButton Icon="google_logo"
+                                       Text="{x:Static strings:AppResources.SignUpWithGoogle}"
+                                       LoginCommand="{Binding HandleSocialLoginCommand}" />
+
+                <Label Margin="0,30,0,0"
+                       Style="{StaticResource TextLink}"
+                       Text="{x:Static strings:AppResources.AlreadyHaveAnAccount}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding GoToLoginPageCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
             </VerticalStackLayout>
-
-            <VerticalStackLayout>
-                <Label Text="{x:Static strings:AppResources.UsernameLabel}"
-                       FontSize="Small" />
-                <Entry Placeholder="{x:Static strings:AppResources.UsernameLabel}"
-                       Text="{Binding RegistrationModel.Username, Mode=TwoWay}"
-                       VerticalOptions="Center"
-                       ClearButtonVisibility="WhileEditing" />
-                <Label Text="{Binding RegistrationModel.UsernameError}"
-                       TextColor="Red"
-                       FontSize="Small"
-                       Opacity="{Binding ErrorOpacity}"/>
-            </VerticalStackLayout>
-
-            <VerticalStackLayout>
-                <Label Text="{x:Static strings:AppResources.PasswordLabel}"
-                       FontSize="Small"/>
-                <Entry Placeholder="{x:Static strings:AppResources.PasswordLabel}"
-                       Text="{Binding RegistrationModel.Password, Mode=TwoWay}"
-                       VerticalOptions="Center"
-                       ClearButtonVisibility="WhileEditing"
-                       IsPassword="True" />
-                <Label Text="{Binding RegistrationModel.PasswordError}"
-                       TextColor="Red"
-                       FontSize="Small"
-                       Opacity="{Binding ErrorOpacity}"/>
-            </VerticalStackLayout>
-
-            <VerticalStackLayout>
-                <Label Text="{x:Static strings:AppResources.ConfirmPasswordLabel}"
-                       FontSize="Small"/>
-                <Entry Placeholder="{x:Static strings:AppResources.ConfirmPasswordLabel}"
-                       Text="{Binding RegistrationModel.ConfirmPassword, Mode=TwoWay}"
-                       VerticalOptions="Center"
-                       ClearButtonVisibility="WhileEditing"
-                       IsPassword="True" />
-                <Label Text="{Binding RegistrationModel.ConfirmPasswordError}"
-                       TextColor="Red"
-                       FontSize="Small"
-                       Opacity="{Binding ErrorOpacity}"/>
-            </VerticalStackLayout>
-            
-            <Button Margin="0,30,0,0"
-                    HeightRequest="60"
-                    Text="{x:Static strings:AppResources.SubmitButton}"
-                    Command="{Binding HandleRegistrationCommand}" />
-            
-            <Button Margin="0,30,0,0"
-                    HeightRequest="60"
-                    Text="{x:Static strings:AppResources.GoToLoginButton}"
-                    Command="{Binding GoToLoginPageCommand}"/>
-        </VerticalStackLayout>
+        </Grid>
     </Grid>
 </ContentPage>

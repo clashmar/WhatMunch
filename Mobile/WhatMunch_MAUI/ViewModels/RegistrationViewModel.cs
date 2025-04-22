@@ -1,63 +1,75 @@
-﻿using WhatMunch_MAUI.Extensions;
+﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class RegistrationViewModel(IRegistrationService registrationService, IConnectivity connectivity, IShellService shellService) : BaseViewModel
+    public partial class RegistrationViewModel(
+        IAccountService accountService, 
+        IConnectivity connectivity, 
+        IShellService shellService,
+        IToastService toastService,
+        ILogger<RegistrationViewModel> logger) : BaseViewModel
     {
         [ObservableProperty]
         public RegistrationModel _registrationModel = new();
-
-        private readonly IRegistrationService _registrationService = registrationService;
-        private readonly IShellService _shellService = shellService;
-        private readonly IConnectivity _connectivity = connectivity;
 
         [ObservableProperty]
         public double _errorOpacity = 0;
 
         [RelayCommand]
-        async Task GoToLoginPageAsync()
+        public async Task HandleRegistrationAsync()
         {
-            await _shellService.GoToAsync($"{nameof(LoginPage)}");
+            ErrorOpacity = 1.0;
+            if (!RegistrationModel.IsValid()) return;
+            await ExecuteRegistrationAsync(() => accountService.RegisterUserAsync(RegistrationModel.ToDto()));
         }
 
         [RelayCommand]
-        async Task HandleRegistrationAsync()
+        public async Task HandleSocialRegistrationAsync()
         {
-            ErrorOpacity = 1.0;
+            await ExecuteRegistrationAsync(() => accountService.LoginSocialUserAsync());
+        }
+         
+        [RelayCommand]
+        async Task GoToLoginPageAsync()
+        {
+            await shellService.GoToAsync($"{nameof(LoginPage)}");
+        }
 
+        [RelayCommand]
+        async Task ExecuteRegistrationAsync(Func<Task<Result>> registrationFunction)
+        {
             if (IsBusy) return;
-
-            if (!RegistrationModel.IsValid())
-            {
-                return;
-            }
 
             try
             {
-                if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+                if (connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
-                    await _shellService.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
+                    await shellService.DisplayError(AppResources.ErrorInternetConnection);
                     return;
                 }
 
                 IsBusy = true;
-                var result = await _registrationService.RegisterUserAsync(RegistrationModel.ToDto());
+                var result = await registrationFunction.Invoke();
 
                 if(result.IsSuccess)
                 {
-                    await _shellService.DisplayAlert("Success", "Registration was successful.", "Ok");
-                    await _shellService.GoToAsync($"{nameof(LoginPage)}");
+                    await toastService.DisplayToast(AppResources.RegistrationSuccessful);
+                    await shellService.GoToAsync($"//MainTabs/DashboardPage");
                 }
                 else
                 {
-                    await _shellService.DisplayAlert("Registration Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
+                    await shellService.DisplayError(result.ErrorMessage ?? "Invalid server response.");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await _shellService.DisplayAlert("Hmm", "Something went wrong.", "Ok");
+                logger.LogError(ex, "Unexpected error during registration.");
+                await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
             finally
             {

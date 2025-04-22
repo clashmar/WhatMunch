@@ -3,22 +3,58 @@ using System.Text;
 using WhatMunch_MAUI.Data;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
+using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Utility;
 
 namespace WhatMunch_MAUI.Services
 {
-    public interface ILoginService
+    public interface IAccountService
     {
+        Task<Result> RegisterUserAsync(RegistrationRequestDto requestDto);
         Task<Result> LoginUserAsync(LoginRequestDto requestDto);
         Task<Result> LoginSocialUserAsync();
     }
 
-    public class LoginService(
+    public class AccountService(
         IHttpClientFactory clientFactory, 
         ITokenService tokenService, 
         ISecureStorage secureStorage,
-        ILogger<LoginService> logger) : ILoginService
+        ILogger<AccountService> logger) : IAccountService
     {
+        public async Task<Result> RegisterUserAsync(RegistrationRequestDto requestDto)
+        {
+            try
+            {
+                var client = clientFactory.CreateClient("WhatMunch").UpdateLanguageHeaders();
+                var json = JsonSerializer.Serialize(requestDto);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("auth/register/", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await LoginUserAsync(requestDto.ToLoginRequestDto());
+                    return Result.Success();
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    var error = JsonSerializer.Deserialize<ErrorMessageDto>(errorContent);
+                    logger.LogError("Registration failed.");
+                    return Result.Failure($"{AppResources.RegistrationFailed} {error!.ErrorMessage}.");
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError(ex, "Account Service could not connect to the server during registration.");
+                return Result.Failure(AppResources.ErrorServerConnection);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unexpected error during registration.");
+                return Result.Failure(AppResources.ErrorUnexpected);
+            }
+        }
+
         public async Task<Result> LoginUserAsync(LoginRequestDto requestDto)
         {
             try
@@ -39,22 +75,24 @@ namespace WhatMunch_MAUI.Services
                         return Result.Success();
                     }
 
-                    return Result.Failure("Invalid server response.");
+                    return Result.Failure(AppResources.InvalidServerResponse);
                 }
                 else
                 {
                     var errorContent = await response.Content.ReadAsStringAsync();
                     var error = JsonSerializer.Deserialize<ErrorMessageDto>(errorContent);
-                    return Result.Failure($"Login failed: {error!.ErrorMessage}.");
+                    return Result.Failure($"{AppResources.LoginFailed} {error!.ErrorMessage}.");
                 }
             }
-            catch (HttpRequestException)
+            catch (HttpRequestException ex)
             {
-                return Result.Failure("Failed to connect to the server. Please check your internet connection.");
+                logger.LogError(ex, "Account Service could not connect to the server during login.");
+                return Result.Failure(AppResources.ErrorServerConnection);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return Result.Failure("An unexpected error occurred. Please try again later.");
+                logger.LogError(ex, "Unexpected error during login.");
+                return Result.Failure(AppResources.ErrorUnexpected);
             }
         }
 
@@ -66,7 +104,7 @@ namespace WhatMunch_MAUI.Services
                     new WebAuthenticatorOptions()
                     {
                         // TODO: parameterize social provider
-                        Url = new Uri("https://28b7-217-123-90-227.ngrok-free.app/accounts/google/login/"),
+                        Url = new Uri("https://4691-217-123-90-227.ngrok-free.app/accounts/google/login/"),
                         CallbackUrl = new Uri("whatmunch://oauth-redirect"),
                         PrefersEphemeralWebBrowserSession = true,
 
@@ -78,14 +116,15 @@ namespace WhatMunch_MAUI.Services
                     string refreshToken = authResult.RefreshToken;
                     string username = authResult.Properties["email"];
 
-                    if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken)) return Result.Failure("Could not fetch tokens on login.");
-                    if (string.IsNullOrEmpty(username)) return Result.Failure("Could not fetch username on login.");
+                    if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken)) return Result.Failure(AppResources.InvalidServerResponse);
+                    if (string.IsNullOrEmpty(username)) return Result.Failure(AppResources.InvalidServerResponse);
 
                     await HandleLoginDetails(accessToken, refreshToken, username);
 
                     return Result.Success();
                 }
-                    
+
+                logger.LogError("WebAuthenticatorResult was null.");
                 return Result.Failure("WebAuthenticatorResult was null.");
             }
             catch (TaskCanceledException ex)
@@ -95,7 +134,7 @@ namespace WhatMunch_MAUI.Services
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An error occurred while logging in with social account.");
+                logger.LogError(ex, "Unexpected error during social login.");
                 throw;
             }
         }

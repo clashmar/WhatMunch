@@ -8,7 +8,7 @@ using WhatMunch_MAUI.Views;
 namespace WhatMunch_MAUI.ViewModels
 {
     public partial class LoginViewModel(
-        ILoginService loginService, 
+        IAccountService loginService, 
         IConnectivity connectivity, 
         IShellService shellService,
         ILogger<LoginViewModel> logger,

@@ -10,7 +10,7 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
 {
     public class LoginViewModelTests
     {
-        private readonly Mock<ILoginService> _loginServiceMock;
+        private readonly Mock<IAccountService> _loginServiceMock;
         private readonly Mock<IConnectivity> _connectivityMock;
         private readonly Mock<IShellService> _shellServiceMock;
         private readonly LoginViewModel _viewModel;
