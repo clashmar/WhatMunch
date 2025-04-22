@@ -33,7 +33,7 @@ namespace WhatMunch_MAUI.ViewModels
             await ExecuteLoginAsync(() => loginService.LoginSocialUserAsync());
         }
 
-        public async Task ExecuteLoginAsync(Func<Task<Result>> loginFunction)
+        protected async Task ExecuteLoginAsync(Func<Task<Result>> loginFunction)
         {
             if (IsBusy) return;
 

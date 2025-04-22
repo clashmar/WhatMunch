@@ -15,7 +15,6 @@ public static class MauiProgram
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-				fonts.AddFont("fa-regular-400.ttf", "FaRegular");
 				fonts.AddFont("fa-solid-900.ttf", "FaSolid");
 			});
 
@@ -53,7 +52,8 @@ public static class MauiProgram
 			.AddSingleton<IRegistrationService, RegistrationService>()
 			.AddSingleton<ILoginService, LoginService>()
 			.AddSingleton<IGooglePlacesService, GooglePlacesService>()
-			.AddSingleton<IFavouritesService, FavouritesService>();
+			.AddSingleton<IFavouritesService, FavouritesService>()
+			.AddSingleton<IToastService, ToastService>();
 
 		builder.Services
 			.AddSingleton<LoginViewModel>()
