@@ -69,6 +69,35 @@ namespace WhatMunch_MAUI.Tests.Unit.Extensions
         }
 
         [Fact]
+        public void ToLoginRequestDto_ValidInput_ReturnsLoginRequestDto()
+        {
+            // Arrange
+            var registrationRequestDto = new RegistrationRequestDto
+            {
+                Username = "testuser",
+                Password = "Password123"
+            };
+
+            // Act
+            var result = registrationRequestDto.ToLoginRequestDto();
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(registrationRequestDto.Username, result.Username);
+            Assert.Equal(registrationRequestDto.Password, result.Password);
+        }
+
+        [Fact]
+        public void ToLoginRequestDto_NullInput_ThrowsArgumentNullException()
+        {
+            // Arrange
+            RegistrationRequestDto registrationRequestDto = null!;
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => registrationRequestDto.ToLoginRequestDto());
+        }
+
+        [Fact]
         public void ToModel_PlaceDto_ValidInput_ReturnsModel()
         {
             // Arrange

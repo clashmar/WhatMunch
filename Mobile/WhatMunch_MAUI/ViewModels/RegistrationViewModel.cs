@@ -35,13 +35,13 @@ namespace WhatMunch_MAUI.ViewModels
         }
          
         [RelayCommand]
-        async Task GoToLoginPageAsync()
+        public async Task GoToLoginPageAsync()
         {
             await shellService.GoToAsync($"{nameof(LoginPage)}");
         }
 
         [RelayCommand]
-        async Task ExecuteRegistrationAsync(Func<Task<Result>> registrationFunction)
+        protected async Task ExecuteRegistrationAsync(Func<Task<Result>> registrationFunction)
         {
             if (IsBusy) return;
 

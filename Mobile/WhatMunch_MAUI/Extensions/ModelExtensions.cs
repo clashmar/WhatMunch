@@ -32,7 +32,7 @@ namespace WhatMunch_MAUI.Extensions
                 Password = loginModel.Password
             };
         }
-        //TODO: Unit test:
+
         public static LoginRequestDto ToLoginRequestDto(this RegistrationRequestDto registrationRequestDto)
         {
             ArgumentNullException.ThrowIfNull(registrationRequestDto);

@@ -11,6 +11,5 @@ namespace WhatMunch_MAUI.Platforms.Android
     public class WebAuthenticationCallbackActivity : WebAuthenticatorCallbackActivity
     {
         const string CALLBACK_SCHEME = "whatmunch";
-
     }
 }

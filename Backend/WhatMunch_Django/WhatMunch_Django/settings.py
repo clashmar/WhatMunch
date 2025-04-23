@@ -138,7 +138,7 @@ LOCALE_PATHS = [
 ]
 
 LOGIN_REDIRECT_URL = '/api/auth/login-redirect/'
-CSRF_TRUSTED_ORIGINS = ['https://4691-217-123-90-227.ngrok-free.app']
+CSRF_TRUSTED_ORIGINS = ['https://a4e2-217-123-90-227.ngrok-free.app']
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 ACCOUNT_EMAIL_REQUIRED = True

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using Moq;
 using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.Models.Dtos;
@@ -10,38 +11,57 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
 {
     public class LoginViewModelTests
     {
-        private readonly Mock<IAccountService> _loginServiceMock;
+        private readonly Mock<IAccountService> _accountServiceMock;
         private readonly Mock<IConnectivity> _connectivityMock;
         private readonly Mock<IShellService> _shellServiceMock;
+        private readonly Mock<ILogger<LoginViewModel>> _loggerMock;
+        private readonly Mock<IToastService> _toastServiceMock;
         private readonly LoginViewModel _viewModel;
 
         public LoginViewModelTests()
         {
-            _loginServiceMock = new();
+            _accountServiceMock = new();
             _connectivityMock = new();
             _shellServiceMock = new();
-            _viewModel = new LoginViewModel(_loginServiceMock.Object, _connectivityMock.Object, _shellServiceMock.Object);
+            _loggerMock = new();
+            _toastServiceMock = new();
+            _viewModel = new LoginViewModel(
+                _accountServiceMock.Object, 
+                _connectivityMock.Object, 
+                _shellServiceMock.Object,
+                _loggerMock.Object,
+                _toastServiceMock.Object);
+        }
+
+        private readonly LoginModel _loginModel = new()
+        {
+            Username = "testuser",
+            Password = "Password1"
+        };
+
+        private void SetupMocks()
+        {
+            _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
+            _viewModel.LoginModel = _loginModel;
         }
 
         [Fact]
-        public async Task HandleLoginAsync_WithValidModel_NavigatesSuccessfully()
+        public async Task HandleUsernameLoginAsync_WithValidModel_NavigatesSuccessfully()
         {
             // Arrange
-            _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
-            var loginModel = new LoginModel { Username = "testuser", Password = "Password1" };
-            _viewModel.LoginModel = loginModel;
+            SetupMocks();
 
-            _loginServiceMock.Setup(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()))
-                .ReturnsAsync(Result<LoginResponseDto>.Success(new LoginResponseDto()));
+            _accountServiceMock.Setup(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()))
+                .ReturnsAsync(Result.Success());
 
             // Act
-            await _viewModel.HandleLoginCommand.ExecuteAsync(null);
+            await _viewModel.HandleUsernameLoginCommand.ExecuteAsync(null);
 
             // Assert
-            _loginServiceMock.Verify(s => s.LoginUserAsync(It.Is<LoginRequestDto>(
-                dto => dto.Username == loginModel.Username && dto.Password == loginModel.Password)),
+            _accountServiceMock.Verify(s => s.LoginUserAsync(It.Is<LoginRequestDto>(
+                dto => dto.Username == _loginModel.Username && dto.Password == _loginModel.Password)),
                 Times.Once);
-            _shellServiceMock.Verify(n => n.DisplayAlert(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _toastServiceMock.Verify(n => n.DisplayToast(It.IsAny<string>()), Times.Once);
             _shellServiceMock.Verify(n => n.GoToAsync(It.IsAny<string>()), Times.Once);
         }
 
@@ -50,15 +70,14 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
         {
             // Arrange
             _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.None);
-            var loginModel = new LoginModel { Username = "testuser", Password = "Password1" };
-            _viewModel.LoginModel = loginModel;
+            _viewModel.LoginModel = _loginModel;
 
             // Act
-            await _viewModel.HandleLoginCommand.ExecuteAsync(null);
+            await _viewModel.HandleUsernameLoginCommand.ExecuteAsync(null);
 
             // Assert
-            _loginServiceMock.Verify(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()), Times.Never);
-            _shellServiceMock.Verify(n => n.DisplayAlert(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Once);
+            _accountServiceMock.Verify(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()), Times.Never);
+            _shellServiceMock.Verify(n => n.DisplayError(It.IsAny<string>()), Times.Once);
         }
 
         [Fact]
@@ -69,30 +88,27 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
             _viewModel.LoginModel = new LoginModel { Username = "", Password = "" };
 
             // Act
-            await _viewModel.HandleLoginCommand.ExecuteAsync(null);
+            await _viewModel.HandleUsernameLoginCommand.ExecuteAsync(null);
 
             // Assert
-            _loginServiceMock.Verify(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()), Times.Never);
-            _shellServiceMock.Verify(n => n.DisplayAlert(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+            _accountServiceMock.Verify(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()), Times.Never);
         }
 
         [Fact]
         public async Task HandleLoginAsync_SetsIsBusyCorrectly()
         {
             // Arrange
-            _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
-            var loginModel = new LoginModel { Username = "testuser", Password = "Password1" };
-            _viewModel.LoginModel = loginModel;
+            SetupMocks();
 
-            _loginServiceMock.Setup(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()))
+            _accountServiceMock.Setup(s => s.LoginUserAsync(It.IsAny<LoginRequestDto>()))
                 .Returns(async () =>
                 {
                     await Task.Delay(100);
-                    return Result<LoginResponseDto>.Success(new LoginResponseDto());
+                    return Result.Success();
                 });
 
             // Act
-            var loginTask = _viewModel.HandleLoginCommand.ExecuteAsync(null);
+            var loginTask = _viewModel.HandleUsernameLoginCommand.ExecuteAsync(null);
 
             // Assert
             Assert.True(_viewModel.IsBusy);
@@ -100,6 +116,24 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
             await loginTask;
 
             Assert.False(_viewModel.IsBusy);
+        }
+
+        [Fact]
+        public async Task HandleSocialLoginAsync_WithSuccessfulLogin_NavigatesSuccessfully()
+        {
+            // Arrange
+            _connectivityMock.Setup(c => c.NetworkAccess).Returns(NetworkAccess.Internet);
+
+            _accountServiceMock.Setup(s => s.LoginSocialUserAsync())
+                .ReturnsAsync(Result.Success());
+
+            // Act
+            await _viewModel.HandleSocialLoginCommand.ExecuteAsync(null);
+
+            // Assert
+            _accountServiceMock.Verify(s => s.LoginSocialUserAsync(), Times.Once);
+            _toastServiceMock.Verify(n => n.DisplayToast(It.IsAny<string>()), Times.Once);
+            _shellServiceMock.Verify(n => n.GoToAsync(It.IsAny<string>()), Times.Once);
         }
 
         [Fact]

@@ -19,7 +19,8 @@ namespace WhatMunch_MAUI.Services
         IHttpClientFactory clientFactory, 
         ITokenService tokenService, 
         ISecureStorage secureStorage,
-        ILogger<AccountService> logger) : IAccountService
+        ILogger<AccountService> logger,
+        IWebAuthenticator webAuthenticator) : IAccountService
     {
         public async Task<Result> RegisterUserAsync(RegistrationRequestDto requestDto)
         {
@@ -100,15 +101,15 @@ namespace WhatMunch_MAUI.Services
         {
             try
             {
-                WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
-                    new WebAuthenticatorOptions()
-                    {
-                        // TODO: parameterize social provider
-                        Url = new Uri("https://4691-217-123-90-227.ngrok-free.app/accounts/google/login/"),
-                        CallbackUrl = new Uri("whatmunch://oauth-redirect"),
-                        PrefersEphemeralWebBrowserSession = true,
+                var authResult = await webAuthenticator.AuthenticateAsync(
+                        new WebAuthenticatorOptions()
+                        {
+                            // TODO: parameterize social provider
+                            Url = new Uri("https://a4e2-217-123-90-227.ngrok-free.app/accounts/google/login/"),
+                            CallbackUrl = new Uri("whatmunch://oauth-redirect"),
+                            PrefersEphemeralWebBrowserSession = true,
 
-                    });
+                        });
                 
                 if (authResult is not null)
                 {
@@ -125,7 +126,7 @@ namespace WhatMunch_MAUI.Services
                 }
 
                 logger.LogError("WebAuthenticatorResult was null.");
-                return Result.Failure("WebAuthenticatorResult was null.");
+                return Result.Failure(AppResources.ErrorUnexpected);
             }
             catch (TaskCanceledException ex)
             {
