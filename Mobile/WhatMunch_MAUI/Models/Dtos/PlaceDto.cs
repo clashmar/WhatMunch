@@ -67,6 +67,9 @@ namespace WhatMunch_MAUI.Models.Dtos
 
         [JsonIgnore]
         public string DisplayNameText => DisplayName?.Text.ToDisplayNameText() ?? AppResources.NotAvailable;
+
+        [JsonPropertyName("lastUpdatedUtc")]
+        public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
     }
 
     public class DisplayName

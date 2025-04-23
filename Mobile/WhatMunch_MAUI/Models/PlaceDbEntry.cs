@@ -11,5 +11,7 @@ namespace WhatMunch_MAUI.Models
         [Unique]
         public string PlaceJson { get; set; } = string.Empty;
         public DateTime SavedAt { get; set; } = DateTime.UtcNow;
+
+        public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
     }
 }

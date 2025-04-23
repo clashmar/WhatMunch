@@ -29,6 +29,24 @@ namespace WhatMunch_MAUI.ViewModels
                 if (result.IsSuccess && result.Data is not null)
                 {
                     Favourites = result.Data.ToObservableCollection();
+                    IsBusy = false;
+
+                    // TODO: Update tests for GetUserFavouritesAsync
+                    _ = Task.Run(async () =>
+                    {
+                        try
+                        {
+                            var updatedList = await favouritesService.UpdateFavouritesAsync(result.Data);
+                            MainThread.BeginInvokeOnMainThread(() =>
+                            {
+                                Favourites = updatedList.ToObservableCollection();
+                            });
+                        }
+                        catch (Exception ex)
+                        {
+                            logger.LogWarning(ex, "Background refresh of favourites failed.");
+                        }
+                    });
                 }
                 else
                 {

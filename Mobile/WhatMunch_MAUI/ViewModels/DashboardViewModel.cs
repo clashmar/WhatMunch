@@ -60,7 +60,6 @@ namespace WhatMunch_MAUI.ViewModels
 
         public override void ResetViewModel()
         {
-            // TODO: Implement ResetViewModel in Dashboard
             throw new NotImplementedException();
         }
     }
