@@ -1,4 +1,5 @@
-﻿using WhatMunch_MAUI.Resources.Localization;
+﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
 
@@ -7,7 +8,8 @@ namespace WhatMunch_MAUI
     public partial class AppShell : Shell
     {
         private readonly ITokenService _tokenService;
-        public AppShell(ITokenService tokenService)
+        private readonly ILogger<AppShell> _logger;
+        public AppShell(ITokenService tokenService, ILogger<AppShell> logger)
         {
             InitializeComponent(); 
             _tokenService = tokenService;
@@ -15,6 +17,7 @@ namespace WhatMunch_MAUI
             Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
             Routing.RegisterRoute(nameof(SearchResultsPage), typeof(SearchResultsPage));
             Routing.RegisterRoute(nameof(PlaceDetailsPage), typeof(PlaceDetailsPage));
+            _logger = logger;
         }
 
         protected override void OnAppearing()
@@ -29,12 +32,13 @@ namespace WhatMunch_MAUI
 
             try
             {
-                _tokenService.Logout();
+                await _tokenService.LogoutAsync();
                 await GoToAsync($"{nameof(LoginPage)}");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: Handle logout error in AppShell.xaml.cs
+                _logger.LogError(ex, "Unexpected error while logging out.");
+                await DisplayAlert(AppResources.Error, AppResources.ErrorUnexpected, AppResources.Ok);
                 throw;
             }
         }

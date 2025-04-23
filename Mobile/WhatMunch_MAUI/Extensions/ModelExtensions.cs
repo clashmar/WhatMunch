@@ -33,6 +33,17 @@ namespace WhatMunch_MAUI.Extensions
             };
         }
 
+        public static LoginRequestDto ToLoginRequestDto(this RegistrationRequestDto registrationRequestDto)
+        {
+            ArgumentNullException.ThrowIfNull(registrationRequestDto);
+
+            return new LoginRequestDto
+            {
+                Username = registrationRequestDto.Username,
+                Password = registrationRequestDto.Password
+            };
+        }
+
         public static string ToDisplayNameText(this string displayName)
         {
             if (string.IsNullOrEmpty(displayName))

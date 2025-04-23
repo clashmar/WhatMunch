@@ -30,7 +30,6 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
             // Arrange
             var mockJson = MockPlace.GetMockPlaceJson();
 
-
             _locationServiceMock.Setup(m => m.GetLocationWithTimeoutAsync())
                 .ReturnsAsync(new Location(37.7749, -122.4194));
 

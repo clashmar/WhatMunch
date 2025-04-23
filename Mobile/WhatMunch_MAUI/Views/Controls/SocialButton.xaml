@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhatMunch_MAUI.Views.Controls.SocialButton"
+             x:Name="This">
+    
+    <Border Margin="0,10,0,0"
+            HeightRequest="60"
+            Padding="0"
+            BackgroundColor="Transparent">
+
+        <HorizontalStackLayout VerticalOptions="Center">
+            <Image Source="{Binding Icon, Source={x:Reference This}}"
+                   WidthRequest="24"
+                   HeightRequest="24"
+                   Margin="18,0,10,0" />
+
+            <Label Text="{Binding Text, Source={x:Reference This}}"
+                   VerticalOptions="Center"
+                   FontAttributes="Bold"
+                   FontSize="18"
+                   TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+        </HorizontalStackLayout>
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding LoginCommand, Source={x:Reference This}}" />
+        </Border.GestureRecognizers>
+    </Border>
+</ContentView>

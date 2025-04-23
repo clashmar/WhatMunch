@@ -1,58 +1,71 @@
-﻿using WhatMunch_MAUI.Extensions;
+﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Extensions;
+using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    public partial class LoginViewModel(ILoginService loginService, IConnectivity connectivity, IShellService shellService) : BaseViewModel
+    public partial class LoginViewModel(
+        IAccountService loginService, 
+        IConnectivity connectivity, 
+        IShellService shellService,
+        ILogger<LoginViewModel> logger,
+        IToastService toastService) : BaseViewModel
     {
         [ObservableProperty]
         public LoginModel _loginModel = new();
-
-        private readonly ILoginService _loginService = loginService;
-        private readonly IShellService _shellService = shellService;
-        private readonly IConnectivity _connectivity = connectivity;
 
         [ObservableProperty]
         public double _errorOpacity = 0;
 
         [RelayCommand]
-        async Task HandleLoginAsync()
+        public async Task HandleUsernameLoginAsync()
         {
             ErrorOpacity = 1.0;
+            if (!LoginModel.IsValid()) return;
+            await ExecuteLoginAsync(() => loginService.LoginUserAsync(LoginModel.ToDto()));
+        }
 
+        [RelayCommand]
+        public async Task HandleSocialLoginAsync()
+        {
+            await ExecuteLoginAsync(() => loginService.LoginSocialUserAsync());
+        }
+
+        protected async Task ExecuteLoginAsync(Func<Task<Result>> loginFunction)
+        {
             if (IsBusy) return;
-
-            if (!LoginModel.IsValid())
-            {
-                return;
-            }
 
             try
             {
-                if (_connectivity.NetworkAccess != NetworkAccess.Internet)
+                if (connectivity.NetworkAccess != NetworkAccess.Internet)
                 {
-                    await _shellService.DisplayAlert("Internet Error", "Please check your internet connection.", "Ok");
+                    await shellService.DisplayError(AppResources.ErrorInternetConnection);
                     return;
                 }
 
                 IsBusy = true;
-                var result = await _loginService.LoginUserAsync(LoginModel.ToDto());
+
+                var result = await loginFunction.Invoke();
 
                 if(result.IsSuccess)
                 {
-                    await _shellService.DisplayAlert("Success", "Login was successful.", "Ok");
-                    await _shellService.GoToAsync($"//MainTabs/DashboardPage");
+                    await toastService.DisplayToast(AppResources.LoginSuccessful);
+                    await shellService.GoToAsync($"//MainTabs/DashboardPage");
                 }
                 else
                 {
-                    await _shellService.DisplayAlert("Login Failed", result.ErrorMessage ?? "Invalid server response.", "Ok");
+                    logger.LogError("Error during login.");
+                    await shellService.DisplayError(result.ErrorMessage ?? AppResources.ErrorUnexpected);
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                await _shellService.DisplayAlert("Hmm", "Something went wrong.", "Ok");
+                logger.LogError(ex, "Error during login.");
+                await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
             finally
             {
@@ -70,7 +83,7 @@ namespace WhatMunch_MAUI.ViewModels
         [RelayCommand]
         async Task GoToRegistrationPageAsync()
         {
-            await _shellService.GoToAsync($"{nameof(RegistrationPage)}");
+            await shellService.GoToAsync($"{nameof(RegistrationPage)}");
         }
     }
 }

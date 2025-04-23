@@ -4,8 +4,19 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
 from rest_framework import generics
-from django.utils.translation import activate
-from django.utils.translation import gettext_lazy as _
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.utils.http import urlencode
+from django.http import HttpResponseRedirect
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.contrib.auth import logout
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        logout(request)  # Ends the Django session
+        return Response({"message": "Logged out successfully."})
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -17,3 +28,20 @@ class TestProtectedView(APIView):
     
     def get(self, request):
         return Response({'message': 'This is a protected endpoint!'})
+    
+class LoginRedirectView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+        refresh_token = str(refresh)
+
+        query_params = urlencode({
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+            'email': user.email
+        })
+
+        return HttpResponseRedirect(f"whatmunch://oauth-redirect?{query_params}")

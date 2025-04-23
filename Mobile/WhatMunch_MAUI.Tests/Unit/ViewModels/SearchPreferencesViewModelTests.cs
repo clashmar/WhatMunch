@@ -10,13 +10,15 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
     {
         private readonly Mock<ISearchPreferencesService> _searchPreferencesServiceMock;
         private readonly Mock<ILogger<SearchPreferencesViewModel>> _loggerMock;
+        private readonly Mock<IToastService> _toastServiceMock;
         private readonly SearchPreferencesViewModel _viewModel;
 
         public SearchPreferencesViewModelTests()
         {
             _searchPreferencesServiceMock = new();
             _loggerMock = new();
-            _viewModel = new(_searchPreferencesServiceMock.Object, _loggerMock.Object);
+            _toastServiceMock = new();
+            _viewModel = new(_searchPreferencesServiceMock.Object, _loggerMock.Object, _toastServiceMock.Object);
         }
 
         [Fact]

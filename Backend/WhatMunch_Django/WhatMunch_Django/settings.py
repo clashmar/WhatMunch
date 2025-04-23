@@ -22,6 +22,7 @@ ALLOWED_HOSTS = ['*']
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication", 
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -45,7 +46,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
-    'authentication'
+    'rest_framework.authtoken',
+    'authentication',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +63,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.locale.LocaleMiddleware'
+    'django.middleware.locale.LocaleMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'WhatMunch_Django.urls'
@@ -76,6 +83,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 WSGI_APPLICATION = 'WhatMunch_Django.wsgi.application'
@@ -124,6 +136,30 @@ LANGUAGES = [
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]
+
+LOGIN_REDIRECT_URL = '/api/auth/login-redirect/'
+CSRF_TRUSTED_ORIGINS = ['https://a4e2-217-123-90-227.ngrok-free.app']
+SOCIALACCOUNT_LOGIN_ON_GET = True
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_ADAPTER = "authentication.adapters.CustomSocialAccountAdapter"
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": ["email"],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+            "prompt": "select_account"
+        },
+        "OAUTH_PKCE_ENABLED": True,
+    }
+}
+
+
+
 
 TIME_ZONE = 'UTC'
 
