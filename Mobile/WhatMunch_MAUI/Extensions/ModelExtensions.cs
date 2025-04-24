@@ -78,6 +78,8 @@ namespace WhatMunch_MAUI.Extensions
                 Website = placeDto.WebsiteUri,
                 Address = placeDto.ShortFormattedAddress,
                 Reviews = placeDto.Reviews,
+                GenerativeSummary = placeDto.GenerativeSummary?.Overview?.Text ?? AppResources.NotAvailable,
+                ReviewSummary = placeDto.ReviewSummary?.Text?.Text ?? AppResources.NotAvailable,
             };
         }
 

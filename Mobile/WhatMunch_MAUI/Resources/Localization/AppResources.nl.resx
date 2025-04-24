@@ -369,4 +369,10 @@
   <data name="RegistrationSuccessful" xml:space="preserve">
     <value>Registratie Succesvol</value>
   </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Samenvatting:</value>
+  </data>
+  <data name="ReviewSummary" xml:space="preserve">
+    <value>Samenvatting van de recensie:</value>
+  </data>
 </root>

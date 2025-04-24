@@ -40,6 +40,10 @@ namespace WhatMunch_MAUI.Models
         public string Address { get; set; } = AppResources.NotAvailable;
 
         public List<Review> Reviews { get; set; } = [];
+
+        public string GenerativeSummary { get; set; } = string.Empty;
+
+        public string ReviewSummary { get; set; } = string.Empty;
     }
 
     public class DisplayAttribute(string? icon, string text)

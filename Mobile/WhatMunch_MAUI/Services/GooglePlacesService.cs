@@ -24,26 +24,7 @@ namespace WhatMunch_MAUI.Services
         private readonly string _apiKey = ApiKeys.GOOGLE_MAPS_API_KEY;
 
         // Specify what the api returns
-        private static readonly string FIELD_MASK = string.Join(",",
-            "places.id",
-            "places.displayName",
-            "places.photos",
-            "places.primaryType",
-            "places.primaryTypeDisplayName",
-            "places.rating",
-            "places.userRatingCount",
-            "places.types",
-            "places.regularOpeningHours",
-            "places.goodForChildren",
-            "places.allowsDogs",
-            "places.priceLevel",
-            "places.websiteUri",
-            "places.internationalPhoneNumber",
-            "places.shortFormattedAddress",
-            "places.location",
-            "places.reviews",
-            "nextPageToken"
-        );
+        private readonly string PLACES_FIELD_MASK = "places." + DETAILS_FIELD_MASK.Replace(",", ",places.") + ",nextPageToken";
 
         private static readonly string DETAILS_FIELD_MASK = string.Join(",",
             "id",
@@ -62,7 +43,9 @@ namespace WhatMunch_MAUI.Services
             "internationalPhoneNumber",
             "shortFormattedAddress",
             "location",
-            "reviews"
+            "reviews",
+            "generativeSummary",
+            "reviewSummary"
         );
 
         public async Task<Result<TextSearchResponseDto>> GetNearbySearchResultsAsync(SearchPreferencesModel preferences, string? pageToken = null)
@@ -90,7 +73,7 @@ namespace WhatMunch_MAUI.Services
 
                 using var client = clientFactory.CreateClient("GooglePlaces").UpdateLanguageHeaders();
                 client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
-                client.DefaultRequestHeaders.Add("X-Goog-FieldMask", FIELD_MASK);
+                client.DefaultRequestHeaders.Add("X-Goog-FieldMask", PLACES_FIELD_MASK);
 
                 using var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
                 using var response = await client.PostAsync("v1/places:searchText", stringContent);
