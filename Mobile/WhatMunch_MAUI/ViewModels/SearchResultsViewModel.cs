@@ -255,8 +255,4 @@ namespace WhatMunch_MAUI.ViewModels
             ResetPagination();
         } 
     }
-
-    public sealed class FavouritesChangedMessage(string value) : ValueChangedMessage<string>(value)
-    {
-    }
 }

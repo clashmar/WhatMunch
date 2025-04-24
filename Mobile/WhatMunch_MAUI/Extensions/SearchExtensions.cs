@@ -24,7 +24,6 @@ namespace WhatMunch_MAUI.Extensions
                 .ToList();
         }
 
-        // TODO: Unit test AddDistance
         public static PlaceDto AddDistance(this PlaceDto place, Location? location = null)
         {
             ArgumentNullException.ThrowIfNull(place);

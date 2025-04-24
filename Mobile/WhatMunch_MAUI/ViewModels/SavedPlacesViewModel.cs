@@ -1,10 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Messaging.Messages;
 using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
 using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
@@ -12,7 +12,8 @@ namespace WhatMunch_MAUI.ViewModels
     public partial class SavedPlacesViewModel(
         IFavouritesService favouritesService,
         IShellService shellService,
-        ILogger<SavedPlacesViewModel> logger) : BaseViewModel
+        ILogger<SavedPlacesViewModel> logger,
+        IMainThread mainThread) : BaseViewModel
     {
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _favourites = [];
@@ -33,13 +34,12 @@ namespace WhatMunch_MAUI.ViewModels
                     Favourites = result.Data.ToObservableCollection();
                     IsBusy = false;
 
-                    // TODO: Update tests for GetUserFavouritesAsync
                     _ = Task.Run(async () =>
                     {
                         try
                         {
                             var updatedList = await favouritesService.UpdateFavouritesAsync(result.Data);
-                            MainThread.BeginInvokeOnMainThread(() =>
+                            mainThread.BeginInvokeOnMainThread(() =>
                             {
                                 Favourites = updatedList.ToObservableCollection();
                             });
@@ -144,13 +144,5 @@ namespace WhatMunch_MAUI.ViewModels
         {
             throw new NotImplementedException();
         }
-    }
-
-    public sealed class FavouriteDeletedMessage(string value) : ValueChangedMessage<string>(value)
-    {
-    }
-
-    public sealed class AllFavouritesDeletedMessage(string value) : ValueChangedMessage<string>(value)
-    {
     }
 }

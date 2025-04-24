@@ -118,7 +118,6 @@ namespace WhatMunch_MAUI.Services
             return result;
         }
 
-        // TODO: Create tests for UpdateFavouritesAsync
         public async Task<List<PlaceDto>> UpdateFavouritesAsync(
             List<PlaceDto> favourites,
             CancellationToken cancellationToken = default)

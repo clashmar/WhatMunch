@@ -93,6 +93,52 @@ namespace WhatMunch_MAUI.Services
             });
         }
 
+        public async Task<Result<PlaceDto>> GetPlaceDetailsAsync(string placeId, CancellationToken ct)
+        {
+            return await ExecuteRequestAsync(async () =>
+            {
+                var client = clientFactory.CreateClient("GooglePlaces").UpdateLanguageHeaders();
+                client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
+                client.DefaultRequestHeaders.Add("X-Goog-FieldMask", DETAILS_FIELD_MASK);
+
+                var response = await client.GetAsync($"v1/places/{placeId}");
+                response.EnsureSuccessStatusCode();
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var deserializedData = JsonSerializer.Deserialize<PlaceDto>(responseContent);
+
+                if (deserializedData is null)
+                {
+                    logger.LogError("Failed to deserialize place details.");
+                    return Result<PlaceDto>.Failure(AppResources.ErrorUnexpected);
+                }
+                return Result<PlaceDto>.Success(deserializedData);
+            });
+        }
+
+        private async Task<Result<T>> ExecuteRequestAsync<T>(Func<Task<Result<T>>> requestFunc)
+        {
+            try
+            {
+                return await requestFunc.Invoke();
+            }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError(ex, "HTTP request failed: {Message}", ex.Message);
+                return Result<T>.Failure(AppResources.ErrorUnexpected);
+            }
+            catch (LocationException ex)
+            {
+                logger.LogError(ex, "Location service error: {Message}", ex.Message);
+                return Result<T>.Failure(AppResources.ErrorLocationServices);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unexpected error: {Message}", ex.Message);
+                return Result<T>.Failure(AppResources.ErrorUnexpected);
+            }
+        }
+
         private async Task<string> CreateNearbySearchJsonAsync(SearchPreferencesModel preferences, string? pageToken = null)
         {
             preferences ??= SearchPreferencesModel.Default;
@@ -143,53 +189,6 @@ namespace WhatMunch_MAUI.Services
             {
                 logger.LogError(ex, "An unexpected error occurred while creating search object");
                 throw;
-            }
-        }
-
-        // TODO: Unit test GetPlaceDetailsAsync
-        public async Task<Result<PlaceDto>> GetPlaceDetailsAsync(string placeId, CancellationToken ct)
-        {
-            return await ExecuteRequestAsync(async () =>
-            {
-                var client = clientFactory.CreateClient("GooglePlaces").UpdateLanguageHeaders();
-                client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
-                client.DefaultRequestHeaders.Add("X-Goog-FieldMask", DETAILS_FIELD_MASK);
-
-                var response = await client.GetAsync($"v1/places/{placeId}");
-                response.EnsureSuccessStatusCode();
-
-                var responseContent = await response.Content.ReadAsStringAsync();
-                var deserializedData = JsonSerializer.Deserialize<PlaceDto>(responseContent);
-
-                if (deserializedData is null)
-                {
-                    logger.LogError("Failed to deserialize place details.");
-                    return Result<PlaceDto>.Failure(AppResources.ErrorUnexpected);
-                }
-                return Result<PlaceDto>.Success(deserializedData);
-            });
-        }
-
-        protected async Task<Result<T>> ExecuteRequestAsync<T>(Func<Task<Result<T>>> requestFunc)
-        {
-            try
-            {
-                return await requestFunc.Invoke();
-            }
-            catch (HttpRequestException ex)
-            {
-                logger.LogError(ex, "HTTP request failed: {Message}", ex.Message);
-                return Result<T>.Failure(AppResources.ErrorUnexpected);
-            }
-            catch (LocationException ex)
-            {
-                logger.LogError(ex, "Location service error: {Message}", ex.Message);
-                return Result<T>.Failure(AppResources.ErrorLocationServices);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Unexpected error: {Message}", ex.Message);
-                return Result<T>.Failure(AppResources.ErrorUnexpected);
             }
         }
     }

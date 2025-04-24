@@ -1,4 +1,5 @@
-﻿using WhatMunch_MAUI.Services;
+﻿using Microsoft.Extensions.Logging;
+using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI
@@ -7,12 +8,17 @@ namespace WhatMunch_MAUI
     {
         private readonly ITokenService _tokenService;
         private readonly IShellService _shellService;
+        private readonly ILogger<MainPage> _logger;
 
-        public MainPage(ITokenService tokenService, IShellService shellService)
+        public MainPage(
+            ITokenService tokenService, 
+            IShellService shellService, 
+            ILogger<MainPage> logger)
         {
             InitializeComponent();
             _tokenService = tokenService;
             _shellService = shellService;
+            _logger = logger;
             Shell.SetNavBarIsVisible(this, false);
         }
 
@@ -37,9 +43,9 @@ namespace WhatMunch_MAUI
                     await _shellService.GoToAsync($"//MainTabs/DashboardPage");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: Handle AuthCheck errors in MainPage.xaml.cs
+                _logger.LogError(ex, "Error during authentication check.");
                 throw;
             }
         }

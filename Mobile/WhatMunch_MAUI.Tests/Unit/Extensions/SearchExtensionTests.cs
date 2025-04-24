@@ -36,6 +36,40 @@ namespace WhatMunch_MAUI.Tests.Unit.Extensions
         }
 
         [Fact]
+        public void AddDistance_ShouldReturnSamePlace_WhenLocationIsNull()
+        {
+            // Arrange
+            PlaceDto place = new()
+            {
+                Location = new() { Latitude = 10, Longitude = 20 }
+            };
+
+            // Act
+            var result = place.AddDistance(null);
+
+            // Assert
+            Assert.Equal(place, result);
+        }
+
+        [Fact]
+        public void AddDistance_ShouldCalculateDistance_WhenLocationIsProvided()
+        {
+            // Arrange
+            var location = new Location(0, 0);
+            PlaceDto place = new()
+            {
+                Location = new() { Latitude = 10, Longitude = 20 }
+            };
+
+            // Act
+            var result = place.AddDistance(location);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.True(0 < result.Distance);
+        }
+
+        [Fact]
         public void FilterDistances_ShouldReturnPlacesWithinDistance()
         {
             // Arrange
