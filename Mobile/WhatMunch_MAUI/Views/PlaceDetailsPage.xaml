@@ -11,7 +11,7 @@
              Title="{Binding Title}"
              x:DataType="viewmodel:PlaceDetailsViewModel">
     <ScrollView>
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
               RowSpacing="10">
 
             <Grid Grid.Row="0">
@@ -40,6 +40,12 @@
                     </BoxView.Background>
                 </BoxView>
             </Grid>
+            <IndicatorView Grid.Row="1"
+                           x:Name="indicatorView"
+                           IndicatorColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray100}}"
+                           SelectedIndicatorColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray600}}"
+                           IndicatorSize="10"
+                           HorizontalOptions="Center" />
             <Grid Grid.Row="2"
                   ColumnDefinitions="*,*"
                   WidthRequest="300">
@@ -67,12 +73,16 @@
                            FontSize="30" />
                 </HorizontalStackLayout>
             </Grid>
-            <IndicatorView Grid.Row="1" x:Name="indicatorView"
-                            IndicatorColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray100}}"
-                           SelectedIndicatorColor="{AppThemeBinding Light={StaticResource Gray600}, Dark={StaticResource Gray600}}"
-                            IndicatorSize="10"
-                            HorizontalOptions="Center"/>
-            <FlexLayout Grid.Row="3"
+            <HorizontalStackLayout Grid.Row="3"
+                                   Margin="20,10,20,0">
+                <Label Text="{x:Static strings:AppResources.Summary}"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"/>
+                <Label Text="{Binding Place.GenerativeSummary}"
+                       Margin="5,0,0,0"
+                       HorizontalTextAlignment="Center"/>
+            </HorizontalStackLayout>
+            <FlexLayout Grid.Row="4"
                         BindableLayout.ItemsSource="{Binding Place.Attributes}"
                         Direction="Row"
                         Wrap="Wrap"
@@ -86,7 +96,7 @@
                     </DataTemplate>
                 </BindableLayout.ItemTemplate>
             </FlexLayout>
-            <Grid Grid.Row="4"
+            <Grid Grid.Row="5"
                   ColumnDefinitions="*,*">
                 <VerticalStackLayout Grid.Column="0"
                                      Margin="20,0,0,0"
@@ -148,7 +158,16 @@
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Grid>
-            <VerticalStackLayout Grid.Row="5"
+            <HorizontalStackLayout Grid.Row="6"
+                                   Margin="20,10,20,0">
+                <Label Text="{x:Static strings:AppResources.ReviewSummary}"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center" />
+                <Label Text="{Binding Place.ReviewSummary}"
+                       Margin="5,0,0,0"
+                       HorizontalTextAlignment="Center" />
+            </HorizontalStackLayout>
+            <VerticalStackLayout Grid.Row="7"
                                  Spacing="5"
                                  WidthRequest="380"
                                  Margin="0,15,0,15">

@@ -4,17 +4,8 @@ using WhatMunch_MAUI.Resources.Localization;
 namespace WhatMunch_MAUI.ViewModels
 {
     [QueryProperty(nameof(Place), "Place")]
-    public partial class PlaceDetailsViewModel : BaseViewModel
+    public partial class PlaceDetailsViewModel(ILauncher launcher, ILogger<PlaceDetailsViewModel> logger) : BaseViewModel
     {
-        private readonly ILauncher _launcher;
-        private readonly ILogger<PlaceDetailsViewModel> _logger;
-
-        public PlaceDetailsViewModel(ILauncher launcher, ILogger<PlaceDetailsViewModel> logger)
-        {
-            _launcher = launcher;
-            _logger = logger;
-        }
-
         [ObservableProperty]
         private PlaceModel? _place;
 
@@ -33,16 +24,16 @@ namespace WhatMunch_MAUI.ViewModels
 
                 if (Uri.TryCreate(url, UriKind.Absolute, out var uri))
                 {
-                    await _launcher.OpenAsync(uri);
+                    await launcher.OpenAsync(uri);
                 }
                 else
                 {
-                    _logger.LogWarning("Invalid URL: {url}", url);
+                    logger.LogWarning("Invalid URL: {url}", url);
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error opening website: {url}", url);
+                logger.LogError(ex, "Error opening website: {url}", url);
             }
             finally
             {
@@ -62,11 +53,11 @@ namespace WhatMunch_MAUI.ViewModels
                     return;
 
                 var phoneUri = new Uri($"tel:{number}");
-                await _launcher.OpenAsync(phoneUri);
+                await launcher.OpenAsync(phoneUri);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error opening phone number: {number}", number);
+                logger.LogError(ex, "Error opening phone number: {number}", number);
             }
             finally
             {
@@ -84,16 +75,16 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(Place?.Id))
                 {
-                    _logger.LogWarning("Place ID is null or empty.");
+                    logger.LogWarning("Place ID is null or empty.");
                     return;
                 }
 
                 var uri = new Uri($"https://www.google.com/maps/place/?q=place_id:{Place?.Id}");
-                await _launcher.OpenAsync(uri);
+                await launcher.OpenAsync(uri);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error opening map for Place ID: {Place?.Id}", Place?.Id);
+                logger.LogError(ex, "Error opening map for Place ID: {Place?.Id}", Place?.Id);
             }
             finally
             {
@@ -103,7 +94,7 @@ namespace WhatMunch_MAUI.ViewModels
 
         public override void ResetViewModel()
         {
-
+            throw new NotImplementedException();
         }
     }
 }

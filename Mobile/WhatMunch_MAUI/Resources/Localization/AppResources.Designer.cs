@@ -565,6 +565,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Review Summary:.
+        /// </summary>
+        public static string ReviewSummary {
+            get {
+                return ResourceManager.GetString("ReviewSummary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
@@ -660,6 +669,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string SubmitButton {
             get {
                 return ResourceManager.GetString("SubmitButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Summary:.
+        /// </summary>
+        public static string Summary {
+            get {
+                return ResourceManager.GetString("Summary", resourceCulture);
             }
         }
         

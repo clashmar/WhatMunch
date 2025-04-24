@@ -13,18 +13,19 @@ namespace WhatMunch_MAUI.Services
         Task SaveUserFavouriteAsync(PlaceDto placeDto);
         Task DeleteUserFavouriteAsync(PlaceDto placeDto);
         Task DeleteAllUserFavouritesAsync();
+        Task<List<PlaceDto>> UpdateFavouritesAsync(List<PlaceDto> favourites, CancellationToken cancellationToken = default);
     }
     public class FavouritesService(
         ILocalDatabase localDatabase,
         ILogger<FavouritesService> logger,
         ISecureStorage secureStorage,
-        ILocationService locationService) : IFavouritesService
+        ILocationService locationService,
+        IGooglePlacesService googlePlacesService) : IFavouritesService
     {
         public async Task<Result<List<PlaceDto>>> GetUserFavouritesAsync()
         {
             try
             {
-                // TODO: check open now/remove open now/update dto
                 var locationTask = locationService.GetLastSearchLocation();
                 string? username = await secureStorage.GetAsync(Constants.USERNAME_KEY);
 
@@ -36,19 +37,19 @@ namespace WhatMunch_MAUI.Services
                 }
 
                 var favourites = await localDatabase.GetUserPlacesAsync(username);
+                var location = await locationTask;
 
                 if (favourites is not null && favourites.Count > 0)
                 {
                     var result = favourites
                         .Select(f => DeserializePlace(f.PlaceJson))
-                        .AddDistances(await locationTask)
+                        .AddDistances(location)
                         .OrderBy(f => f.Distance)
                         .ToList();
 
                     return Result<List<PlaceDto>>.Success(result);
                 }
 
-                // TODO: make another call to the backend and update localdatabase
                 return Result<List<PlaceDto>>.Failure("No favorites found.");
             }
             catch (Exception ex)
@@ -110,10 +111,49 @@ namespace WhatMunch_MAUI.Services
                 UserId = username,
                 PlaceId = placeDto.Id,
                 PlaceJson = placeJson,
-                SavedAt = DateTime.UtcNow
+                SavedAt = DateTime.UtcNow,
+                LastUpdatedUtc = placeDto.LastUpdatedUtc
             };
 
             return result;
+        }
+
+        public async Task<List<PlaceDto>> UpdateFavouritesAsync(
+            List<PlaceDto> favourites,
+            CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var location = await locationService.GetLocationWithTimeoutAsync();
+                List<PlaceDto> updatedFavourites = [];
+
+                foreach (var place in favourites)
+                {
+                    if ((DateTime.UtcNow - place.LastUpdatedUtc) > TimeSpan.FromDays(1))
+                    {
+                        var result = await googlePlacesService.GetPlaceDetailsAsync(place.Id, cancellationToken);
+
+                        if (result.IsSuccess && result.Data is not null)
+                        {
+                            var updatedPlace = result.Data;
+                            updatedPlace.AddDistance(location);
+                            updatedPlace.LastUpdatedUtc = DateTime.UtcNow;
+                            await SaveUserFavouriteAsync(updatedPlace);
+                            updatedFavourites.Add(updatedPlace);
+                        }
+                    }
+                    else
+                    {
+                        updatedFavourites.Add(place);
+                    }
+                }
+                return updatedFavourites;
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Error while updating favorites.");
+                throw;
+            }
         }
 
         private static PlaceDto DeserializePlace(string placeJson)

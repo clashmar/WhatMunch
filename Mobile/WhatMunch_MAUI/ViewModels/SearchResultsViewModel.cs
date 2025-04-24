@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
@@ -208,6 +209,7 @@ namespace WhatMunch_MAUI.ViewModels
             try
             {
                 place.IsFavourite = !place.IsFavourite;
+                WeakReferenceMessenger.Default.Send(new FavouritesChangedMessage(string.Empty));
                 if (place.IsFavourite)
                 {
                     await _favouritesService.SaveUserFavouriteAsync(place);
@@ -219,7 +221,7 @@ namespace WhatMunch_MAUI.ViewModels
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while trying to add place: {place.Id}", place.Id);
+                _logger.LogError(ex, "An unexpected error occurred while trying to add place: {Place}", place.Id);
                 await _shellService.DisplayError(AppResources.ErrorUnexpected);
             }
         }

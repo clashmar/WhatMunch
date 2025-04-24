@@ -105,10 +105,9 @@ namespace WhatMunch_MAUI.Services
                         new WebAuthenticatorOptions()
                         {
                             // TODO: parameterize social provider
-                            Url = new Uri("https://a4e2-217-123-90-227.ngrok-free.app/accounts/google/login/"),
+                            Url = new Uri("https://8e52-217-123-90-227.ngrok-free.app/accounts/google/login/"),
                             CallbackUrl = new Uri("whatmunch://oauth-redirect"),
                             PrefersEphemeralWebBrowserSession = true,
-
                         });
                 
                 if (authResult is not null)

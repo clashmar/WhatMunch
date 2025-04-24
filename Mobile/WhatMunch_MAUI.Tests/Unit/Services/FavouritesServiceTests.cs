@@ -7,6 +7,7 @@ using WhatMunch_MAUI.MockData;
 using WhatMunch_MAUI.Models;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Utility;
 
 namespace WhatMunch_MAUI.Tests.Unit.Services
 {
@@ -16,6 +17,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
         private readonly Mock<ILogger<FavouritesService>> _loggerMock;
         private readonly Mock<ISecureStorage> _secureStorageMock;
         private readonly Mock<ILocationService> _locationServiceMock;
+        private readonly Mock<IGooglePlacesService> _googlePlacesServiceMock;
         private readonly FavouritesService _favouritesService;
 
         public FavouritesServiceTests()
@@ -24,12 +26,15 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
             _loggerMock = new();
             _secureStorageMock = new();
             _locationServiceMock = new();
+            _googlePlacesServiceMock = new();
 
             _favouritesService = new FavouritesService(
                 _localDatabaseMock.Object,
                 _loggerMock.Object,
                 _secureStorageMock.Object,
-                _locationServiceMock.Object
+                _locationServiceMock.Object,
+                _googlePlacesServiceMock.Object
+
             );
         }
 
@@ -126,6 +131,94 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
             Assert.Equal(_placeDto.Id, result.PlaceId);
             Assert.Equal(JsonSerializer.Serialize(_placeDto), result.PlaceJson);
             Assert.True((DateTime.UtcNow - result.SavedAt).TotalSeconds < 5); 
+        }
+
+        [Fact]
+        public async Task UpdateFavouritesAsync_UpdatesOutdatedFavorites()
+        {
+            // Arrange
+            var outdatedPlace = new PlaceDto
+            {
+                Id = MockPlace.ID,
+                LastUpdatedUtc = DateTime.UtcNow.AddDays(-2)
+            };
+
+            var updatedPlace = new PlaceDto
+            {
+                Id = MockPlace.ID,
+                LastUpdatedUtc = DateTime.UtcNow
+            };
+
+            _secureStorageMock
+                .Setup(s => s.GetAsync(Constants.USERNAME_KEY))
+                .ReturnsAsync(USERNAME);
+
+            _locationServiceMock
+                .Setup(l => l.GetLocationWithTimeoutAsync())
+                .ReturnsAsync(new Location());
+
+            _googlePlacesServiceMock
+                .Setup(g => g.GetPlaceDetailsAsync(outdatedPlace.Id, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(Result<PlaceDto>.Success(updatedPlace));
+
+            _localDatabaseMock
+                .Setup(db => db.SavePlaceAsync(It.IsAny<PlaceDbEntry>()))
+                .Verifiable();
+
+            List<PlaceDto> favourites = [outdatedPlace];
+
+            // Act
+            var result = await _favouritesService.UpdateFavouritesAsync(favourites);
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal(updatedPlace.Id, result.First().Id);
+            _localDatabaseMock.Verify(db => db.SavePlaceAsync(It.IsAny<PlaceDbEntry>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task UpdateFavouritesAsync_DoesNotUpdateRecentlyUpdatedFavorites()
+        {
+            // Arrange
+            var recentPlace = new PlaceDto
+            {
+                Id = MockPlace.ID,
+                LastUpdatedUtc = DateTime.UtcNow.AddHours(-12)
+            };
+
+            _locationServiceMock
+                .Setup(l => l.GetLocationWithTimeoutAsync())
+                .ReturnsAsync(new Location());
+
+            List<PlaceDto> favourites = [recentPlace];
+
+            // Act
+            var result = await _favouritesService.UpdateFavouritesAsync(favourites);
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal(recentPlace.Id, result.First().Id);
+            _googlePlacesServiceMock.Verify(g => g.GetPlaceDetailsAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task UpdateFavouritesAsync_HandlesExceptionGracefully()
+        {
+            // Arrange
+            var place = new PlaceDto
+            {
+                Id = MockPlace.ID,
+                LastUpdatedUtc = DateTime.UtcNow.AddDays(-2)
+            };
+
+            _locationServiceMock
+                .Setup(l => l.GetLocationWithTimeoutAsync())
+                .ThrowsAsync(new Exception("Location service error"));
+
+            List<PlaceDto> favourites = [place];
+
+            // Act & Assert
+            await Assert.ThrowsAsync<Exception>(() => _favouritesService.UpdateFavouritesAsync(favourites));
         }
     }
 }

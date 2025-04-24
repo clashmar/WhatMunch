@@ -9,10 +9,12 @@ public partial class SavedPlacesPage : ContentPage
 		InitializeComponent();
         _viewModel = viewModel;
         BindingContext = _viewModel;
+        _viewModel.IsActive = true;
 	}
 
     protected override async void OnNavigatedTo(NavigatedToEventArgs args)
     {
         await _viewModel.LoadFavouritesAsync();
+        _viewModel.ShouldNotLoad = false;
     }
 }

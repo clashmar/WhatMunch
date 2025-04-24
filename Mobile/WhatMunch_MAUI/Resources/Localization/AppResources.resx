@@ -369,4 +369,10 @@
   <data name="RegistrationSuccessful" xml:space="preserve">
     <value>Registration Successful</value>
   </data>
+  <data name="Summary" xml:space="preserve">
+    <value>Summary:</value>
+  </data>
+  <data name="ReviewSummary" xml:space="preserve">
+    <value>Review Summary:</value>
+  </data>
 </root>

@@ -62,11 +62,20 @@ namespace WhatMunch_MAUI.Models.Dtos
         [ObservableProperty]
         public bool _isFavourite;
 
+        [JsonPropertyName("generativeSummary")]
+        public GenerativeSummary? GenerativeSummary { get; set; }
+
+        [JsonPropertyName("reviewSummary")]
+        public ReviewSummary? ReviewSummary { get; set; }
+
         [JsonIgnore]
         public double Distance { get; set; }
 
         [JsonIgnore]
         public string DisplayNameText => DisplayName?.Text.ToDisplayNameText() ?? AppResources.NotAvailable;
+
+        [JsonPropertyName("lastUpdatedUtc")]
+        public DateTime LastUpdatedUtc { get; set; } = DateTime.UtcNow;
     }
 
     public class DisplayName
@@ -134,5 +143,22 @@ namespace WhatMunch_MAUI.Models.Dtos
 
         [JsonPropertyName("languageCode")]
         public string LanguageCode { get; set; } = string.Empty;
+    }
+
+    public class GenerativeSummary
+    {
+        [JsonPropertyName("overview")]
+        public Overview? Overview { get; set; }
+    }
+    public class ReviewSummary
+    {
+        [JsonPropertyName("text")]
+        public Overview? Text { get; set; }
+    }
+
+    public class Overview
+    {
+        [JsonPropertyName("text")]
+        public string Text { get; set; } = string.Empty;
     }
 }

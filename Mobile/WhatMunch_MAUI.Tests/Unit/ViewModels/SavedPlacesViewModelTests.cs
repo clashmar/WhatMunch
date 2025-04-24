@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using Microsoft.Extensions.Logging;
 using Moq;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Services;
@@ -13,6 +14,7 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
         private readonly Mock<IFavouritesService> _favouritesServiceMock;
         private readonly Mock<IShellService> _shellServiceMock;
         private readonly Mock<ILogger<SavedPlacesViewModel>> _loggerMock;
+        private readonly Mock<IMainThread> _mainThreadMock;
         private readonly SavedPlacesViewModel _viewModel;
 
         public SavedPlacesViewModelTests()
@@ -20,11 +22,13 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
             _favouritesServiceMock = new();
             _shellServiceMock = new();
             _loggerMock = new();
+            _mainThreadMock = new();
 
             _viewModel = new SavedPlacesViewModel(
                 _favouritesServiceMock.Object,
                 _shellServiceMock.Object,
-                _loggerMock.Object
+                _loggerMock.Object,
+                _mainThreadMock.Object
             );
         }
 
@@ -63,6 +67,46 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
 
             // Assert
             Assert.Empty(_viewModel.Favourites);
+        }
+
+        [Fact]
+        public async Task LoadFavouritesAsync_ShouldLoadAndUpdateFavourites_WhenServiceReturnsData()
+        {
+            // Arrange
+            List<PlaceDto> initialFavourites =
+            [
+                new() { Id = "1", PrimaryType = "Restaurant" },
+                new() { Id = "2", PrimaryType = "Restaurant" }
+            ];
+
+            List<PlaceDto> updatedFavourites =
+            [
+                new() { Id = "1", PrimaryType = "Restaurant" },
+                new() { Id = "2", PrimaryType = "Restaurant" },
+                new() { Id = "3", PrimaryType = "Cafe" }
+            ];
+
+            _favouritesServiceMock
+                .Setup(s => s.GetUserFavouritesAsync())
+                .ReturnsAsync(Result<List<PlaceDto>>.Success(initialFavourites));
+
+            _mainThreadMock
+                .Setup(s => s.BeginInvokeOnMainThread(It.IsAny<Action>()))
+                .Callback<Action>(action => action.Invoke());
+
+            _favouritesServiceMock
+                .Setup(s => s.UpdateFavouritesAsync(initialFavourites, It.IsAny<CancellationToken>()))
+                .ReturnsAsync(updatedFavourites);
+
+            // Act
+            await _viewModel.LoadFavouritesAsync();
+            await Task.Delay(1000); 
+
+            // Assert
+            Assert.Equal(3, _viewModel.Favourites.Count);
+            Assert.Equal("Cafe", _viewModel.Favourites[2].PrimaryType);
+
+            _favouritesServiceMock.Verify(s => s.UpdateFavouritesAsync(initialFavourites, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]

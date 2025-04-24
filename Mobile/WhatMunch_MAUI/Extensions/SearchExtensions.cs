@@ -9,19 +9,34 @@ namespace WhatMunch_MAUI.Extensions
             ArgumentNullException.ThrowIfNull(places);
             if (location is null) return places;
 
-            foreach (var place in places)
-            {
-                if (place.Location is not null)
+            return places
+                .Select(p =>
                 {
-                    place.Distance = location.CalculateDistance(
-                        place.Location.Latitude,
-                        place.Location.Longitude,
-                        DistanceUnits.Kilometers
-                    );
-                }
-            }
+                    if (p.Location is not null)
+                    {
+                        p.Distance = location.CalculateDistance(
+                            p.Location.Latitude, 
+                            p.Location.Longitude, 
+                            DistanceUnits.Kilometers);
+                    }
+                    return p;
+                })
+                .ToList();
+        }
 
-            return places;
+        public static PlaceDto AddDistance(this PlaceDto place, Location? location = null)
+        {
+            ArgumentNullException.ThrowIfNull(place);
+            if (location is null) return place;
+
+            if(place.Location is not null)
+            {
+                place.Distance = location.CalculateDistance(
+                            place.Location.Latitude,
+                            place.Location.Longitude,
+                            DistanceUnits.Kilometers);
+            }
+            return place;
         }
 
         public static IEnumerable<PlaceDto> FilterDistances(this IEnumerable<PlaceDto> places)

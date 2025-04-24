@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.Services;
+using WhatMunch_MAUI.Utility;
 namespace WhatMunch_MAUI;
 public static class MauiProgram
 {
@@ -41,7 +42,8 @@ public static class MauiProgram
 			.AddSingleton<ILauncher>(Launcher.Default)
 			.AddSingleton<ISecureStorage>(SecureStorage.Default)
 			.AddSingleton<IWebAuthenticator>(WebAuthenticator.Default)
-			.AddSingleton<ILocalDatabase, LocalDatabase>();
+			.AddSingleton<ILocalDatabase, LocalDatabase>()
+			.AddSingleton<IMainThread, MainThreadWrapper>();
 
 		builder.Services
 			.AddSingleton<ITokenService, TokenService>()

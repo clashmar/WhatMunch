@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using RichardSzalay.MockHttp;
+using System.Text.Json;
 using WhatMunch_MAUI.MockData;
 using WhatMunch_MAUI.Models;
+using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Services;
 
 namespace WhatMunch_MAUI.Tests.Unit.Services
@@ -23,6 +25,12 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
             _handlerMock = new();
             _service = new(_clientFactoryMock.Object, _loggerMock.Object, _locationServiceMock.Object);
         }
+
+        private readonly string _displayNameText = "Pampalini Lunchroom & Coffee - Utrecht 2014";
+        private readonly string _shortFormattedAddress = "Wittevrouwenstraat 14, Utrecht";
+        private readonly string _websiteUri = "https://www.pampalini.nl/";
+        private readonly double _rating = 4.9;
+        private readonly int _userRatingCount = 1765;
 
         [Fact]
         public async Task GetNearbySearchResults_DeserializesCorrectly_AndReturnsSuccess()
@@ -54,11 +62,11 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
             var place = result.Data.Places.First();
 
             // Basic info
-            Assert.Equal("Pampalini Lunchroom & Coffee - Utrecht 2014", place.DisplayName?.Text);
-            Assert.Equal(4.9, place.Rating);
-            Assert.Equal(1765, place.UserRatingCount);
-            Assert.Equal("Wittevrouwenstraat 14, Utrecht", place.ShortFormattedAddress);
-            Assert.Equal("https://www.pampalini.nl/", place.WebsiteUri);
+            Assert.Equal(_displayNameText, place.DisplayName?.Text);
+            Assert.Equal(_rating, place.Rating);
+            Assert.Equal(_userRatingCount, place.UserRatingCount);
+            Assert.Equal(_shortFormattedAddress, place.ShortFormattedAddress);
+            Assert.Equal(_websiteUri, place.WebsiteUri);
             Assert.Equal(PriceLevel.PRICE_LEVEL_MODERATE, place.PriceLevel);
 
             // Types
@@ -88,6 +96,60 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
 
             // Next Page Token
             Assert.Equal("AeeoHcI7Xnd8tU32jESwMvgnhAo6QAJfBz6liaHIUALeeGfQ-8NM763uoABKPHSXrxo6MwR6GPkQI3BuamzPLyfNC1ssp5P6JBXwRmUADDsokhrcRQ", result.Data.NextPageToken);
+        }
+
+        [Fact]
+        public async Task GetPlaceDetailsAsync_DeserializesCorrectly_AndReturnsSuccess()
+        {
+            // Arrange
+            var placeId = MockPlace.ID;
+            var mockPlaces = JsonSerializer.Deserialize<TextSearchResponseDto>(MockPlace.GetMockPlaceJson());
+            var mockPlace = JsonSerializer.Serialize(mockPlaces?.Places.First());
+
+            _handlerMock.When($"https://places.googleapis.com/v1/places/{placeId}")
+                .Respond("application/json", mockPlace);
+
+            _clientFactoryMock.Setup(x => x.CreateClient("GooglePlaces"))
+                .Returns(new HttpClient(_handlerMock)
+                {
+                    BaseAddress = new Uri("https://places.googleapis.com/")
+                });
+
+            // Act
+            var result = await _service.GetPlaceDetailsAsync(placeId, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Data);
+            Assert.Equal(placeId, result.Data.Id);
+            Assert.Equal(_displayNameText, result.Data.DisplayName?.Text);
+            Assert.Equal(_rating, result.Data.Rating);
+            Assert.Equal(_userRatingCount, result.Data.UserRatingCount);
+            Assert.Equal(_shortFormattedAddress, result.Data.ShortFormattedAddress);
+            Assert.Equal(_websiteUri, result.Data.WebsiteUri);
+        }
+
+        [Fact]
+        public async Task GetPlaceDetailsAsync_ReturnsFailure_WhenResponseIsInvalid()
+        {
+            // Arrange
+            var placeId = MockPlace.ID;
+
+            _handlerMock.When($"https://places.googleapis.com/v1/places/{placeId}")
+                .Respond("application/json", "Invalid JSON");
+
+            _clientFactoryMock.Setup(x => x.CreateClient("GooglePlaces"))
+                .Returns(new HttpClient(_handlerMock)
+                {
+                    BaseAddress = new Uri("https://places.googleapis.com/")
+                });
+
+            // Act
+            var result = await _service.GetPlaceDetailsAsync(placeId, CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            Assert.Null(result.Data);
         }
     }
 }
