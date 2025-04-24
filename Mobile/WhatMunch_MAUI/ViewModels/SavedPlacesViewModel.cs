@@ -17,9 +17,11 @@ namespace WhatMunch_MAUI.ViewModels
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _favourites = [];
 
+        public bool ShouldNotLoad { get; set; } 
+
         public async Task LoadFavouritesAsync()
         {
-            if (IsBusy) return;
+            if (IsBusy || ShouldNotLoad) return;
             IsBusy = true;
 
             try
@@ -78,6 +80,8 @@ namespace WhatMunch_MAUI.ViewModels
                         {
                             { "Place", place.ToPlaceModel() }
                         });
+
+                ShouldNotLoad = true;
             }
             catch (Exception ex)
             {
@@ -127,6 +131,13 @@ namespace WhatMunch_MAUI.ViewModels
                 logger.LogError(ex, "An unexpected error occurred while trying to delete favourites");
                 await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
+        }
+
+        protected override void OnActivated()
+        {
+            WeakReferenceMessenger.Default.Register<SavedPlacesViewModel, FavouritesChangedMessage>(this, (r, m) => {
+                ShouldNotLoad = false;
+            });
         }
 
         public override void ResetViewModel()

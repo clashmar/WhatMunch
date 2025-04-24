@@ -130,7 +130,7 @@ namespace WhatMunch_MAUI.Services
 
                 foreach (var place in favourites)
                 {
-                    if ((DateTime.UtcNow - place.LastUpdatedUtc) > TimeSpan.FromDays(0))
+                    if ((DateTime.UtcNow - place.LastUpdatedUtc) > TimeSpan.FromDays(1))
                     {
                         var result = await googlePlacesService.GetPlaceDetailsAsync(place.Id, cancellationToken);
 
