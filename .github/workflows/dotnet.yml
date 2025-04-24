@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln --configuration Release --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln --no-build --verbosity normal
