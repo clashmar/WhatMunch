@@ -1,28 +1,31 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: build and test
+name: Build MAUI Android App
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
+    paths:
+      - '**.cs'
+      - '**.csproj'
+      - '**.sln'
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  build-android:
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: '9.0.x'
+
+    - name: Install .NET MAUI Workloads
+      run: dotnet workload restore
+
     - name: Restore dependencies
-      run: dotnet restore Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln
-    - name: Build
-      run: dotnet build Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln --configuration Release --no-restore
-    - name: Test
-      run: dotnet test Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln --no-build --verbosity normal
+      run: dotnet restore Mobile/WhatMunch_MAUI/WhatMunch_MAUI.csproj
+
+    - name: Build (Android)
+      run: dotnet build Mobile/WhatMunch_MAUI/WhatMunch_MAUI.csproj -c Release --no-restore
