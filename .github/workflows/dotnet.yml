@@ -19,6 +19,9 @@ jobs:
       with:
         dotnet-version: 9.0.x
 
+    - name: Install MAUI workloads
+      run: dotnet workload install maui
+
     - name: Restore dependencies
       run: dotnet restore Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln
 
@@ -26,4 +29,4 @@ jobs:
       run: dotnet build Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln --configuration Release --no-restore
 
     - name: Test
-      run: dotnet test Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln --no-build --verbosity norma
+      run: dotnet test Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln --no-build --verbosity normal
