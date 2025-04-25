@@ -27,7 +27,7 @@ jobs:
       run: dotnet workload install maui
 
     - name: Restore dependencies
-      run: dotnet restore Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln
+      run: dotnet restore Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln -r win-x64
 
     - name: Build
       run: dotnet build Mobile/WhatMunch_MAUI/WhatMunch_MAUI.sln -c Release --no-restore
