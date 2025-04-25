@@ -4,7 +4,6 @@ using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.MockData;
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Resources.Localization;
-using WhatMunch_MAUI.Secrets;
 using WhatMunch_MAUI.Utility;
 using WhatMunch_MAUI.Utility.Exceptions;
 
@@ -19,9 +18,9 @@ namespace WhatMunch_MAUI.Services
     public class GooglePlacesService(
         IHttpClientFactory clientFactory,
         ILogger<GooglePlacesService> logger,
-        ILocationService locationService) : IGooglePlacesService
+        ILocationService locationService,
+        IDjangoApiService djangoApiService) : IGooglePlacesService
     {
-        private readonly string _apiKey = ApiKeys.GOOGLE_MAPS_API_KEY;
 
         // Specify what the api returns
         private readonly string PLACES_FIELD_MASK = "places." + DETAILS_FIELD_MASK.Replace(",", ",places.") + ",nextPageToken";
@@ -69,10 +68,16 @@ namespace WhatMunch_MAUI.Services
 
                 preferences ??= SearchPreferencesModel.Default;
 
-                var jsonContent = await CreateNearbySearchJsonAsync(preferences, pageToken);
+                var apiKeyTask = djangoApiService.GetGoogleMapsApiKeyAsync();
+                var jsonTask = CreateNearbySearchJsonAsync(preferences, pageToken);
+
+                await Task.WhenAll(apiKeyTask, jsonTask);
+
+                var apiKey = apiKeyTask.Result;
+                var jsonContent = jsonTask.Result;
 
                 using var client = clientFactory.CreateClient("GooglePlaces").UpdateLanguageHeaders();
-                client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
+                client.DefaultRequestHeaders.Add("X-Goog-Api-Key", apiKey);
                 client.DefaultRequestHeaders.Add("X-Goog-FieldMask", PLACES_FIELD_MASK);
 
                 using var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
@@ -97,8 +102,10 @@ namespace WhatMunch_MAUI.Services
         {
             return await ExecuteRequestAsync(async () =>
             {
+                var apiKey = await djangoApiService.GetGoogleMapsApiKeyAsync();
+
                 var client = clientFactory.CreateClient("GooglePlaces").UpdateLanguageHeaders();
-                client.DefaultRequestHeaders.Add("X-Goog-Api-Key", _apiKey);
+                client.DefaultRequestHeaders.Add("X-Goog-Api-Key", apiKey);
                 client.DefaultRequestHeaders.Add("X-Goog-FieldMask", DETAILS_FIELD_MASK);
 
                 var response = await client.GetAsync($"v1/places/{placeId}");

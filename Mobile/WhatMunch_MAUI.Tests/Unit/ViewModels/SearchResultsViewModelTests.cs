@@ -12,6 +12,7 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
         private readonly Mock<ISearchService> _searchServiceMock;
         private readonly Mock<IShellService> _shellServiceMock;
         private readonly Mock<IFavouritesService> _favouritesServiceMock;
+        private readonly Mock<IDjangoApiService> _djangoApiService;
         private readonly Mock<ILogger<SearchResultsViewModel>> _loggerMock;
         private readonly SearchResultsViewModel _viewModel;
 
@@ -20,13 +21,15 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
             _searchServiceMock = new();
             _shellServiceMock = new();
             _favouritesServiceMock = new();
+            _djangoApiService = new();
             _loggerMock = new();
 
             _viewModel = new SearchResultsViewModel(
                 _searchServiceMock.Object,
                 _shellServiceMock.Object,
                 _favouritesServiceMock.Object,
-                _loggerMock.Object
+                _loggerMock.Object,
+                _djangoApiService.Object
             );
         }
 
@@ -133,6 +136,9 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
         {
             // Arrange
             var place = new PlaceDto { Id = "1" };
+
+            _djangoApiService.Setup(m => m.GetGoogleMapsApiKeyAsync())
+                .ReturnsAsync("apiKey");
 
             // Act
             await _viewModel.GoToPlaceDetailsCommand.ExecuteAsync(place);

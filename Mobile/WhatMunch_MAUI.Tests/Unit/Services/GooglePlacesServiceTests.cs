@@ -14,6 +14,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
         private readonly Mock<IHttpClientFactory> _clientFactoryMock;
         private readonly Mock<ILogger<GooglePlacesService>> _loggerMock;
         private readonly Mock<ILocationService> _locationServiceMock;
+        private readonly Mock<IDjangoApiService> _djangoApiService;
         private readonly MockHttpMessageHandler _handlerMock;
         private readonly GooglePlacesService _service;
 
@@ -23,7 +24,8 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
             _loggerMock = new();
             _locationServiceMock = new();
             _handlerMock = new();
-            _service = new(_clientFactoryMock.Object, _loggerMock.Object, _locationServiceMock.Object);
+            _djangoApiService = new();
+            _service = new(_clientFactoryMock.Object, _loggerMock.Object, _locationServiceMock.Object, _djangoApiService.Object);
         }
 
         private readonly string _displayNameText = "Pampalini Lunchroom & Coffee - Utrecht 2014";
@@ -40,6 +42,9 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
 
             _locationServiceMock.Setup(m => m.GetLocationWithTimeoutAsync())
                 .ReturnsAsync(new Location(37.7749, -122.4194));
+
+            _djangoApiService.Setup(m => m.GetGoogleMapsApiKeyAsync())
+                .ReturnsAsync("apiKey");
 
             _handlerMock.When(
                 $"https://places.googleapis.com/*")
@@ -106,6 +111,9 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
             var mockPlaces = JsonSerializer.Deserialize<TextSearchResponseDto>(MockPlace.GetMockPlaceJson());
             var mockPlace = JsonSerializer.Serialize(mockPlaces?.Places.First());
 
+            _djangoApiService.Setup(m => m.GetGoogleMapsApiKeyAsync())
+                .ReturnsAsync("apiKey");
+
             _handlerMock.When($"https://places.googleapis.com/v1/places/{placeId}")
                 .Respond("application/json", mockPlace);
 
@@ -134,6 +142,9 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
         {
             // Arrange
             var placeId = MockPlace.ID;
+
+            _djangoApiService.Setup(m => m.GetGoogleMapsApiKeyAsync())
+                .ReturnsAsync("apiKey");
 
             _handlerMock.When($"https://places.googleapis.com/v1/places/{placeId}")
                 .Respond("application/json", "Invalid JSON");

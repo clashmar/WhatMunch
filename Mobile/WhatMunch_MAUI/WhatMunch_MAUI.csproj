@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<IsTestProject>true</IsTestProject>
 		<TargetFrameworks>net9.0;net9.0-android</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net9.0-windows10.0.19041.0</TargetFrameworks>
 		<AndroidEnableProfiler>True</AndroidEnableProfiler>
@@ -34,8 +33,6 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
-
-	
 	
 	<PropertyGroup>
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
@@ -149,5 +146,9 @@
 
 	<ItemGroup>
 	  <MauiFont Include="Models\Fonts\FaSolid.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Secrets\" />
 	</ItemGroup>
 </Project>

@@ -13,7 +13,8 @@ namespace WhatMunch_MAUI.ViewModels
         IFavouritesService favouritesService,
         IShellService shellService,
         ILogger<SavedPlacesViewModel> logger,
-        IMainThread mainThread) : BaseViewModel
+        IMainThread mainThread,
+        IDjangoApiService djangoApiService) : BaseViewModel
     {
         [ObservableProperty]
         private ObservableCollection<PlaceDto> _favourites = [];
@@ -75,10 +76,12 @@ namespace WhatMunch_MAUI.ViewModels
 
             try
             {
+                string apiKey = await djangoApiService.GetGoogleMapsApiKeyAsync();
+
                 await shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
-                            { "Place", place.ToPlaceModel() }
+                            { "Place", place.ToPlaceModel(apiKey) }
                         });
 
                 ShouldNotLoad = true;

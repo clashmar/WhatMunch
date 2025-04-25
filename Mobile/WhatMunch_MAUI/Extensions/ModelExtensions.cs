@@ -2,7 +2,6 @@
 using WhatMunch_MAUI.Models.Dtos;
 using WhatMunch_MAUI.Models.Fonts;
 using WhatMunch_MAUI.Resources.Localization;
-using WhatMunch_MAUI.Secrets;
 
 namespace WhatMunch_MAUI.Extensions
 {
@@ -52,9 +51,10 @@ namespace WhatMunch_MAUI.Extensions
             return displayName.Length > 26 ? $"{displayName[..26]}...": displayName;
         }
 
-        public static PlaceModel ToPlaceModel(this PlaceDto placeDto)
+        public static PlaceModel ToPlaceModel(this PlaceDto placeDto, string apiKey)
         {
             ArgumentNullException.ThrowIfNull(placeDto);
+            ArgumentException.ThrowIfNullOrEmpty(apiKey);
 
             string ratingSummary = $"{placeDto.Rating} ({placeDto.UserRatingCount})";
 
@@ -69,7 +69,7 @@ namespace WhatMunch_MAUI.Extensions
                 PriceLevel = placeDto.PriceLevel.ToDollarDisplay(),
                 OpenNow = placeDto.RegularOpeningHours?.OpenNow ?? false,
                 OpeningTimes = placeDto.RegularOpeningHours?.WeekdayDescriptions ?? [],
-                Photos = placeDto.Photos?.ToDisplayPhotos() ?? [EmptyPhoto],
+                Photos = placeDto.Photos?.ToDisplayPhotos(apiKey) ?? [EmptyPhoto],
                 GoodForChildren = placeDto.GoodForChildren,
                 AllowsDogs = placeDto.AllowsDogs,
                 Stars = placeDto.Rating.ToStars(),
@@ -174,14 +174,14 @@ namespace WhatMunch_MAUI.Extensions
             return new PriceLevelDisplay(number, remainder);
         }
 
-        public static List<string> ToDisplayPhotos(this List<PlacePhoto> photos)
+        public static List<string> ToDisplayPhotos(this List<PlacePhoto> photos, string apiKey)
         {
-            if (photos == null || photos.Count == 0) return [EmptyPhoto];
+            if (photos == null || photos.Count == 0 || string.IsNullOrEmpty(apiKey)) return [EmptyPhoto];
 
             return photos.Select(photo =>
                 string.IsNullOrEmpty(photo.Name)
                     ? EmptyPhoto
-                    : $"https://places.googleapis.com/v1/{photo.Name}/media?maxWidthPx=600&key={ApiKeys.GOOGLE_MAPS_API_KEY}"
+                    : $"https://places.googleapis.com/v1/{photo.Name}/media?maxWidthPx=600&key={apiKey}"
             ).ToList();
         }
 

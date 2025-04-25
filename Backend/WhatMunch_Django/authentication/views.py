@@ -7,15 +7,13 @@ from rest_framework import generics
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.utils.http import urlencode
 from django.http import HttpResponseRedirect
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth import logout
-
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
-        logout(request)  # Ends the Django session
+        logout(request)
         return Response({"message": "Logged out successfully."})
 
 class RegisterView(generics.CreateAPIView):

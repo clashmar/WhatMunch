@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
+﻿
 using Microsoft.Extensions.Logging;
 using Moq;
 using WhatMunch_MAUI.Models.Dtos;
@@ -15,6 +15,7 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
         private readonly Mock<IShellService> _shellServiceMock;
         private readonly Mock<ILogger<SavedPlacesViewModel>> _loggerMock;
         private readonly Mock<IMainThread> _mainThreadMock;
+        private readonly Mock<IDjangoApiService> _djangoApiService;
         private readonly SavedPlacesViewModel _viewModel;
 
         public SavedPlacesViewModelTests()
@@ -23,12 +24,14 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
             _shellServiceMock = new();
             _loggerMock = new();
             _mainThreadMock = new();
+            _djangoApiService = new();
 
             _viewModel = new SavedPlacesViewModel(
                 _favouritesServiceMock.Object,
                 _shellServiceMock.Object,
                 _loggerMock.Object,
-                _mainThreadMock.Object
+                _mainThreadMock.Object,
+                _djangoApiService.Object
             );
         }
 
@@ -46,6 +49,9 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
                 .Setup(s => s.GetUserFavouritesAsync())
                 .ReturnsAsync(Result<List<PlaceDto>>.Success(favourites));
 
+            _djangoApiService.Setup(m => m.GetGoogleMapsApiKeyAsync())
+                .ReturnsAsync("apiKey");
+
             // Act
             await _viewModel.LoadFavouritesAsync();
 
@@ -61,6 +67,9 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
             _favouritesServiceMock
                 .Setup(s => s.GetUserFavouritesAsync())
                 .ReturnsAsync(Result<List<PlaceDto>>.Failure());
+
+            _djangoApiService.Setup(m => m.GetGoogleMapsApiKeyAsync())
+                .ReturnsAsync("apiKey");
 
             // Act
             await _viewModel.LoadFavouritesAsync();
@@ -114,6 +123,9 @@ namespace WhatMunch_MAUI.Tests.Unit.ViewModels
         {
             // Arrange
             var place = new PlaceDto { Id = "1", PrimaryType = "Restaurant" };
+
+            _djangoApiService.Setup(m => m.GetGoogleMapsApiKeyAsync())
+                .ReturnsAsync("apiKey");
 
             // Act
             await _viewModel.GoToPlaceDetails(place);

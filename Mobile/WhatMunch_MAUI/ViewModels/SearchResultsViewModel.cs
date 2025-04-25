@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Messaging.Messages;
 using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Extensions;
 using WhatMunch_MAUI.Models.Dtos;
@@ -19,17 +18,20 @@ namespace WhatMunch_MAUI.ViewModels
         private readonly IShellService _shellService;
         private readonly IFavouritesService _favouritesService;
         private readonly ILogger<SearchResultsViewModel> _logger;
+        private readonly IDjangoApiService _djangoApiService;
 
         public SearchResultsViewModel(
             ISearchService searchService, 
             IShellService shellService,
             IFavouritesService favouritesService,
-            ILogger<SearchResultsViewModel> logger)
+            ILogger<SearchResultsViewModel> logger,
+            IDjangoApiService djangoApiService)
         {
             _searchService = searchService;
             _shellService = shellService;
             _favouritesService = favouritesService;
             _logger = logger;
+            _djangoApiService = djangoApiService;
             IsActive = true;
         }
 
@@ -133,10 +135,12 @@ namespace WhatMunch_MAUI.ViewModels
 
             try
             {
+                string apiKey = await _djangoApiService.GetGoogleMapsApiKeyAsync();
+
                 await _shellService.GoToAsync($"{nameof(PlaceDetailsPage)}",
                         new Dictionary<string, object>
                         {
-                            { "Place", place.ToPlaceModel() }
+                            { "Place", place.ToPlaceModel(apiKey) }
                         });
             }
             catch (Exception ex)
