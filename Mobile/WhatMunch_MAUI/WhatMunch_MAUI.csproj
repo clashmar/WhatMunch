@@ -150,4 +150,8 @@
 	<ItemGroup>
 	  <MauiFont Include="Models\Fonts\FaSolid.cs" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Secrets\" />
+	</ItemGroup>
 </Project>

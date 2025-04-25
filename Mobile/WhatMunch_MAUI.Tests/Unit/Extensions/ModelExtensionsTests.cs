@@ -8,6 +8,8 @@ namespace WhatMunch_MAUI.Tests.Unit.Extensions
 {
     public class ModelExtensionsTests
     {
+        private readonly string _apiKey = "apiKey";
+
         [Fact]
         public void ToDto_RegistrationModel_ValidInput_ReturnsDto()
         {
@@ -126,7 +128,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Extensions
             };
 
             // Act
-            PlaceModel result = placeDto.ToPlaceModel();
+            PlaceModel result = placeDto.ToPlaceModel(_apiKey);
 
             // Assert
             Assert.NotNull(result);
@@ -153,7 +155,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Extensions
             PlaceDto placeDto = null!;
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => placeDto.ToPlaceModel());
+            Assert.Throws<ArgumentNullException>(() => placeDto.ToPlaceModel(_apiKey));
         }
 
         [Fact]
@@ -217,7 +219,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Extensions
             ];
 
             // Act
-            var result = photos.ToDisplayPhotos();
+            var result = photos.ToDisplayPhotos(_apiKey);
 
             // Assert
             Assert.NotNull(result);
@@ -231,7 +233,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Extensions
             var photos = new List<PlacePhoto>();
 
             // Act
-            var result = photos.ToDisplayPhotos();
+            var result = photos.ToDisplayPhotos(_apiKey);
 
             // Assert
             Assert.Single(result);

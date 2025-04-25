@@ -47,6 +47,7 @@ public static class MauiProgram
 
 		builder.Services
 			.AddSingleton<ITokenService, TokenService>()
+			.AddSingleton<IDjangoApiService, DjangoApiService>()
 			.AddSingleton<IShellService, ShellService>()
 			.AddSingleton<ISearchService, SearchService>()
 			.AddSingleton<IPermissionsService, PermissionsService>()
