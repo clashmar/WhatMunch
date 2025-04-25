@@ -10,3 +10,4 @@ psycopg2-binary
 python-dotenv
 django-allauth
 django-allauth[socialaccount]
+python-decouple
