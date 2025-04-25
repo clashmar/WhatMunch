@@ -34,8 +34,6 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
-
-	
 	
 	<PropertyGroup>
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
