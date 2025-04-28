@@ -11,3 +11,5 @@ python-dotenv
 django-allauth
 django-allauth[socialaccount]
 python-decouple
+pytest
+pytest-django
