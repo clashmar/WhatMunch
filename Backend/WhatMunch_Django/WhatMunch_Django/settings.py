@@ -1,7 +1,7 @@
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
-from decouple import config
+import dj_database_url
 import os
 
 load_dotenv()
@@ -12,10 +12,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv('DEBUG')
 SECURE_SSL_REDIRECT = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
@@ -107,11 +107,20 @@ WSGI_APPLICATION = 'WhatMunch_Django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+
+if os.getenv("CI") or os.getenv("DEBUG"):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
+else:
+    DATABASES = {
+    'default': {
+            'ENGINE': 'django.db.backends.postgressql',
+            'NAME': os.getenv("DB_NAME"),
+        }
 }
 
 # Password validation
