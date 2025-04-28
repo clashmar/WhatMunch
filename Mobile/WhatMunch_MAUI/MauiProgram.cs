@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility;

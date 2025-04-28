@@ -13,3 +13,5 @@ django-allauth[socialaccount]
 python-decouple
 pytest
 pytest-django
+gunicorn
+psycopg2
