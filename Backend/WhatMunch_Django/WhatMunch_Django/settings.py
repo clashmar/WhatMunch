@@ -1,6 +1,8 @@
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
+from decouple import config
+import os
 
 load_dotenv()
 
@@ -10,11 +12,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a$b_4z_v%-j037+0+est)khs4y#wyj7wsf3d8ft#r=wga7rg8w'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+SECURE_SSL_REDIRECT = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = ['*']
 
