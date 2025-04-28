@@ -23,7 +23,7 @@ namespace WhatMunch_MAUI.Services
         public readonly string _accessTokenKey = "jwt_token";
         private readonly string _refreshTokenKey = "jwtRefreshToken";
 
-        // TODO: Add logging
+        // TODO: Add logging & Unit tests
         public async Task SaveAccessTokenAsync(string token)
         {
             await secureStorage.SetAsync(_accessTokenKey, token);

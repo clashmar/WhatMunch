@@ -16,7 +16,7 @@
                                VerticalOptions="Center" />
             <Grid IsVisible="{Binding IsNotBusy}" 
                   RowSpacing="20"
-                  RowDefinitions="Auto,Auto,Auto,Auto"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto"
                   WidthRequest="350"
                   VerticalOptions="Center">
                 <Grid Grid.Row="0"
@@ -111,11 +111,18 @@
                     </VerticalStackLayout>
                 </Grid>
 
-                <Button Grid.Row="4"
+                <Button Grid.Row="3"
                         HeightRequest="60"
                         WidthRequest="150"
                         Text="{x:Static strings:AppResources.Save}"
                         Command="{Binding HandleSavePreferencesCommand}" />
+
+                <Button Grid.Row="4"
+                        HeightRequest="60"
+                        WidthRequest="150"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource Tomato}, Dark={StaticResource TomatoDark}}"
+                        Text="{x:Static strings:AppResources.DeleteAccount}"
+                        Command="{Binding HandleDeleteAccountCommand}" />
             </Grid>
         </Grid>
     </ScrollView>

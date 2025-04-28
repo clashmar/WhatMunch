@@ -381,4 +381,10 @@
   <data name="PleaseLoginAgain" xml:space="preserve">
     <value>Please login again.</value>
   </data>
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>Delete Account</value>
+  </data>
+  <data name="AccountWasDeleted" xml:space="preserve">
+    <value>Account was deleted.</value>
+  </data>
 </root>

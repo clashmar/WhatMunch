@@ -25,19 +25,11 @@ namespace WhatMunch_MAUI.Services
             try
             {
                 var client = clientFactory.CreateClient("WhatMunch").UpdateLanguageHeaders();
-                await tokenService.UpdateHeaders(client);
-                var response = await client.GetAsync("get-places-key/");
-
-                if (response.StatusCode == HttpStatusCode.Unauthorized)
-                {
-                    var refreshResult = await accountService.RefreshAccessTokenAsync();
-                    if (refreshResult.IsSuccess)
-                    {
-                        client = clientFactory.CreateClient("WhatMunch").UpdateLanguageHeaders();
-                        await tokenService.UpdateHeaders(client);
-                        response = await client.GetAsync("get-places-key/");
-                    }
-                }
+                var response = await client.ExecuteRequestWithRefreshAsync(
+                    c => c.GetAsync("get-places-key/"),
+                    accountService,
+                    tokenService,
+                    clientFactory);
 
                 response.EnsureSuccessStatusCode();
 

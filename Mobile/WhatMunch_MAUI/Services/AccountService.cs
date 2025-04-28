@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using WhatMunch_MAUI.Data;
 using WhatMunch_MAUI.Extensions;
@@ -17,6 +16,7 @@ namespace WhatMunch_MAUI.Services
         Task<Result> LoginSocialUserAsync();
         Task<Result> RefreshAccessTokenAsync();
         Task LogoutAsync();
+        Task<Result> DeleteUserAccountAsync();
     }
 
     public class AccountService(
@@ -168,6 +168,28 @@ namespace WhatMunch_MAUI.Services
                 logger.LogError(ex, "Unexpected error while logging out.");
                 throw;
             }
+        }
+
+        // TODO: Unit test DeleteUserAccountAsync
+        public async Task<Result> DeleteUserAccountAsync()
+        {
+            return await ExecuteRequestAsync(async () =>
+            {
+                var client = clientFactory.CreateClient("WhatMunch");
+
+                var response = await client.ExecuteRequestWithRefreshAsync(
+                    c => c.PostAsync("auth/delete-account/", null),
+                    this,
+                    tokenService,
+                    clientFactory);
+
+                //var response = await client.PostAsync("auth/delete-account/", null);
+
+                response.EnsureSuccessStatusCode();
+                tokenService.RemoveTokensFromStorage();
+                await shellService.GoToAsync($"{nameof(RegistrationPage)}");
+                return Result.Success();
+            });
         }
 
         private async Task HandleLoginDetails(string accessToken, string refreshToken, string username)
