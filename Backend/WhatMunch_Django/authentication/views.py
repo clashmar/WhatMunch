@@ -9,6 +9,7 @@ from django.utils.http import urlencode
 from django.http import HttpResponseRedirect
 from rest_framework.response import Response
 from django.contrib.auth import logout
+from rest_framework import status
 
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
@@ -43,3 +44,12 @@ class LoginRedirectView(APIView):
         })
 
         return HttpResponseRedirect(f"whatmunch://oauth-redirect?{query_params}")
+    
+class DeleteUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        logout(request)
+        user.delete()
+        return Response(status = status.HTTP_204_NO_CONTENT)

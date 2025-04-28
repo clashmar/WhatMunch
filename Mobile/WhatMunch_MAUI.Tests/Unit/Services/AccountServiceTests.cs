@@ -15,6 +15,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
         private readonly Mock<ISecureStorage> _secureStorageMock;
         private readonly Mock<ILogger<AccountService>> _loggerMock;
         private readonly Mock<IWebAuthenticator> _webAuthenticatorMock;
+        private readonly Mock<IShellService> _shellServiceMock;
         private readonly MockHttpMessageHandler _handlerMock;
         private readonly AccountService _accountService;
 
@@ -25,6 +26,7 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
             _secureStorageMock = new();
             _loggerMock = new();
             _webAuthenticatorMock = new();
+            _shellServiceMock = new();
             _handlerMock = new();
 
             _accountService = new AccountService(
@@ -32,7 +34,8 @@ namespace WhatMunch_MAUI.Tests.Unit.Services
                 _tokenServiceMock.Object,
                 _secureStorageMock.Object,
                 _loggerMock.Object,
-                _webAuthenticatorMock.Object
+                _webAuthenticatorMock.Object,
+                _shellServiceMock.Object
             );
         }
 

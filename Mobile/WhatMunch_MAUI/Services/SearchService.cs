@@ -61,7 +61,7 @@ namespace WhatMunch_MAUI.Services
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An unexpected error occurred while executing search");
+                logger.LogError(ex, "Unexpected error: {Message}", ex.Message);
                 throw;
             }
         }

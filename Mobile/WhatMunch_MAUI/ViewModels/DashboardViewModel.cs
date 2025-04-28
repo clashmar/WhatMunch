@@ -49,7 +49,7 @@ namespace WhatMunch_MAUI.ViewModels
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "An unexpected error occurred while executing search");
+                logger.LogError(ex, "Unexpected error: {Message}", ex.Message);
                 await shellService.DisplayError(AppResources.ErrorUnexpected);
             }
             finally

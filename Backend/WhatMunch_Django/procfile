@@ -1,0 +1,1 @@
+web: gunicorn WhatMunch_Django.wsgi:application

@@ -375,4 +375,16 @@
   <data name="ReviewSummary" xml:space="preserve">
     <value>Samenvatting van de recensie:</value>
   </data>
+  <data name="SessionExpired" xml:space="preserve">
+    <value>Sessie verlopen.</value>
+  </data>
+  <data name="PleaseLoginAgain" xml:space="preserve">
+    <value>Log opnieuw in.</value>
+  </data>
+  <data name="DeleteAccount" xml:space="preserve">
+    <value>Account Verwijderen</value>
+  </data>
+  <data name="AccountWasDeleted" xml:space="preserve">
+    <value>Account is verwijderd.</value>
+  </data>
 </root>

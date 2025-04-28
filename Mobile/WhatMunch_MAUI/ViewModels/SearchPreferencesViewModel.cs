@@ -1,13 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Resources.Localization;
+using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
     public partial class SearchPreferencesViewModel(
         ISearchPreferencesService searchPreferencesService,
         ILogger<SearchPreferencesViewModel> logger,
-        IToastService toastService) : BaseViewModel
+        IToastService toastService,
+        IAccountService accountService,
+        IShellService shellService) : BaseViewModel
     {
         [ObservableProperty]
         private SearchPreferencesModel _preferences = SearchPreferencesModel.Default;
@@ -25,8 +28,8 @@ namespace WhatMunch_MAUI.ViewModels
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Unexpected error while saving preferences");
-                await toastService.DisplayToast(AppResources.Error);
+                logger.LogError(ex, "Unexpected error: {Message}", ex.Message);
+                await toastService.DisplayToast(AppResources.ErrorUnexpected);
             }
         }
         public async Task LoadPreferencesAsync()
@@ -38,7 +41,35 @@ namespace WhatMunch_MAUI.ViewModels
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to load search preferences");
+                logger.LogError(ex, "Unexpected error: {Message}", ex.Message);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        // TODO: Unit test HandleDeleteAccountAsync
+        public async Task HandleDeleteAccountAsync()
+        {
+            try
+            {
+                IsBusy = true;
+                bool isConfirmed = await shellService.CheckUserPrompt(AppResources.DeleteAccount);
+                if(!isConfirmed) return;
+
+                var result = await accountService.DeleteUserAccountAsync();
+                if(result.IsSuccess)
+                {
+                    await toastService.DisplayToast(AppResources.AccountWasDeleted);
+                    await shellService.GoToAsync(nameof(RegistrationPage));
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unexpected error: {Message}", ex.Message);
+                await toastService.DisplayToast(AppResources.ErrorUnexpected);
             }
             finally
             {

@@ -4,9 +4,10 @@ using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility;
 namespace WhatMunch_MAUI;
+
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
+    public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder

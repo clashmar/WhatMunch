@@ -106,6 +106,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Account was deleted..
+        /// </summary>
+        public static string AccountWasDeleted {
+            get {
+                return ResourceManager.GetString("AccountWasDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
@@ -165,6 +174,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string CreateAccountButton {
             get {
                 return ResourceManager.GetString("CreateAccountButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Account.
+        /// </summary>
+        public static string DeleteAccount {
+            get {
+                return ResourceManager.GetString("DeleteAccount", resourceCulture);
             }
         }
         
@@ -502,6 +520,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please login again..
+        /// </summary>
+        public static string PleaseLoginAgain {
+            get {
+                return ResourceManager.GetString("PleaseLoginAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Previous.
         /// </summary>
         public static string Previous {
@@ -624,6 +651,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string SearchReturned {
             get {
                 return ResourceManager.GetString("SearchReturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Session expired..
+        /// </summary>
+        public static string SessionExpired {
+            get {
+                return ResourceManager.GetString("SessionExpired", resourceCulture);
             }
         }
         
