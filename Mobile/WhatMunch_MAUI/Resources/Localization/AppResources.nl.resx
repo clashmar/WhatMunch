@@ -375,4 +375,10 @@
   <data name="ReviewSummary" xml:space="preserve">
     <value>Samenvatting van de recensie:</value>
   </data>
+  <data name="SessionExpired" xml:space="preserve">
+    <value>Sessie verlopen.</value>
+  </data>
+  <data name="PleaseLoginAgain" xml:space="preserve">
+    <value>Log opnieuw in.</value>
+  </data>
 </root>

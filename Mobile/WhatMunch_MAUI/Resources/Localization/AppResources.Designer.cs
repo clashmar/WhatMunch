@@ -502,6 +502,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please login again..
+        /// </summary>
+        public static string PleaseLoginAgain {
+            get {
+                return ResourceManager.GetString("PleaseLoginAgain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Previous.
         /// </summary>
         public static string Previous {
@@ -624,6 +633,15 @@ namespace WhatMunch_MAUI.Resources.Localization {
         public static string SearchReturned {
             get {
                 return ResourceManager.GetString("SearchReturned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Session expired..
+        /// </summary>
+        public static string SessionExpired {
+            get {
+                return ResourceManager.GetString("SessionExpired", resourceCulture);
             }
         }
         

@@ -375,4 +375,10 @@
   <data name="ReviewSummary" xml:space="preserve">
     <value>Review Summary:</value>
   </data>
+  <data name="SessionExpired" xml:space="preserve">
+    <value>Session expired.</value>
+  </data>
+  <data name="PleaseLoginAgain" xml:space="preserve">
+    <value>Please login again.</value>
+  </data>
 </root>

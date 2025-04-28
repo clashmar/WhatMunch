@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using System.Net;
 using WhatMunch_MAUI.Extensions;
 
 namespace WhatMunch_MAUI.Services
@@ -10,6 +11,7 @@ namespace WhatMunch_MAUI.Services
     public class DjangoApiService(
         IHttpClientFactory clientFactory, 
         ILogger<DjangoApiService> logger,
+        IAccountService accountService,
         ITokenService tokenService) : IDjangoApiService
     {
         private string? _cachedKey;
@@ -22,10 +24,21 @@ namespace WhatMunch_MAUI.Services
 
             try
             {
-                using var client = clientFactory.CreateClient("WhatMunch").UpdateLanguageHeaders();
+                var client = clientFactory.CreateClient("WhatMunch").UpdateLanguageHeaders();
                 await tokenService.UpdateHeaders(client);
-
                 var response = await client.GetAsync("get-places-key/");
+
+                if (response.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    var refreshResult = await accountService.RefreshAccessTokenAsync();
+                    if (refreshResult.IsSuccess)
+                    {
+                        client = clientFactory.CreateClient("WhatMunch").UpdateLanguageHeaders();
+                        await tokenService.UpdateHeaders(client);
+                        response = await client.GetAsync("get-places-key/");
+                    }
+                }
+
                 response.EnsureSuccessStatusCode();
 
                 var json = await response.Content.ReadAsStringAsync();
@@ -35,9 +48,14 @@ namespace WhatMunch_MAUI.Services
 
                 return _cachedKey;
             }
+            catch (HttpRequestException ex)
+            {
+                logger.LogError(ex, "HTTP request failed: {Message}", ex.Message);
+                throw;
+            }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Failed to get Google Maps API key from Django.");
+                logger.LogError(ex, "Unexpected error: {Message}", ex.Message);
                 throw;
             }
         }

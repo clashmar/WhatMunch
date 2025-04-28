@@ -7,12 +7,12 @@ namespace WhatMunch_MAUI
 {
     public partial class AppShell : Shell
     {
-        private readonly ITokenService _tokenService;
+        private readonly IAccountService _accountService;
         private readonly ILogger<AppShell> _logger;
-        public AppShell(ITokenService tokenService, ILogger<AppShell> logger)
+        public AppShell(IAccountService accountService, ILogger<AppShell> logger)
         {
-            InitializeComponent(); 
-            _tokenService = tokenService;
+            InitializeComponent();
+            _accountService = accountService;
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(RegistrationPage), typeof(RegistrationPage));
             Routing.RegisterRoute(nameof(SearchResultsPage), typeof(SearchResultsPage));
@@ -32,8 +32,7 @@ namespace WhatMunch_MAUI
 
             try
             {
-                await _tokenService.LogoutAsync();
-                await GoToAsync($"{nameof(LoginPage)}");
+                await _accountService.LogoutAsync();
             }
             catch (Exception ex)
             {
