@@ -35,5 +35,5 @@ jobs:
         echo "GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" >> $GITHUB_ENV
     - name: Run Migrations & Tests
       run: |
-        python manage.py migrate
-        python manage.py test
+        python Backend/WhatMunch_Django/manage.py migrate
+        python pytest
