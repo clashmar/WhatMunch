@@ -36,4 +36,4 @@ jobs:
     - name: Run Migrations & Tests
       run: |
         python Backend/WhatMunch_Django/manage.py migrate
-        python pytest
+        pytest
