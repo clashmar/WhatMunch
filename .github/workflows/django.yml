@@ -25,22 +25,31 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+        
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r Backend/requirements.txt
-    - name: Set Environment Variables
+        
+    - name: Set Environment Variables for Tests
       run: |
-        echo "SECRET_KEY=${{ secrets.DJANGO_SETTINGS_MODULE }}" >> $GITHUB_ENV
+        echo "DJANGO_SETTINGS_MODULE=WhatMunch_Django.settings.test" >> $GITHUB_ENV
         echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
         echo "GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" >> $GITHUB_ENV
-        echo "DB_NAME=${{ secrets.DB_NAME }}" >> $GITHUB_ENV
-        echo "DB_USER=${{ secrets.DB_USER }}" >> $GITHUB_ENV
-        echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> $GITHUB_ENV
-        echo "DB_HOST=${{ secrets.DB_HOST }}" >> $GITHUB_ENV
-        echo "DB_PORT=${{ secrets.DB_PORT }}" >> $GITHUB_ENV
+        
     - name: Run Migrations & Tests
       run: |
         python Backend/WhatMunch_Django/manage.py migrate
         cd ./Backend/WhatMunch_Django/
         pytest
+        
+    - name: Set Environment Variables for Deployment
+      if: success()
+      run: |
+        echo "DJANGO_SETTINGS_MODULE=WhatMunch_Django.settings.prod" >> $GITHUB_ENV
+        echo "DB_NAME=${{ secrets.PROD_DB_NAME }}" >> $GITHUB_ENV
+        echo "DB_USER=${{ secrets.PROD_DB_USER }}" >> $GITHUB_ENV
+        echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV
+        echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> $GITHUB_ENV
+        echo "DB_PORT=${{ secrets.PROD_DB_PORT }}" >> $GITHUB_ENV
+    
