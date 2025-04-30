@@ -30,4 +30,4 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8080
 
 # Default command
-CMD ["sh", "-c", "python manage.py migrate && uvicorn WhatMunch_Django.asgi:application --bind 0.0.0.0:8080"]
+# Handled in compose.yaml
