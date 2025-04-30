@@ -42,6 +42,9 @@ jobs:
         python Backend/WhatMunch_Django/manage.py migrate
         cd ./Backend/WhatMunch_Django/
         pytest
+
+    - name: List files in Backend/WhatMunch_Django
+      run: ls -l Backend/WhatMunch_Django
         
     - name: Create .env File from GitHub Secrets
       working-directory: Backend/WhatMunch_Django
@@ -61,7 +64,7 @@ jobs:
         
     - name: Build and Run Containers with Compose
       run: | 
-        docker compose up --build -d
+        docker compose compose.yaml up --build -d
         echo "Waiting for Django container to be healthy..."
         until docker exec $(docker ps -q --filter "name=whatmunch-backend:latest") curl -s http://localhost:8080/api/health/ | grep "healthy"; do
         echo "Waiting for health check to pass..."
