@@ -61,7 +61,7 @@ jobs:
         
     - name: Build and Run Containers with Compose
       run: | 
-        docker-compose up --build -d
+        docker compose up --build -d
         echo "Waiting for Django container to be healthy..."
         until docker exec $(docker ps -q --filter "name=whatmunch-backend:latest") curl -s http://localhost:8080/api/health/ | grep "healthy"; do
         echo "Waiting for health check to pass..."
