@@ -43,12 +43,29 @@ jobs:
         cd ./Backend/WhatMunch_Django/
         pytest
         
-    - name: Set Environment Variables for Deployment
-      if: success()
+    - name: Create .env File from GitHub Secrets
+      working-directory: Backend/WhatMunch_Django
       run: |
-        echo "DJANGO_SETTINGS_MODULE=WhatMunch_Django.settings.prod" >> $GITHUB_ENV
-        echo "DB_NAME=${{ secrets.PROD_DB_NAME }}" >> $GITHUB_ENV
-        echo "DB_USER=${{ secrets.PROD_DB_USER }}" >> $GITHUB_ENV
-        echo "DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}" >> $GITHUB_ENV
-        echo "DB_HOST=${{ secrets.PROD_DB_HOST }}" >> $GITHUB_ENV
+        cat <<EOF > .env
+        DJANGO_SETTINGS_MODULE=WhatMunch_Django.settings.prod
+        GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
+        SECRET_KEY=${{ secrets.SECRET_KEY }}
+        DB_NAME=${{ secrets.PROD_DB_NAME }}
+        DB_USER=${{ secrets.PROD_DB_USER }}
+        DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }}
+        DB_HOST=${{ secrets.DB_HOST }}
+        DJANGO_SUPERUSER_USERNAME=${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+        DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
+        DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+        EOF
+        
+    - name: Build and Run Containers with Compose
+      run: | 
+        docker-compose up --build -d
+        echo "Waiting for Django container to be healthy..."
+        until docker exec $(docker ps -q --filter "name=whatmunch-backend") curl -s http://localhost:8080/api/health/ | grep "healthy"; do
+        echo "Waiting for health check to pass..."
+        sleep 10
+        done
+        echo "Django container is healthy!"
     
