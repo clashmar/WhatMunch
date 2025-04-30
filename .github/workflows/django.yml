@@ -61,10 +61,13 @@ jobs:
         DJANGO_SUPERUSER_EMAIL=${{ secrets.DJANGO_SUPERUSER_EMAIL }}
         DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
         EOF
+
+    - name: List files in Current Dir
+      run: ls
         
     - name: Build and Run Containers with Compose
       run: | 
-        docker compose compose.yaml up --build -d
+        docker compose -f compose.yaml up --build -d
         echo "Waiting for Django container to be healthy..."
         until docker exec $(docker ps -q --filter "name=whatmunch-backend:latest") curl -s http://localhost:8080/api/health/ | grep "healthy"; do
         echo "Waiting for health check to pass..."
