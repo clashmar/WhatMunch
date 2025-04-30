@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Net;
 using WhatMunch_MAUI.Extensions;
 
 namespace WhatMunch_MAUI.Services

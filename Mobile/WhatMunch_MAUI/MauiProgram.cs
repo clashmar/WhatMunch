@@ -23,7 +23,7 @@ public static class MauiProgram
 		builder.Services.AddHttpClient("WhatMunch", client =>
 		{
 			client.Timeout = TimeSpan.FromSeconds(10);
-			client.BaseAddress = new Uri("http://10.0.2.2:8000/api/");
+			client.BaseAddress = new Uri("http://10.0.2.2:8080/api/");
 		});
 		builder.Services.AddHttpClient("GooglePlaces", client =>
 		{
