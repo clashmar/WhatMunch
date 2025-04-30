@@ -1,0 +1,20 @@
+services:
+  django:
+    build: .
+    env_file: 
+      - .env
+    image: whatmunch-backend:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./staticfiles:/app/staticfiles
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py createsu &&
+             uvicorn WhatMunch_Django.asgi:application --host 0.0.0.0 --port 8080"
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
