@@ -1,17 +1,20 @@
 FROM python:3.13-alpine
 
-# Install build dependencies
-RUN apk update && \
-    apk add --no-cache build-base && \
-    rm -rf /var/cache/apk/*
+# Install runtime and build dependencies
+RUN apk add --no-cache \
+        postgresql-client && \
+    apk add --no-cache --virtual .build-deps \
+        build-base \
+        postgresql-dev
     
 # Install pip dependencies
-COPY requirements.txt ./
+COPY requirements.txt .
 RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+    pip install --no-cache-dir -r requirements.txt && \
+    apk del .build-deps
 
 # Create and set working directory
-WORKDIR /app
+WORKDIR /app 
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
