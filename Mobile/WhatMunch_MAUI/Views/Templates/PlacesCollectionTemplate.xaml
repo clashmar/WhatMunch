@@ -5,7 +5,8 @@
              xmlns:templates="clr-namespace:WhatMunch_MAUI.Views.Templates"
              xmlns:constants="clr-namespace:WhatMunch_MAUI.Data"
              x:Class="WhatMunch_MAUI.Views.Templates.PlacesCollectionTemplate"
-             x:Name="This">
+             x:Name="This"
+             x:DataType="templates:PlacesCollectionTemplate">
 
     <CollectionView x:Name="placesView"
                     ItemsSource="{Binding Places, Source={x:Reference This}}"

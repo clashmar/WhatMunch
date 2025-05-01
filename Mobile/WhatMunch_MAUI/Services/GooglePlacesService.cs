@@ -68,13 +68,13 @@ namespace WhatMunch_MAUI.Services
 
                 preferences ??= SearchPreferencesModel.Default;
 
-                var apiKeyTask = djangoApiService.GetGoogleMapsApiKeyAsync();
-                var jsonTask = CreateNearbySearchJsonAsync(preferences, pageToken);
+                var apiKey = await djangoApiService.GetGoogleMapsApiKeyAsync();
+                var jsonContent = await CreateNearbySearchJsonAsync(preferences, pageToken);
 
-                await Task.WhenAll(apiKeyTask, jsonTask);
+                //await Task.WhenAll(apiKeyTask, jsonTask);
 
-                var apiKey = apiKeyTask.Result;
-                var jsonContent = jsonTask.Result;
+                //var apiKey = apiKeyTask.Result;
+                //var jsonContent = jsonTask.Result;
 
                 using var client = clientFactory.CreateClient("GooglePlaces").UpdateLanguageHeaders();
                 client.DefaultRequestHeaders.Add("X-Goog-Api-Key", apiKey);

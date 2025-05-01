@@ -89,7 +89,7 @@ namespace WhatMunch_MAUI.Services
                 var authResult = await webAuthenticator.AuthenticateAsync(
                         new WebAuthenticatorOptions()
                         {
-                            Url = new Uri("https://8e52-217-123-90-227.ngrok-free.app/accounts/google/login/"),
+                            Url = new Uri("https://2260-217-123-90-227.ngrok-free.app/accounts/google/login/"),
                             CallbackUrl = new Uri("whatmunch://oauth-redirect"),
                             PrefersEphemeralWebBrowserSession = true,
                         });

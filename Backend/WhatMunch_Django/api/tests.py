@@ -20,3 +20,9 @@ def test_get_places_key_unauthenticated(client):
     url = reverse('get-places-key')
     response = client.get(url)
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+def test_health_check(client):
+    url = reverse('health-check')
+    response = client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json() == {'status': 'ok'}
