@@ -7,7 +7,7 @@ from rest_framework_simplejwt.views import (
 )
 
 def home(request):
-    return HttpResponse("Hello from docker!")
+    return HttpResponse("Hello from WhatMunch!")
 
 urlpatterns = [
     path('', home),

@@ -23,11 +23,12 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Copy the Django project
 COPY . .
 
-# Run Django collectstatic
-RUN python manage.py collectstatic --noinput
-
 # Expose the port the app runs on
 EXPOSE 8080
 
 # Default command
-# Handled in compose.yaml
+ENTRYPOINT ["sh", "-c", "\
+    python manage.py migrate && \
+    python manage.py collectstatic --noinput && \
+    python manage.py createsu && \
+    uvicorn WhatMunch_Django.asgi:application --host 0.0.0.0 --port 8080"]
