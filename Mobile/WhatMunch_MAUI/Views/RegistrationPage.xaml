@@ -30,7 +30,8 @@
                     <Entry Placeholder="{x:Static strings:AppResources.EmailLabel}"
                            Text="{Binding RegistrationModel.Email, Mode=TwoWay}"
                            VerticalOptions="Center"
-                           ClearButtonVisibility="WhileEditing" />
+                           ClearButtonVisibility="WhileEditing"
+                           ReturnType="Next"/>
                     <Label Text="{Binding RegistrationModel.EmailError}"
                            TextColor="Red"
                            FontSize="Small"
@@ -42,7 +43,8 @@
                     <Entry Placeholder="{x:Static strings:AppResources.UsernameLabel}"
                            Text="{Binding RegistrationModel.Username, Mode=TwoWay}"
                            VerticalOptions="Center"
-                           ClearButtonVisibility="WhileEditing" />
+                           ClearButtonVisibility="WhileEditing"
+                           ReturnType="Next"/>
                     <Label Text="{Binding RegistrationModel.UsernameError}"
                            TextColor="Red"
                            FontSize="Small"
@@ -55,7 +57,8 @@
                            Text="{Binding RegistrationModel.Password, Mode=TwoWay}"
                            VerticalOptions="Center"
                            ClearButtonVisibility="WhileEditing"
-                           IsPassword="True" />
+                           IsPassword="True"
+                           ReturnType="Next"/>
                     <Label Text="{Binding RegistrationModel.PasswordError}"
                            TextColor="Red"
                            FontSize="Small"
@@ -68,7 +71,8 @@
                            Text="{Binding RegistrationModel.ConfirmPassword, Mode=TwoWay}"
                            VerticalOptions="Center"
                            ClearButtonVisibility="WhileEditing"
-                           IsPassword="True" />
+                           IsPassword="True"
+                           Completed="OnPasswordCompleted"/>
                     <Label Text="{Binding RegistrationModel.ConfirmPasswordError}"
                            TextColor="Red"
                            FontSize="Small"

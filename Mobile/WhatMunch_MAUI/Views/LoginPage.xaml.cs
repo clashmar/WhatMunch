@@ -14,6 +14,11 @@ public partial class LoginPage : ContentPage
 
 	protected override bool OnBackButtonPressed() => true;
 
+    private void OnPasswordCompleted(object sender, EventArgs e)
+    {
+        ViewModel.HandleUsernameLoginCommand.Execute(null);
+    }
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
