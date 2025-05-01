@@ -13,12 +13,18 @@ public static class MauiProgram
 		builder
 			.UseMauiApp<App>()
 			.UseMauiCommunityToolkit()
+			.UseSentry(options =>
+			{
+				options.Dsn = "https://68445c1a58c3c42af10108e1f3945008@o4509246843453440.ingest.de.sentry.io/4509246859903056";
+            })
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 				fonts.AddFont("fa-solid-900.ttf", "FaSolid");
 			});
+
+
 
 		builder.Services.AddHttpClient("WhatMunch", client =>
 		{
