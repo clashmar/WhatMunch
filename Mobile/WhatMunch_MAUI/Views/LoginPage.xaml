@@ -33,7 +33,8 @@
                     <Entry Placeholder="{x:Static strings:AppResources.UsernameLabel}"
                            Text="{Binding LoginModel.Username, Mode=TwoWay}"
                            VerticalOptions="Center"
-                           ClearButtonVisibility="WhileEditing" />
+                           ClearButtonVisibility="WhileEditing"
+                           ReturnType="Next"/>
                     <Label Text="{Binding LoginModel.UsernameError}"
                            TextColor="Red"
                            FontSize="Small"
@@ -47,7 +48,8 @@
                            Text="{Binding LoginModel.Password, Mode=TwoWay}"
                            VerticalOptions="Center"
                            IsPassword="True"
-                           ClearButtonVisibility="WhileEditing" />
+                           ClearButtonVisibility="WhileEditing"
+                           Completed="OnPasswordCompleted"/>
                     <Label Text="{Binding LoginModel.PasswordError}"
                            TextColor="Red"
                            FontSize="Small"

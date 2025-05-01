@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Net.Http.Headers;
-using System.Text;
-using WhatMunch_MAUI.Utility;
 
 namespace WhatMunch_MAUI.Services
 {
@@ -16,32 +14,37 @@ namespace WhatMunch_MAUI.Services
         void RemoveTokensFromStorage();
     }
 
+    // TODO: Add Unit tests
     public class TokenService(
         ISecureStorage secureStorage,
         ILogger<TokenService> logger) : ITokenService
     {
-        public readonly string _accessTokenKey = "jwt_token";
-        private readonly string _refreshTokenKey = "jwtRefreshToken";
+        public const string AccessTokenKey = "jwt_token";
+        private const string RefreshTokenKey = "jwt_refresh_token";
 
-        // TODO: Add logging & Unit tests
+        
         public async Task SaveAccessTokenAsync(string token)
         {
-            await secureStorage.SetAsync(_accessTokenKey, token);
+            logger.LogInformation("Saving access token to secure storage.");
+            await secureStorage.SetAsync(AccessTokenKey, token);
         }
 
         public async Task SaveRefreshTokenAsync(string token)
         {
-            await secureStorage.SetAsync(_refreshTokenKey, token);
+            logger.LogInformation("Saving refresh token to secure storage.");
+            await secureStorage.SetAsync(RefreshTokenKey, token);
         }
 
         public async Task<string?> GetAccessTokenAsync()
         {
-            return await secureStorage.GetAsync(_accessTokenKey);
+            logger.LogInformation("Retrieving access token from secure storage.");
+            return await secureStorage.GetAsync(AccessTokenKey);
         }
 
         public async Task<string?> GetRefreshTokenAsync()
         {
-            return await secureStorage.GetAsync(_refreshTokenKey);
+            logger.LogInformation("Retrieving refresh token from secure storage.");
+            return await secureStorage.GetAsync(RefreshTokenKey);
         }
 
         public async Task<bool> IsUserAuthenticated()
@@ -61,8 +64,9 @@ namespace WhatMunch_MAUI.Services
         }
         public void RemoveTokensFromStorage()
         {
-            secureStorage.Remove(_accessTokenKey);
-            secureStorage.Remove(_refreshTokenKey);
+            logger.LogInformation("Removing tokens from secure storage.");
+            secureStorage.Remove(AccessTokenKey);
+            secureStorage.Remove(RefreshTokenKey);
         }
     }
 }

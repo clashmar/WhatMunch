@@ -5,7 +5,8 @@
              xmlns:templates="clr-namespace:WhatMunch_MAUI.Views.Templates"
              xmlns:constants="clr-namespace:WhatMunch_MAUI.Data"
              x:Class="WhatMunch_MAUI.Views.Templates.PlacesCollectionTemplate"
-             x:Name="This">
+             x:Name="This"
+             x:DataType="templates:PlacesCollectionTemplate">
 
     <CollectionView x:Name="placesView"
                     ItemsSource="{Binding Places, Source={x:Reference This}}"
@@ -53,7 +54,7 @@
                                             <Label Text="&#x2b50;"
                                                    FontFamily="FaSolid"
                                                    TextColor="{StaticResource NaplesYellow}"
-                                                   VerticalOptions="Center"/>
+                                                   VerticalOptions="Center" />
                                         </HorizontalStackLayout>
                                     </Border>
                                     <Border Style="{StaticResource ResultTag}">
@@ -68,7 +69,6 @@
                                     </Border>
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
-                            <!-- Favourite -->
                             <Button Grid.Column="1"
                                     Style="{StaticResource Favourite}"
                                     CommandParameter="{Binding .}"

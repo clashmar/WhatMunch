@@ -10,6 +10,12 @@ public partial class RegistrationPage : ContentPage
         ViewModel = viewModel;
 		BindingContext = ViewModel;
     }
+
+    private void OnPasswordCompleted(object sender, EventArgs e)
+    {
+        ViewModel.HandleRegistrationCommand.Execute(null);
+    }
+
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
