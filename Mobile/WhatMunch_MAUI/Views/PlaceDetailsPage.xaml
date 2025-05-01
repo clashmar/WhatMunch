@@ -73,15 +73,17 @@
                            FontSize="30" />
                 </HorizontalStackLayout>
             </Grid>
-            <HorizontalStackLayout Grid.Row="3"
-                                   Margin="20,10,20,0">
-                <Label Text="{x:Static strings:AppResources.Summary}"
+            <Grid Grid.Row="3"
+                  Margin="20,10,20,0"
+                  HorizontalOptions="Fill"
+                  ColumnDefinitions="Auto,*">
+                <Label Grid.Column="0" Text="{x:Static strings:AppResources.Summary}"
                        FontAttributes="Bold"
-                       HorizontalTextAlignment="Center"/>
-                <Label Text="{Binding Place.GenerativeSummary}"
+                       HorizontalTextAlignment="Start" />
+                <Label Grid.Column="1" Text="{Binding Place.GenerativeSummary}"
                        Margin="5,0,0,0"
-                       HorizontalTextAlignment="Center"/>
-            </HorizontalStackLayout>
+                       HorizontalTextAlignment="Start" />
+            </Grid>
             <FlexLayout Grid.Row="4"
                         BindableLayout.ItemsSource="{Binding Place.Attributes}"
                         Direction="Row"
@@ -158,15 +160,19 @@
                     </VerticalStackLayout>
                 </VerticalStackLayout>
             </Grid>
-            <HorizontalStackLayout Grid.Row="6"
-                                   Margin="20,10,20,0">
-                <Label Text="{x:Static strings:AppResources.ReviewSummary}"
+            <Grid Grid.Row="6"
+                  Margin="20,10,20,0"
+                  HorizontalOptions="Fill"
+                  ColumnDefinitions="Auto,*">
+                <Label Grid.Column="0"
+                       Text="{x:Static strings:AppResources.ReviewSummary}"
                        FontAttributes="Bold"
-                       HorizontalTextAlignment="Center" />
-                <Label Text="{Binding Place.ReviewSummary}"
+                       HorizontalTextAlignment="Start" />
+                <Label Grid.Column="1"
+                       Text="{Binding Place.ReviewSummary}"
                        Margin="5,0,0,0"
-                       HorizontalTextAlignment="Center" />
-            </HorizontalStackLayout>
+                       HorizontalTextAlignment="Start" />
+            </Grid>
             <VerticalStackLayout Grid.Row="7"
                                  Spacing="5"
                                  WidthRequest="380"

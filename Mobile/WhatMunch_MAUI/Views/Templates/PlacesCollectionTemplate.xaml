@@ -54,7 +54,7 @@
                                             <Label Text="&#x2b50;"
                                                    FontFamily="FaSolid"
                                                    TextColor="{StaticResource NaplesYellow}"
-                                                   VerticalOptions="Center"/>
+                                                   VerticalOptions="Center" />
                                         </HorizontalStackLayout>
                                     </Border>
                                     <Border Style="{StaticResource ResultTag}">
@@ -69,7 +69,6 @@
                                     </Border>
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
-                            <!-- Favourite -->
                             <Button Grid.Column="1"
                                     Style="{StaticResource Favourite}"
                                     CommandParameter="{Binding .}"
