@@ -158,14 +158,20 @@ namespace WhatMunch_MAUI.Services
                 var response = await client.PostAsync("auth/logout/", null);
 
                 if (!response.IsSuccessStatusCode) logger.LogWarning("Could not log out from server.");
-
-                tokenService.RemoveTokensFromStorage();
-                await shellService.GoToAsync($"{nameof(LoginPage)}");
+            }
+            catch (TaskCanceledException ex)
+            {
+                logger.LogWarning(ex, "Request timed out or the server is unreachable during logout.");
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Unexpected error while logging out.");
                 throw;
+            }
+            finally
+            {
+                tokenService.RemoveTokensFromStorage();
+                await shellService.GoToAsync($"{nameof(LoginPage)}");
             }
         }
 

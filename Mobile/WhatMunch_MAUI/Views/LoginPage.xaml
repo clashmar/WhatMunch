@@ -26,37 +26,29 @@
                                  Grid.Row="1"
                                  WidthRequest="250"
                                  Spacing="5">
-
                 <VerticalStackLayout>
-                    <Label Text="{x:Static strings:AppResources.UsernameLabel}"
-                           FontSize="Small" />
-                    <Entry Placeholder="{x:Static strings:AppResources.UsernameLabel}"
-                           Text="{Binding LoginModel.Username, Mode=TwoWay}"
-                           VerticalOptions="Center"
-                           ClearButtonVisibility="WhileEditing"
-                           ReturnType="Next"/>
+                    <controls:FloatingEntry Label="{x:Static strings:AppResources.UsernameLabel}"
+                                            Placeholder="{x:Static strings:AppResources.UsernameLabel}"
+                                            Text="{Binding LoginModel.Username, Mode=TwoWay}"/>
                     <Label Text="{Binding LoginModel.UsernameError}"
                            TextColor="Red"
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
 
-                <VerticalStackLayout>
-                    <Label Text="{x:Static strings:AppResources.PasswordLabel}"
-                           FontSize="Small" />
-                    <Entry Placeholder="{x:Static strings:AppResources.PasswordLabel}"
-                           Text="{Binding LoginModel.Password, Mode=TwoWay}"
-                           VerticalOptions="Center"
-                           IsPassword="True"
-                           ClearButtonVisibility="WhileEditing"
-                           Completed="OnPasswordCompleted"/>
+                <VerticalStackLayout Margin="0,30,0,0">
+                    <controls:FloatingEntry Label="{x:Static strings:AppResources.PasswordLabel}"
+                                            Placeholder="{x:Static strings:AppResources.PasswordLabel}"
+                                            Text="{Binding LoginModel.Password, Mode=TwoWay}"
+                                            CompletedCommand="{Binding HandleUsernameLoginCommand}"
+                                            IsPassword="True"/>
                     <Label Text="{Binding LoginModel.PasswordError}"
                            TextColor="Red"
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
 
-                <Button Margin="0,30,0,0"
+                <Button Margin="0,20,0,0"
                         HeightRequest="60"
                         FontAttributes="Bold"
                         FontSize="16"

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WhatMunch_MAUI.Views.Controls"
+             x:Class="WhatMunch_MAUI.Views.Controls.FloatingEntry"
+             x:Name="This"
+             x:DataType="local:FloatingEntry">
+    <Grid HeightRequest="60">
+        <Border BackgroundColor="Transparent"
+                Padding="10,5,0,0"
+                Shadow="False">
+            <Entry x:Name="EntryControl"
+                   Text="{Binding Text, Source={x:Reference This}, Mode=TwoWay}"
+                   Placeholder="{Binding Placeholder, Source={x:Reference This}}"
+                   IsPassword="{Binding IsPassword, Source={x:Reference This}}"
+                   BackgroundColor="Transparent"
+                   Margin="0,4,4,4"
+                   FontSize="16"
+                   ClearButtonVisibility="WhileEditing" />
+        </Border>
+        <Label Text="{Binding Label, Source={x:Reference This}}"
+               FontSize="14"
+               BackgroundColor="White"
+               Padding="10,0,10,0"
+               HorizontalOptions="Start"
+               VerticalOptions="Start" 
+               TranslationX="16"
+               TranslationY="-9"/>
+    </Grid>
+</ContentView>

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.Platform;
 using WhatMunch_MAUI.Data.SQLite;
 using WhatMunch_MAUI.Services;
 using WhatMunch_MAUI.Utility;
@@ -74,6 +75,17 @@ public static class MauiProgram
 			.AddTransient<PlaceDetailsViewModel>()
 			.AddTransient<SavedPlacesViewModel>();
 
-		return builder.Build();
+        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("Placeholder", (h, v) =>
+        {
+#if ANDROID
+            h.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToPlatform());
+#endif
+
+#if IOS
+			h.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
+#endif
+        });
+
+        return builder.Build();
 	}
 }
