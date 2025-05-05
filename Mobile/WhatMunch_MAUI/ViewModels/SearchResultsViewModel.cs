@@ -55,6 +55,8 @@ namespace WhatMunch_MAUI.ViewModels
             {
                 PageList.Add([..Places]);
             }
+
+            Places = PageList[CurrentPageIndex];
         }
 
         [RelayCommand]
