@@ -10,9 +10,7 @@ using WhatMunch_MAUI.Views;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    [QueryProperty(nameof(Places), "Places")]
-    [QueryProperty(nameof(NextPageToken), "NextPageToken")]
-    public partial class SearchResultsViewModel : BaseViewModel
+    public partial class SearchResultsViewModel : BaseViewModel, IQueryAttributable
     {
         private readonly ISearchService _searchService;
         private readonly IShellService _shellService;
@@ -47,6 +45,12 @@ namespace WhatMunch_MAUI.ViewModels
         [NotifyPropertyChangedFor(nameof(HasNextPage))]
         private string? _nextPageToken;
         public bool HasNextPage => !string.IsNullOrEmpty(NextPageToken) | PageList.ElementAtOrDefault(CurrentPageIndex + 1) is not null;
+
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            Places = query["Places"] as ObservableCollection<PlaceDto> ?? [];
+            NextPageToken = query["NextPageToken"] as string;
+        }
 
         //Called from code behind 
         public void InitializePageList()
