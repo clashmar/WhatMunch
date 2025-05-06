@@ -13,6 +13,7 @@ WhatMunch is a cross platform mobile application that makes it faster to find go
 - Local **SQLite** database for offline storage of favorites and preferences
 - Fully localized to **Dutch (nl-NL)** with `.resx` resource localization
 - Includes **OAuth login with Google** for easy sign-in
+- Dark mode compatible 
 - Tested with **XUnit**
 
 ### 🛠️ Django
