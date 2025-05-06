@@ -9,18 +9,19 @@ WhatMunch is a cross platform mobile application that makes it faster to find go
 ### 🧭 .NET MAUI
 - Built using **MVVM architecture** with `CommunityToolkit.Mvvm`
 - **Google Places API** integration to scan nearby restaurants based on your saved preferences
-- Mark favorite locations to revisit later
+- Save favorite locations to revisit later
 - Local **SQLite** database for offline storage of favorites and preferences
 - Fully localized to **Dutch (nl-NL)** with `.resx` resource localization
 - Includes **OAuth login with Google** for easy sign-in
-- Uses **XUnit** for frontend unit and integration testing
+- Tested with **XUnit**
 
-### 🛠️ Django Backend
+### 🛠️ Django
 - Built with **Django REST Framework**
 - Uses **PostgreSQL** for persistent data storage
-- Fully **containerized with Docker Compose**
-- Auth powered by **django-allauth** and **JWT tokens** for secure API access
+- Fully containerized with **Docker Compose**
+- Auth powered by `django-allauth` and **JWT tokens** for secure access
 - Includes:
   - **Health check** endpoint for container orchestration
   - Centralized **logging middleware** for request tracking and debugging
+  - Secure secrets using .env/github secrets
 - Tested with **Pytest** and `pytest-django`
