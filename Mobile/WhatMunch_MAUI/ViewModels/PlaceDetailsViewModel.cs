@@ -3,11 +3,17 @@ using WhatMunch_MAUI.Resources.Localization;
 
 namespace WhatMunch_MAUI.ViewModels
 {
-    [QueryProperty(nameof(Place), "Place")]
-    public partial class PlaceDetailsViewModel(ILauncher launcher, ILogger<PlaceDetailsViewModel> logger) : BaseViewModel
+    public partial class PlaceDetailsViewModel(
+        ILauncher launcher, 
+        ILogger<PlaceDetailsViewModel> logger) : BaseViewModel, IQueryAttributable
     {
         [ObservableProperty]
         private PlaceModel? _place;
+
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            Place = query["Place"] as PlaceModel;
+        }
 
         [RelayCommand]
         private async Task GoToWebsite(string url)

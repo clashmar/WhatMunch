@@ -20,68 +20,54 @@
                     VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Grid.Row="0" />
-            <VerticalStackLayout Margin="30,0,30,0"
+            <VerticalStackLayout Margin="30,30,30,0"
                                  Grid.Row="1"
                                  WidthRequest="250"
-                                 Spacing="10">
+                                 Spacing="15">
                 <VerticalStackLayout>
-                    <Label Text="{x:Static strings:AppResources.EmailLabel}"
-                           FontSize="Small" />
-                    <Entry Placeholder="{x:Static strings:AppResources.EmailLabel}"
-                           Text="{Binding RegistrationModel.Email, Mode=TwoWay}"
-                           VerticalOptions="Center"
-                           ClearButtonVisibility="WhileEditing"
-                           ReturnType="Next"/>
+                    <controls:FloatingEntry Label="{x:Static strings:AppResources.EmailLabel}"
+                                            Placeholder="{x:Static strings:AppResources.EmailLabel}"
+                                            Text="{Binding RegistrationModel.Email, Mode=TwoWay}" />
                     <Label Text="{Binding RegistrationModel.EmailError}"
                            TextColor="Red"
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
                 <VerticalStackLayout>
-                    <Label Text="{x:Static strings:AppResources.UsernameLabel}"
-                           FontSize="Small" />
-                    <Entry Placeholder="{x:Static strings:AppResources.UsernameLabel}"
-                           Text="{Binding RegistrationModel.Username, Mode=TwoWay}"
-                           VerticalOptions="Center"
-                           ClearButtonVisibility="WhileEditing"
-                           ReturnType="Next"/>
+                    <controls:FloatingEntry Label="{x:Static strings:AppResources.UsernameLabel}"
+                                            Placeholder="{x:Static strings:AppResources.UsernameLabel}"
+                                            Text="{Binding RegistrationModel.Username, Mode=TwoWay}" />
                     <Label Text="{Binding RegistrationModel.UsernameError}"
                            TextColor="Red"
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
                 <VerticalStackLayout>
-                    <Label Text="{x:Static strings:AppResources.PasswordLabel}"
-                           FontSize="Small" />
-                    <Entry Placeholder="{x:Static strings:AppResources.PasswordLabel}"
-                           Text="{Binding RegistrationModel.Password, Mode=TwoWay}"
-                           VerticalOptions="Center"
-                           ClearButtonVisibility="WhileEditing"
-                           IsPassword="True"
-                           ReturnType="Next"/>
+                    <controls:FloatingEntry Label="{x:Static strings:AppResources.PasswordLabel}"
+                                            Placeholder="{x:Static strings:AppResources.PasswordLabel}"
+                                            Text="{Binding RegistrationModel.Password, Mode=TwoWay}"
+                                            IsPassword="True" />
                     <Label Text="{Binding RegistrationModel.PasswordError}"
                            TextColor="Red"
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
                 <VerticalStackLayout>
-                    <Label Text="{x:Static strings:AppResources.ConfirmPasswordLabel}"
-                           FontSize="Small" />
-                    <Entry Placeholder="{x:Static strings:AppResources.ConfirmPasswordLabel}"
-                           Text="{Binding RegistrationModel.ConfirmPassword, Mode=TwoWay}"
-                           VerticalOptions="Center"
-                           ClearButtonVisibility="WhileEditing"
-                           IsPassword="True"
-                           Completed="OnPasswordCompleted"/>
+                    <controls:FloatingEntry Label="{x:Static strings:AppResources.ConfirmPasswordLabel}"
+                                            Placeholder="{x:Static strings:AppResources.ConfirmPasswordLabel}"
+                                            Text="{Binding RegistrationModel.ConfirmPassword, Mode=TwoWay}"
+                                            CompletedCommand="{Binding HandleRegistrationCommand}"
+                                            IsPassword="True" />
                     <Label Text="{Binding RegistrationModel.ConfirmPasswordError}"
                            TextColor="Red"
                            FontSize="Small"
                            Opacity="{Binding ErrorOpacity}" />
                 </VerticalStackLayout>
-                <Button Margin="0,30,0,0"
+                <Button Margin="0,20,0,0"
                         HeightRequest="60"
                         Text="{x:Static strings:AppResources.SubmitButton}"
-                        Command="{Binding HandleRegistrationCommand}" />
+                        Command="{Binding HandleRegistrationCommand}" 
+                        FontAttributes="Bold"/>
                 <controls:SocialButton Icon="google_logo"
                                        Text="{x:Static strings:AppResources.SignUpWithGoogle}"
                                        LoginCommand="{Binding HandleSocialRegistrationCommand}" />

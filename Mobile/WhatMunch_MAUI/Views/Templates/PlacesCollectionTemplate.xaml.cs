@@ -45,4 +45,22 @@ public partial class PlacesCollectionTemplate : ContentView
     {
         InitializeComponent();
     }
+
+    private async void OnCardTapped(object? sender, TappedEventArgs e)
+    {
+        if (sender is Border border)
+        {
+            try
+            {
+                await border.FadeTo(0.6, 100);
+                await border.FadeTo(1.0, 100);
+
+                GoToPlaceDetailsCommand.Execute(e.Parameter);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
+    }
 }
