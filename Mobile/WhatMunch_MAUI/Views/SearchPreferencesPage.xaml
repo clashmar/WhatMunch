@@ -15,7 +15,7 @@
                                HorizontalOptions="Fill"
                                VerticalOptions="Center" />
             <Grid IsVisible="{Binding IsNotBusy}" 
-                  RowSpacing="20"
+                  RowSpacing="30"
                   RowDefinitions="Auto,Auto,Auto,Auto,Auto"
                   WidthRequest="350"
                   VerticalOptions="Center">
@@ -111,18 +111,22 @@
                     </VerticalStackLayout>
                 </Grid>
 
-                <Button Grid.Row="3"
-                        HeightRequest="60"
-                        WidthRequest="150"
-                        Text="{x:Static strings:AppResources.Save}"
-                        Command="{Binding HandleSavePreferencesCommand}" />
+                <HorizontalStackLayout Grid.Row="3"
+                                       HorizontalOptions="Center"
+                                       Spacing="20"
+                                       Margin="0,50,0,0">
+                    <Button HeightRequest="60"
+                            WidthRequest="150"
+                            Text="{x:Static strings:AppResources.Save}"
+                            Command="{Binding HandleSavePreferencesCommand}" />
 
-                <Button Grid.Row="4"
-                        HeightRequest="60"
-                        WidthRequest="150"
-                        BackgroundColor="{AppThemeBinding Light={StaticResource Tomato}, Dark={StaticResource TomatoDark}}"
-                        Text="{x:Static strings:AppResources.DeleteAccount}"
-                        Command="{Binding HandleDeleteAccountCommand}" />
+                    <Button Grid.Row="4"
+                            HeightRequest="60"
+                            WidthRequest="150"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Tomato}, Dark={StaticResource TomatoDark}}"
+                            Text="{x:Static strings:AppResources.DeleteAccount}"
+                            Command="{Binding HandleDeleteAccountCommand}" />
+                </HorizontalStackLayout>
             </Grid>
         </Grid>
     </ScrollView>

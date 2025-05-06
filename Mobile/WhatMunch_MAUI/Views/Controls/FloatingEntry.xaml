@@ -19,7 +19,7 @@
         </Border>
         <Label Text="{Binding Label, Source={x:Reference This}}"
                FontSize="14"
-               BackgroundColor="White"
+               BackgroundColor="{AppThemeBinding Light={DynamicResource White}, Dark={DynamicResource OffBlack}}"
                Padding="10,0,10,0"
                HorizontalOptions="Start"
                VerticalOptions="Start" 

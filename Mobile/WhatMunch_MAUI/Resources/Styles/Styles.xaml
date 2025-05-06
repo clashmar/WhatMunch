@@ -308,7 +308,7 @@
     <Style TargetType="Label"
            x:Key="TextLink">
         <Setter Property="TextColor"
-                Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+                Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
         <Setter Property="FontSize"
                 Value="18" />
         <Setter Property="TextDecorations"
