@@ -24,93 +24,92 @@
 
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="model:PlaceDto">
-                <Grid Padding="10">
-                    <Border HeightRequest="125"
-                            Style="{StaticResource CardView}">
-                        <Grid ColumnDefinitions="Auto,*"
-                              ColumnSpacing="10">
-                            <!-- Icon -->
-                            <Label Grid.Column="0"
-                                   Text="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToIconConverter}}"
-                                   FontFamily="FaSolid"
-                                   TextColor="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToColorConverter}}"
-                                   FontSize="60"
-                                   Margin="10"
-                                   VerticalOptions="Center" />
-                            <!-- Info -->
-                            <VerticalStackLayout Grid.Column="1"
-                                                 Spacing="6"
-                                                 VerticalOptions="Center">
-                                <Label Text="{Binding DisplayNameText}"
-                                       FontAttributes="Bold"
-                                       FontSize="15" />
-                                <Label Text="{Binding PrimaryTypeDisplayName.Text}"
-                                       FontSize="16" />
-                                <HorizontalStackLayout Spacing="5">
-                                    <Border Style="{StaticResource ResultTag}">
-                                        <HorizontalStackLayout Spacing="2">
-                                            <Label Text="{Binding Rating}"
-                                                   FontSize="15" />
-                                            <Label Text="&#x2b50;"
-                                                   FontFamily="FaSolid"
-                                                   TextColor="{StaticResource NaplesYellow}"
-                                                   VerticalOptions="Center" />
-                                        </HorizontalStackLayout>
-                                    </Border>
-                                    <Border Style="{StaticResource ResultTag}">
-                                        <Label Text="{Binding PriceLevel, Converter={StaticResource PriceLevelToDollarSignConverter}}"
-                                               FontSize="15"
-                                               TextColor="{StaticResource NaplesYellow}"
-                                               FontAttributes="Bold" />
-                                    </Border>
-                                    <Border Style="{StaticResource ResultTag}">
-                                        <Label Text="{Binding Distance, Converter={StaticResource KilometersToLocalizedDistanceConverter}}"
+                <Border x:Name="placesCard"
+                        HeightRequest="125"
+                        Style="{DynamicResource CardView}">
+                    <Grid ColumnDefinitions="Auto,*"
+                          ColumnSpacing="10">
+                        <!-- Icon -->
+                        <Label Grid.Column="0"
+                               Text="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToIconConverter}}"
+                               FontFamily="FaSolid"
+                               TextColor="{Binding PrimaryType, Converter={StaticResource PrimaryTypeToColorConverter}}"
+                               FontSize="60"
+                               Margin="10"
+                               VerticalOptions="Center" />
+                        <!-- Info -->
+                        <VerticalStackLayout Grid.Column="1"
+                                             Spacing="6"
+                                             VerticalOptions="Center">
+                            <Label Text="{Binding DisplayNameText}"
+                                   FontAttributes="Bold"
+                                   FontSize="15" />
+                            <Label Text="{Binding PrimaryTypeDisplayName.Text}"
+                                   FontSize="16" />
+                            <HorizontalStackLayout Spacing="5">
+                                <Border Style="{StaticResource ResultTag}">
+                                    <HorizontalStackLayout Spacing="2">
+                                        <Label Text="{Binding Rating}"
                                                FontSize="15" />
-                                    </Border>
-                                </HorizontalStackLayout>
-                            </VerticalStackLayout>
-                            <Button Grid.Column="1"
-                                    Style="{StaticResource Favourite}"
-                                    CommandParameter="{Binding .}"
-                                    Command="{Binding HandleFavouriteCommand, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}">
-                                <Button.ImageSource>
-                                    <MultiBinding Converter="{StaticResource FavouriteIconConverter}">
-                                        <Binding Path="." />
-                                        <Binding x:DataType="templates:PlacesCollectionTemplate"
-                                                 Source="{x:Reference This}"
-                                                 Path="PageName" />
-                                    </MultiBinding>
-                                </Button.ImageSource>
-                                <Button.Triggers>
-                                    <MultiTrigger TargetType="Button">
-                                        <MultiTrigger.Conditions>
-                                            <BindingCondition Binding="{Binding IsFavourite}"
-                                                              Value="True" />
-                                            <BindingCondition Binding="{Binding PageName, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
-                                                              Value="{x:Static constants:Constants.SEARCH_RESULTS_PAGE}" />
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="ImageSource"
-                                                Value="liked" />
-                                    </MultiTrigger>
-                                    <MultiTrigger TargetType="Button">
-                                        <MultiTrigger.Conditions>
-                                            <BindingCondition Binding="{Binding IsFavourite}"
-                                                              Value="False" />
-                                            <BindingCondition Binding="{Binding PageName, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
-                                                              Value="{x:Static constants:Constants.SEARCH_RESULTS_PAGE}" />
-                                        </MultiTrigger.Conditions>
-                                        <Setter Property="ImageSource"
-                                                Value="like" />
-                                    </MultiTrigger>
-                                </Button.Triggers>
-                            </Button> 
-                        </Grid>
-                        <Border.GestureRecognizers>
-                            <TapGestureRecognizer CommandParameter="{Binding .}"
-                                                  Command="{Binding GoToPlaceDetailsCommand, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}" />
-                        </Border.GestureRecognizers>
-                    </Border>
-                </Grid>
+                                        <Label Text="&#x2b50;"
+                                               FontFamily="FaSolid"
+                                               TextColor="{StaticResource NaplesYellow}"
+                                               VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                                <Border Style="{StaticResource ResultTag}">
+                                    <Label Text="{Binding PriceLevel, Converter={StaticResource PriceLevelToDollarSignConverter}}"
+                                           FontSize="15"
+                                           TextColor="{StaticResource NaplesYellow}"
+                                           FontAttributes="Bold" />
+                                </Border>
+                                <Border Style="{StaticResource ResultTag}">
+                                    <Label Text="{Binding Distance, Converter={StaticResource KilometersToLocalizedDistanceConverter}}"
+                                           FontSize="15" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                        <Button Grid.Column="1"
+                                Style="{StaticResource Favourite}"
+                                CommandParameter="{Binding .}"
+                                Command="{Binding HandleFavouriteCommand, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}">
+                            <Button.ImageSource>
+                                <MultiBinding Converter="{StaticResource FavouriteIconConverter}">
+                                    <Binding Path="." />
+                                    <Binding x:DataType="templates:PlacesCollectionTemplate"
+                                             Source="{x:Reference This}"
+                                             Path="PageName" />
+                                </MultiBinding>
+                            </Button.ImageSource>
+                            <Button.Triggers>
+                                <MultiTrigger TargetType="Button">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding IsFavourite}"
+                                                          Value="True" />
+                                        <BindingCondition Binding="{Binding PageName, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
+                                                          Value="{x:Static constants:Constants.SEARCH_RESULTS_PAGE}" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="ImageSource"
+                                            Value="liked" />
+                                </MultiTrigger>
+                                <MultiTrigger TargetType="Button">
+                                    <MultiTrigger.Conditions>
+                                        <BindingCondition Binding="{Binding IsFavourite}"
+                                                          Value="False" />
+                                        <BindingCondition Binding="{Binding PageName, x:DataType=templates:PlacesCollectionTemplate, Source={RelativeSource AncestorType={x:Type templates:PlacesCollectionTemplate}}}"
+                                                          Value="{x:Static constants:Constants.SEARCH_RESULTS_PAGE}" />
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="ImageSource"
+                                            Value="like" />
+                                </MultiTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnCardTapped"
+                                              CommandParameter="{Binding .}" />
+                    </Border.GestureRecognizers>
+                </Border>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

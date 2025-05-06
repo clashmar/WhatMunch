@@ -7,8 +7,7 @@
              x:DataType="local:FloatingEntry">
     <Grid HeightRequest="60">
         <Border BackgroundColor="Transparent"
-                Padding="10,5,0,0"
-                Shadow="False">
+                Padding="10,5,0,0">
             <Entry x:Name="EntryControl"
                    Text="{Binding Text, Source={x:Reference This}, Mode=TwoWay}"
                    Placeholder="{Binding Placeholder, Source={x:Reference This}}"

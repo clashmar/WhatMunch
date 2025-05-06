@@ -75,17 +75,17 @@ public static class MauiProgram
 			.AddTransient<PlaceDetailsViewModel>()
 			.AddTransient<SavedPlacesViewModel>();
 
-        Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("Placeholder", (h, v) =>
-        {
+		Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("Placeholder", (h, v) =>
+		{
 #if ANDROID
-            h.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToPlatform());
+			h.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Colors.Transparent.ToPlatform());
 #endif
 
 #if IOS
 			h.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None;
 #endif
-        });
+		});
 
-        return builder.Build();
+		return builder.Build();
 	}
 }

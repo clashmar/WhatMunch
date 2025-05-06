@@ -47,8 +47,10 @@
                 Value="2" />
         <Setter Property="Padding"
                 Value="10" />
+        <Setter Property="Margin"
+                Value="20,10,20,10" />
         <Setter Property="BackgroundColor"
-                Value="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray500}}" />
+                Value="{AppThemeBinding Light={DynamicResource Gray100}, Dark={DynamicResource Gray500}}" />
     </Style>
 
     <Style TargetType="Border"
