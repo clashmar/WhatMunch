@@ -2,7 +2,7 @@
 [![Django CI](https://github.com/clashmar/WhatMunch/actions/workflows/django.yml/badge.svg)](https://github.com/clashmar/WhatMunch/actions/workflows/django.yml)
 
 # 🍽️ WhatMunch
-WhatMunch is a cross platform mobile application that makes it faster to find good eats on the move, tailored to your preferences, designed for speed and simplicity.
+WhatMunch is a cross platform mobile application that makes it faster to find good eats on the move, tailored to your preferences and designed for speed and simplicity.
 
 ---
 
